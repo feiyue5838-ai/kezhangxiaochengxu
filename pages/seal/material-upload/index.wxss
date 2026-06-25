@@ -1,0 +1,281 @@
+/* pages/seal/material-upload/index.wxss */
+
+/* ========== 椤甸潰鍩虹鏍峰紡 ========== */
+.page {
+  background: #F8F7FC;
+  min-height: 100vh;
+}
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+
+.nav-back {
+  width: 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+
+/* ========== 瀹瑰櫒甯冨眬 ========== */
+.container {
+  padding: 24rpx 32rpx;
+  padding-bottom: 180rpx;
+}
+
+/* ========== 妯″潡 ========== */
+.module {
+  margin-bottom: 32rpx;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.module-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.title-note {
+  font-size: 22rpx;
+  color: #8B95A5;
+}
+
+.title-desc {
+  font-size: 22rpx;
+  color: #8B95A5;
+}
+
+.photo-note-red {
+  color: #5B6FE8;
+}
+
+/* ========== 涓婁紶鍖哄煙 ========== */
+.upload-row {
+  display: flex;
+  gap: 24rpx;
+}
+
+.upload-item {
+  flex: 1;
+}
+
+.upload-single {
+  width: 100%;
+}
+
+.upload-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+}
+
+.upload-item-sm {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.add-more {
+  border: 2rpx dashed #D0D5DD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========== 涓婁紶鍥剧墖 ========== */
+.upload-img {
+  width: 100%;
+  height: 200rpx;
+  border-radius: 20rpx;
+  object-fit: cover;
+}
+
+.upload-img-lg {
+  width: 100%;
+  height: 300rpx;
+  border-radius: 20rpx;
+  object-fit: cover;
+}
+
+.upload-img-sm {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ========== 鍒犻櫎鎸夐挳 ========== */
+.delete-btn {
+  position: absolute;
+  top: 0; right: 0;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgb(0 0 0 / 0.45);
+  border-radius: 0 12rpx 0 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #fff;
+  line-height: 1;
+}
+
+.delete-btn-sm {
+  position: absolute;
+  top: 0; right: 0;
+  width: 36rpx;
+  height: 36rpx;
+  background: rgb(0 0 0 / 0.45);
+  border-radius: 0 12rpx 0 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #fff;
+  line-height: 1;
+}
+
+/* ========== 涓婁紶鍗犱綅绗?========== */
+.upload-placeholder {
+  height: 200rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  border: 2rpx dashed #D0D5DD;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+}
+
+.upload-placeholder-lg {
+  height: 300rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  border: 2rpx dashed #D0D5DD;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+}
+
+.upload-placeholder-add {
+  height: 160rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  border: 2rpx dashed #D0D5DD;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+}
+
+.card-style {
+  border-radius: 20rpx;
+}
+
+.placeholder-emoji {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.placeholder-emoji-lg {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.placeholder-label {
+  font-size: 24rpx;
+  color: #8B95A5;
+}
+
+.star {
+  color: #5B6FE8;
+}
+
+/* ========== 鍔犲彿鍥炬爣 ========== */
+.plus-icon-lg {
+  font-size: 48rpx;
+  color: #8B95A5;
+  line-height: 1;
+}
+
+.plus-icon-xl {
+  font-size: 64rpx;
+  color: #8B95A5;
+  line-height: 1;
+}
+
+/* ========== 搴曢儴鍗犱綅 ========== */
+.bottom-placeholder {
+  height: 20rpx;
+}
+
+/* ========== 搴曢儴鎻愪氦鎸夐挳 ========== */
+.bottom-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.05);
+  z-index: 50;
+  transition: all 0.3s ease;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 20rpx;
+  background: #D0D5DD;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 88rpx;
+}
+
+.submit-btn.active {
+  background: #5B6FE8;
+}

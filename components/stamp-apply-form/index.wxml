@@ -1,0 +1,49 @@
+<!--components/stamp-apply-form/index.wxml-->
+<view class="form-wrap">
+  <view class="form-title">填写刻章信息</view>
+
+  <!-- 执照地区 -->
+  <picker mode="selector" range="{{chengduDistricts}}" bindchange="onRegionChange">
+    <view class="form-item">
+      <text class="form-label"><text class="req">*</text> 执照地区</text>
+      <view class="form-value-row">
+        <text class="form-value {{region ? '' : 'placeholder'}}">{{region || '请选择执照地区'}}</text>
+        <text class="form-arrow">›</text>
+      </view>
+    </view>
+  </picker>
+
+  <!-- 刻章原因 -->
+  <view class="form-item" bindtap="onChooseReason">
+    <text class="form-label"><text class="req">*</text> 刻章原因</text>
+    <view class="form-value-row">
+      <text class="form-value {{reason ? '' : 'placeholder'}}">{{reason || '请选择刻章原因'}}</text>
+      <text class="form-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 联系号码 -->
+  <view class="form-item">
+    <text class="form-label"><text class="req">*</text> 联系号码</text>
+    <input class="form-input" type="number" maxlength="11" placeholder="请输入联系号码" value="{{contactPhone}}" bindinput="onInputContact" />
+  </view>
+
+  <!-- 个人印章：姓名 -->
+  <view class="form-item" wx:if="{{isPersonal}}">
+    <text class="form-label"><text class="req">*</text> 姓名</text>
+    <input class="form-input" placeholder="请输入您的姓名" value="{{personName}}" bindinput="onInputPersonName" />
+  </view>
+
+  <!-- 公司/个体户：公司名称 + 法人电话 -->
+  <block wx:if="{{!isPersonal}}">
+    <view class="form-item">
+      <text class="form-label"><text class="req">*</text> 公司名称</text>
+      <input class="form-input" placeholder="请输入公司全称" value="{{companyName}}" bindinput="onInputCompany" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label"><text class="req">*</text> 法人电话</text>
+      <input class="form-input" type="number" maxlength="11" placeholder="请输入法人电话" value="{{legalPhone}}" bindinput="onInputLegal" />
+    </view>
+  </block>
+</view>

@@ -1,0 +1,80 @@
+/* components/user-comment-block/index.wxss */
+.comment-section {
+  background: var(--bg-white);
+  border-radius: 16rpx;
+  margin: 20rpx;
+  padding: 30rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgb(0 0 0 / 0.06);
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.comment-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.comment-more {
+  font-size: 24rpx;
+  color: var(--primary-color);
+}
+
+.comment-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.comment-phone {
+  font-size: 24rpx;
+  color: var(--text-regular);
+}
+
+.comment-date {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.comment-stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10rpx;
+  flex-wrap: wrap;
+}
+
+.star {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 4rpx;
+}
+
+.star-label {
+  font-size: 20rpx;
+  color: var(--text-secondary);
+  margin-left: 8rpx;
+  margin-right: 16rpx;
+}
+
+.comment-text {
+  font-size: 26rpx;
+  color: var(--text-primary);
+  line-height: 1.6;
+}

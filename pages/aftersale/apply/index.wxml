@@ -1,0 +1,84 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">申请售后</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <view class="content" style="padding-top: {{navHeight}}px;">
+    <!-- 订单信息 -->
+    <view class="order-card">
+      <text class="order-type">{{order.type}}</text>
+      <text class="order-desc" wx:if="{{order.desc}}">{{order.desc}}</text>
+      <text class="order-date" wx:if="{{order.date}}">{{order.date}}</text>
+    </view>
+
+    <!-- 售后类型 -->
+    <view class="section">
+      <text class="section-title">售后类型</text>
+      <view class="type-grid">
+        <view
+          class="type-item {{form.category === item.value ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="value"
+          bindtap="selectCategory"
+          data-value="{{item.value}}"
+        >
+          <text class="type-icon">{{item.icon}}</text>
+          <text class="type-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 问题描述 -->
+    <view class="section">
+      <text class="section-title">问题描述</text>
+      <textarea
+        class="reason-input"
+        placeholder="请详细描述您遇到的问题，我们将尽快为您处理"
+        placeholder-class="reason-placeholder"
+        maxlength="200"
+        bindinput="onReasonInput"
+        value="{{form.reason}}"
+      />
+      <text class="word-count">{{form.reason.length || 0}}/200</text>
+    </view>
+
+    <!-- 上传凭证 -->
+    <view class="section">
+      <text class="section-title">上传凭证 <text class="section-sub">(选填，最多3张)</text></text>
+      <view class="upload-grid">
+        <view class="upload-item" wx:for="{{form.images}}" wx:key="*this">
+          <image src="{{item}}" mode="aspectFill" class="upload-img"/>
+          <view class="upload-remove" bindtap="removeImage" data-index="{{index}}">✕</view>
+        </view>
+        <view class="upload-add" bindtap="chooseImage" wx:if="{{form.images.length < 3}}">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">添加图片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 联系手机 -->
+    <view class="section">
+      <text class="section-title">联系电话 <text class="required">*</text></text>
+      <input
+        class="phone-input"
+        type="number"
+        placeholder="请输入手机号"
+        placeholder-class="input-placeholder"
+        maxlength="11"
+        bindinput="onPhoneInput"
+        value="{{form.phone}}"
+      />
+    </view>
+
+    <!-- 提交 -->
+    <view class="submit-btn {{canSubmit ? '' : 'disabled'}}" bindtap="submitApply">
+      提交申请
+    </view>
+
+    <text class="submit-note">提交后客服将在1-3个工作日内处理，请保持手机畅通</text>
+  </view>
+</view>

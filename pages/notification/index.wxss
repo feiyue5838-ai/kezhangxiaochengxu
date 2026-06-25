@@ -1,0 +1,140 @@
+/* pages/notification/index.wxss */
+page { background: #F8F7FC; }
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  box-sizing: border-box;
+}
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+  position: relative;
+}
+.nav-back {
+  width: 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+.nav-title { font-size: 34rpx; font-weight: 600; color: #fff; text-align: center; }
+
+/* ========== 内容区 ========== */
+.notif-wrap {
+  padding: calc(88rpx + constant(safe-area-inset-top)) 0 120rpx;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.notif-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 160rpx;
+}
+.notif-empty image { width: 160rpx; height: 160rpx; margin-bottom: 24rpx; opacity: 0.6; }
+.notif-empty text { font-size: 26rpx; color: #999; }
+
+.notif-list { }
+
+.notif-date-header {
+  padding: 20rpx 32rpx 12rpx;
+  font-size: 22rpx;
+  color: #999;
+  font-weight: 600;
+}
+
+.notif-item {
+  background: #fff;
+  margin: 0 20rpx 16rpx;
+  border-radius: 16rpx;
+  padding: 28rpx 32rpx;
+  box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.05);
+  display: flex;
+  gap: 20rpx;
+  align-items: flex-start;
+  position: relative;
+}
+.notif-item.unread::before {
+  content: '';
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #E05050;
+}
+
+.notif-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #5B6FE8;
+  flex-shrink: 0;
+  margin-top: 10rpx;
+}
+.notif-dot--gray { background: #D5DDE8; }
+
+.notif-body { flex: 1; }
+
+.notif-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A2332;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+}
+.notif-title--bold { font-weight: 700; }
+
+.notif-content {
+  font-size: 24rpx;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 12rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notif-time {
+  font-size: 22rpx;
+  color: #B0BBC8;
+}
+
+/* 浮动客服按钮 */
+.float-service {
+  position: fixed;
+  right: 32rpx;
+  bottom: calc(120rpx + env(safe-area-inset-bottom));
+  width: 96rpx;
+  height: 96rpx;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgb(91 111 232 / 0.4);
+  z-index: 99;
+}
+.float-service text {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1rpx;
+}

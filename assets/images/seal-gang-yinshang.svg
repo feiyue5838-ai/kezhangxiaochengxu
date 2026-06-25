@@ -1,0 +1,19 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 外圈（钢印章边缘） -->
+  <circle cx="24" cy="24" r="18" stroke="#1677FF" stroke-width="2" fill="none"/>
+  
+  <!-- 内圈（钢印图案区） -->
+  <circle cx="24" cy="24" r="14" stroke="#1677FF" stroke-width="1.5" fill="none"/>
+  
+  <!-- 横纹（钢印特征纹理） -->
+  <line x1="10" y1="18" x2="38" y2="18" stroke="#1677FF" stroke-width="1"/>
+  <line x1="10" y1="22" x2="38" y2="22" stroke="#1677FF" stroke-width="1"/>
+  <line x1="10" y1="26" x2="38" y2="26" stroke="#1677FF" stroke-width="1"/>
+  <line x1="10" y1="30" x2="38" y2="30" stroke="#1677FF" stroke-width="1"/>
+  
+  <!-- 中心标记（五角星） -->
+  <path d="M24 8 L25.5 13 L30.5 13 L26.5 16 L28 21 L24 18 L20 21 L21.5 16 L17.5 13 L22.5 13 Z" fill="#1677FF"/>
+  
+  <!-- 底部文字区域 -->
+  <text x="24" y="38" text-anchor="middle" font-size="6" fill="#1677FF" font-family="sans-serif">钢印</text>
+</svg>

@@ -1,0 +1,160 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">{{pageTitle}}</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="container" style="margin-top: {{navHeight}}px;">
+  <!-- ========== 1. 法人身份证（公司/个人模式都需要的） ========== -->
+  <view class="module">
+    <view class="title-row">
+      <text class="module-title">{{idCardTitle}}</text>
+    </view>
+    <view class="upload-row">
+      <view class="upload-item" bindtap="onIdCardFrontTap">
+        <block wx:if="{{idCardFront}}">
+          <image src="{{idCardFront}}" mode="aspectFill" class="upload-img"
+                 data-url="{{idCardFront}}" data-type="single" bindtap="onPreviewImage" />
+          <view class="delete-btn" data-type="idCardFront" catchtap="onDeleteImage">×</view>
+        </block>
+        <block wx:else>
+          <view class="upload-placeholder card-style">
+            <image class="placeholder-emoji" src="/assets/icons/icon-wxml-17-c167733c.svg" mode="aspectFit" />
+            <text class="placeholder-label">身份证正面（人像面）<text class="star">*</text></text>
+          </view>
+        </block>
+      </view>
+      <view class="upload-item" bindtap="onIdCardBackTap">
+        <block wx:if="{{idCardBack}}">
+          <image src="{{idCardBack}}" mode="aspectFill" class="upload-img"
+                 data-url="{{idCardBack}}" data-type="single" bindtap="onPreviewImage" />
+          <view class="delete-btn" data-type="idCardBack" catchtap="onDeleteImage">×</view>
+        </block>
+        <block wx:else>
+          <view class="upload-placeholder card-style">
+            <text class="placeholder-emoji">🆔</text>
+            <text class="placeholder-label">身份证反面（国徽面）<text class="star">*</text></text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 2. 营业执照（企业/电子印章显示） ========== -->
+  <view class="module" wx:if="{{isCompany || isElectronic}}">
+    <view class="title-row">
+      <text class="module-title">营业执照</text>
+      <text class="title-note">{{region === '成都' ? '成都地区只需上传营业执照副本' : '上传营业执照副本即可'}}</text>
+    </view>
+    <view class="upload-single" bindtap="onLicenseTap">
+      <block wx:if="{{license}}">
+        <image src="{{license}}" mode="aspectFill" class="upload-img-lg"
+               data-url="{{license}}" data-type="single" bindtap="onPreviewImage" />
+        <view class="delete-btn" data-type="license" catchtap="onDeleteImage">×</view>
+      </block>
+      <block wx:else>
+        <view class="upload-placeholder-lg">
+          <image class="placeholder-emoji-lg" src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
+          <text class="placeholder-label">点击上传 营业执照<text class="star">*</text></text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ========== 3. 法人照片（电子印章必填 + 特定区域企业必填） ========== -->
+  <view class="module" wx:if="{{needLegalPhoto || isElectronic}}">
+    <view class="title-row">
+      <text class="module-title">{{photoTitle}}</text>
+      <text class="title-note photo-note-red">{{photoNote}}</text>
+    </view>
+    <view class="upload-single" bindtap="onLegalPhotoTap">
+      <block wx:if="{{legalPhoto}}">
+        <image src="{{legalPhoto}}" mode="aspectFill" class="upload-img-lg"
+               data-url="{{legalPhoto}}" data-type="single" bindtap="onPreviewImage" />
+        <view class="delete-btn" data-type="legalPhoto" catchtap="onDeleteImage">×</view>
+      </block>
+      <block wx:else>
+        <view class="upload-placeholder-lg">
+          <image class="placeholder-emoji-lg" src="/assets/icons/icon-wxml-18-a039ec7b.svg" mode="aspectFit" />
+          <text class="placeholder-label">点击上传 {{photoTitle}}<text class="star">*</text></text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ========== 4. 执业证书（仅职业章显示） ========== -->
+  <view class="module" wx:if="{{needProfessionalCert}}">
+    <view class="title-row">
+      <text class="module-title">执业证书</text>
+      <text class="title-note">证书上需要带有有效期+聘用单位</text>
+    </view>
+    <view class="upload-single" bindtap="onCertTap">
+      <block wx:if="{{professionalCert}}">
+        <image src="{{professionalCert}}" mode="aspectFill" class="upload-img-lg"
+               data-url="{{professionalCert}}" data-type="single" bindtap="onPreviewImage" />
+        <view class="delete-btn" data-type="professionalCert" catchtap="onDeleteImage">×</view>
+      </block>
+      <block wx:else>
+        <view class="upload-placeholder-lg">
+          <image class="placeholder-emoji-lg" src="/assets/icons/icon-wxml-19-6a93572d.svg" mode="aspectFit" />
+          <text class="placeholder-label">点击上传 执业证书章</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ========== 5. 个人签名章（仅s26显示） ========== -->
+  <view class="module" wx:if="{{needSignature}}">
+    <view class="title-row">
+      <text class="module-title">个人签名章</text>
+      <text class="title-desc">本人在一张白纸上签名，会根据您的签名复刻出来</text>
+    </view>
+    <view class="upload-single" bindtap="onSignatureTap">
+      <block wx:if="{{signature}}">
+        <image src="{{signature}}" mode="aspectFill" class="upload-img-lg"
+               data-url="{{signature}}" data-type="single" bindtap="onPreviewImage" />
+        <view class="delete-btn" data-type="signature" catchtap="onDeleteImage">×</view>
+      </block>
+      <block wx:else>
+        <view class="upload-placeholder-lg">
+          <image class="placeholder-emoji-lg" src="/assets/icons/icon-wxml-20-d77b7e02.svg" mode="aspectFit" />
+          <text class="placeholder-label">点击上传 个人签名章</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ========== 6. 补充手续 ========== -->
+  <view class="module">
+    <view class="title-row">
+      <text class="module-title">补充手续</text>
+    </view>
+    <view class="upload-list" wx:if="{{additional.length > 0}}">
+      <view class="upload-item-sm" wx:for="{{additional}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill" class="upload-img-sm"
+               data-url="{{item}}" data-urls="{{additional}}" bindtap="onPreviewImage" />
+        <view class="delete-btn-sm" data-type="additional" data-index="{{index}}" catchtap="onDeleteImage">×</view>
+      </view>
+      <view class="upload-item-sm add-more" bindtap="onAdditionalTap" wx:if="{{additional.length < 5}}">
+        <text class="plus-icon-lg">+</text>
+      </view>
+    </view>
+    <view class="upload-single" bindtap="onAdditionalTap" wx:if="{{additional.length === 0}}">
+      <view class="upload-placeholder-add">
+        <text class="plus-icon-xl">+</text>
+        <text class="placeholder-label">点击上传 补充材料</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-placeholder"></view>
+  </view>
+</view>
+
+<!-- ========== 8. 底部提交按钮 ========== -->
+<view class="bottom-bar">
+  <button class="submit-btn {{canSubmit ? 'active' : ''}}" bindtap="onSubmit">提交</button>
+</view>

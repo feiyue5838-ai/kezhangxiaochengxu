@@ -1,0 +1,40 @@
+<!--pages/seal/select/index.wxml-->
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">{{pageTitle}}</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content" style="margin-top: {{navHeight}}px;">
+  <!-- 标题 -->
+  <view class="section-title">
+    <text class="title-text">自选刻章</text>
+  </view>
+
+  <!-- 8个选项 2列网格 -->
+  <view class="category-grid">
+    <view
+      class="cat-card {{selectedId === item.id ? 'cat-card-selected' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="id"
+      bindtap="onSelect"
+      data-id="{{item.id}}"
+    >
+      <text class="cat-name">{{item.name}}</text>
+      <view wx:if="{{selectedId === item.id}}" class="selected-badge">
+        <image class="selected-icon svg-icon" src="/assets/icons/icon-wxml-6-61a236e7.svg" mode="aspectFit" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 半屏弹出层：选择印章类型 -->
+  <half-screen-popup
+    id="sealPopup"
+    title="{{popupTitle}}"
+    bind:confirm="onSealConfirm"
+  />
+  </view>
+</view>

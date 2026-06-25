@@ -1,0 +1,39 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-back" bindtap="onBack">‹</view>
+      <text class="nav-title">消息通知</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <view class="notif-wrap">
+
+    <!-- 空状态 -->
+    <view class="notif-empty" wx:if="{{notifications.length === 0}}">
+      <image src="/assets/icons/icon-b64-21.svg" mode="aspectFit" />
+      <text>暂无消息通知</text>
+    </view>
+
+    <!-- 通知列表 -->
+    <view class="notif-list" wx:else>
+      <view class="notif-date-header">{{currentDate}}</view>
+      <view class="notif-item {{item.unread ? 'unread' : ''}}"
+        wx:for="{{notifications}}" wx:key="id"
+        bindtap="onNotifTap" data-id="{{item.id}}">
+        <view class="notif-dot {{item.unread ? '' : 'notif-dot--gray'}}"></view>
+        <view class="notif-body">
+          <view class="notif-title {{item.unread ? 'notif-title--bold' : ''}}">{{item.title}}</view>
+          <view class="notif-content">{{item.content}}</view>
+          <view class="notif-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 浮动客服按钮 -->
+    <view class="float-service" bindtap="onContactService">
+      <text>客</text>
+    </view>
+  </view>
+</view>

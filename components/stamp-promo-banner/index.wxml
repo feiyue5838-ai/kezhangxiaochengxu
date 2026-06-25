@@ -1,0 +1,15 @@
+<!--components/stamp-promo-banner/index.wxml-->
+<view class="promo-banner">
+  <!-- 上层大图宣传区 -->
+  <view class="promo-image">
+    <view class="promo-text-wrap">
+      <text class="promo-text-main">当地公安备案 全程保障</text>
+      <text class="promo-text-sub">同城可加急当天送达</text>
+    </view>
+  </view>
+  <!-- 下层红色通栏提示 -->
+  <view class="promo-notice">
+    <image class="notice-icon" src="/assets/icons/icon-wxml-2-bf6244e1.svg" mode="aspectFit" />
+    <text class="notice-text">刻完章平台代办备案</text>
+  </view>
+</view>

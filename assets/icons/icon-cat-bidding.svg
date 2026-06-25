@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- 招标书/文件 -->
+  <rect x="10" y="6" width="22" height="30" rx="2" stroke="currentColor" stroke-width="2"/>
+  <line x1="15" y1="14" x2="27" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="15" y1="20" x2="27" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="15" y1="26" x2="22" y2="26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- 竞价符号（向上箭头） -->
+  <path d="M32 18l6 10H26l6-10z" fill="currentColor"/>
+  <rect x="34" y="28" width="4" height="10" rx="1" fill="currentColor"/>
+  <!-- 底座 -->
+  <path d="M6 42h36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

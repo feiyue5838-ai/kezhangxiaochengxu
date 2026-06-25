@@ -1,0 +1,46 @@
+/* components/business-introduce-card/index.wxss */
+.intro-card {
+  margin: 20rpx 0;
+  background: transparent;
+}
+
+.intro-header {
+  padding: 0 24rpx 16rpx;
+}
+
+.intro-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.intro-images {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.intro-img {
+  width: 100%;
+  display: block;
+}
+
+.intro-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  padding-top: 4rpx;
+}
+
+.intro-point-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.intro-point-desc {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}

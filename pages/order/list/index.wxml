@@ -1,0 +1,62 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">我的订单</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 状态Tab -->
+  <view class="tab-bar" style="top: {{navHeight}}px;">
+    <view
+      class="tab-item {{activeTab === index ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="index"
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >{{item}}</view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list" wx:if="{{orders.length > 0}}" style="margin-top: calc({{navHeight}}px + 88rpx);">
+    <view
+      class="order-item"
+      wx:for="{{orders}}"
+      wx:key="id"
+      bindtap="viewOrder"
+      data-order="{{item}}"
+    >
+      <view class="order-left">
+        <view class="order-type-row">
+          <text class="order-module">{{item.type}}</text>
+          <text class="order-status-tag {{item.statusClass}}">{{item.statusText}}</text>
+        </view>
+        <text class="order-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
+        <text class="order-date" wx:if="{{item.date}}">{{item.date}}</text>
+      </view>
+      <view class="order-right">
+        <text class="order-arrow">›</text>
+        <view
+          wx:if="{{item.status === 'completed'}}"
+          class="review-btn"
+          catchtap="goReview"
+          data-order="{{item}}"
+        >去评价</view>
+        <view
+          wx:if="{{item.status === 'completed'}}"
+          class="aftersale-btn"
+          catchtap="goAftersale"
+          data-order="{{item}}"
+        >申请售后</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{orders.length === 0}}" style="margin-top: calc({{navHeight}}px + 88rpx);">
+    <image class="empty-icon" src="/assets/icons/empty-order.svg" mode="aspectFit" />
+    <text class="empty-title">暂无相关订单</text>
+    <text class="empty-desc">您还没有相关的订单记录</text>
+    <view class="empty-btn btn-hover" bindtap="goToHome">去首页看看</view>
+  </view>
+</view>

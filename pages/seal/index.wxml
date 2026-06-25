@@ -1,0 +1,87 @@
+<!-- pages/seal/index.wxml -->
+<view class="page" style="padding-top: {{navHeight}}px;">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-side nav-side--left"></view>
+      <text class="nav-title">在线刻章</text>
+      <view class="nav-side nav-side--right"></view>
+    </view>
+  </view>
+
+  <!-- Hero 区域 -->
+  <view class="hero">
+    <view class="hero-glow-1"></view>
+    <view class="hero-glow-2"></view>
+    
+    <text class="hero-label">SEAL SERVICE</text>
+    <text class="hero-title">专业印章服务</text>
+    <text class="hero-subtitle">公安备案 · 正规可靠 · 全国办理</text>
+    
+    <view class="hero-stats">
+      <view class="stat-item">
+        <text class="stat-num">10W+</text>
+        <text class="stat-label">累计服务</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">99.8%</text>
+        <text class="stat-label">好评率</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">24h</text>
+        <text class="stat-label">极速出件</text>
+      </view>
+    </view>
+
+    <view class="hero-badges">
+      <view class="badge"><text>品质保障</text></view>
+      <view class="badge"><text>当日可取</text></view>
+      <view class="badge"><text>安全合规</text></view>
+    </view>
+  </view>
+
+  <!-- 分类区域 -->
+  <view class="section">
+    <view class="category-grid">
+      <!-- 主卡片：企业刻章（跨两列） -->
+      <view class="cat-card cat-card--featured" wx:if="{{categories[0]}}" bindtap="goCategory" data-id="{{categories[0].id}}">
+        <view class="card-inner">
+          <view class="icon-wrap icon-wrap--dark">
+            <image class="cat-icon-img" src="{{categories[0].iconSvg}}" mode="aspectFit" />
+          </view>
+          <view class="card-info">
+            <text class="cat-name">{{categories[0].name}}</text>
+            <text class="cat-desc">{{categories[0].desc}}</text>
+          </view>
+          <view class="card-arrow-circle">
+            <text class="card-arrow">›</text>
+          </view>
+        </view>
+        <view class="card-shine"></view>
+      </view>
+
+      <!-- 其余3个卡片 -->
+      <view class="cat-card cat-card--small" wx:for="{{subCategories}}" wx:key="id" bindtap="goCategory" data-id="{{item.id}}">
+        <view class="card-inner">
+          <view class="icon-wrap icon-wrap--light" style="background: {{item.bgColor}}">
+            <image class="cat-icon-img cat-icon-img--sm" src="{{item.iconSvg}}" mode="aspectFit" />
+          </view>
+          <text class="cat-name cat-name--sm">{{item.name}}</text>
+          <text class="cat-desc cat-desc--sm">{{item.desc}}</text>
+          <text class="card-arrow card-arrow--sub">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="trust-bar">
+    <view class="trust-line"></view>
+    <text class="trust-text">已为 10,000+ 企业提供刻章服务</text>
+    <view class="trust-line"></view>
+  </view>
+</view>
+
+<view class='safe-bottom'></view>

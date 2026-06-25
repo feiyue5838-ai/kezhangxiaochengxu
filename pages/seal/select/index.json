@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "half-screen-popup": "/components/half-screen-popup/index"
+  }
+}

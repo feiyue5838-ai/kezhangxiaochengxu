@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <!-- 订单文档图标 -->
+  <rect x="30" y="20" width="80" height="110" rx="10" fill="#E8EBF0"/>
+  <rect x="30" y="20" width="80" height="110" rx="10" stroke="#D5DDE8" stroke-width="2"/>
+  <!-- 折角 -->
+  <path d="M80 20 L110 20 L110 50 Z" fill="#D0D8E4"/>
+  <path d="M80 20 L110 50 L80 50 Z" fill="#C0C8D4"/>
+  <!-- 横线 -->
+  <rect x="46" y="62" width="48" height="6" rx="3" fill="#B8C4D4"/>
+  <rect x="46" y="78" width="36" height="5" rx="2.5" fill="#C8D0DC"/>
+  <rect x="46" y="93" width="42" height="5" rx="2.5" fill="#C8D0DC"/>
+  <rect x="46" y="108" width="30" height="5" rx="2.5" fill="#C8D0DC"/>
+</svg>

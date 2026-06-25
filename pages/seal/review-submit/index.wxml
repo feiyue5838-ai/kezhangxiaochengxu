@@ -1,0 +1,53 @@
+<!--pages/seal/review-submit/index.wxml-->
+<view class="page">
+  <view class="form-wrap">
+
+    <view class="form-title">发表评价</view>
+
+    <!-- 服务态度评分 -->
+    <view class="score-row">
+      <text class="score-label">服务态度</text>
+      <view class="stars-row">
+        <text
+          class="star {{serviceScore > s ? 'active' : ''}}"
+          wx:for="{{5}}"
+          wx:for-item="s"
+          wx:key="*this"
+          data-score="{{s + 1}}"
+          bindtap="onServiceStarTap"
+        ><image src="/assets/icons/icon-wxml-26-97bcb345.svg" mode="aspectFit" class="star-icon" /></text>
+      </view>
+    </view>
+
+    <!-- 刻章质量评分 -->
+    <view class="score-row">
+      <text class="score-label">刻章质量</text>
+      <view class="stars-row">
+        <text
+          class="star {{qualityScore > s ? 'active' : ''}}"
+          wx:for="{{5}}"
+          wx:for-item="s"
+          wx:key="*this"
+          data-score="{{s + 1}}"
+          bindtap="onQualityStarTap"
+        ><image src="/assets/icons/icon-wxml-26-97bcb345.svg" mode="aspectFit" class="star-icon" /></text>
+      </view>
+    </view>
+
+    <!-- 评价内容 -->
+    <view class="text-area-wrap">
+      <textarea
+        class="text-area"
+        placeholder="说说您的体验吧（选填）"
+        value="{{reviewText}}"
+        bindinput="onTextInput"
+        maxlength="200"
+      />
+      <text class="word-count">{{reviewText.length}}/200</text>
+    </view>
+
+    <!-- 提交按钮 -->
+    <button class="submit-btn" bindtap="onSubmit">提交评价</button>
+
+  </view>
+</view>

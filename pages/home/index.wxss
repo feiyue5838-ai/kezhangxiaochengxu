@@ -1,0 +1,302 @@
+/* pages/home/index.wxss */
+
+/* ========== 页面基础 ========== */
+page {
+  background: #F8F7FC;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+}
+
+.scroll {
+  min-height: 100vh;
+}
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  box-sizing: border-box;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-mark {
+  width: 48rpx;
+  height: 48rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #5B6FE8;
+  margin-right: 16rpx;
+}
+
+.brand-name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ========== Hero ========== */
+.hero {
+  padding: 48rpx 40rpx 80rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  position: relative;
+}
+
+.hero-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+}
+
+.hero-sub {
+  font-size: 26rpx;
+  color: rgb(255 255 255 / 0.85);
+  display: block;
+  margin-top: 12rpx;
+}
+
+/* ========== 核心服务卡片 ========== */
+.services {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32rpx;
+  margin-top: -48rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.svc-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 0;
+  width: 30%;
+  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 刻章卡片高亮 */
+.svc-col:first-child {
+  border-top: 6rpx solid #5B6FE8;
+}
+
+/* 卡片hover效果 */
+.svc-col--hover {
+  opacity: 0.9;
+  transform: scale(0.98);
+  box-shadow: 0 8rpx 32rpx rgb(91 111 232 / 0.12);
+  transition: all 0.3s ease;
+}
+
+.svc-col:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.1);
+}
+
+.svc-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.svc-icon-seal {
+  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+}
+
+.svc-icon-news {
+  background: linear-gradient(135deg, #F0F5FF, #E0ECFF);
+}
+
+.svc-icon-file {
+  background: linear-gradient(135deg, #E6F7FF, #D1E9FF);
+}
+
+.svc-svg {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.svc-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A202C;
+  margin-bottom: 8rpx;
+}
+
+.svc-desc {
+  font-size: 24rpx;
+  color: #8896B3;
+}
+
+/* ========== 区块通用 ========== */
+.section {
+  background: #fff;
+  margin: 32rpx;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.08);
+  transition: all 0.3s ease;
+}
+
+.section-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A202C;
+}
+
+.section-more {
+  font-size: 26rpx;
+  color: #8896B3;
+}
+
+/* ========== 订单列表 ========== */
+.order {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F0F2F5;
+}
+
+.order:last-child {
+  border-bottom: none;
+}
+
+.order-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #FFB020;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.order-dot.done {
+  background: #52C41A;
+}
+
+.order-main {
+  flex: 1;
+}
+
+.order-name {
+  font-size: 30rpx;
+  color: #1A202C;
+  display: block;
+  font-weight: 500;
+}
+
+.order-meta {
+  font-size: 24rpx;
+  color: #8896B3;
+  display: block;
+  margin-top: 6rpx;
+}
+
+.order-status {
+  font-size: 26rpx;
+  color: #FFB020;
+  font-weight: 500;
+}
+
+.order-status.done {
+  color: #52C41A;
+}
+
+.empty {
+  text-align: center;
+  padding: 60rpx 0;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #8896B3;
+}
+
+/* ========== 保障徽章 ========== */
+.badges {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 0 32rpx;
+  margin: 32rpx 0;
+  gap: 16rpx;
+}
+
+.badge {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 12rpx;
+  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.06);
+  transition: all 0.3s ease;
+}
+
+.badge:active {
+  transform: scale(0.98);
+  box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.08);
+}
+
+.badge-icon {
+  width: 48rpx;
+  height: 48rpx;
+  flex-shrink: 0;
+}
+
+.badge-text {
+  font-size: 24rpx;
+  color: #1A202C;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+/* 底部安全区 */
+.safe-bottom {
+  height: env(safe-area-inset-bottom);
+  width: 100%;
+}

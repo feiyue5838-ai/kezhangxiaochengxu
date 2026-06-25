@@ -1,0 +1,17 @@
+<!-- components/privacy-popup/index.wxml -->
+<view class="mask" wx:if="{{show && needPrivacy}}" catchtouchmove="true">
+  <view class="popup">
+    <view class="popup-title">用户隐私保护提示</view>
+    <view class="popup-body">
+      <text class="popup-text">感谢您使用蓉城企服。在您使用我们的服务之前，请您仔细阅读</text>
+      <text class="popup-link" bindtap="onViewPrivacy">《隐私政策》</text>
+      <text class="popup-text">和</text>
+      <text class="popup-link" bindtap="onViewTerms">《用户服务协议》</text>
+      <text class="popup-text">，了解我们将如何收集、使用和保护您的个人信息。</text>
+    </view>
+    <view class="popup-btns">
+      <view class="popup-btn-cancel" bindtap="onClose">暂不同意</view>
+      <view class="popup-btn-confirm" bindtap="onConfirm">同意</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,107 @@
+/* pages/aftersale/apply/index.wxss */
+
+.page { min-height: 100vh; background: #F8F7FC; }
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; padding: 0 32rpx; box-sizing: border-box;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+.nav-back {
+  position: absolute; left: 0; top: 0; width: 60rpx; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44rpx; color: #fff; font-weight: 300; line-height: 1;
+}
+.nav-placeholder { width: 60rpx; height: 100%; }
+.nav-title {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-size: 34rpx; font-weight: 600; color: #fff;
+}
+
+/* ========== 内容区 ========== */
+.content { padding: 24rpx 20rpx 120rpx; }
+
+/* 订单卡片 */
+.order-card {
+  background: #fff; border-radius: 16rpx; padding: 24rpx;
+  margin-bottom: 20rpx; box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.08);
+}
+.order-type { font-size: 30rpx; font-weight: 600; color: #1A2332; display: block; margin-bottom: 8rpx; }
+.order-desc { font-size: 26rpx; color: #555; display: block; margin-bottom: 6rpx; }
+.order-date { font-size: 24rpx; color: #B0BBC8; display: block; }
+
+/* 区块 */
+.section {
+  background: #fff; border-radius: 16rpx; padding: 24rpx;
+  margin-bottom: 20rpx; box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.08);
+}
+.section-title { font-size: 28rpx; font-weight: 600; color: #1A2332; display: block; margin-bottom: 20rpx; }
+.section-sub { font-size: 24rpx; font-weight: 400; color: #B0BBC8; }
+
+/* 售后类型 */
+.type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20rpx; }
+.type-item {
+  display: flex; flex-direction: column; align-items: center; gap: 10rpx;
+  padding: 24rpx 16rpx; border-radius: 16rpx;
+  border: 2rpx solid #f0f0f0;
+  transition: all 0.2s;
+}
+.type-item.active { border-color: #5B6FE8; background: #EEF1FF; }
+.type-icon { font-size: 48rpx; }
+.type-name { font-size: 24rpx; color: #555; text-align: center; }
+.type-item.active .type-name { color: #5B6FE8; font-weight: 600; }
+
+/* 问题描述 */
+.reason-input {
+  width: 100%; min-height: 200rpx; padding: 20rpx;
+  background: #F8F7FC; border-radius: 12rpx;
+  font-size: 28rpx; color: #1A2332; box-sizing: border-box;
+  line-height: 1.8;
+}
+.reason-placeholder { color: #B0BBC8; font-size: 28rpx; }
+.word-count { font-size: 22rpx; color: #B0BBC8; text-align: right; margin-top: 8rpx; }
+
+/* 上传凭证 */
+.upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16rpx; }
+.upload-item { position: relative; aspect-ratio: 1; border-radius: 12rpx; overflow: hidden; }
+.upload-img { width: 100%; height: 100%; }
+.upload-remove {
+  position: absolute; top: 6rpx; right: 6rpx;
+  width: 36rpx; height: 36rpx; border-radius: 50%;
+  background: rgba(0,0,0,0.5); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22rpx;
+}
+.upload-add {
+  aspect-ratio: 1; border-radius: 12rpx;
+  border: 2rpx dashed #ccc;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8rpx;
+}
+.upload-icon { font-size: 56rpx; color: #B0BBC8; line-height: 1; }
+.upload-text { font-size: 22rpx; color: #B0BBC8; }
+
+/* 手机号 */
+.required { color: #FF4D4F; }
+.phone-input {
+  width: 100%; height: 88rpx; padding: 0 20rpx;
+  background: #F8F7FC; border-radius: 12rpx;
+  font-size: 28rpx; color: #1A2332; box-sizing: border-box;
+}
+.input-placeholder { color: #B0BBC8; font-size: 28rpx; }
+
+/* 提交按钮 */
+.submit-btn {
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  color: #fff; font-size: 32rpx; font-weight: 600;
+  text-align: center; line-height: 96rpx; border-radius: 48rpx;
+  margin: 40rpx 0 16rpx;
+  box-shadow: 0 8rpx 24rpx rgb(91 111 232 / 0.4);
+}
+.submit-btn.disabled {
+  background: #ccc; box-shadow: none;
+}
+.submit-note {
+  display: block; text-align: center;
+  font-size: 22rpx; color: #B0BBC8; line-height: 1.6;
+}

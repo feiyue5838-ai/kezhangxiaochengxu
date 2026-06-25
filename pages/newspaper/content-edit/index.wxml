@@ -1,0 +1,88 @@
+<wxs module="utils">
+  module.exports = {
+    canSelectPaper: function(content, originalContent) {
+      return content.trim() !== '' && content !== originalContent
+    }
+  }
+</wxs>
+
+<view class="page" style="padding-top: {{navHeight}}px;">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">填写登报内容</text>
+    <view class="nav-right"></view>
+  </view>
+
+  <!-- 信息回显模块 -->
+  <view class="info-display">
+    <view class="info-row">
+      <text class="info-label">登报类型</text>
+      <text class="info-value">{{businessType || '个人证件'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">登报业务</text>
+      <text class="info-value">{{templateName || '身份证（简单版）'}}</text>
+    </view>
+  </view>
+
+  <!-- 登报内容编辑模块 -->
+  <view class="content-editor">
+    <view class="editor-header">
+      <text class="editor-title">登报内容（修改模版信息）</text>
+      <view class="editor-actions">
+        <text class="action-btn" bindtap="resetContent">重置</text>
+        <text class="action-divider">|</text>
+        <text class="action-btn" bindtap="clearContent">清除</text>
+      </view>
+    </view>
+
+    <textarea 
+      class="editor-textarea" 
+      placeholder="请输入登报内容..." 
+      value="{{content}}" 
+      bindinput="onInput"
+      maxlength="500" 
+      auto-height
+    />
+
+    <view class="editor-footer">
+      <text class="char-count">{{charCount}}/500字</text>
+    </view>
+
+    <!-- 便捷替换按钮 -->
+    <view class="replace-actions">
+      <view class="replace-btn" bindtap="quickReplace">
+        <text class="replace-icon">🔄</text>
+        <text class="replace-text">一键替换占位符</text>
+      </view>
+    </view>
+
+    <view class="editor-tip">
+      <text class="tip-text">💡 请将模板中的 XXX 修改为自己的真实信息</text>
+    </view>
+  </view>
+
+  <!-- 信息填写说明模块 -->
+  <view class="note-section">
+    <view class="note-item">
+      <text class="note-title">证号填写规范</text>
+      <text class="note-desc">证号需写全 18 位，如需隐藏信息，可用 * 号代替后四位</text>
+    </view>
+    <view class="note-item">
+      <text class="note-title">平台承诺</text>
+      <text class="note-desc">专注自助登报 10 余年，模板 100% 有效</text>
+      <text class="note-desc">登报后开具正规电子发票，也可对公支付</text>
+    </view>
+  </view>
+
+  <!-- 底部操作按钮区 -->
+  <view class="bottom-actions">
+    <view class="action-button preview" bindtap="previewContent">
+      <text class="button-text">预览</text>
+    </view>
+    <view class="action-button submit {{utils.canSelectPaper(content, originalContent) ? '' : 'disabled'}}" bindtap="selectPaper">
+      <text class="button-text">选报纸</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,194 @@
+/* pages/invoice/edit/index.wxss */
+
+.page { background: #F2F4F7; min-height: 100vh; }
+
+/* ========== 鐎佃壈鍩呴弽?========== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+
+.nav-back {
+  width: 60rpx; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44rpx; color: #fff; font-weight: 300; line-height: 1;
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  font-size: 34rpx; font-weight: 600; color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+}
+.nav-placeholder { width: 60rpx; height: 100%; }
+
+/* ========== 閸愬懎顔愰崠?========== */
+.content {
+  padding: 24rpx 20rpx 160rpx;
+}
+
+/* ========== 閸欐垹銈ㄧ猾璇茬€烽柅澶嬪 ========== */
+.section-title {
+  font-size: 28rpx; font-weight: 600; color: #333;
+  margin: 28rpx 12rpx 12rpx;
+}
+
+.section-tip {
+  font-size: 22rpx; color: #999; margin-left: 12rpx; font-weight: 400;
+}
+
+.type-card-row {
+  display: flex;
+  gap: 24rpx;
+}
+
+.type-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.type-card.selected {
+  border-color: #5B6FE8;
+  background: #EEF4FF;
+}
+
+.type-icon {
+  width: 64rpx; height: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.type-name {
+  font-size: 28rpx; font-weight: 600; color: #333;
+}
+
+.type-desc {
+  font-size: 22rpx; color: #999; margin-top: 6rpx; text-align: center;
+}
+
+/* ========== 鐞涖劌宕熼崡锛勫 ========== */
+.form-card {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgb(0 0 0 / 0.04);
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+.form-row:last-child { border-bottom: none; }
+
+.form-label {
+  font-size: 28rpx; color: #333;
+  width: 180rpx; flex-shrink: 0;
+}
+.form-label .required { color: #FF4D4F; margin-right: 4rpx; }
+
+.form-input {
+  flex: 1;
+  font-size: 28rpx; color: #333;
+  text-align: right;
+}
+.form-input::placeholder { color: #C4C8D0; }
+
+.form-textarea {
+  flex: 1;
+  font-size: 28rpx; color: #333;
+  min-height: 120rpx;
+  line-height: 1.6;
+}
+.form-textarea::placeholder { color: #C4C8D0; }
+
+/* 閸欐垹銈ㄩ幎顒€銇旂猾璇茬€烽崚鍥ㄥ床 */
+.title-type-row {
+  display: flex;
+  gap: 24rpx;
+  padding: 24rpx;
+}
+
+.title-type-btn {
+  flex: 1;
+  height: 72rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #E8EAED;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26rpx; color: #555;
+  background: #FAFAFA;
+  transition: all 0.2s;
+}
+
+.title-type-btn.selected {
+  border-color: #5B6FE8;
+  background: #EEF4FF;
+  color: #5B6FE8; font-weight: 600;
+}
+
+/* ========== 鎼存洟鍎撮幙宥勭稊閺?========== */
+.bottom-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  gap: 24rpx;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.06);
+  z-index: 100;
+}
+
+.btn-clear {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #E0E4EA;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30rpx; color: #555; font-weight: 500;
+}
+
+.btn-save {
+  flex: 2;
+  height: 88rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30rpx; color: #fff; font-weight: 600;
+  border: none;
+}
+.btn-save::after { border: none; }
+
+/* ========== 濞撯晠螛閹绘劗銇?========== */
+.tip-box {
+  background: #F0F6FF;
+  border-radius: 20rpx;
+  padding: 24rpx 24rpx 20rpx;
+  margin-top: 24rpx;
+  border-left: 6rpx solid #5B6FE8;
+}
+
+.tip-title {
+  font-size: 26rpx; font-weight: 600; color: #5B6FE8;
+  display: block; margin-bottom: 12rpx;
+}
+
+.tip-item {
+  font-size: 23rpx; color: #555;
+  display: block; line-height: 1.8;
+}

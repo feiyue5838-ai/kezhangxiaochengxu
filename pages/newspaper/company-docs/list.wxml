@@ -1,0 +1,41 @@
+<!-- pages/newspaper/company-docs/list.wxml -->
+<view class="page" style="padding-top: {{navHeight}}px; --nav-h: {{navHeight}}px;">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="nav-title">{{categoryName}}</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-wrap">
+    <view class="search-bar">
+      <input class="search-input" placeholder="搜索证件类型" placeholder-class="search-placeholder" bindinput="onSearch" value="{{searchKey}}" />
+      <image class="search-clear svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" />
+    </view>
+  </view>
+
+  <!-- 证件网格 -->
+  <scroll-view scroll-y class="doc-scroll">
+    <view class="doc-grid">
+      <view class="doc-card" wx:for="{{filteredDocs}}" wx:key="name" bindtap="selectDoc" data-doc="{{item}}"
+        style="--cat-color: {{categoryColor}};">
+        <view class="doc-icon-wrap">
+          <image class="doc-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+        </view>
+        <view class="doc-info">
+          <text class="doc-name">{{item.name}}</text>
+        </view>
+        <text class="doc-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 无搜索结果 -->
+    <view class="empty-state" wx:if="{{searchKey && filteredDocs.length === 0}}">
+      <image class="empty-icon-img" src="/assets/icons/icon-wxml-5-d047bc08.svg" mode="aspectFit" />
+      <text class="empty-text">未找到"{{searchKey}}"相关证件</text>
+    </view>
+  </scroll-view>
+</view>

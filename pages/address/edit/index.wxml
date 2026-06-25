@@ -1,0 +1,57 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-back" bindtap="onBack">‹</view>
+      <text class="nav-title">地址管理</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <view class="container" style="padding-top: {{navHeight}}px;">
+  <view class="form-section">
+    <!-- 收件人 -->
+    <view class="form-item">
+      <text class="form-label">收件人</text>
+      <input class="form-input" placeholder="请输入收件人姓名" 
+             value="{{name}}" bindinput="onNameInput" />
+    </view>
+
+    <!-- 手机号 -->
+    <view class="form-item">
+      <text class="form-label">手机号</text>
+      <input class="form-input" type="number" maxlength="11" placeholder="请输入手机号" 
+             value="{{phone}}" bindinput="onPhoneInput" />
+    </view>
+
+    <!-- 省市区 -->
+    <view class="form-item">
+      <text class="form-label">省市区</text>
+      <picker mode="selector" range="{{regionList}}" value="{{regionIndex}}" bindchange="onRegionChange">
+        <view class="form-value">
+          <text class="{{province ? 'text-normal' : 'placeholder'}}">{{regionText}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 详细地址 -->
+    <view class="form-item detail-item">
+      <text class="form-label">详细地址</text>
+      <textarea class="form-textarea" placeholder="请输入详细地址（街道、门牌号等）" 
+                value="{{detail}}" bindinput="onDetailInput" maxlength="100" />
+    </view>
+
+    <!-- 设为默认 -->
+    <view class="form-item default-item">
+      <text class="form-label">设为默认地址</text>
+      <switch checked="{{isDefault}}" bindchange="onDefaultChange" color="#5B6FE8" />
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="btn-section">
+    <button class="save-btn" bindtap="onSave">保存地址</button>
+  </view>
+</view>
+</view>

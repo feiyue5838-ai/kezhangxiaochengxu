@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "stamp-promo-banner": "/components/stamp-promo-banner/index",
+    "stamp-apply-form": "/components/stamp-apply-form/index",
+    "user-comment-block": "/components/user-comment-block/index",
+    "question-answer-module": "/components/question-answer-module/index",
+    "business-introduce-card": "/components/business-introduce-card/index",
+    "form-submit-btn": "/components/form-submit-btn/index",
+    "half-screen-popup": "/components/half-screen-popup/index"
+  }
+}

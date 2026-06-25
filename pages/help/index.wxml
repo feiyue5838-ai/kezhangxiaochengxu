@@ -1,0 +1,55 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-back" bindtap="onBack">‹</view>
+      <text class="nav-title">帮助中心</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <view class="help-wrap">
+
+    <!-- 客服热线 -->
+    <view class="help-hotline">
+      <view class="hotline-left">
+        <text class="hotline-label">7×24 小时客服热线</text>
+        <text class="hotline-number">400-888-6666</text>
+      </view>
+      <view class="hotline-btn" bindtap="onCallService">
+        <image src="/assets/icons/icon-phone-circle.svg" mode="aspectFit" />
+        <text>拨打</text>
+      </view>
+    </view>
+
+    <!-- 问题分类 -->
+    <view class="help-cats">
+      <view class="help-cat-title">常见问题分类</view>
+      <view class="help-cat-grid">
+        <view class="help-cat-item" wx:for="{{categories}}" wx:key="id" bindtap="onCatTap" data-id="{{item.id}}">
+          <image class="help-cat-icon" src="{{item.icon}}" mode="aspectFit" />
+          <text class="help-cat-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- FAQ 列表 -->
+    <view class="faq-list">
+      <view class="faq-item" wx:for="{{faqs}}" wx:key="id" bindtap="onFaqTap" data-index="{{index}}">
+        <view class="faq-question">
+          <view class="faq-q-left">
+            <text class="faq-q-tag">Q</text>
+            <text class="faq-q-text">{{item.question}}</text>
+          </view>
+          <text class="faq-arrow {{openIndex === index ? 'faq-arrow--open' : ''}}">▼</text>
+        </view>
+        <view class="faq-answer {{openIndex === index ? 'faq-answer--open' : ''}}">{{item.answer}}</view>
+      </view>
+    </view>
+
+    <!-- 浮动客服 -->
+    <view class="float-service" bindtap="onContactService">
+      <text>客</text>
+    </view>
+  </view>
+</view>

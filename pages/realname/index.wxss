@@ -1,0 +1,195 @@
+/* pages/realname/index.wxss */
+
+page { background: #F8F7FC; }
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  box-sizing: border-box;
+}
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+  position: relative;
+}
+.nav-back {
+  width: 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+.nav-title { font-size: 34rpx; font-weight: 600; color: #fff; text-align: center; }
+
+/* ========== 内容 ========== */
+.verify-wrap {
+  padding: 0 32rpx 80rpx;
+}
+
+.verify-wrap::after {
+  content: '';
+  display: block;
+  height: constant(safe-area-inset-bottom);
+  height: env(safe-area-inset-bottom);
+}
+
+.status-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx 36rpx;
+  margin-top: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status-icon { width: 96rpx; height: 96rpx; margin-bottom: 20rpx; }
+
+.status-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1A2332;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 32rpx;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6rpx 20rpx;
+  border-radius: 100rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+.status-badge--pass { background: #F0FFF0; color: #52C41A; }
+.status-badge--fail { background: #FFF0E6; color: #FA8C16; }
+.status-badge--wait { background: #FFF7E6; color: #FAAD14; }
+
+.form-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 36rpx;
+  margin-top: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+}
+
+.form-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A2332;
+  margin-bottom: 32rpx;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.form-row:last-child { border-bottom: none; }
+
+.form-label {
+  font-size: 28rpx;
+  color: #555;
+  width: 160rpx;
+  flex-shrink: 0;
+}
+.form-label text { color: #E05050; }
+
+.form-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A2332;
+  text-align: right;
+}
+.form-input--gray { color: #999; }
+
+.idcard-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.idcard-row:last-child { border-bottom: none; padding-bottom: 0; }
+.idcard-label { font-size: 28rpx; color: #555; width: 160rpx; flex-shrink: 0; }
+.idcard-value { flex: 1; font-size: 28rpx; color: #1A2332; text-align: right; word-break: break-all; }
+
+.idcard-preview {
+  margin-top: 24rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+}
+.idcard-preview image { width: 100%; display: block; }
+.idcard-preview .replace-btn {
+  position: absolute;
+  bottom: 16rpx;
+  right: 16rpx;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 22rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 100rpx;
+}
+.idcard-add {
+  margin-top: 24rpx;
+  border: 2rpx dashed #D5DDE8;
+  border-radius: 16rpx;
+  height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+.idcard-add text { font-size: 48rpx; color: #B0BBC8; }
+.idcard-add .idcard-add-label { font-size: 24rpx; color: #B0BBC8; }
+
+/* ========== 提交按钮 ========== */
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  border: none;
+  margin-top: 40rpx;
+  box-shadow: 0 8rpx 24rpx rgb(91 111 232 / 0.35);
+}
+.submit-btn::after { border: none; }
+.submit-btn:active { opacity: 0.85; transform: scale(0.98); }
+
+.submit-btn--disabled {
+  background: #D5DDE8;
+  box-shadow: none;
+  color: #8C97A6;
+}
+
+.submit-btn--success {
+  background: linear-gradient(135deg, #52C41A, #73D13D);
+  box-shadow: 0 8rpx 24rpx rgb(82 196 26 / 0.35);
+}

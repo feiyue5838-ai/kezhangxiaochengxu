@@ -1,0 +1,292 @@
+/* pages/newspaper/paper.wxss */
+
+.page {
+  background: #F8F7FC;
+  min-height: 100vh;
+  padding-bottom: 160rpx;
+}
+
+/* ========== 闂佺厧顨庢禍婊堟偩閻愵剛鈻曞璺侯煬閸ゃ倝鏌ら崜韫凹闁?========== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+}
+
+.nav-back {
+  width: 60rpx;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.back-icon {
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.nav-placeholder {
+  width: 60rpx;
+}
+
+/* ========== 闂佸憡鍔曢幊搴敊閹版澘绠烘俊顖涱儥濞?========== */
+.content-summary {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  padding: 24rpx 32rpx;
+  background: #EBF3FF;
+  border-bottom: 1rpx solid #BAE7FF;
+}
+
+.summary-label {
+  font-size: 24rpx;
+  color: #5B6FE8;
+  display: block;
+  margin-bottom: 8rpx;
+  font-weight: 600;
+}
+
+.summary-text {
+  font-size: 26rpx;
+  color: #1A2332;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========== 濠电姴锕ラ懝鐐叏閳哄懎绀岄柛婵嗗閸?========== */
+.paper-scroll {
+  height: calc(100vh - 140rpx);
+}
+
+/* ========== 闂佸搫绉村ú顓€傞悾灞惧仒?========== */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 28rpx 28rpx 16rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  color: #1A2332;
+  font-weight: bold;
+}
+
+.section-count {
+  font-size: 24rpx;
+  color: #8C97A6;
+}
+
+/* ========== 闂佸憡鐟ラ懟顖炲垂椤忓棛纾鹃柟瀵稿仧婢?========== */
+.paper-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 32rpx;
+}
+
+.paper-card {
+  width: calc(50% - 18rpx);
+  background: #fff;
+  border-radius: 20rpx;
+  margin: 9rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 16rpx rgb(0 0 0 / 0.06);
+  border: 3rpx solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.paper-card.selected {
+  border-color: #5B6FE8;
+  box-shadow: 0 8rpx 28rpx rgb(22 119 255 / 0.2);
+  transform: translateY(-2rpx);
+}
+
+.paper-card:active {
+  transform: scale(0.96);
+}
+
+/* Logo 闂佸憡鐗曢幖顐︽偂? */
+.card-logo {
+  height: 150rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-logo::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgb(255 255 255 / 0.1);
+  border-radius: 50%;
+}
+
+.logo-text {
+  font-size: 52rpx;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgb(0 0 0 / 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.card-tag {
+  position: absolute;
+  bottom: 10rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+  z-index: 2;
+}
+
+/* 婵烇絽娲犻崜婵囧閸涙潙绀? */
+.card-body {
+  padding: 20rpx 18rpx 24rpx;
+  position: relative;
+}
+
+.card-name {
+  font-size: 26rpx;
+  color: #1A2332;
+  font-weight: 600;
+  display: block;
+  text-align: center;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-price {
+  font-size: 34rpx;
+  color: #5B6FE8;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+}
+
+.price-unit {
+  font-size: 22rpx;
+  color: #8C97A6;
+  font-weight: normal;
+}
+
+/* 闂備緡鍋勯ˇ顕€鎳欓幋锕€绀? */
+.check-mark {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: bold;
+  box-shadow: 0 2rpx 8rpx rgb(22 119 255 / 0.3);
+}
+
+/* ========== 闁圭厧鐡ㄥú鐔煎磿閹绢喖绠肩€广儱瀚粙濠囨煛?========== */
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.08);
+  z-index: 99;
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label {
+  font-size: 24rpx;
+  color: #8C97A6;
+  margin-bottom: 4rpx;
+}
+
+.price-value {
+  font-size: 42rpx;
+  font-weight: bold;
+  color: #5B6FE8;
+}
+
+.submit-btn {
+  width: 280rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+  color: white;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  border: none;
+  text-align: center;
+  box-shadow: 0 6rpx 20rpx rgb(22 119 255 / 0.35);
+}
+
+.submit-btn[disabled] {
+  background: #D5DDE8;
+  color: #8C97A6;
+  box-shadow: none;
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.svg-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+

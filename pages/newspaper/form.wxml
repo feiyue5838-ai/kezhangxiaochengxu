@@ -1,0 +1,175 @@
+<view class="page" style="padding-top: {{navHeight}}px;">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">选择报纸</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 登报内容预览 -->
+  <view class="content-preview" wx:if="{{content}}">
+    <view class="preview-header">
+      <text class="preview-title">登报内容</text>
+      <text class="preview-edit" bindtap="editContent">编辑</text>
+    </view>
+    <view class="preview-content">
+      <text class="preview-text">{{content}}</text>
+    </view>
+    <view class="preview-meta">
+      <text class="meta-item">字数：{{charCount}}字</text>
+      <text class="meta-item">类型：{{businessType}}</text>
+      <text class="meta-item" wx:if="{{templateName}}">模板：{{templateName}}</text>
+    </view>
+    <!-- 身份证信息 -->
+    <view class="idcard-info" wx:if="{{idCardName}}">
+      <text class="idcard-text">姓名：{{idCardName}}</text>
+      <text class="idcard-text">身份证号：{{idCardNumber}}</text>
+    </view>
+  </view>
+
+  <!-- 报纸选择区 - 3列网格 -->
+  <view class="paper-section">
+    <view class="section-header">
+      <text class="section-title">选择报纸</text>
+      <text class="section-count">共{{papers.length}}家</text>
+    </view>
+    
+    <!-- 报纸3列网格 -->
+    <view class="paper-grid">
+      <view class="paper-card {{selectedPaper === item.id ? 'selected' : ''}}" wx:for="{{papers}}" wx:key="id" bindtap="selectPaper" data-id="{{item.id}}">
+        <!-- 选中状态右上角勾 -->
+        <view class="paper-check" wx:if="{{selectedPaper === item.id}}">
+          <image class="check-icon svg-icon" src="/assets/icons/icon-wxml-6-61a236e7.svg" mode="aspectFit" />
+        </view>
+        <!-- 报纸Logo -->
+        <view class="paper-logo" style="background: linear-gradient(135deg, {{item.logoColor || '#5B6FE8'}} 0%, {{item.logoColorEnd || '#7B8FF7'}} 100%);">
+          <text class="logo-text">{{item.logoText}}</text>
+        </view>
+        <!-- 标签 -->
+        <view class="paper-tag" wx:if="{{item.tag}}" style="background: {{item.logoColor}}22; color: {{item.logoColor}};">{{item.tag}}</view>
+        <!-- 报纸名称 -->
+        <text class="paper-name">{{item.name}}</text>
+        <!-- 价格 -->
+        <view class="paper-price-row">
+          <text class="paper-price">¥{{item.price}}</text>
+          <text class="paper-unit">/份</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 期数/份数选择 -->
+  <view class="count-section" wx:if="{{selectedPaper}}">
+    <view class="section-header">
+      <text class="section-title">购买数量</text>
+    </view>
+    <view class="count-selector">
+      <view class="count-row">
+        <text class="count-label">刊登期数</text>
+        <view class="count-picker">
+          <text class="picker-btn minus" bindtap="adjustIssue" data-type="minus">-</text>
+          <text class="picker-value">{{issueCount}}期</text>
+          <text class="picker-btn plus" bindtap="adjustIssue" data-type="plus">+</text>
+        </view>
+      </view>
+      <view class="count-row">
+        <text class="count-label">报纸份数</text>
+        <view class="count-picker">
+          <text class="picker-btn minus" bindtap="adjustCopies" data-type="minus">-</text>
+          <text class="picker-value">{{copyCount}}份</text>
+          <text class="picker-btn plus" bindtap="adjustCopies" data-type="plus">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 收件信息 -->
+  <view class="receiver-section" wx:if="{{selectedPaper}}">
+    <view class="section-header">
+      <text class="section-title">收件信息</text>
+    </view>
+    <view class="receiver-form">
+      <view class="form-row">
+        <text class="form-label"><text class="required">*</text>收件人</text>
+        <input class="form-input" placeholder="请输入收件人姓名" value="{{receiver.name}}" bindinput="onReceiverInput" data-field="name" />
+      </view>
+      <view class="form-row">
+        <text class="form-label"><text class="required">*</text>手机号</text>
+        <input class="form-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{receiver.phone}}" bindinput="onReceiverInput" data-field="phone" />
+      </view>
+      <view class="form-row">
+        <text class="form-label"><text class="required">*</text>收件地址</text>
+        <input class="form-input" placeholder="请输入详细地址" value="{{receiver.address}}" bindinput="onReceiverInput" data-field="address" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 上传证件 -->
+  <view class="upload-section" wx:if="{{selectedPaper}}">
+    <view class="section-header">
+      <text class="section-title">上传证件</text>
+      <text class="section-tip">（遗失证件需上传证明）</text>
+    </view>
+    <view class="upload-area">
+      <view class="upload-box" wx:for="{{uploadList}}" wx:key="index">
+        <image class="upload-image" src="{{item}}" mode="aspectFill" wx:if="{{item}}"></image>
+        <text class="upload-remove" bindtap="removeUpload" data-index="{{index}}">×</text>
+      </view>
+      <view class="upload-add" bindtap="addUpload" wx:if="{{uploadList.length < 3}}">
+        <text class="add-icon">+</text>
+        <text class="add-text">添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="remark-section" wx:if="{{selectedPaper}}">
+    <view class="section-header">
+      <text class="section-title">备注信息</text>
+    </view>
+    <textarea class="remark-input" placeholder="如有特殊要求请在此备注..." value="{{remark}}" bindinput="onRemarkInput" maxlength="200"></textarea>
+  </view>
+
+  <!-- 发票信息 -->
+  <view class="invoice-section" wx:if="{{selectedPaper}}" bindtap="onInvoiceTap">
+    <view class="section-header">
+      <text class="section-title">发票信息</text>
+      <text class="section-arrow">›</text>
+    </view>
+    <view class="invoice-display" wx:if="{{invoice && invoice.title}}">
+      <view class="invoice-type-tag">{{invoice.type === 'normal' ? '普通发票' : '增值税专用发票'}}</view>
+      <text class="invoice-title">{{invoice.title}}</text>
+      <text class="invoice-desc" wx:if="{{invoice.type === 'normal'}}">{{invoice.titleType === 'company' ? '企业单位' : '个人/非企业单位'}} · {{invoice.taxNumber ? '税号已填' : '未填税号'}}</text>
+      <text class="invoice-desc" wx:if="{{invoice.type === 'special'}}">税号 {{invoice.taxNumber}}</text>
+    </view>
+    <view class="invoice-placeholder" wx:else>
+      <text class="placeholder">点击填写发票信息</text>
+    </view>
+  </view>
+
+  <!-- 价格明细 -->
+  <view class="price-section" wx:if="{{selectedPaper}}">
+    <view class="section-header">
+      <text class="section-title">费用明细</text>
+    </view>
+    <view class="price-list">
+      <view class="price-row">
+        <text class="price-label">刊登费用</text>
+        <text class="price-value">¥{{publishFee}}</text>
+      </view>
+      <view class="price-row total">
+        <text class="price-label">合计</text>
+        <text class="price-value">¥{{totalPrice}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="bottom-bar">
+    <view class="total-info">
+      <text class="total-label">应付金额</text>
+      <text class="total-price">¥{{totalPrice}}</text>
+    </view>
+    <button class="pay-btn" bindtap="submitOrder">立即支付</button>
+  </view>
+</view>

@@ -1,0 +1,237 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">{{pageTitle}}</text>
+    <view class="nav-placeholder"></view>
+  </view>
+  <!-- 表单区域 -->
+  <view class="container" style="margin-top: {{navHeight}}px;">
+  <view class="form-section">
+    <!-- 邮寄地址 -->
+    <view class="form-item" bindtap="onAddressTap">
+      <view class="form-label">
+        <image class="label-icon" src="/assets/icons/icon-wxml-13-40a4d29a.svg" mode="aspectFit" />
+        <text>配送地址</text>
+        <text class="required">*</text>
+      </view>
+      <view class="form-content {{address ? 'has-value' : ''}}">
+        <block wx:if="{{address}}">
+          <view class="address-box">
+            <view class="address-top">
+              <text class="address-name">姓名：{{address.name}}</text>
+              <text class="address-phone">电话：{{address.phone}}</text>
+            </view>
+            <view class="address-divider"></view>
+            <text class="address-region">地址：{{address.province}} {{address.city}} {{address.district}}</text>
+            <text class="address-detail">{{address.detail}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <text class="placeholder">点击填写配送地址</text>
+        </block>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 联系号码 -->
+    <view class="form-item">
+      <view class="form-label">
+        <image class="label-icon" src="/assets/icons/icon-wxml-21-af9034ff.svg" mode="aspectFit" />
+        <text>联系号码</text>
+      </view>
+      <input class="form-input" type="number" value="{{contactPhone}}" 
+             placeholder="请输入手机号" maxlength="11" bindinput="onPhoneInput" />
+    </view>
+
+    <!-- 订单备注 -->
+    <view class="form-item">
+      <view class="form-label">
+        <image class="label-icon" src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
+        <text>订单备注</text>
+        <text class="optional">(选填)</text>
+      </view>
+      <textarea class="form-textarea" value="{{remark}}" 
+                placeholder="有特殊需求（比如加急、材质要求）可以在这里留言" 
+                maxlength="200" bindinput="onRemarkInput" />
+    </view>
+
+    <!-- 开具发票 -->
+    <view class="form-item" bindtap="onInvoiceTap">
+      <view class="form-label">
+        <image class="label-icon" src="/assets/icons/icon-wxml-22-95f41509.svg" mode="aspectFit" />
+        <text>开具发票</text>
+      </view>
+      <view class="form-content {{invoice ? 'has-value' : ''}}">
+        <text class="placeholder">{{invoice ? invoice.title : '点击填写发票信息'}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 上传材料 -->
+  <view class="material-section">
+    <view class="material-title-wrap">
+      <text class="material-title">上传材料</text>
+      <text class="required">*</text>
+    </view>
+
+    <!-- 已上传材料列表 -->
+    <block wx:if="{{materials.license || materials.idCardFront || materials.idCardBack || materials.photo}}">
+      <view class="material-list">
+        <!-- 营业执照 -->
+        <block wx:if="{{materials.license && !isPersonal}}">
+          <view class="material-item">
+            <text class="material-type-label">营业执照</text>
+            <view class="material-thumb-wrap">
+              <image src="{{materials.license}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.license}}" />
+            </view>
+            <image class="material-delete svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" bindtap="onDeleteMaterial" data-type="license" />
+          </view>
+        </block>
+
+        <!-- 法人身份证 -->
+        <block wx:if="{{materials.idCardFront || materials.idCardBack}}">
+          <view class="material-item">
+            <text class="material-type-label">{{isPersonal ? '身份证' : '法人身份证'}}</text>
+            <view class="material-thumb-wrap">
+              <image wx:if="{{materials.idCardFront}}" src="{{materials.idCardFront}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardFront}}" />
+              <image wx:if="{{materials.idCardBack}}" src="{{materials.idCardBack}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardBack}}" />
+            </view>
+            <image class="material-delete svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" bindtap="onDeleteMaterial" data-type="idCard" />
+          </view>
+        </block>
+
+        <!-- 法人照片 -->
+        <block wx:if="{{materials.photo && !isPersonal}}">
+          <view class="material-item">
+            <text class="material-type-label">法人照片</text>
+            <view class="material-thumb-wrap">
+              <image src="{{materials.photo}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.photo}}" />
+            </view>
+            <image class="material-delete svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" bindtap="onDeleteMaterial" data-type="photo" />
+          </view>
+        </block>
+      </view>
+    </block>
+
+    <!-- 上传按钮 -->
+    <view class="material-dash-box" bindtap="onMaterialTap">
+      <view class="material-icon-wrap">
+        <image class="material-icon-large" src="/assets/icons/icon-idcard-doc.svg" mode="aspectFit" />
+      </view>
+      <text class="material-add-text">{{materials.license || materials.idCardFront ? '继续上传' : '点击上传'}}</text>
+    </view>
+
+    <!-- 材料须知 -->
+    <view wx:if="{{!isPersonal}}" class="material-tips">
+      <!-- 红色警告：特定区域必须上传法人照片 -->
+      <view wx:if="{{needLegalPhoto}}" class="tips-warning">
+        <image class="warning-icon" src="/assets/icons/icon-wxml-23-af9b3587.svg" mode="aspectFit" />
+        <text class="warning-text">重要提示：{{licenseRegion}}地区必须上传法人照片</text>
+      </view>
+      <view class="tips-title">基础材料上传：</view>
+      <view class="tips-sub">请上传证明单位证件的相关资质材料：</view>
+      <view class="tips-item">1.清晰完整的营业执照图片<text class="tips-note">（注：成都地区上传营业执照副本即可）</text></view>
+      <view class="tips-item">2.法人身份证正反面图片<text class="tips-note">（注：证件图四边完整，文字能清晰识别）</text></view>
+      <view class="tips-item">3.法人白底自拍照<text class="tips-note">（注：成都新津地区单位请上传法人手持身份证照片）</text></view>
+      <view class="tips-divider"></view>
+      <view class="tips-note">以上是刻章流程必要手续，按照地方政策所需手续不同，如需增加手续，会有客服人员联系您</view>
+      <view class="tips-divider"></view>
+      <view class="tips-note">注：章属于定制产品，订单状态处于"处理中"不予退款。</view>
+      <view class="tips-note">注：我们是刻章备案一站式服务，备案好在进行交付，不需要您单独再去给章备案。</view>
+    </view>
+    <view wx:else class="material-tips">
+      <view class="tips-title">基础材料上传：</view>
+      <view class="tips-sub">请上传证明刻章人的相关材料：</view>
+      <view class="tips-item">1、刻章人身份证正反面图片</view>
+      <view class="tips-item">2、执业章上传住建部颁发的注册证书（要有效期+聘用单位）</view>
+      <view class="tips-item">如对刻章手续不明白，可先不上传，后续会有客服联系您对接手续等问题。</view>
+      <view class="tips-divider"></view>
+      <view class="tips-note">注：章属于定制产品，订单状态处于"处理中"不予退款。</view>
+      <view class="tips-highlight">注：您对章的材质、样式、排版有特殊要求，请下完单之后立即联系客服确认。</view>
+      <view class="tips-highlight">注：执业章部分地区需要把刻过多少章的次数刻制在章上，如您有需求可以填写在备注里面，如无可直接忽略。</view>
+      <view class="tips-highlight">请在订单备注中写上您的邮箱号，存证证书会发您的邮箱</view>
+    </view>
+  </view>
+
+  <!-- 办理信息回显（电子印章无需显示） -->
+  <view class="info-section" wx:if="{{!isElectronic}}">
+    <view class="section-title">
+      <text class="title-icon">ℹ️</text>
+      <text>办理信息</text>
+    </view>
+    <view class="info-list">
+      <view class="info-item">
+        <text class="info-label">执照地区</text>
+        <text class="info-value">{{licenseRegion}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">刻章原因</text>
+        <text class="info-value">{{sealReason}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">联系号码</text>
+        <text class="info-value">{{contactPhone}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">公司名称</text>
+        <text class="info-value">{{companyName}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">法人电话</text>
+        <text class="info-value">{{legalPhone}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">办理类型</text>
+        <text class="info-value">{{categoryName ? categoryName + ' - ' + selectedTypes : '-'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 电子印章：显示印章信息 -->
+  <view class="info-section" wx:if="{{isElectronic}}">
+    <view class="section-title">
+      <text class="title-icon">ℹ️</text>
+      <text>印章信息</text>
+    </view>
+    <view class="info-list">
+      <view class="info-item">
+        <text class="info-label">印章类型</text>
+        <text class="info-value">{{categoryName}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">有效期</text>
+        <text class="info-value">{{selectedTypes}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 合规说明 -->
+  <view class="compliance-section">
+    <view class="compliance-item">
+      <image class="svg-icon" src="/assets/icons/icon-wxml-24-96393dff.svg" mode="aspectFit" />
+      <text>定制产品不支持退换，敬请确认</text>
+    </view>
+    <view class="compliance-item">
+      <image class="svg-icon" src="/assets/icons/icon-wxml-16-db8dd95b.svg" mode="aspectFit" />
+      <text>平台代办公安备案，合法合规</text>
+    </view>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-placeholder"></view>
+  </view>
+</view>
+
+<!-- 底部付款栏 -->
+<view class="bottom-bar">
+  <view class="price-section">
+    <text class="price-label">合计：</text>
+    <text class="price-symbol">¥</text>
+    <text class="price-value">{{selectedSeal.price}}</text>
+  </view>
+  <button class="pay-btn {{canSubmit ? '' : 'disabled'}}" bindtap="onPayTap">
+    {{canSubmit ? '提交订单' : '付款'}}
+  </button>
+</view>

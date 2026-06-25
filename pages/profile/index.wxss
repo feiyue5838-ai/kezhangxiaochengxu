@@ -1,0 +1,256 @@
+/* pages/profile/index.wxss */
+page {
+  background: #F8F7FC;
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  box-sizing: border-box;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+}
+
+.nav-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.nav-side--left  { left: 32rpx; }
+.nav-side--right { right: 32rpx; }
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+/* ========== 头部区域 ========== */
+.header {
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  padding: 48rpx 40rpx 40rpx;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 20rpx;
+  background: rgb(255 255 255 / 0.3);
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 8rpx;
+}
+
+.phone {
+  font-size: 26rpx;
+  color: rgb(255 255 255 / 0.8);
+}
+
+/* ========== 统计行 ========== */
+.stats-row {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  margin: 20rpx;
+  margin-top: -20rpx;
+  border-radius: 20rpx;
+  padding: 28rpx 0;
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  position: relative;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1rpx solid #f0f0f0;
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8rpx;
+}
+
+.stat-icon-img {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #5B6FE8;
+  line-height: 1;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #555;
+}
+
+/* ========== 功能网格 ========== */
+.func-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24rpx;
+  background: #fff;
+  margin: 0 20rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  transition: all 0.3s ease;
+}
+
+.func-item {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 16rpx;
+}
+
+.func-icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+}
+
+.func-icon-img {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.func-name {
+  font-size: 22rpx;
+  color: #1A202C;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ========== 菜单列表 ========== */
+.menu-list {
+  margin: 20rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  transition: all 0.3s ease;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-item:last-child { border-bottom: none; }
+
+.menu-icon-wrap {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.menu-icon-img {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.menu-name {
+  flex: 1;
+  font-size: 30rpx;
+  color: #1A202C;
+}
+
+.menu-arrow {
+  font-size: 36rpx;
+  color: #C0C8D4;
+}
+
+/* ========== 登录按钮 ========== */
+.login-btn {
+  margin-top: 24rpx;
+  width: 60%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #fff;
+  color: #5B6FE8;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.3);
+  transition: all 0.3s ease;
+}
+
+.login-btn::after { border: none; }
+
+/* ========== 底部协议 ========== */
+.footer-agreement {
+  text-align: center;
+  padding: 40rpx 0 80rpx;
+}
+
+.footer-agreement-text {
+  font-size: 22rpx;
+  color: #999;
+}
+
+
+/* 联系客服功能项高亮 */
+.func-item--contact .func-icon-wrap {
+  background: #FFF0F0 !important;
+}
+
+/* 底部安全区 */
+.safe-bottom {
+  height: env(safe-area-inset-bottom);
+  width: 100%;
+}

@@ -1,0 +1,54 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">售后记录</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <view class="content" style="padding-top: {{navHeight}}px;">
+    <!-- 申请售后按钮 -->
+    <view class="apply-banner" bindtap="goApply">
+      <view class="apply-left">
+        <text class="apply-icon">💬</text>
+        <view>
+          <text class="apply-title">遇到问题？</text>
+          <text class="apply-sub">提交售后申请，专业客服跟进处理</text>
+        </view>
+      </view>
+      <text class="apply-arrow">›</text>
+    </view>
+
+    <!-- 售后列表 -->
+    <view class="record-list" wx:if="{{records.length > 0}}">
+      <view
+        class="record-item"
+        wx:for="{{records}}"
+        wx:key="id"
+        bindtap="viewDetail"
+        data-record="{{item}}"
+      >
+        <view class="record-header">
+          <text class="record-id">单号：{{item.id}}</text>
+          <text class="record-status status-{{item.status}}">{{statusText[item.status]}}</text>
+        </view>
+        <view class="record-body">
+          <text class="record-product">{{item.productName || '订单'}}</text>
+          <text class="record-reason">原因：{{item.reason}}</text>
+          <text class="record-time">{{item.createTime}}</text>
+        </view>
+        <view class="record-footer">
+          <text class="record-category">【{{categoryText[item.category]}}】</text>
+          <text class="record-view">查看详情 ›</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{records.length === 0}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-title">暂无售后记录</text>
+      <text class="empty-desc">如果您在使用中遇到问题，可提交售后申请</text>
+    </view>
+  </view>
+</view>

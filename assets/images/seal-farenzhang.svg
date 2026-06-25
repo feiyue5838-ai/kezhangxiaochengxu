@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#00000022"/>
+    </filter>
+  </defs>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#c0392b" stroke-width="4"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+  <polygon points="100,40 108,68 138,68 113,84 122,112 100,96 78,112 87,84 62,68 92,68" fill="#c0392b" filter="url(#shadow)"/>
+  <text x="100" y="146" text-anchor="middle" font-family="serif" font-size="22" fill="#c0392b" font-weight="bold">法人章</text>
+</svg>

@@ -1,0 +1,80 @@
+<wxs module="colorUtils">
+module.exports = {
+  getTextColor: function(bgColor) {
+    // 深色主题（蓝/红/紫/深蓝）用白色文字
+    var darkColors = ['#5B6FE8','#9BA8FF','#7B8FF7','#F5222D','#FA8C16','#FAAD14','#8C8C8C','#52C41A'];
+    if (darkColors.indexOf(bgColor) !== -1) return '#fff';
+    return '#1A202C';
+  }
+}
+</wxs>
+
+<!-- pages/newspaper/index.wxml -->
+<view class="page" style="padding-top: {{navHeight}}px;">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-side nav-side--left"></view>
+      <text class="nav-title">在线登报</text>
+      <view class="nav-side nav-side--right"></view>
+    </view>
+  </view>
+
+  <!-- Hero 区域 -->
+  <view class="hero">
+    <view class="hero-glow-1"></view>
+    <view class="hero-glow-2"></view>
+    <text class="hero-label">NEWSPAPER AD</text>
+    <text class="hero-title">在线登报服务</text>
+    <text class="hero-subtitle">省级报刊 · 全国有效 · 当日见报</text>
+
+    <view class="hero-stats">
+      <view class="stat-item">
+        <text class="stat-num">500+</text>
+        <text class="stat-label">覆盖报刊</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">24h</text>
+        <text class="stat-label">当日见报</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">3步</text>
+        <text class="stat-label">轻松办理</text>
+      </view>
+    </view>
+
+    <view class="hero-badges">
+      <view class="badge"><text>当日见报</text></view>
+      <view class="badge"><text>正规有效</text></view>
+    </view>
+  </view>
+
+  <!-- 分类网格 -->
+  <view class="section">
+    <view class="category-grid">
+      <view
+        class="cat-card"
+        wx:for="{{categories}}"
+        wx:key="id"
+        bindtap="goToCategory"
+        data-id="{{item.id}}"
+      >
+        <view class="icon-wrap">
+          <image class="cat-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+        </view>
+        <text class="cat-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部信任栏 -->
+  <view class="trust-bar">
+    <view class="trust-line"></view>
+    <text class="trust-text">官方授权 · 真实有效 · 永久存档</text>
+    <view class="trust-line"></view>
+  </view>
+</view>
+
+<view class='safe-bottom'></view>

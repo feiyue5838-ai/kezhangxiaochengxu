@@ -1,0 +1,96 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">法院公告</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- Banner -->
+  <view class="banner" style="margin-top: {{navHeight}}px;">
+    <view class="banner-deco-circle"></view>
+    <view class="banner-deco-circle2"></view>
+    <text class="banner-title">法院公告登报</text>
+    <text class="banner-subtitle">涵盖{{categories.length}}大类 ·  全类型司法公告模板</text>
+    <view class="banner-tags">
+      <view class="banner-tag"><image src="/assets/icons/icon-idcard-shield.svg" mode="aspectFit" class="tag-icon" />司法权威</view>
+      <view class="banner-tag"><image src="/assets/icons/icon-idcard-check.svg" mode="aspectFit" class="tag-icon" />法院认可</view>
+    </view>
+  </view>
+
+  <!-- 分类卡片网格 -->
+  <view class="template-section">
+    <view class="template-grid">
+      <view
+        class="template-card {{item.id === selectedCategory ? 'selected' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="id"
+        bindtap="selectTemplate"
+        data-id="{{item.id}}"
+      >
+        <view class="card-top" style="--card-color: {{item.color || '#5B6FE8'}}">
+          <view class="card-dot" style="background: {{item.color || '#5B6FE8'}};"></view>
+          <view class="card-count" style="background: {{item.color || '#5B6FE8'}};">{{item.items.length}}</view>
+        </view>
+        <view class="card-body">
+          <text class="card-name">{{item.name}}</text>
+          <text class="card-desc">{{item.desc}}</text>
+        </view>
+        <view class="card-check" wx:if="{{item.id === selectedCategory}}" style="background: {{item.color || '#5B6FE8'}};">
+          <image src="/assets/icons/icon-wxml-1-a3deb6ec.svg" mode="aspectFit" class="check-icon" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 弹窗遮罩 -->
+  <view class="doc-mask" wx:if="{{showDocPicker}}" bindtap="closeDocPicker"></view>
+
+  <!-- 模板选择弹窗 -->
+  <view class="doc-picker {{showDocPicker ? 'doc-picker--show' : ''}}">
+    <view class="doc-picker-drag"><view class="drag-bar"></view></view>
+    <view class="doc-picker-header">
+      <view class="doc-picker-title-wrap">
+        <view class="doc-picker-dot" style="background: {{categories[pickedIndex].color}};"></view>
+        <text class="doc-picker-title">{{categories[pickedIndex].name}}</text>
+        <text class="doc-picker-subtitle">{{pickedItems.length}}个模板</text>
+      </view>
+      <view class="doc-picker-close" bindtap="closeDocPicker"><text>✕</text></view>
+    </view>
+    <view class="doc-picker-search">
+      <view class="doc-picker-search-wrap">
+        <input class="doc-picker-search-input"
+          value="{{searchKey}}"
+          bindinput="onSearch"
+          placeholder="搜索模板..."
+          confirm-type="search"
+        />
+      </view>
+    </view>
+    <scroll-view scroll-y class="doc-picker-body">
+      <view class="doc-grid">
+        <view class="doc-grid-item" wx:for="{{pickedItems}}" wx:key="name"
+          bindtap="selectItem" data-name="{{item.name}}"
+          style="--cat-color: {{categories[pickedIndex].color}};">
+          <view class="doc-grid-color" style="background: linear-gradient(135deg, {{categories[pickedIndex].color}}22, {{categories[pickedIndex].color}}08);"></view>
+          <view class="doc-grid-content">
+            <text class="doc-grid-name">{{item.name}}</text>
+          </view>
+        </view>
+        <view class="doc-empty" wx:if="{{pickedItems.length === 0}}">
+          <text class="doc-empty-text">没有找到匹配的模板</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 浮动客服按钮 -->
+  <view class="float-btn" style="top: {{floatBtnTop}}rpx;"
+    bindtouchstart="onFloatTouchStart"
+    bindtouchmove="onFloatTouchMove"
+    bindtouchend="onFloatTouchEnd"
+    bindtap="contactService">
+    <image class="float-btn-icon" src="/assets/icons/icon-wxml-8-25658b2b.svg" mode="aspectFit" />
+  </view>
+</view>
+

@@ -1,0 +1,21 @@
+<!--components/question-answer-module/index.wxml-->
+<view class="qa-section">
+  <view class="qa-header">
+    <text class="qa-title">反馈问答 ({{qaList.length}})</text>
+    <text class="qa-more" bindtap="viewAll">查看全部 ›</text>
+  </view>
+
+  <view class="qa-list">
+    <block wx:for="{{qaList}}" wx:key="id">
+      <view class="qa-item" wx:if="{{index < 3}}" bindtap="onQuestionTap" data-id="{{item.id}}">
+        <view class="qa-question-row">
+          <text class="qa-q-icon">Q</text>
+          <text class="qa-question">{{item.question}}</text>
+        </view>
+        <view class="qa-reply-row" wx:if="{{item.replyCount > 0}}">
+          <text class="qa-reply-count">{{item.replyCount}} 条回复</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

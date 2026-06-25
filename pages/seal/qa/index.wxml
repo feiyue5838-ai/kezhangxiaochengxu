@@ -1,0 +1,50 @@
+<!--pages/seal/qa/index.wxml-->
+<view class="page">
+  <view class="qa-header">
+    <text class="qa-total">共 {{qaList.length}} 个问答</text>
+  </view>
+
+  <view class="qa-list">
+    <view class="qa-item" wx:for="{{qaList}}" wx:key="id" bindtap="onItemTap" data-id="{{item.id}}">
+      <view class="qa-question-row">
+        <text class="qa-q-icon">Q</text>
+        <text class="qa-question">{{item.question}}</text>
+      </view>
+      <view class="qa-meta-row">
+        <text class="qa-reply-count">{{item.replyCount}} 条回复</text>
+        <text class="qa-arrow">›</text>
+      </view>
+      <!-- 展开回复 -->
+      <view class="qa-replies" wx:if="{{item.expanded}}">
+        <view class="reply-item" wx:for="{{item.replies}}" wx:for-item="reply" wx:key="idx">
+          <text class="reply-author">{{reply.author}}：</text>
+          <text class="reply-text">{{reply.text}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提问按钮 -->
+  <view class="bottom-bar">
+    <view class="ask-btn" bindtap="showAskPopup"><image src="/assets/icons/icon-wxml-25-fa9f82f7.svg" mode="aspectFit" style="width:20px;height:20px;margin-right:4px;vertical-align:middle" />我要提问</view>
+  </view>
+  <view class="bottom-placeholder"></view>
+
+  <!-- 提问弹窗 -->
+  <view class="ask-mask" wx:if="{{showAsk}}" bindtap="hideAskPopup">
+    <view class="ask-popup" catchtap="stopProp">
+      <view class="ask-popup-title">我要提问</view>
+      <textarea
+        class="ask-textarea"
+        placeholder="请输入您的问题..."
+        value="{{newQuestion}}"
+        bindinput="onQuestionInput"
+        maxlength="200"
+      />
+      <view class="ask-popup-actions">
+        <view class="ask-cancel" bindtap="hideAskPopup">取消</view>
+        <view class="ask-submit" bindtap="submitQuestion">提交</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+<!-- pages/newspaper/idcard-page.wxml -->
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">身份证登报</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- Banner -->
+  <view class="banner" style="margin-top: {{navHeight}}px;">
+    <view class="banner-deco-circle"></view>
+    <view class="banner-deco-circle2"></view>
+    <text class="banner-title">身份证登报</text>
+    <text class="banner-subtitle">安全可靠 · 当日见报</text>
+    <view class="banner-tags">
+      <view class="banner-tag"><image src="/assets/icons/icon-idcard-shield.svg" mode="aspectFit" class="tag-icon" />官方认证</view>
+      <view class="banner-tag"><image src="/assets/icons/icon-idcard-check.svg" mode="aspectFit" class="tag-icon" />快速办理</view>
+    </view>
+  </view>
+
+  <!-- 模板选择区域 -->
+  <view class="template-section">
+    <view class="template-grid">
+      <view 
+        class="template-card {{item.id === selectedTemplate ? 'selected' : ''}}"
+        wx:for="{{templates}}"
+        wx:key="id"
+        bindtap="selectTemplate"
+        data-id="{{item.id}}">
+        <view class="card-top" style="--card-color: {{item.color || '#5B6FE8'}}">
+          <view class="card-dot"></view>
+        </view>
+        <view class="card-body">
+          <text class="card-name">{{item.name}}</text>
+          <text class="card-desc">{{item.desc}}</text>
+        </view>
+        <view class="card-check" wx:if="{{item.id === selectedTemplate}}">
+          <image src="/assets/icons/icon-wxml-1-a3deb6ec.svg" mode="aspectFit" class="check-icon" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

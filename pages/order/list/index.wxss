@@ -1,0 +1,221 @@
+/* pages/order/list/index.wxss */
+
+.page {
+  min-height: 100vh;
+  background: #F8F7FC;
+}
+
+/* 鐎佃壈鍩呴弽?*/
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  background: #5B6FE8;
+}
+
+.nav-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  font-size: 44rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Tab閺?*/
+.tab-bar {
+  position: fixed;
+  top: 88rpx;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  display: flex;
+  background: #fff;
+  border-bottom: 1rpx solid #f0f0f0;
+  height: 58rpx;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #555;
+  position: relative;
+}
+
+.tab-item.active {
+  color: #5B6FE8;
+  font-weight: 600;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48rpx;
+  height: 6rpx;
+  background: #5B6FE8;
+  border-radius: 20rpx;
+}
+
+/* 鐠併垹宕熼崚妤勩€?*/
+.order-list {
+  padding: 24rpx;
+  padding-top: 32rpx;
+}
+
+.order-item {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-left {
+  flex: 1;
+  overflow: hidden;
+}
+
+.order-type-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.order-module {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A2332;
+}
+
+.order-status-tag {
+  font-size: 24rpx;
+  font-weight: 500;
+  padding: 6rpx 20rpx;
+  border-radius: 20rpx;
+}
+
+.order-status-tag.pending {
+  color: #fa8c16;
+  background: #fff7e6;
+}
+
+.order-status-tag.processing {
+  color: #5B6FE8;
+  background: #e6f7ff;
+}
+
+.order-status-tag.completed {
+  color: #52c41a;
+  background: #f6ffed;
+}
+
+.order-status-tag.refund {
+  color: #fa8c16;
+  background: #fff0e6;
+}
+
+.order-status-tag.cancelled {
+  color: #999;
+  background: #F8F7FC;
+}
+
+.order-desc {
+  font-size: 26rpx;
+  color: #555;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-date {
+  font-size: 24rpx;
+  color: #B0BBC8;
+  display: block;
+  margin-top: 8rpx;
+}
+
+.order-arrow {
+  font-size: 40rpx;
+  color: #B0BBC8;
+  margin-left: 20rpx;
+  flex-shrink: 0;
+}
+
+.order-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12rpx;
+  flex-shrink: 0;
+}
+
+.review-btn {
+  font-size: 22rpx;
+  color: #5B6FE8;
+  border: 1rpx solid #5B6FE8;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  line-height: 1;
+}
+
+.aftersale-btn {
+  font-size: 22rpx;
+  color: #fa8c16;
+  border: 1rpx solid #fa8c16;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  line-height: 1;
+}
+
+/* 缁岃櫣濮搁幀?*/
+.empty {
+  text-align: center;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}

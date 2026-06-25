@@ -1,0 +1,41 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">我的订单</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- Tab 切换栏 -->
+  <view class="tab-bar" style="top: {{navHeight + statusBarHeight}}px;">
+    <view
+      class="tab-item {{currentTab === index ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="index"
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >
+      <text class="tab-text">{{item}}</text>
+      <view class="tab-line" wx:if="{{currentTab === index}}"></view>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list" wx:if="{{filteredOrders.length > 0}}" style="margin-top: {{navHeight + 88}}rpx;">
+    <view class="order-item" wx:for="{{filteredOrders}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.id}}">
+      <view class="order-info">
+        <text class="order-title">{{item.type}}</text>
+        <text class="order-desc">{{item.desc}}</text>
+        <text class="order-date">{{item.date}}</text>
+      </view>
+      <view class="order-status {{item.statusClass || item.status}}">{{item.statusText || item.status}}</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-order" wx:else style="margin-top: {{navHeight + 88}}rpx;">
+    <image class="empty-icon" src="/assets/icons/icon-empty-order.svg" mode="aspectFit" />
+    <text class="empty-text">暂无订单</text>
+    <text class="empty-sub">快去选择报纸办理登报吧</text>
+  </view>
+</view>

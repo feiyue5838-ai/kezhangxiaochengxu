@@ -1,0 +1,7 @@
+.price-card{background:#fff;border-radius:20rpx;padding:24rpx}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:12rpx 0}
+.price-label{font-size:28rpx;color:var(--text-regular)}
+.price-value{font-size:28rpx;color:var(--text-primary);font-weight:500}
+.price-divider{height:1rpx;background:var(--border-color);margin:12rpx 0}
+.price-row.total .price-label{font-size:30rpx;font-weight:bold;color:var(--text-primary)}
+.price-value.orange{color:var(--primary-color);font-size:36rpx;font-weight:bold}

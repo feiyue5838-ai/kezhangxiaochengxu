@@ -1,0 +1,16 @@
+<!-- components/price-card/index.wxml -->
+<view class="price-card">
+  <view class="price-row">
+    <text class="price-label">基础费用</text>
+    <text class="price-value">¥{{basePrice}}</text>
+  </view>
+  <view class="price-row">
+    <text class="price-label">排版费</text>
+    <text class="price-value">¥{{layoutFee}}</text>
+  </view>
+  <view class="price-divider"></view>
+  <view class="price-row total">
+    <text class="price-label">合计</text>
+    <text class="price-value orange">¥{{total}}</text>
+  </view>
+</view>

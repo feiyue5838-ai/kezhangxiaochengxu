@@ -1,0 +1,105 @@
+/* pages/newspaper/company-docs/list.wxss */
+
+.page { background: #F8F7FC; min-height: 100vh; }
+
+/* ========== 鑷畾涔夊鑸�?- 娓愬彉澶撮儴椋庢�?========== */
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center;
+  padding: 0 32rpx;
+  background: linear-gradient(160deg, #5B6FE8 0%, #7B8FF7 60%, #5B6FE8 100%);
+}
+.nav-back {
+  width: 60rpx;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+.back-icon { font-size: 40rpx; color: #fff; font-weight: 300; line-height: 1; }
+
+.nav-title {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-size: 34rpx; font-weight: 600; color: #fff;
+  max-width: 400rpx;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nav-placeholder { width: 60rpx; }
+
+/* ========== 鎼滅储鏍?- 鐧借壊鑳屾櫙椋庢牸 ========== */
+.search-wrap {
+  background: linear-gradient(160deg, #5B6FE8 0%, #7B8FF7 60%, #5B6FE8 100%);
+  padding: 0 32rpx 24rpx;
+}
+
+.search-bar {
+  display: flex; align-items: center;
+  background: #F8F7FC;
+  border-radius: 20rpx;
+  padding: 16rpx 24rpx;
+  box-shadow: inset 0 2rpx 6rpx rgb(0 0 0 / 0.03);
+}
+.search-input { flex: 1; height: auto; font-size: 27rpx; color: #1A2332; }
+.search-placeholder { color: #8C97A6; font-size: 27rpx; }
+.search-clear { margin-left: 12rpx; width: 40rpx; height: 40rpx; padding: 10rpx; display: flex; align-items: center; justify-content: center; }
+
+/* ========== 婊氬姩鍖哄煙 ========== */
+.doc-scroll { height: calc(100vh - var(--nav-h, 64px) - 46px); }
+
+/* ========== 鍙屽垪缃戞牸 ========== */
+.doc-grid { display: flex; flex-wrap: wrap; padding: 16rpx 24rpx; }
+
+.doc-card {
+  width: calc(50% - 16rpx);
+  background: #fff;
+  border-radius: 20rpx;
+  margin: 8rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 16rpx rgb(12 26 46 / 0.03);
+  display: flex; align-items: center;
+  box-sizing: border-box; position: relative; overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.doc-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 4rpx 20rpx rgb(12 26 46 / 0.08);
+  background: #F8F7FC;
+}
+
+/* 宸︿晶褰╄壊绔栨潯瑁呴グ */
+.doc-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4rpx;
+  background: linear-gradient(180deg, var(--cat-color, #5B6FE8), var(--cat-color, #5B6FE8)88);
+  border-radius: 20rpx;
+}
+
+/* 鍥炬爣瀹瑰�? */
+.doc-icon-wrap {
+  width: 56rpx; height: 56rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, var(--cat-color, #5B6FE8)18, var(--cat-color, #5B6FE8)0C);
+  display: flex; align-items: center; justify-content: center;
+  margin-right: 16rpx; flex-shrink: 0;
+}
+.doc-icon-img { width: 32rpx; height: 32rpx; }
+
+.doc-info { flex: 1; overflow: hidden; }
+
+.doc-name {
+  font-size: 24rpx; color: #1A2332; line-height: 1.4;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: 500; display: block;
+}
+.doc-arrow { font-size: 34rpx; color: #D5DDE8; flex-shrink: 0; margin-left: 8rpx; }
+
+/* ========== 绌虹姸鎬?========== */
+.empty-state { display: flex; flex-direction: column; align-items: center; padding: 120rpx 0; }
+.empty-icon-img { width: 80rpx; height: 80rpx; margin-bottom: 24rpx; opacity: 0.4; }
+.empty-text { font-size: 28rpx; color: #8C97A6; }

@@ -1,0 +1,197 @@
+/* pages/seal/qa/index.wxss */
+.page {
+  background: var(--bg-color);
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.qa-header {
+  background: var(--bg-white);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.qa-total {
+  font-size: 28rpx;
+  color: var(--text-regular);
+}
+
+.qa-item {
+  background: var(--bg-white);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.qa-question-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 12rpx;
+}
+
+.qa-q-icon {
+  display: inline-block;
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  background: var(--primary-color);
+  color: var(--bg-white);
+  font-size: 22rpx;
+  font-weight: bold;
+  border-radius: 20rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.qa-question {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.qa-meta-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 32rpx;
+}
+
+.qa-reply-count {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.qa-arrow {
+  font-size: 28rpx;
+  color: var(--text-disabled);
+}
+
+.qa-replies {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  background: var(--bg-light);
+  border-radius: 20rpx;
+}
+
+.reply-item {
+  margin-bottom: 12rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.reply-item:last-child {
+  margin-bottom: 0;
+}
+
+.reply-author {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.reply-text {
+  color: var(--text-regular);
+}
+
+/* 底部提问按钮 */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-white);
+  padding: 16rpx 30rpx;
+  box-shadow: 0 -2rpx 12rpx rgb(0 0 0 / 0.06);
+  z-index: 999;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  transition: all 0.3s ease;
+}
+
+.ask-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: var(--bg-white);
+  font-size: 32rpx;
+  font-weight: bold;
+  border-radius: 20rpx;
+}
+
+.bottom-placeholder {
+  height: 140rpx;
+}
+
+/* 提问弹窗 */
+.ask-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgb(0 0 0 / 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.ask-popup {
+  width: 100%;
+  background: var(--bg-white);
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 40rpx 30rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.ask-popup-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.ask-textarea {
+  width: 100%;
+  height: 200rpx;
+  background: var(--bg-color);
+  border-radius: 20rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  color: var(--text-primary);
+}
+
+.ask-popup-actions {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30rpx;
+  gap: 24rpx;
+}
+
+.ask-cancel {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background: var(--bg-light);
+  color: var(--text-regular);
+  font-size: 30rpx;
+  border-radius: 20rpx;
+}
+
+.ask-submit {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: var(--bg-white);
+  font-size: 30rpx;
+  font-weight: bold;
+  border-radius: 20rpx;
+}

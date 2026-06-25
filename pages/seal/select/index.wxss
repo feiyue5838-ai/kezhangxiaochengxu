@@ -1,0 +1,116 @@
+/* pages/seal/select/index.wxss */
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+
+.nav-back {
+  width: 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+
+page {
+  background: var(--bg-color);
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 閺嶅洭顣介崠? */
+.section-title {
+  padding: 30rpx 30rpx 10rpx;
+}
+
+.title-text {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+/* 2閸掓缍夐弽? */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24rpx;
+  padding: 20rpx 30rpx;
+}
+
+/* 閸楋紕澧栭崺铏诡攨閺嶅嘲绱? */
+.cat-card {
+  background: var(--bg-white);
+  border-radius: 20rpx;
+  border: 2rpx solid var(--primary-color);
+  padding: 40rpx 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.cat-name {
+  font-size: 30rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* 瀹告煡鈧鑵戦悩鑸碘偓? */
+.cat-card-selected {
+  background: var(--primary-bg);
+  border-color: var(--primary-color);
+}
+
+.cat-card-selected .cat-name {
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* 閸欏厖绗傜憴鎺戝瑎闁顫楅弽? */
+.selected-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 36rpx solid var(--primary-color);
+  border-left: 36rpx solid transparent;
+}
+
+.selected-icon {
+  position: absolute;
+  top: -28rpx;
+  right: 4rpx;
+  width: 24rpx;
+  height: 24rpx;
+}

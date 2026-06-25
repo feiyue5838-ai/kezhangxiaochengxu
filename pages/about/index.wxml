@@ -1,0 +1,67 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-back" bindtap="onBack">‹</view>
+      <text class="nav-title">关于我们</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <view class="about-wrap">
+
+    <!-- Logo区 -->
+    <view class="logo-section">
+      <view class="logo-icon">
+        <image src="/images/icon-cert.png" mode="aspectFit" />
+      </view>
+      <text class="app-name">蓉城企服</text>
+      <text class="app-version">v1.0.0 正式版</text>
+    </view>
+
+    <!-- 介绍卡片 -->
+    <view class="info-card">
+      <view class="info-desc">
+        蓉城企服是成都本土企业服务一站式平台，致力于为广大企业主及个人用户提供便捷、高效、专业的证件办理、印章刻制、公告刊登等服务。
+      </view>
+
+      <view class="feature-grid">
+        <view class="feature-item" wx:for="{{features}}" wx:key="id">
+          <image class="feature-icon" src="{{item.icon}}" mode="aspectFit" />
+          <text class="feature-text">{{item.name}}</text>
+        </view>
+      </view>
+
+      <view class="divider"></view>
+
+      <!-- 联系方式 -->
+      <view class="contact-list">
+        <view class="contact-item">
+          <image class="contact-icon" src="/assets/icons/icon-phone-circle.svg" mode="aspectFit" />
+          <text class="contact-label">客服热线</text>
+          <text class="contact-value">400-888-6666</text>
+        </view>
+        <view class="contact-item" bindtap="onCopyWechat">
+          <image class="contact-icon" src="/assets/icons/icon-chat.svg" mode="aspectFit" />
+          <text class="contact-label">微信公众号</text>
+          <text class="contact-value">蓉城企服</text>
+        </view>
+        <view class="contact-item">
+          <image class="contact-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
+          <text class="contact-label">公司地址</text>
+          <text class="contact-value">四川省成都市高新区天府大道中段XXX号</text>
+        </view>
+        <view class="contact-item">
+          <image class="contact-icon" src="/assets/icons/icon-bell.svg" mode="aspectFit" />
+          <text class="contact-label">服务时间</text>
+          <text class="contact-value">周一至周五 9:00-18:00</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部 -->
+    <view class="footer-note">
+      <text>© 2026 蓉城企服 All Rights Reserved\n成都蓉城信息服务有限公司</text>
+    </view>
+  </view>
+</view>

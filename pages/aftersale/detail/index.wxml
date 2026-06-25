@@ -1,0 +1,84 @@
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <text class="nav-title">售后详情</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <view class="content" style="padding-top: {{navHeight}}px;">
+    <!-- 状态卡片 -->
+    <view class="status-card">
+      <text class="status-icon {{record.status}}">{{statusIcon[record.status]}}</text>
+      <text class="status-label">{{statusText[record.status]}}</text>
+    </view>
+
+    <!-- 进度时间线 -->
+    <view class="timeline-section">
+      <text class="section-title">处理进度</text>
+      <view class="timeline">
+        <view
+          class="timeline-item {{item.time ? 'done' : (index === nextIndex ? 'active' : '')}}"
+          wx:for="{{record.timeline}}"
+          wx:key="index"
+        >
+          <view class="timeline-dot">
+            <view class="dot-inner" wx:if="{{item.time || index === nextIndex}}"></view>
+          </view>
+          <view class="timeline-line" wx:if="{{index < record.timeline.length - 1}}"></view>
+          <view class="timeline-content">
+            <text class="timeline-title">{{item.title}}</text>
+            <text class="timeline-time" wx:if="{{item.time}}">{{item.time}}</text>
+            <text class="timeline-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 售后信息 -->
+    <view class="info-section">
+      <text class="section-title">售后信息</text>
+      <view class="info-row">
+        <text class="info-label">售后类型</text>
+        <text class="info-value">【{{categoryText[record.category]}}】</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">联系电话</text>
+        <text class="info-value">{{record.phone}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">提交时间</text>
+        <text class="info-value">{{record.createTime}}</text>
+      </view>
+      <view class="info-row" wx:if="{{record.productName}}">
+        <text class="info-label">关联订单</text>
+        <text class="info-value">{{record.productName}}</text>
+      </view>
+      <view class="info-row align-top">
+        <text class="info-label">问题描述</text>
+        <text class="info-value reason-text">{{record.reason}}</text>
+      </view>
+    </view>
+
+    <!-- 凭证图片 -->
+    <view class="info-section" wx:if="{{record.images && record.images.length > 0}}">
+      <text class="section-title">上传凭证</text>
+      <view class="image-grid">
+        <image
+          wx:for="{{record.images}}"
+          wx:key="*this"
+          src="{{item}}"
+          mode="aspectFill"
+          class="evidence-img"
+          bindtap="previewImage"
+          data-src="{{item}}"
+        />
+      </view>
+    </view>
+
+    <!-- 撤销按钮（仅待处理状态可撤销） -->
+    <view class="cancel-section" wx:if="{{record.status === 'pending'}}">
+      <view class="cancel-btn" bindtap="cancelApply">撤销申请</view>
+    </view>
+  </view>
+</view>

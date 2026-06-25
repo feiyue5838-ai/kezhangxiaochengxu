@@ -1,0 +1,15 @@
+<!-- components/template-select-grid/index.wxml -->
+<view class="template-grid">
+  <view class="grid-2x2">
+    <view 
+      class="grid-item {{item.id === selectedId ? 'selected' : ''}}"
+      wx:for="{{templates}}"
+      wx:key="id"
+      bindtap="selectTemplate"
+      data-id="{{item.id}}">
+      <view class="item-check" wx:if="{{item.id === selectedId}}"><image src="/assets/icons/icon-wxml-1-a3deb6ec.svg" mode="aspectFit" class="check-icon"/></view>
+      <view class="item-name">{{item.name}}</view>
+      <view class="item-desc">{{item.desc}}</view>
+    </view>
+  </view>
+</view>

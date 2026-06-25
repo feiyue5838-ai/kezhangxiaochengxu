@@ -1,0 +1,25 @@
+<!--components/user-comment-block/index.wxml-->
+<view class="comment-section">
+  <view class="comment-header">
+    <text class="comment-title">用户评价 ({{commentList.length}})</text>
+    <text class="comment-more" bindtap="viewAll">查看全部 ›</text>
+  </view>
+
+  <view class="comment-list">
+    <block wx:for="{{commentList}}" wx:key="id">
+      <view class="comment-item" wx:if="{{index < 3}}">
+        <view class="comment-top">
+          <text class="comment-phone">{{item.maskedPhone}}</text>
+          <text class="comment-date">{{item.date}}</text>
+        </view>
+        <view class="comment-stars">
+          <image class="star" wx:for="{{item.serviceStars}}" wx:for-item="starSrc" wx:for-index="si" src="{{starSrc}}" mode="aspectFit" />
+          <text class="star-label">服务态度</text>
+          <image class="star" wx:for="{{item.qualityStars}}" wx:for-item="starSrc" wx:for-index="qi" src="{{starSrc}}" mode="aspectFit" />
+          <text class="star-label">刻章质量</text>
+        </view>
+        <text class="comment-text">{{item.text}}</text>
+      </view>
+    </block>
+  </view>
+</view>
