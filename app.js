@@ -126,11 +126,11 @@ App({
    */
   _calculateNavigationHeight() {
     let statusBarHeight = 20;
-    let navHeight = 64;
+    let navHeight = 80;  // 20 + 60
     try {
       const sysInfo = wx.getDeviceInfo ? wx.getDeviceInfo() : wx.getSystemInfoSync();
       statusBarHeight = sysInfo.statusBarHeight || 20;
-      navHeight = statusBarHeight + 44;
+      navHeight = statusBarHeight + 60;  // 改成 60px 内容区
     } catch (e) {
       // 使用默认值
     }
