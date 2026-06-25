@@ -1,4 +1,4 @@
-// app.js
+﻿// app.js
 const auth = require('./utils/auth.js');
 
 App({
@@ -126,11 +126,11 @@ App({
    */
   _calculateNavigationHeight() {
     let statusBarHeight = 20;
-    let navHeight = 80;  // 20 + 60
+    let navHeight = 84;  // 20 + 64
     try {
       const sysInfo = wx.getDeviceInfo ? wx.getDeviceInfo() : wx.getSystemInfoSync();
       statusBarHeight = sysInfo.statusBarHeight || 20;
-      navHeight = statusBarHeight + 60;  // 改成 60px 内容区
+      navHeight = statusBarHeight + 64;  // 改成 64px 内容区
     } catch (e) {
       // 使用默认值
     }
