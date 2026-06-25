@@ -29,7 +29,7 @@ page {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120rpx;  /* 改成 60px (120rpx) */
+  height: 120rpx;  /* 首页自定义：60px */
   padding: 0 32rpx;
 }
 

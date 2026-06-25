@@ -26,8 +26,13 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
+    // 使用自定义导航栏高度（60px），而不是全局的 44px
+    const app = getApp();
+    const globalNav = app.globalData.navigationHeight;
+    this.setData({
+      statusBarHeight: globalNav.statusBarHeight,
+      navHeight: globalNav.statusBarHeight + 60  // 首页用 60px
+    });
     if (wx.getPrivacySetting) {
       wx.getPrivacySetting({
         success: (res) => {
