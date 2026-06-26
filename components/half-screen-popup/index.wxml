@@ -6,7 +6,7 @@
     style="height: {{topPreviewHeight}}px;"
     catchtap="onPreviewTap"
   >
-    <view class="top-preview-card" style="padding-top: {{statusBarHeight + 64}}px;">
+    <view class="top-preview-card" style="padding-top: 64px;">
       <!-- 状态栏占位（高度 = statusBarHeight，透明，让紫色渐变延伸到屏幕顶部） -->
       <!-- 顶部导航（紫色渐变区内，64px） -->
       <view class="top-preview-header">
