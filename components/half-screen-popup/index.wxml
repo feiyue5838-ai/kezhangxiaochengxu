@@ -2,7 +2,7 @@
 <view class="mask {{show ? 'mask-visible' : ''}}" bindtap="onMaskTap" wx:if="{{visible}}">
   <!-- 上半屏预览浮窗 -->
   <view class="top-preview {{(selectedSealImg || previewSeals.length) ? 'top-preview-show' : ''}}" catchtap="onPreviewTap">
-    <view class="top-preview-card" style="padding-top: {{statusBarHeight}}px;">
+    <view class="top-preview-card">
       <!-- 导航栏（64px，与首页一致） -->
       <view class="top-preview-nav-bar">
         <view class="top-preview-nav-content">

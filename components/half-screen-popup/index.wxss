@@ -247,7 +247,7 @@
   justify-content: flex-start;
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
   border-radius: 0;
-  padding-top: 0;
+  padding-top: 64px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
