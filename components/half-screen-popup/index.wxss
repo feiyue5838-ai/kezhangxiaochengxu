@@ -294,14 +294,13 @@
 .top-preview-nav-bar {
   width: 100%;
   height: 64px;
-  background: transparent;
+  background: #ffffff;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   flex-shrink: 0;
   overflow: visible;
-  /* 添加底部边框，让导航栏与内容区视觉分离 */
-  border-bottom: 1rpx solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1rpx solid #f0f2f5;
 }
 
 .top-preview-nav-content {
@@ -317,7 +316,7 @@
 .top-preview-nav-title {
   font-size: 34rpx;
   font-weight: 600;
-  color: #ffffff;
+  color: #1a202c;
 }
 
 .top-preview-nav-left {
@@ -336,7 +335,6 @@
 .top-preview-nav-close .close-icon {
   width: 36rpx;
   height: 36rpx;
-  filter: brightness(0) invert(1);  /* 白色滤镜，让深色图标变白 */
 }
 
 /* 套餐单张左右滑动 */
