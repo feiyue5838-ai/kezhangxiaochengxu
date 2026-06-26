@@ -243,7 +243,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--bg-color);
+  background: var(--bg-color, #F8F7FC);
   border-radius: 0 0 24rpx 24rpx;
   width: 100%;
   height: 100%;
