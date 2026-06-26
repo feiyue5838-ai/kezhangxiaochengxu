@@ -166,35 +166,41 @@
 .fixed-nav-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 64px;
   z-index: 1002;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32rpx;
   box-sizing: border-box;
+  /* height+padding-top 由 inline style 动态提供 */
 }
 
 .fixed-nav-left {
   width: 60rpx;
-  height: 60rpx;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .fixed-nav-left .nav-back-arrow {
-  font-size: 56rpx;
-  color: #ffffff;
-  line-height: 1;
+  font-size: 40rpx;
+  color: #fff;
   font-weight: 300;
+  line-height: 1;
 }
 
 .fixed-nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 34rpx;
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .fixed-nav-close {
@@ -202,7 +208,8 @@
   align-items: center;
   justify-content: center;
   width: 60rpx;
-  height: 60rpx;
+  height: 100%;
+  flex-shrink: 0;
 }
 
 .fixed-nav-close .close-icon {
