@@ -315,7 +315,7 @@
 .top-preview-nav-title {
   font-size: 34rpx;
   font-weight: 600;
-  color: #1a202c;
+  color: #ffffff;
 }
 
 .top-preview-nav-left {
@@ -334,6 +334,7 @@
 .top-preview-nav-close .close-icon {
   width: 36rpx;
   height: 36rpx;
+  filter: brightness(0) invert(1);  /* 白色滤镜，让深色图标变白 */
 }
 
 /* 套餐单张左右滑动 */
