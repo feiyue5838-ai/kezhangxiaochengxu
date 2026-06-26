@@ -211,8 +211,8 @@ Component({
     attached() {
       const sys = wx.getSystemInfoSync();
       const statusBarHeight = sys.statusBarHeight;
-      // 上半屏总高度 = 64（状态栏+导航合并） + 356rpx（内容区）
-      const topPreviewHeight = 64 + Math.round(356 / 750 * sys.windowWidth);
+      // 上半屏预览内容区高度（导航栏64px已独立为固定元素，在顶部）
+      const topPreviewHeight = Math.round(380 / 750 * sys.windowWidth);
       this.setData({ statusBarHeight, topPreviewHeight });
     }
   },
