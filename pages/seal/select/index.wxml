@@ -34,6 +34,7 @@
   <half-screen-popup
     id="sealPopup"
     title="{{popupTitle}}"
+    source-title="{{pageTitle}}"
     bind:confirm="onSealConfirm"
   />
   </view>

@@ -1,16 +1,20 @@
 ﻿// components/half-screen-popup/index.js
 Component({
   properties: {
-    title: { type: String, value: '个体户' }
+    title: { type: String, value: '个体户' },
+    // 来源页面导航栏标题，用于弹窗顶部导航显示（如"个人印章"）
+    sourceTitle: { type: String, value: '印章预览' }
   },
 
   data: {
     statusBarHeight: 20,
+    topPreviewHeight: 420, // 上半屏高度（64 导航 + 356 内容区），动态计算覆盖
     visible: false,
     show: false,
     selectedIds: [],
     selectedSealImg: '',
     selectedSealName: '',
+    selectedSealDesc: '',
     previewSeals: [],
     previewCurrent: 0,
 
@@ -180,8 +184,38 @@ Component({
   lifetimes: {
     attached() {
       const sys = wx.getSystemInfoSync();
-      this.setData({ statusBarHeight: sys.statusBarHeight });
+      const statusBarHeight = sys.statusBarHeight;
+      // 上半屏总高度 = 状态栏 + 64（导航） + 356（内容区 rpx 转 px 用 750rpx 视口）
+      // 356rpx = 356 / 750 * sys.windowWidth
+      const topPreviewHeight = statusBarHeight + 64 + Math.round(356 / 750 * sys.windowWidth);
+      this.setData({ statusBarHeight, topPreviewHeight });
     }
+  },
+
+  // 印章用途描述映射（个人/职业类印章）
+  sealDescMap: {
+    s26: '个人签名章，适用于个人文件签署',
+    s27: '适用于拆迁协议、买房合同签署',
+    s28: '适用于公证处公证文件',
+    s29: '适用于企业内部员工身份证明',
+    s30: '一级造价工程师执业印章',
+    s31: '一级注册建造师执业印章',
+    s32: '一级注册结构工程师执业印章',
+    s33: '注册监理工程师执业印章',
+    s34: '二级注册建筑师执业印章',
+    s35: '电气工程师执业印章',
+    s36: '房地产评估师执业印章',
+    s37: '会计师执业印章',
+    s38: '项目经理执业印章',
+    s39: '二级造价工程师执业印章',
+    s40: '二级注册建造师执业印章',
+    s41: '二级注册结构工程师执业印章',
+    s42: '一级注册建筑师执业印章',
+    s43: '土木工程师执业印章',
+    s44: '化工工程师执业印章',
+    s45: '执业律师执业印章',
+    s46: '税务师执业印章',
+    s47: '其他职业印章（请在下单时备注）'
   },
 
   methods: {
@@ -229,6 +263,7 @@ Component({
           selectedIds: [],
           selectedSealImg: '',
           selectedSealName: '',
+          selectedSealDesc: '',
           previewSeals: [],
           previewCurrent: 0
         });
@@ -240,7 +275,7 @@ Component({
     preventClose() {},
 
     onPreviewTap() {
-      this.setData({ selectedSealImg: '', selectedSealName: '', previewSeals: [], previewCurrent: 0 });
+      this.setData({ selectedSealImg: '', selectedSealName: '', selectedSealDesc: '', previewSeals: [], previewCurrent: 0 });
     },
 
     onSwiperChange(e) {
@@ -266,28 +301,37 @@ Component({
       this._updatePreview();
     },
 
+    _resolveSealDesc(ids) {
+      if (!ids || !ids.length) return '';
+      const id = ids[0];
+      return this.sealDescMap[id] || '';
+    },
+
 
     _updatePreview() {
       const all = this.data.singleSeals.concat(this.data.packages);
       const chosen = this.data.selectedIds.map(sid => all.find(s => s.id === sid)).filter(Boolean);
       if (chosen.length === 0) {
-        this.setData({ selectedSealImg: '', selectedSealName: '', previewSeals: [], previewCurrent: 0 });
+        this.setData({ selectedSealImg: '', selectedSealName: '', selectedSealDesc: '', previewSeals: [], previewCurrent: 0 });
         return;
       }
       if (chosen.length === 1 && chosen[0].img) {
-        this.setData({ selectedSealImg: chosen[0].img, selectedSealName: chosen[0].name, previewSeals: [], previewCurrent: 0 });
+        const desc = this._resolveSealDesc(this.data.selectedIds);
+        this.setData({ selectedSealImg: chosen[0].img, selectedSealName: chosen[0].name, selectedSealDesc: desc, previewSeals: [], previewCurrent: 0 });
       } else if (chosen.length === 1 && chosen[0].seals) {
         const seals = chosen[0].seals.map(sid => {
           const s = this.data.singleSeals.find(x => x.id === sid);
           return s ? { name: s.name, img: s.img } : null;
         }).filter(Boolean);
-        this.setData({ selectedSealImg: '', selectedSealName: chosen[0].name, previewSeals: seals, previewCurrent: 0 });
+        const desc = this._resolveSealDesc(this.data.selectedIds);
+        this.setData({ selectedSealImg: '', selectedSealName: chosen[0].name, selectedSealDesc: desc, previewSeals: seals, previewCurrent: 0 });
       } else {
         // 多选：收集所有图片
         const imgs = chosen.map(c => c.img).filter(Boolean);
         const firstImg = imgs[0] || '';
         const nameStr = chosen.map(c => c.name).join(' + ');
-        this.setData({ selectedSealImg: firstImg, selectedSealName: nameStr, previewSeals: [], previewCurrent: 0 });
+        const desc = this._resolveSealDesc(this.data.selectedIds);
+        this.setData({ selectedSealImg: firstImg, selectedSealName: nameStr, selectedSealDesc: desc, previewSeals: [], previewCurrent: 0 });
       }
     },
 
