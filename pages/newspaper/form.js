@@ -1,4 +1,4 @@
-const common = require('../../utils/common.js');
+﻿const common = require('../../utils/common.js');
 const paperConfig = require('../../utils/newspaper-papers.js');
 
 Page({
@@ -33,7 +33,8 @@ Page({
 
   onLoad(options) {
     // 导航栏高度
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
 
     const { type } = options;

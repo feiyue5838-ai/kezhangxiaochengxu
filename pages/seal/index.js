@@ -1,4 +1,4 @@
-// pages/seal/index.js
+﻿// pages/seal/index.js
 const common = require('../../utils/common.js');
 
 Page({
@@ -15,7 +15,9 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    // 固定 64px，与首页一致
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight, subCategories: this.data.categories.slice(1) });
   },
 

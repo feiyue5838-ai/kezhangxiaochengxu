@@ -1,4 +1,4 @@
-const common = require('../../utils/common.js');
+﻿const common = require('../../utils/common.js');
 
 Page({
   data: {
@@ -24,7 +24,8 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
     const userInfo = wx.getStorageSync('userInfo');
     if (userInfo) this.setData({ userInfo });

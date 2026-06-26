@@ -1,4 +1,4 @@
-const common = require('../../../utils/common.js');
+﻿const common = require('../../../utils/common.js');
 
 Page({
   data: {
@@ -30,7 +30,8 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
     const record = wx.getStorageSync('aftersaleCurrent') || {};
     // 计算nextIndex：找到第一个没有时间的条目

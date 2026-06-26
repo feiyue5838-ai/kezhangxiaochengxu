@@ -2,21 +2,34 @@
 <view class="mask {{show ? 'mask-visible' : ''}}" bindtap="onMaskTap" wx:if="{{visible}}">
   <!-- 上半屏预览浮窗 -->
   <view class="top-preview {{(selectedSealImg || previewSeals.length) ? 'top-preview-show' : ''}}" catchtap="onPreviewTap">
-    <view class="top-preview-card">
-      <image wx:if="{{selectedSealImg}}" class="top-preview-img" src="{{selectedSealImg}}" mode="aspectFit" />
-      <swiper wx:if="{{previewSeals.length}}" class="top-preview-swiper" current="{{previewCurrent}}" bindchange="onSwiperChange" key="{{previewSeals.length}}">
-        <swiper-item wx:for="{{previewSeals}}" wx:key="name">
-          <view class="preview-seal-item">
-            <image class="preview-seal-img" src="{{item.img}}" mode="aspectFit" />
-            <text class="preview-seal-name">{{item.name}}</text>
+    <view class="top-preview-card" style="padding-top: {{statusBarHeight}}px;">
+      <!-- 导航栏（64px，与首页一致） -->
+      <view class="top-preview-nav-bar">
+        <view class="top-preview-nav-content">
+          <view class="top-preview-nav-left"></view>
+          <text class="top-preview-nav-title">印章预览</text>
+          <view class="top-preview-nav-close" catchtap="onPreviewTap">
+            <image src="/assets/icons/icon-wxml-0-5e074464.svg" mode="aspectFit" class="close-icon"/>
           </view>
-        </swiper-item>
-      </swiper>
-      <view wx:if="{{previewSeals.length > 1}}" class="swiper-dots">
-        <view class="swiper-dot {{previewCurrent === index ? 'swiper-dot-active' : ''}}" wx:for="{{previewSeals}}" wx:key="name"></view>
+        </view>
       </view>
-      <text class="top-preview-name">{{selectedSealName}}</text>
-      <text class="top-preview-hint">点击收起</text>
+
+      <view class="top-preview-content">
+        <image wx:if="{{selectedSealImg}}" class="top-preview-img" src="{{selectedSealImg}}" mode="aspectFit" />
+        <swiper wx:if="{{previewSeals.length}}" class="top-preview-swiper" current="{{previewCurrent}}" bindchange="onSwiperChange" key="{{previewSeals.length}}">
+          <swiper-item wx:for="{{previewSeals}}" wx:key="name">
+            <view class="preview-seal-item">
+              <image class="preview-seal-img" src="{{item.img}}" mode="aspectFit" />
+              <text class="preview-seal-name">{{item.name}}</text>
+            </view>
+          </swiper-item>
+        </swiper>
+        <view wx:if="{{previewSeals.length > 1}}" class="swiper-dots">
+          <view class="swiper-dot {{previewCurrent === index ? 'swiper-dot-active' : ''}}" wx:for="{{previewSeals}}" wx:key="name"></view>
+        </view>
+        <text class="top-preview-name">{{selectedSealName}}</text>
+        <text class="top-preview-hint">点击收起</text>
+      </view>
     </view>
   </view>
 
@@ -24,10 +37,7 @@
     <view class="drag-bar-wrap" bindtap="onClose">
       <view class="drag-bar"></view>
     </view>
-    <view class="popup-header">
-      <text class="popup-title">{{title}}·印章选择</text>
-      <view class="close-btn" bindtap="onClose"><image src="/assets/icons/icon-wxml-0-5e074464.svg" mode="aspectFit" class="close-icon"/></view>
-    </view>
+
     <scroll-view class="popup-body" scroll-y>
       <view class="section-label" wx:if="{{filteredSingleSeals.length > 0}}">单枚印章</view>
       <view class="seal-grid">

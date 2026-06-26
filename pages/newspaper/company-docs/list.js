@@ -1,4 +1,4 @@
-// pages/newspaper/company-docs/list.js
+﻿// pages/newspaper/company-docs/list.js
 const common = require('../../../utils/common.js');
 const companyDocsConfig = require('../../../utils/company-docs.js');
 
@@ -15,7 +15,8 @@ Page({
 
   onLoad(options) {
     // 计算导航栏高度
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
 
     const categoryId = parseInt(options.categoryId);

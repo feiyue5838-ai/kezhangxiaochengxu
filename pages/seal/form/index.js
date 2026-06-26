@@ -1,4 +1,4 @@
-// pages/seal/form/index.js
+﻿// pages/seal/form/index.js
 const common = require('../../../utils/common.js');
 
 Page({
@@ -53,7 +53,8 @@ Page({
 
   onLoad(options) {
     // 从全局数据读取导航栏高度（app.js 已计算）
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
 
     // 清除旧流程数据，避免各入口互相影响

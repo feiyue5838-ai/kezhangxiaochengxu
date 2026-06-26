@@ -1,4 +1,4 @@
-// pages/invoice/edit/index.js
+﻿// pages/invoice/edit/index.js
 const common = require('../../../utils/common.js');
 
 Page({
@@ -31,7 +31,8 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
 
     // 读取已有发票信息

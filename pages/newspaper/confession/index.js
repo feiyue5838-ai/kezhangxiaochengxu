@@ -1,4 +1,4 @@
-// pages/newspaper/confession/index.js
+﻿// pages/newspaper/confession/index.js
 const common = require('../../../utils/common.js');
 const confessionConfig = require('../../../utils/confession.js');
 
@@ -28,7 +28,8 @@ Page({
   onLoad() {
     this._floatDragStart = null;
     this._floatMoved = false;
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
   },
 

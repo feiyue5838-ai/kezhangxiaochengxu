@@ -1,4 +1,4 @@
-// pages/newspaper/order.js
+﻿// pages/newspaper/order.js
 const common = require('../../utils/common.js');
 const STORAGE_KEY = 'newspaper_orders';
 
@@ -14,7 +14,8 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
   },
 

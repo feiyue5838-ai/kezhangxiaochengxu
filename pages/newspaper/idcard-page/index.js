@@ -1,4 +1,4 @@
-// pages/newspaper/idcard-page.js
+﻿// pages/newspaper/idcard-page.js
 const common = require('../../../utils/common.js');
 
 Page({
@@ -41,7 +41,8 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({
       statusBarHeight,
       navHeight,

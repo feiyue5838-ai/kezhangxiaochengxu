@@ -1,4 +1,4 @@
-// pages/newspaper/announcement/index.js
+﻿// pages/newspaper/announcement/index.js
 const common = require('../../../utils/common.js');
 const announcementConfig = require('../../../utils/announcement.js');
 
@@ -25,7 +25,8 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
   },
 

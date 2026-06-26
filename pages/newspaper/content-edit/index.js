@@ -1,4 +1,4 @@
-const common = require('../../../utils/common.js');
+﻿const common = require('../../../utils/common.js');
 
 Page({
   data: {
@@ -13,7 +13,8 @@ Page({
 
   onLoad() {
     // 计算导航栏高度
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
+    const navHeight = statusBarHeight + 64;
     this.setData({ statusBarHeight, navHeight });
 
     // 从 Storage 读取模板数据

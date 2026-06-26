@@ -1,10 +1,11 @@
-// components/half-screen-popup/index.js
+﻿// components/half-screen-popup/index.js
 Component({
   properties: {
     title: { type: String, value: '个体户' }
   },
 
   data: {
+    statusBarHeight: 20,
     visible: false,
     show: false,
     selectedIds: [],
@@ -173,6 +174,13 @@ Component({
         singleSeals: ['e1y', 'e2y', 'e3y', 'e4y', 'e5y'],
         packages: []
       }
+    }
+  },
+
+  lifetimes: {
+    attached() {
+      const sys = wx.getSystemInfoSync();
+      this.setData({ statusBarHeight: sys.statusBarHeight });
     }
   },
 
