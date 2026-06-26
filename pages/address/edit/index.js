@@ -19,7 +19,7 @@ Page({
     const sysInfo = wx.getSystemInfoSync();
     this.setData({
       statusBarHeight: sysInfo.statusBarHeight || 20,
-      navHeight: (sysInfo.statusBarHeight || 20) + 44
+      navHeight: (sysInfo.statusBarHeight || 20) + 64
     });
 
     // 初始化区域列表
