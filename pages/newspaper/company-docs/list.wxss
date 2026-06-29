@@ -11,7 +11,7 @@
 }
 .nav-back {
   width: 60rpx;
-  height: 44rpx;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +23,7 @@
 .back-icon { font-size: 40rpx; color: #fff; font-weight: 300; line-height: 1; }
 
 .nav-title {
-  position: absolute; left: 50%; transform: translateX(-50%);
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   font-size: 34rpx; font-weight: 600; color: #fff;
   max-width: 400rpx;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

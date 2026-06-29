@@ -1,6 +1,6 @@
 <view class="page">
   <!-- 导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
     <view class="nav-content">
       <view class="nav-back" bindtap="onBack">‹</view>
       <text class="nav-title">关于我们</text>
@@ -8,7 +8,7 @@
     </view>
   </view>
 
-  <view class="about-wrap">
+  <view class="about-wrap" style="margin-top: {{navHeight}}px;">
 
     <!-- Logo区 -->
     <view class="logo-section">

@@ -20,7 +20,7 @@ page {
 
 .nav-back {
   width: 60rpx;
-  height: 44rpx;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +33,7 @@ page {
 .nav-title {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%; transform: translate(-50%, -50%);
   font-size: 34rpx;
   font-weight: 600;
   color: #fff;
