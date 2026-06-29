@@ -1,4 +1,4 @@
-﻿// pages/newspaper/idcard-page.js
+// pages/newspaper/idcard-page.js
 const common = require('../../../utils/common.js');
 
 Page({

@@ -225,16 +225,21 @@ function getNavigationHeight() {
   let statusBarHeight = 20;
   let navContentHeight = 44;
   try {
-    const sysInfo = wx.getDeviceInfo ? wx.getDeviceInfo() : wx.getSystemInfoSync();
+    const sysInfo = wx.getSystemInfoSync();
     statusBarHeight = sysInfo.statusBarHeight || 20;
     try {
       const menuButton = wx.getMenuButtonBoundingClientRect();
-      // 内容区高度 = 胶囊高度 + 上下留白（与胶囊上方留白一致）
-      navContentHeight = menuButton.height + (menuButton.top - statusBarHeight) * 2;
+      if (menuButton && menuButton.height) {
+        navContentHeight = menuButton.height + (menuButton.top - statusBarHeight) * 2;
+      } else {
+        navContentHeight = 44;
+      }
     } catch (e2) {
       navContentHeight = 44;
     }
   } catch (e) {
+    // 兜底：用固定值
+    statusBarHeight = 20;
     navContentHeight = 44;
   }
   const navHeight = statusBarHeight + navContentHeight;

@@ -38,7 +38,7 @@
           <text class="card-desc">{{item.desc}}</text>
         </view>
         <view class="card-check" wx:if="{{item.id === selectedCategory}}" style="background: {{item.color || '#5B6FE8'}};">
-          <image src="/assets/icons/icon-wxml-1-a3deb6ec.svg" mode="aspectFit" class="check-icon" />
+          <text class="check-text">✓</text>
         </view>
       </view>
     </view>
@@ -58,17 +58,7 @@
       </view>
       <view class="doc-picker-close" bindtap="closeDocPicker"><text>✕</text></view>
     </view>
-    <view class="doc-picker-search">
-      <view class="doc-picker-search-wrap">
-        <input class="doc-picker-search-input"
-          value="{{searchKey}}"
-          bindinput="onSearch"
-          placeholder="搜索模板..."
-          confirm-type="search"
-        />
-      </view>
-    </view>
-    <scroll-view scroll-y class="doc-picker-body">
+    <scroll-view scroll-y class="doc-picker-body" style="margin-top: 20rpx;">
       <view class="doc-grid">
         <view class="doc-grid-item" wx:for="{{pickedItems}}" wx:key="name"
           bindtap="selectItem" data-name="{{item.name}}"
@@ -83,15 +73,6 @@
         </view>
       </view>
     </scroll-view>
-  </view>
-
-  <!-- 浮动客服按钮 -->
-  <view class="float-btn" style="top: {{floatBtnTop}}rpx;"
-    bindtouchstart="onFloatTouchStart"
-    bindtouchmove="onFloatTouchMove"
-    bindtouchend="onFloatTouchEnd"
-    bindtap="contactService">
-    <image class="float-btn-icon" src="/assets/icons/icon-wxml-8-25658b2b.svg" mode="aspectFit" />
   </view>
 </view>
 

@@ -63,19 +63,8 @@
       <view class="doc-picker-close" bindtap="closeDocPicker"><text>✕</text></view>
     </view>
     <!-- 搜索框?-->
-    <view class="doc-picker-search">
-      <view class="doc-picker-search-wrap">
-        <input
-          class="doc-picker-search-input"
-          value="{{searchKey}}"
-          bindinput="onSearch"
-          placeholder="搜索模板名称..."
-          confirm-type="search"
-        />
-      </view>
-    </view>
-    <!-- 模板列表 -->
-    <view class="doc-picker-body">
+    
+    <scroll-view scroll-y class="doc-picker-body" style="margin-top: 20rpx;">
       <view class="doc-grid">
         <view
           class="doc-grid-item"
@@ -87,7 +76,6 @@
         >
           <view class="doc-grid-color" style="background: linear-gradient(135deg, {{categories[pickedIndex].color}}22, {{categories[pickedIndex].color}}08);"></view>
           <view class="doc-grid-content">
-            <text class="doc-grid-icon">{{item.icon}}</text>
             <text class="doc-grid-name">{{item.name}}</text>
           </view>
         </view>
@@ -95,18 +83,7 @@
           <text class="doc-empty-text">没有找到匹配的模板</text>
         </view>
       </view>
-    </view>
+    </scroll-view>
   </view>
 
-  <!-- 浮动客服按钮 -->
-  <view
-    class="float-btn"
-    style="top: {{floatBtnTop}}rpx;"
-    bindtouchstart="onFloatTouchStart"
-    bindtouchmove="onFloatTouchMove"
-    bindtouchend="onFloatTouchEnd"
-    bindtap="contactService"
-  >
-    <image class="float-btn-icon" src="/assets/icons/icon-wxml-8-25658b2b.svg" mode="aspectFit" />
-  </view>
 </view>

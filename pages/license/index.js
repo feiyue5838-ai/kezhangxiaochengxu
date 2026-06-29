@@ -1,4 +1,4 @@
-﻿// pages/license/index.js
+// pages/license/index.js
 const common = require('../../utils/common.js');
 Page({
   data: {

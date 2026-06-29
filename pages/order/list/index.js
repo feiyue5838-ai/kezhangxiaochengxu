@@ -1,4 +1,4 @@
-﻿const common = require('../../../utils/common.js');
+const common = require('../../../utils/common.js');
 
 // 将不同模块的订单数据统一格式
 const normalize = (orders, module) => {

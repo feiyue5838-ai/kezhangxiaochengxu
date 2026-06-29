@@ -1,4 +1,4 @@
-﻿// pages/home/index.js
+// pages/home/index.js
 const app = getApp();
 const common = require('../../utils/common.js');
 

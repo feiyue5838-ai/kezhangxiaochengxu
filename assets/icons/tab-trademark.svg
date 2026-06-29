@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- 商标图标：圆圈 + R 字母 -->
+  <circle cx="24" cy="24" r="20" stroke="#8B95A5" stroke-width="3" fill="none"/>
+  <text x="24" y="32" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#8B95A5" text-anchor="middle">R</text>
+</svg>

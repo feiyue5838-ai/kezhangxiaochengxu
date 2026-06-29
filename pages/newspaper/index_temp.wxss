@@ -1,0 +1,246 @@
+/* pages/newspaper/index.wxss */
+
+/* ========== 导航栏 ========== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  box-sizing: border-box;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+}
+
+.nav-side {
+  position: absolute;
+  top: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.nav-side--left  { left: 32rpx; }
+.nav-side--right { right: 32rpx; }
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1rpx;
+  text-align: center;
+}
+
+.page { background: #F8F7FC; min-height: 100vh; }
+
+/* ========== Hero ========== */
+.hero {
+  position: relative;
+  padding: 44rpx 36rpx 50rpx;
+  background: linear-gradient(155deg, #5B6FE8 0%, #7B8FF7 35%, #9BA8FF 70%, #9BA8FF 100%);
+  overflow: hidden;
+}
+
+.hero-glow-1 {
+  position: absolute;
+  top: -30%;
+  left: -10%;
+  width: 480rpx;
+  height: 480rpx;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.18) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-glow-2 {
+  position: absolute;
+  bottom: -20%;
+  right: -15%;
+  width: 380rpx;
+  height: 380rpx;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.10) 0%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-label {
+  font-size: 20rpx;
+  color: rgb(255 255 255 / 0.85);
+  font-weight: 600;
+  letter-spacing: 4rpx;
+  display: block;
+  margin-bottom: 12rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 48rpx;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  line-height: 1.25;
+  margin-bottom: 10rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: 24rpx;
+  color: rgb(255 255 255 / 0.8);
+  letter-spacing: 1rpx;
+  margin-bottom: 32rpx;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* 统计条 */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  background: rgb(255 255 255 / 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 20rpx;
+  padding: 24rpx 20rpx;
+  border: 1rpx solid rgb(255 255 255 / 0.2);
+  margin-bottom: 26rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-item { flex: 1; text-align: center; }
+
+.stat-num {
+  font-size: 30rpx;
+  color: #fff;
+  font-weight: 700;
+  display: block;
+}
+
+.stat-label {
+  font-size: 20rpx;
+  color: rgb(255 255 255 / 0.7);
+  margin-top: 4rpx;
+  display: block;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 36rpx;
+  background: rgb(255 255 255 / 0.18);
+}
+
+/* 徽章 */
+.hero-badges {
+  display: flex;
+  gap: 24rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.badge {
+  padding: 10rpx 22rpx;
+  background: rgb(255 255 255 / 0.18);
+  border-radius: 20rpx;
+  border: 1rpx solid rgb(255 255 255 / 0.22);
+}
+
+.badge text {
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ========== 分类区域 ========== */
+.section {
+  padding: 28rpx 24rpx 12rpx;
+  margin-top: -24rpx;
+  position: relative;
+  z-index: 2;
+  border-radius: 20rpx 32rpx 0 0;
+  background: #F8F7FC;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24rpx;
+}
+
+/* 分类卡片 */
+.cat-card {
+  border-radius: 20rpx;
+  padding: 24rpx 10rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+}
+
+.cat-card:active {
+  transform: scale(0.95);
+  opacity: 0.88;
+}
+
+/* 图标容器 */
+.icon-wrap {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14rpx;
+  background: #F8F7FC;
+}
+
+/* 分类名称 */
+.cat-name {
+  font-size: 24rpx;
+  color: #1A2332;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* SVG 图标尺寸 */
+.cat-icon-img {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* 底部信任栏 */
+.trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+  padding: 28rpx 40rpx 52rpx;
+}
+
+.trust-line {
+  width: 28rpx;
+  height: 1rpx;
+  background: #D5DDE8;
+}
+
+.trust-text {
+  font-size: 22rpx;
+  color: #A8B4C5;
+  letter-spacing: 0.5rpx;
+}
+
+
+/* 底部安全区 */
+.safe-bottom {
+  height: env(safe-area-inset-bottom);
+  width: 100%;
+}

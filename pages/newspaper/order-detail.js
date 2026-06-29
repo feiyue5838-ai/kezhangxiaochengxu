@@ -1,4 +1,4 @@
-﻿// pages/newspaper/order-detail.js
+// pages/newspaper/order-detail.js
 // 订单详情页 - 从本地存储读取订单详情
 var common = require('../../utils/common.js');
 

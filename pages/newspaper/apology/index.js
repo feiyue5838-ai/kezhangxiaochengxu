@@ -1,4 +1,4 @@
-﻿// pages/newspaper/apology/index.js
+// pages/newspaper/apology/index.js
 const common = require('../../../utils/common.js');
 const apologyConfig = require('../../../utils/apology.js');
 
@@ -10,13 +10,11 @@ Page({
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
-    floatBtnTop: 400,
     categoryList: apologyConfig.categories
   },
 
   onLoad() {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
     this._floatDragStart = null;
     this._floatMoved = false;
@@ -58,13 +56,5 @@ Page({
       _timestamp: Date.now()
     });
     wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
-  },
-
-  onFloatTouchStart(e) { common.startDrag(this, e); },
-  onFloatTouchMove(e) { common.moveDrag(this, e); },
-  onFloatTouchEnd() { this._floatDragStart = null; },
-  contactService() {
-    if (this._floatMoved) return;
-    wx.makePhoneCall({ phoneNumber: '4000049919' });
   }
 });

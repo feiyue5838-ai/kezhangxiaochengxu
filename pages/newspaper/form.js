@@ -1,4 +1,4 @@
-﻿const common = require('../../utils/common.js');
+const common = require('../../utils/common.js');
 const paperConfig = require('../../utils/newspaper-papers.js');
 
 Page({

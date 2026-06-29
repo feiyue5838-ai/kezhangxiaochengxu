@@ -52,40 +52,20 @@
       </view>
       <view class="doc-picker-close" bindtap="closeDocPicker"><text>✕</text></view>
     </view>
-    <view class="doc-picker-search">
-      <view class="doc-picker-search-wrap">
-        <input class="doc-picker-search-input"
-          value="{{searchKey}}"
-          bindinput="onSearch"
-          placeholder="搜索证件名称..."
-          confirm-type="search"
-        />
-      </view>
-    </view>
-    <view class="doc-picker-body">
+    
+    <scroll-view scroll-y class="doc-picker-body" style="margin-top: 20rpx;">
       <view class="doc-grid">
         <view class="doc-grid-item" wx:for="{{pickedItems}}" wx:key="name"
           bindtap="selectItem" data-name="{{item.name}}"
           style="--cat-color: {{categoryList[pickedIndex].color}};">
           <view class="doc-grid-color" style="background: linear-gradient(135deg, {{categoryList[pickedIndex].color}}22, {{categoryList[pickedIndex].color}}08);"></view>
-          <view class="doc-grid-content">
-            <image class="doc-grid-icon" src="{{categoryList[pickedIndex].iconSvg}}" mode="aspectFit" />
-            <text class="doc-grid-name">{{item.name}}</text>
+          <view class="doc-grid-content">            <text class="doc-grid-name">{{item.name}}</text>
           </view>
         </view>
         <view class="doc-empty" wx:if="{{pickedItems.length === 0}}">
           <text class="doc-empty-text">没有找到匹配的证件</text>
         </view>
       </view>
-    </view>
-  </view>
-
-  <!-- 浮动客服按钮 -->
-  <view class="float-btn" style="top: {{floatBtnTop}}rpx;"
-    bindtouchstart="onFloatTouchStart"
-    bindtouchmove="onFloatTouchMove"
-    bindtouchend="onFloatTouchEnd"
-    bindtap="contactService">
-    <image class="float-btn-icon" src="/assets/icons/icon-wxml-8-25658b2b.svg" mode="aspectFit" />
+    </scroll-view>
   </view>
 </view>

@@ -1,4 +1,4 @@
-﻿// pages/newspaper/invoice-receipt/index.js
+// pages/newspaper/invoice-receipt/index.js
 const common = require('../../../utils/common.js');
 const invoiceReceiptConfig = require('../../../utils/invoice-receipt.js');
 
@@ -16,13 +16,11 @@ Page({
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
-    floatBtnTop: 400,
     categoryList: categories
   },
 
   onLoad() {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
     this._floatDragStart = null;
     this._floatMoved = false;

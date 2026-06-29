@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- 债权债务：文档+印章，代表债权凭证 -->
+  <rect x="10" y="6" width="28" height="36" rx="3" stroke="#FAAD14" stroke-width="2.5"/>
+  <path d="M16 16h16M16 22h12M16 28h14" stroke="#FAAD14" stroke-width="2" stroke-linecap="round"/>
+  <!-- 印章/戳记 -->
+  <circle cx="34" cy="34" r="7" stroke="#FAAD14" stroke-width="2" stroke-dasharray="3 2"/>
+  <path d="M31 34h6" stroke="#FAAD14" stroke-width="2" stroke-linecap="round"/>
+</svg>

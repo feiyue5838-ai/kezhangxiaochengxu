@@ -1,4 +1,4 @@
-﻿// pages/newspaper/company-docs/list.js
+// pages/newspaper/company-docs/list.js
 const common = require('../../../utils/common.js');
 const companyDocsConfig = require('../../../utils/company-docs.js');
 

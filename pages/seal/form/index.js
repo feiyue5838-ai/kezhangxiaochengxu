@@ -1,4 +1,4 @@
-﻿// pages/seal/form/index.js
+// pages/seal/form/index.js
 const common = require('../../../utils/common.js');
 
 Page({

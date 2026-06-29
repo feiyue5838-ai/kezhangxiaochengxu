@@ -1,4 +1,4 @@
-﻿// pages/invoice/edit/index.js
+// pages/invoice/edit/index.js
 const common = require('../../../utils/common.js');
 
 Page({

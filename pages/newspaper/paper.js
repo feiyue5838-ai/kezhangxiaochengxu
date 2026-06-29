@@ -1,4 +1,4 @@
-﻿// pages/newspaper/paper.js
+// pages/newspaper/paper.js
 // 选择报纸页面
 const paperConfig = require('../../utils/newspaper-papers.js');
 const common = require('../../utils/common.js');

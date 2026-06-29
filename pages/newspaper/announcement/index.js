@@ -1,4 +1,4 @@
-﻿// pages/newspaper/announcement/index.js
+// pages/newspaper/announcement/index.js
 const common = require('../../../utils/common.js');
 const announcementConfig = require('../../../utils/announcement.js');
 
@@ -20,13 +20,11 @@ Page({
     pickedIndex: -1,
     pickedItems: [],
     showDocPicker: false,
-    searchKey: '',
-    floatBtnTop: 200
+    searchKey: ''
   },
 
   onLoad() {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
   },
 
@@ -88,22 +86,5 @@ Page({
     setTimeout(() => {
       wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
     }, 350);
-  },
-
-  contactService() {
-    wx.makePhoneCall({ phoneNumber: '400-888-8888' });
-  },
-
-  onFloatTouchStart(e) {
-    this._floatTouch = { startY: e.touches[0].clientY, curTop: this.data.floatBtnTop };
-  },
-  onFloatTouchMove(e) {
-    if (!this._floatTouch) return;
-    const dy = e.touches[0].clientY - this._floatTouch.startY;
-    const newTop = Math.max(100, Math.min(this._floatTouch.curTop + dy, wx.getSystemInfoSync().windowHeight - 80));
-    this.setData({ floatBtnTop: newTop });
-  },
-  onFloatTouchEnd() {
-    this._floatTouch = null;
   }
 });

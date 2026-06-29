@@ -1,4 +1,4 @@
-﻿// pages/newspaper/court/index.js
+// pages/newspaper/court/index.js
 const common = require('../../../utils/common.js');
 const courtConfig = require('../../../utils/court.js');
 
@@ -20,13 +20,11 @@ Page({
     pickedIndex: -1,
     pickedItems: [],
     showDocPicker: false,
-    searchKey: '',
-    floatBtnTop: 200
+    searchKey: ''
   },
 
   onLoad() {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
   },
 

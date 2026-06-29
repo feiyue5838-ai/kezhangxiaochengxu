@@ -1,4 +1,4 @@
-﻿// pages/newspaper/env-assessment/index.js
+// pages/newspaper/env-assessment/index.js
 const common = require('../../../utils/common.js');
 const envConfig = require('../../../utils/env-assessment.js');
 
@@ -10,13 +10,11 @@ Page({
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
-    floatBtnTop: 400,
     categoryList: envConfig.categories
   },
 
   onLoad() {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
     this._floatDragStart = null;
     this._floatMoved = false;

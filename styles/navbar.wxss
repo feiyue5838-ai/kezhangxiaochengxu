@@ -1,0 +1,87 @@
+/* ============================================
+   导航栏统一样式 - 共用样式
+   2026-06-28 统一规范
+   ============================================ */
+
+/* 导航栏容器 */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  box-sizing: border-box;
+  /* 高度通过 style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;" 动态设置 */
+}
+
+/* 业务栏 - 动态高度（与胶囊按钮对齐）*/
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 高度由 JS 动态设置：height: {{navContentHeight}}px */
+  height: 88rpx;
+  padding: 0 32rpx;
+}
+
+/* 左侧区域 - 60rpx */
+.nav-left {
+  width: 60rpx;
+  /* 高度继承父元素 */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 返回按钮 */
+.nav-back {
+  /* 增大点击区域到 88rpx */
+  width: 88rpx;
+  /* 高度继承父元素 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 添加视觉反馈 */
+  transition: opacity 0.2s;
+}
+
+.nav-back:active {
+  opacity: 0.6;
+}
+
+.back-icon {
+  font-size: 40rpx;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1;
+}
+
+/* 中间标题区域 */
+.nav-center {
+  flex: 1;
+  /* 高度继承父元素 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 标题文字 */
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+  /* 行高继承父元素高度 */
+  text-align: center;
+}
+
+/* 右侧区域 - 胶囊安全边距 60rpx */
+.nav-right {
+  width: 60rpx;
+  /* 高度继承父元素 */
+}
+
+/* 占位元素 */
+.nav-placeholder {
+  width: 100%;
+}

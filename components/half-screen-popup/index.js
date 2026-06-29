@@ -1,4 +1,4 @@
-﻿// components/half-screen-popup/index.js
+// components/half-screen-popup/index.js
 Component({
   properties: {
     title: { type: String, value: '个体户' },

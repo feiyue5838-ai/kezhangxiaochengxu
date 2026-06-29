@@ -1,4 +1,4 @@
-﻿// pages/newspaper/order.js
+// pages/newspaper/order.js
 const common = require('../../utils/common.js');
 const STORAGE_KEY = 'newspaper_orders';
 

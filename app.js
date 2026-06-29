@@ -1,4 +1,4 @@
-﻿// app.js
+// app.js
 const auth = require('./utils/auth.js');
 
 App({

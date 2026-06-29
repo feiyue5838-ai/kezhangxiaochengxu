@@ -1,4 +1,4 @@
-﻿// pages/newspaper/confession/index.js
+// pages/newspaper/confession/index.js
 const common = require('../../../utils/common.js');
 const confessionConfig = require('../../../utils/confession.js');
 
@@ -15,7 +15,6 @@ Page({
   data: {
     statusBarHeight: 20,
     navHeight: 64,
-    floatBtnTop: 700,
     totalCount,
     categories,
     // Sheet 状态
@@ -28,8 +27,7 @@ Page({
   onLoad() {
     this._floatDragStart = null;
     this._floatMoved = false;
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
   },
 

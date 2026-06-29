@@ -248,23 +248,7 @@ page { background: #F8F7FC; }
 }
 
 /* ========== 搜索�?========== */
-.doc-picker-search {
-  padding: 0 32rpx 20rpx; flex-shrink: 0;
-}
 
-.doc-picker-search-wrap {
-  display: flex; align-items: center;
-  background: #F8F7FC; border-radius: 16rpx;
-  border: 1rpx solid rgb(91 111 232 / 0.08);
-  padding: 0 20rpx; box-sizing: border-box;
-}
-
-.doc-picker-search-input {
-  flex: 1; background: transparent; border-radius: 0;
-  padding: 20rpx 0; font-size: 27rpx; color: #1A2332;
-  border: none; box-sizing: border-box;
-
-    text-align: left;}
 
 /* ========== 弹窗列表 ========== */
 .doc-picker-body {
@@ -274,7 +258,7 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr);
+  display: grid !important; grid-template-columns: repeat(2, 1fr) !important;
   gap: 20rpx;
 }
 
