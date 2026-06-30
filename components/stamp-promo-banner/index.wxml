@@ -3,13 +3,13 @@
   <!-- 上层大图宣传区 -->
   <view class="promo-image">
     <view class="promo-text-wrap">
-      <text class="promo-text-main">&#24403;&#22320;&#20844;&#23433;&#20445;&#26696; &#20840;&#31243;&#20445;&#38556;</text>
-      <text class="promo-text-sub">&#21516;&#22478;&#21487;&#21152;&#24613;&#24403;&#26085;&#36798;&#21069;</text>
+      <text class="promo-text-main">当地公安保案 全程保障</text>
+      <text class="promo-text-sub">同城可加急当日达前</text>
     </view>
   </view>
   <!-- 下层红色通栏提示 -->
   <view class="promo-notice">
-    <text style="font-size:28rpx;">&#128276;</text>
-    <text class="notice-text">&#23436;&#25104;&#35746;&#21333;&#24179;&#21488;&#20195;&#21150;&#22791;&#27880;&#35831;</text>
+    <text style="font-size:28rpx;">🔔</text>
+    <text class="notice-text">完成订单平台代办备注请</text>
   </view>
 </view>

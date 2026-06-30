@@ -16,7 +16,7 @@
     <view class="upload-row">
       <view class="upload-item" bindtap="onIdCardFrontTap">
         <block wx:if="{{idCardFront}}">
-          <text>&#10003;</text>
+          <text>✓</text>
           <view class="delete-btn" data-type="idCardFront" catchtap="onDeleteImage">×</view>
         </block>
         <block wx:else>
@@ -27,7 +27,7 @@
       </view>
       <view class="upload-item" bindtap="onIdCardBackTap">
         <block wx:if="{{idCardBack}}">
-          <text>&#10003;</text>
+          <text>✓</text>
           <view class="delete-btn" data-type="idCardBack" catchtap="onDeleteImage">×</view>
         </block>
         <block wx:else>
@@ -48,12 +48,12 @@
     </view>
     <view class="upload-single" bindtap="onLicenseTap">
       <block wx:if="{{license}}">
-        <text>&#10003;</text>
+        <text>✓</text>
         <view class="delete-btn" data-type="license" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
+          <text style="font-size:48rpx;color:#ccc;">📷</text>
           <text class="placeholder-label">点击上传 营业执照<text class="star">*</text></text>
         </view>
       </block>
@@ -68,12 +68,12 @@
     </view>
     <view class="upload-single" bindtap="onLegalPhotoTap">
       <block wx:if="{{legalPhoto}}">
-        <text>&#10003;</text>
+        <text>✓</text>
         <view class="delete-btn" data-type="legalPhoto" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
+          <text style="font-size:48rpx;color:#ccc;">📷</text>
           <text class="placeholder-label">点击上传 {{photoTitle}}<text class="star">*</text></text>
         </view>
       </block>
@@ -88,12 +88,12 @@
     </view>
     <view class="upload-single" bindtap="onCertTap">
       <block wx:if="{{professionalCert}}">
-        <text>&#10003;</text>
+        <text>✓</text>
         <view class="delete-btn" data-type="professionalCert" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
+          <text style="font-size:48rpx;color:#ccc;">📷</text>
           <text class="placeholder-label">点击上传 执业证书章</text>
         </view>
       </block>
@@ -108,12 +108,12 @@
     </view>
     <view class="upload-single" bindtap="onSignatureTap">
       <block wx:if="{{signature}}">
-        <text>&#10003;</text>
+        <text>✓</text>
         <view class="delete-btn" data-type="signature" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
+          <text style="font-size:48rpx;color:#ccc;">📷</text>
           <text class="placeholder-label">点击上传 个人签名章</text>
         </view>
       </block>
@@ -127,7 +127,7 @@
     </view>
     <view class="upload-list" wx:if="{{additional.length > 0}}">
       <view class="upload-item-sm" wx:for="{{additional}}" wx:key="index">
-        <text>&#10003;</text>
+        <text>✓</text>
         <view class="delete-btn-sm" data-type="additional" data-index="{{index}}" catchtap="onDeleteImage">×</view>
       </view>
       <view class="upload-item-sm add-more" bindtap="onAdditionalTap" wx:if="{{additional.length < 5}}">

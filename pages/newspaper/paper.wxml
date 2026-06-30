@@ -43,7 +43,7 @@
           
           <!-- 选中标记 -->
           <view class="check-mark" wx:if="{{selectedPaper === item.id}}">
-            <text style="font-size:24rpx;">&#10003;</text>
+            <text style="font-size:24rpx;">✓</text>
           </view>
         </view>
       </view>

@@ -39,7 +39,7 @@
       <view class="paper-card {{selectedPaper === item.id ? 'selected' : ''}}" wx:for="{{papers}}" wx:key="id" bindtap="selectPaper" data-id="{{item.id}}">
         <!-- 选中状态右上角勾 -->
         <view class="paper-check" wx:if="{{selectedPaper === item.id}}">
-          <text style="font-size:24rpx;">&#10003;</text>
+          <text style="font-size:24rpx;">✓</text>
         </view>
         <!-- 报纸Logo -->
         <view class="paper-logo" style="background: linear-gradient(135deg, {{item.logoColor || '#5B6FE8'}} 0%, {{item.logoColorEnd || '#7B8FF7'}} 100%);">

@@ -13,7 +13,7 @@
   <view class="search-wrap">
     <view class="search-bar">
       <input class="search-input" placeholder="搜索证件类型" placeholder-class="search-placeholder" bindinput="onSearch" value="{{searchKey}}" />
-      <text>&#10003;</text>
+      <text>✓</text>
     </view>
   </view>
 
@@ -23,7 +23,7 @@
       <view class="doc-card" wx:for="{{filteredDocs}}" wx:key="name" bindtap="selectDoc" data-doc="{{item}}"
         style="--cat-color: {{categoryColor}};">
         <view class="doc-icon-wrap">
-          <text>&#10003;</text>
+          <text>✓</text>
         </view>
         <view class="doc-info">
           <text class="doc-name">{{item.name}}</text>
@@ -34,7 +34,7 @@
 
     <!-- 无搜索结果 -->
     <view class="empty-state" wx:if="{{searchKey && filteredDocs.length === 0}}">
-      <text>&#10003;</text>
+      <text>✓</text>
       <text class="empty-text">未找到"{{searchKey}}"相关证件</text>
     </view>
   </scroll-view>

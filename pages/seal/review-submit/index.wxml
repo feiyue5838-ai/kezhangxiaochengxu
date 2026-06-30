@@ -15,7 +15,7 @@
           wx:key="*this"
           data-score="{{s + 1}}"
           bindtap="onServiceStarTap"
-        ><text style="font-size:24rpx;">&#11088;</text></text>
+        ><text style="font-size:24rpx;">⭐</text></text>
       </view>
     </view>
 
@@ -30,7 +30,7 @@
           wx:key="*this"
           data-score="{{s + 1}}"
           bindtap="onQualityStarTap"
-        ><text style="font-size:24rpx;">&#11088;</text></text>
+        ><text style="font-size:24rpx;">⭐</text></text>
       </view>
     </view>
 

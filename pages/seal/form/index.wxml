@@ -13,7 +13,7 @@
   <block wx:if="{{isQuery}}">
     <!-- 1. 顶部地区选择 -->
     <view class="query-location-bar" bindtap="onOpenCityPicker">
-      <text style="margin-right:4rpx;vertical-align:middle;">&#128205;</text>
+      <text style="margin-right:4rpx;vertical-align:middle;">📍</text>
       <text class="query-location-city">{{currentCity}}</text>
       <text class="query-location-arrow {{cityPickerOpen ? 'open' : ''}}">▼</text>
     </view>
@@ -31,7 +31,7 @@
     <!-- 3. 平台信息卡片 -->
     <view class="query-platform-card">
       <view class="query-platform-header">
-        <text style="margin-right:4rpx;vertical-align:middle;">&#128260;</text>
+        <text style="margin-right:4rpx;vertical-align:middle;">🔄</text>
         <text class="query-platform-title">{{currentProvince.name}}印章查询平台</text>
       </view>
       <view class="query-platform-url">
@@ -40,7 +40,7 @@
       <view class="query-platform-actions">
         <view class="query-platform-btn" bindtap="onGoVerify">
           <text>前往验证</text>
-          <text style="font-size:20rpx;">&#8250;</text>
+          <text style="font-size:20rpx;">›</text>
         </view>
       </view>
       <view class="query-platform-tip">
@@ -52,7 +52,7 @@
 
     <!-- 5. 信任提示 -->
     <view class="query-trust-card">
-      <text style="font-size:20rpx;">&#10004;</text>
+      <text style="font-size:20rpx;">✔</text>
       <view class="query-trust-content">
         <text class="query-trust-title">正规备案，平台代办，公安监管</text>
         <text class="query-trust-desc">所有印章均通过公安指定刻章单位制作，备案信息同步至公安机关管理系统</text>
@@ -98,7 +98,7 @@
       >
         <text class="seal-grid-item-text">{{item.name}}</text>
         <view class="seal-check" wx:if="{{selectedElectronicCategory === item.id}}">
-          <text style="font-size:24rpx;">&#10003;</text>
+          <text style="font-size:24rpx;">✓</text>
         </view>
       </view>
     </view>
@@ -111,13 +111,13 @@
       <view class="seal-grid-item {{selectedCategory === 9 ? 'active' : ''}}" bindtap="onOpenPersonalSeals">
         <text class="seal-grid-item-text">个人印章</text>
         <view class="seal-check" wx:if="{{selectedCategory === 9}}">
-          <text style="font-size:24rpx;">&#10003;</text>
+          <text style="font-size:24rpx;">✓</text>
         </view>
       </view>
       <view class="seal-grid-item {{selectedCategory === 10 ? 'active' : ''}}" bindtap="onOpenProfessionalSeals">
         <text class="seal-grid-item-text">个人职业章</text>
         <view class="seal-check" wx:if="{{selectedCategory === 10}}">
-          <text style="font-size:24rpx;">&#10003;</text>
+          <text style="font-size:24rpx;">✓</text>
         </view>
       </view>
     </view>

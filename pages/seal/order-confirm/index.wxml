@@ -45,7 +45,7 @@
     <!-- 订单备注 -->
     <view class="form-item">
       <view class="form-label">
-        <text style="margin-right:4rpx;">&#127991;</text> src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
+        <text style="margin-right:4rpx;">🏷</text> src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
         <text>订单备注</text>
         <text class="optional">(选填)</text>
       </view>
@@ -81,9 +81,9 @@
           <view class="material-item">
             <text class="material-type-label">营业执照</text>
             <view class="material-thumb-wrap">
-              <text>&#10003;</text>
+              <text>✓</text>
             </view>
-            <text>&#10003;</text>
+            <text>✓</text>
           </view>
         </block>
 
@@ -92,10 +92,10 @@
           <view class="material-item">
             <text class="material-type-label">{{isPersonal ? '身份证' : '法人身份证'}}</text>
             <view class="material-thumb-wrap">
-              <text>&#10003;</text>
-              <text>&#10003;</text>
+              <text>✓</text>
+              <text>✓</text>
             </view>
-            <text>&#10003;</text>
+            <text>✓</text>
           </view>
         </block>
 
@@ -104,9 +104,9 @@
           <view class="material-item">
             <text class="material-type-label">法人照片</text>
             <view class="material-thumb-wrap">
-              <text>&#10003;</text>
+              <text>✓</text>
             </view>
-            <text>&#10003;</text>
+            <text>✓</text>
           </view>
         </block>
       </view>
@@ -115,7 +115,7 @@
     <!-- 上传按钮 -->
     <view class="material-dash-box" bindtap="onMaterialTap">
       <view class="material-icon-wrap">
-        <text>&#10003;</text>
+        <text>✓</text>
       </view>
       <text class="material-add-text">{{materials.license || materials.idCardFront ? '继续上传' : '点击上传'}}</text>
     </view>
@@ -124,7 +124,7 @@
     <view wx:if="{{!isPersonal}}" class="material-tips">
       <!-- 红色警告：特定区域必须上传法人照片 -->
       <view wx:if="{{needLegalPhoto}}" class="tips-warning">
-        <text>&#10003;</text>
+        <text>✓</text>
         <text class="warning-text">重要提示：{{licenseRegion}}地区必须上传法人照片</text>
       </view>
       <view class="tips-title">基础材料上传：</view>
@@ -207,11 +207,11 @@
   <!-- 合规说明 -->
   <view class="compliance-section">
     <view class="compliance-item">
-      <text>&#10003;</text>
+      <text>✓</text>
       <text>定制产品不支持退换，敬请确认</text>
     </view>
     <view class="compliance-item">
-      <text>&#10003;</text>
+      <text>✓</text>
       <text>平台代办公安备案，合法合规</text>
     </view>
   </view>
