@@ -45,7 +45,7 @@
     <!-- 订单备注 -->
     <view class="form-item">
       <view class="form-label">
-        <text style="margin-right:4rpx;">🏷</text> src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
+        <text style="margin-right:4rpx;">🏷</text>
         <text>订单备注</text>
         <text class="optional">(选填)</text>
       </view>
