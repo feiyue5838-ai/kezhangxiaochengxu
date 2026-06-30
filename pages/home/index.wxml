@@ -17,7 +17,7 @@
     <!-- Hero -->
     <view class="hero">
       <text class="hero-title">企业服务 一站通达</text>
-      <text class="hero-sub">公安备案 · 省级报刊 · 正规调档</text>
+      <text class="hero-sub">公安备案 · 省级报刊 · 商标注册</text>
       <view class="hero-glow"></view>
     </view>
 
@@ -41,10 +41,10 @@
 
       <view class="svc-col" bindtap="goToPage" data-page="license" hover-class="svc-col--hover">
         <view class="svc-icon svc-icon-file">
-          <image class="svc-svg" src="../../assets/icons/icon-file.svg" mode="aspectFit" />
+          <image class="svc-svg" src="../../assets/icons/icon-trademark.svg" mode="aspectFit" />
         </view>
-        <text class="svc-name">调档服务</text>
-        <text class="svc-desc">快速调取</text>
+        <text class="svc-name">商标注册</text>
+        <text class="svc-desc">专业服务</text>
       </view>
     </view>
 

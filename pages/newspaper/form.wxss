@@ -9,7 +9,7 @@
   align-items: center;
   padding: 0 32rpx;
   box-sizing: border-box;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .nav-back {
@@ -34,6 +34,12 @@
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 .nav-action {
   font-size: 28rpx;
   color: #fff;
@@ -541,7 +547,7 @@
 }
 
 .pay-btn {
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   color: white;
   font-size: 30rpx;
   font-weight: bold;

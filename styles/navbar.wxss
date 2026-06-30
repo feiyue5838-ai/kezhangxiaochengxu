@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   box-sizing: border-box;
   /* 高度通过 style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;" 动态设置 */
 }

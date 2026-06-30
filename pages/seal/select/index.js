@@ -22,8 +22,7 @@ Page({
 
   onLoad(options) {
     // 从全局数据读取导航栏高度（app.js 已计算）
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
 
     if (options.type) {

@@ -11,7 +11,7 @@ const categories = [
     color: '#FA8C16',
     desc: '个人宣传、文章发表',
     hot: true,
-    items: [
+    docs: [
       { name: '个人宣传稿' },
       { name: '中小学文章发表' },
       { name: '人物专访稿' },
@@ -23,7 +23,7 @@ const categories = [
     color: '#5B6FE8',
     desc: '企业形象、品牌宣传',
     hot: true,
-    items: [
+    docs: [
       { name: '企业宣传稿' },
       { name: '企业形象宣传稿' },
       { name: '企业品牌宣传稿' },
@@ -35,7 +35,7 @@ const categories = [
     color: '#52C41A',
     desc: '政府形象、机关宣传',
     hot: false,
-    items: [
+    docs: [
       { name: '政府形象宣传稿' },
     ]
   },
@@ -46,7 +46,7 @@ const categories = [
     color: '#EB2F96',
     desc: '法制宣传、公益公告',
     hot: true,
-    items: [
+    docs: [
       { name: '法制宣传稿' },
       { name: '防诈骗宣传公告' },
       { name: '廉洁活动宣传稿' },
@@ -61,7 +61,7 @@ const categories = [
     color: '#722ED1',
     desc: '项目招商、工程宣传',
     hot: false,
-    items: [
+    docs: [
       { name: '大棚招租' },
       { name: '工程开通宣传稿' },
       { name: '电影项目宣传稿' },
@@ -70,7 +70,7 @@ const categories = [
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

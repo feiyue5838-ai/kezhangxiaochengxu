@@ -33,6 +33,7 @@ Page({
       { id: 's28', name: '公证使用' },
       { id: 's29', name: '企业员工使用' }
     ],
+    selectedCategory: 9,
     selectedSeal: '',
     selectedSealName: '',
     isElectronic: false,
@@ -53,8 +54,7 @@ Page({
 
   onLoad(options) {
     // 从全局数据读取导航栏高度（app.js 已计算）
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
 
     // 清除旧流程数据，避免各入口互相影响
@@ -99,12 +99,12 @@ Page({
 
   // half-screen-popup 弹窗(个人印章选择)
   onOpenPersonalSeals() {
-    this.setData({ selectedCategory: 'personal' });
+    this.setData({ selectedCategory: 9 });
     this.selectComponent('#sealPopup').openWithCategory(9);
   },
 
   onOpenProfessionalSeals() {
-    this.setData({ selectedCategory: 'professional' });
+    this.setData({ selectedCategory: 10 });
     this.selectComponent('#sealPopup').openWithCategory(10);
   },
 
@@ -149,7 +149,7 @@ Page({
   _doPersonalSubmit() {
     const ids = this.data.selectedSeal.split(',').filter(Boolean);
     const names = this.data.selectedSealName.split('、').filter(Boolean);
-    const categoryName = this.data.selectedCategory === 'professional' ? '个人职业章' : '个人印章';
+    const categoryName = this.data.selectedCategory === 10 ? '个人职业章' : '个人印章';
     wx.setStorageSync('selectedSealsData', {
       ids: ids,
       names: names,

@@ -168,12 +168,20 @@
   top: 0; left: 0; right: 0;
   z-index: 1002;
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  box-sizing: border-box;
+  /* height+padding-top 由 inline style 动态提供 */
+}
+
+/* 导航内容区 - 高度和padding-top动态计算，与胶囊按钮对齐 */
+.fixed-nav-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32rpx;
+  /* height 和 padding-top 由 inline style 动态提供 */
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+  padding-bottom: 0;
   box-sizing: border-box;
-  /* height+padding-top 由 inline style 动态提供 */
 }
 
 .fixed-nav-left {
@@ -193,43 +201,29 @@
 }
 
 .fixed-nav-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 34rpx;
   font-weight: 600;
   color: #fff;
-  line-height: 1;
-  white-space: nowrap;
 }
 
-.fixed-nav-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.fixed-nav-right {
   width: 60rpx;
   height: 100%;
   flex-shrink: 0;
 }
 
-.fixed-nav-close .close-icon {
-  width: 36rpx;
-  height: 36rpx;
-  filter: brightness(0) invert(1);
-}
-
 /* ===== 上半屏预览浮窗（从导航栏下方弹出） ===== */
 .top-preview {
   position: fixed;
-  top: 64px;
   left: 0;
   right: 0;
   z-index: 1001;
-  /* height 由 inline style 动态计算 */
+  /* top 和 height 由 inline style 动态计算 */
   transform: translateY(-100%);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
   pointer-events: none;
+  background: var(--bg-color, #F8F7FC);
 }
 
 .top-preview.top-preview-show {
@@ -244,10 +238,13 @@
   align-items: center;
   justify-content: center;
   background: var(--bg-color, #F8F7FC);
-  border-radius: 0 0 24rpx 24rpx;
+  border-radius: 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  /* 确保顶部没有间隙 */
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .top-preview-img {

@@ -87,9 +87,9 @@
       },
       {
         "pagePath": "pages/license/index",
-        "text": "证件",
-        "iconPath": "assets/icons/tab-file.png",
-        "selectedIconPath": "assets/icons/tab-file-active.png"
+        "text": "商标",
+        "iconPath": "assets/icons/tab-trademark.png",
+        "selectedIconPath": "assets/icons/tab-trademark-active.png"
       },
       {
         "pagePath": "pages/profile/index",

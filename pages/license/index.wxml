@@ -4,18 +4,18 @@
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
     <view class="nav-content">
       <view class="nav-side nav-side--left"></view>
-      <text class="nav-title">调档服务</text>
+      <text class="nav-title">商标注册</text>
       <view class="nav-side nav-side--right"></view>
     </view>
   </view>
 
   <!-- Banner -->
   <view class="banner">
-    <text class="banner-subtitle">企业档案 · 快速调取</text>
+    <text class="banner-subtitle">商标注册 · 专业服务</text>
     <view class="banner-tags">
       <view class="banner-tag">
-        <image class="banner-tag-icon" src="../../assets/icons/icon-file.svg" mode="aspectFit" />
-        <text>全程代办</text>
+        <image class="banner-tag-icon" src="../../assets/icons/icon-trademark.svg" mode="aspectFit" />
+        <text>专业高效</text>
       </view>
       <view class="banner-tag">
         <image class="banner-tag-icon" src="../../assets/icons/icon-lock.svg" mode="aspectFit" />

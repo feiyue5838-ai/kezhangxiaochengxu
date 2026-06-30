@@ -10,7 +10,7 @@
   justify-content: space-between;
   padding: 0 32rpx;
   box-sizing: border-box;
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .nav-back {
@@ -37,6 +37,12 @@
   white-space: nowrap;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 .nav-right {
   width: 60rpx;
   height: 100%;
@@ -148,7 +154,7 @@
   display: flex;
   align-items: center;
   gap: 8rpx;
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   padding: 16rpx 32rpx;
   border-radius: 40rpx;
 }
@@ -240,7 +246,7 @@
 }
 
 .action-button.submit {
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   color: #fff;
 }
 

@@ -58,7 +58,7 @@ Page({
     const { name } = e.currentTarget.dataset;
     if (!name) return;
     const cat = this.data.categoryList[this.data.pickedIndex];
-    const item = (cat.items || []).find(d => d.name === name);
+    const item = (cat.docs || []).find(d => d.name === name);
     if (!item) return;
     const itemName = item.name;
 

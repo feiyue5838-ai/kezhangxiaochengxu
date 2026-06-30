@@ -19,8 +19,7 @@ Page({
 
   onLoad() {
     // 计算导航栏高度
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
 
     // 从 Storage 读取登报内容

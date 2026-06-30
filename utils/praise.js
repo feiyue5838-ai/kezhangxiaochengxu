@@ -10,7 +10,7 @@ const categories = [
     color: '#FA8C16',
     desc: '表扬个人先进事迹',
     hot: true,
-    items: [
+    docs: [
       { name: '个人表扬信' },
       { name: '拾金不昧表扬信' },
       { name: '见义勇为表扬信' },
@@ -22,7 +22,7 @@ const categories = [
     color: '#5B6FE8',
     desc: '表扬企业优良服务',
     hot: true,
-    items: [
+    docs: [
       { name: '企业表扬信' },
       { name: '企业服务表扬信' },
       { name: '企业质量表扬信' },
@@ -34,7 +34,7 @@ const categories = [
     color: '#52C41A',
     desc: '表扬员工优秀表现',
     hot: false,
-    items: [
+    docs: [
       { name: '员工表扬信' },
       { name: '优秀员工表扬信' },
     ]
@@ -45,7 +45,7 @@ const categories = [
     color: '#7B8FF7',
     desc: '表扬单位协作贡献',
     hot: false,
-    items: [
+    docs: [
       { name: '单位表扬信' },
       { name: '协作单位表扬信' },
     ]
@@ -53,7 +53,7 @@ const categories = [
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

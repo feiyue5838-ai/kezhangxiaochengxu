@@ -82,10 +82,7 @@ Page({
       itemName: item.name,
       _timestamp: Date.now()
     });
-    this.closeDocPicker();
-    setTimeout(() => {
-      wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
-    }, 350);
+    this.setData({ showDocPicker: false }); wx.navigateTo({ url: "/pages/newspaper/content-edit/index" });
   },
 
   contactService() {

@@ -30,7 +30,7 @@ Page({
     this.setData({
       showDocPicker: true,
       pickedIndex: idx,
-      pickedItems: cat.items,
+      pickedItems: cat.docs,
       searchKey: ''
     });
   },
@@ -43,8 +43,8 @@ Page({
     const key = e.detail.value || '';
     const cat = this.data.categoryList[this.data.pickedIndex];
     const filtered = key
-      ? cat.items.filter(item => item.name.indexOf(key) !== -1)
-      : cat.items;
+      ? cat.docs.filter(item => item.name.indexOf(key) !== -1)
+      : cat.docs;
     this.setData({ searchKey: key, pickedItems: filtered });
   },
 
@@ -52,7 +52,7 @@ Page({
     const { name } = e.currentTarget.dataset;
     if (!name) return;
     const cat = this.data.categoryList[this.data.pickedIndex];
-    const item = (cat.items || []).find(d => d.name === name);
+    const item = (cat.docs || []).find(d => d.name === name);
     if (!item) return;
 
     wx.setStorageSync('newspaperTemplate', {

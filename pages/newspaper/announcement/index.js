@@ -82,9 +82,9 @@ Page({
       itemName: item.name,
       _timestamp: Date.now()
     });
-    this.closeDocPicker();
-    setTimeout(() => {
+    // 先关闭弹窗，再跳转
+    this.setData({ showDocPicker: false }, () => {
       wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
-    }, 350);
+    });
   }
 });

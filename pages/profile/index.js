@@ -24,8 +24,7 @@ Page({
   },
 
   onLoad() {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
     const userInfo = wx.getStorageSync('userInfo');
     if (userInfo) this.setData({ userInfo });

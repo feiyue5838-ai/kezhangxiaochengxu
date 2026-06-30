@@ -1,20 +1,20 @@
 <!--components/half-screen-popup/index.wxml-->
-<view class="mask {{show ? 'mask-visible' : ''}}" bindtap="onMaskTap" wx:if="{{visible}}">
-  <!-- 固定导航栏（始终显示，从屏幕顶部开始，高度=statusBarHeight+64） -->
-  <view class="fixed-nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{statusBarHeight + 64}}px;">
-    <view class="fixed-nav-left" catchtap="onPreviewTap">
-      <text class="nav-back-arrow">‹</text>
-    </view>
-    <text class="fixed-nav-title">{{sourceTitle}}</text>
-    <view class="fixed-nav-close" catchtap="onPreviewTap">
-      <image src="/assets/icons/icon-wxml-0-5e074464.svg" mode="aspectFit" class="close-icon" />
+<view wx:if="{{visible}}">
+  <!-- 固定导航栏（始终显示，从屏幕顶部开始） -->
+  <view class="fixed-nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="fixed-nav-content" style="padding-top: {{menuButtonTop - statusBarHeight}}px; height: {{menuButtonHeight}}px;">
+      <view class="fixed-nav-left" catchtap="onPreviewTap">
+        <text class="nav-back-arrow">‹</text>
+      </view>
+      <text class="fixed-nav-title">{{sourceTitle}}</text>
+      <view class="fixed-nav-right"></view>
     </view>
   </view>
 
   <!-- 上半屏预览浮窗（从导航栏下方弹出） -->
   <view
     class="top-preview {{(selectedSealImg || previewSeals.length) ? 'top-preview-show' : ''}}"
-    style="top: {{statusBarHeight + 64}}px; height: {{topPreviewHeight}}px;"
+    style="top: {{navHeight}}px; height: {{topPreviewHeight}}px;"
     catchtap="onPreviewTap"
   >
     <view class="top-preview-card">
@@ -36,6 +36,10 @@
     </view>
   </view>
 
+  <!-- 遮罩层 -->
+  <view class="mask {{show ? 'mask-visible' : ''}}" bindtap="onMaskTap"></view>
+
+  <!-- 底部弹窗 -->
   <view class="popup {{show ? 'popup-visible' : ''}}" catchtap="preventClose">
     <!-- 拖拽条 -->
     <view class="drag-bar-wrap" bindtap="onClose">

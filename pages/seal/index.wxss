@@ -5,7 +5,7 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   box-sizing: border-box;
 }
 
@@ -34,6 +34,12 @@
   text-align: center;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 page { background: #F8F7FC; min-height: 100vh; }
 .page { background: #F8F7FC; min-height: 100vh; }
 
@@ -41,7 +47,7 @@ page { background: #F8F7FC; min-height: 100vh; }
 .hero {
   position: relative;
   padding: 44rpx 36rpx 50rpx;
-  background: linear-gradient(155deg, #5B6FE8 0%, #7B8FF7 35%, #9BA8FF 70%, #9BA8FF 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   overflow: hidden;
 }
 
@@ -175,7 +181,7 @@ page { background: #F8F7FC; min-height: 100vh; }
 /* ===== 主卡片：企业刻章（跨两列） ===== */
 .cat-card--featured {
   grid-column: span 2;
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 50%, #6B7FF7 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   border-radius: 20rpx;
   overflow: hidden;
   position: relative;
@@ -202,7 +208,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.08), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   pointer-events: none;
 }
 
@@ -278,7 +284,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3rpx;
-  background: linear-gradient(90deg, #5B6FE8, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0;
   transition: opacity 0.2s;
 }

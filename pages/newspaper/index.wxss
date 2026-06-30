@@ -5,7 +5,7 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   box-sizing: border-box;
 }
 
@@ -34,13 +34,19 @@
   text-align: center;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 .page { background: #F8F7FC; min-height: 100vh; }
 
 /* ========== Hero ========== */
 .hero {
   position: relative;
   padding: 44rpx 36rpx 50rpx;
-  background: linear-gradient(155deg, #5B6FE8 0%, #7B8FF7 35%, #9BA8FF 70%, #9BA8FF 100%);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   overflow: hidden;
 }
 

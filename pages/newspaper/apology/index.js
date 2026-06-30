@@ -20,20 +20,29 @@ Page({
     this._floatMoved = false;
   },
 
-  goBack() { wx.navigateBack(); },
+  goBack() {
+    wx.navigateBack();
+  },
 
   openDocPicker(e) {
     const idx = e.currentTarget.dataset.index;
     const cat = this.data.categoryList[idx];
-    this.setData({ showDocPicker: true, pickedIndex: idx, pickedItems: cat.items, searchKey: '' });
+    this.setData({
+      showDocPicker: true,
+      pickedIndex: idx,
+      pickedItems: cat.docs,
+      searchKey: ''
+    });
   },
 
-  closeDocPicker() { this.setData({ showDocPicker: false }); },
+  closeDocPicker() {
+    this.setData({ showDocPicker: false });
+  },
 
   onSearch(e) {
     const key = e.detail.value || '';
     const cat = this.data.categoryList[this.data.pickedIndex];
-    const filtered = key ? cat.items.filter(item => item.name.indexOf(key) !== -1) : cat.items;
+    const filtered = key ? cat.docs.filter(item => item.name.indexOf(key) !== -1) : cat.docs;
     this.setData({ searchKey: key, pickedItems: filtered });
   },
 
@@ -56,5 +65,29 @@ Page({
       _timestamp: Date.now()
     });
     wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
+  },
+
+  onFloatTouchStart(e) {
+    this._floatDragStart = e.touches[0].clientY;
+    this._floatMoved = false;
+  },
+
+  onFloatTouchMove(e) {
+    if (!this._floatDragStart) return;
+    const dy = e.touches[0].clientY - this._floatDragStart;
+    if (Math.abs(dy) > 10) this._floatMoved = true;
+    let top = this.data.floatBtnTop + dy;
+    top = Math.max(400, Math.min(1200, top));
+    this._floatDragStart = e.touches[0].clientY;
+    this.setData({ floatBtnTop: top });
+  },
+
+  onFloatTouchEnd() {
+    this._floatDragStart = null;
+  },
+
+  contactService() {
+    if (this._floatMoved) return;
+    wx.makePhoneCall({ phoneNumber: '4000049919' });
   }
 });

@@ -10,7 +10,7 @@ const categories = [
     color: '#52C41A',
     desc: '环评全流程公示模板',
     hot: true,
-    items: [
+    docs: [
       { name: '基础通用环评公示' },
       { name: '环评公示' },
       { name: '建设项目环境影响评价报告书公示' },
@@ -27,7 +27,7 @@ const categories = [
     color: '#0FCB7D',
     desc: '建设项目竣工环境保护验收公示',
     hot: true,
-    items: [
+    docs: [
       { name: '竣工环境保护验收监测报告公示' },
       { name: '竣工环境保护验收调查报告公示' },
       { name: '建设项目竣工环保验收公示' },
@@ -40,7 +40,7 @@ const categories = [
     color: '#FA8C16',
     desc: '排污许可证申领、变更、延续公示',
     hot: false,
-    items: [
+    docs: [
       { name: '排污许可证申领公示' },
       { name: '排污许可证变更公示' },
       { name: '排污许可证延续公示' },
@@ -53,7 +53,7 @@ const categories = [
     color: '#5B6FE8',
     desc: '清洁生产审核、突发环境事件预案',
     hot: false,
-    items: [
+    docs: [
       { name: '企业清洁生产审核公示' },
       { name: '清洁生产审核结果公示' },
       { name: '突发环境事件应急预案公示' },
@@ -66,7 +66,7 @@ const categories = [
     color: '#7B8FF7',
     desc: '辐射安全、土壤调查等其他公示',
     hot: false,
-    items: [
+    docs: [
       { name: '辐射安全许可证公示' },
       { name: '土壤污染状况调查报告公示' },
       { name: '危险废物经营许可公示' },
@@ -76,7 +76,7 @@ const categories = [
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

@@ -30,7 +30,7 @@
       >
         <view class="card-top" style="--card-color: {{item.color || '#5B6FE8'}}">
           <view class="card-dot" style="background: {{item.color || '#5B6FE8'}};"></view>
-          <view class="card-count" style="background: {{item.color || '#5B6FE8'}};">{{item.items.length}}</view>
+          <view class="card-count" style="background: {{item.color || '#5B6FE8'}};">{{item.docs.length}}</view>
         </view>
         <view class="card-body">
           <text class="card-name">{{item.name}}</text>
@@ -58,7 +58,7 @@
         <view class="doc-grid-item" wx:for="{{pickedItems}}" wx:key="name"
           bindtap="selectItem" data-name="{{item.name}}"
           style="--cat-color: {{categoryList[pickedIndex].color}};">
-          <view class="doc-grid-color" style="background: linear-gradient(135deg, {{categoryList[pickedIndex].color}}22, {{categoryList[pickedIndex].color}}08);"></view>
+          <view class="doc-grid-color" style=""></view>
           <view class="doc-grid-content">            <text class="doc-grid-name">{{item.name}}</text>
           </view>
         </view>

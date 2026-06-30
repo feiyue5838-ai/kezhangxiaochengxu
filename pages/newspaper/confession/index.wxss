@@ -59,7 +59,7 @@
 
 /* ========== 头部区域 ========== */
 .header {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   padding: 48rpx 40rpx 80rpx;
   position: relative;
   overflow: hidden;
@@ -241,7 +241,7 @@
   left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--cat-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -395,6 +395,8 @@
 }
 
 .doc-grid-color {
+  background: var(--cat-color, #5B6FE8);
+
   position: absolute;
   left: 0; right: 0; top: 0;
   height: 8rpx;

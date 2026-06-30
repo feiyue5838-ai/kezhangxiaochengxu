@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   box-sizing: border-box;
 }
 
@@ -35,6 +35,12 @@
   text-align: center;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 page {
   background: #F8F7FC;
   min-height: 100vh;
@@ -51,7 +57,7 @@ page {
 .banner {
   padding: 48rpx 40rpx 40rpx;
   text-align: center;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .banner-subtitle {
@@ -121,7 +127,7 @@ page {
   align-items: center;
   justify-content: center;
   margin-bottom: 16rpx;
-  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .service-name {

@@ -25,7 +25,7 @@ Page({
   openDocPicker(e) {
     const idx = e.currentTarget.dataset.index;
     const cat = this.data.categoryList[idx];
-    this.setData({ showDocPicker: true, pickedIndex: idx, pickedItems: cat.items, searchKey: '' });
+    this.setData({ showDocPicker: true, pickedIndex: idx, pickedItems: cat.docs, searchKey: '' });
   },
 
   closeDocPicker() { this.setData({ showDocPicker: false }); },
@@ -33,7 +33,7 @@ Page({
   onSearch(e) {
     const key = e.detail.value || '';
     const cat = this.data.categoryList[this.data.pickedIndex];
-    const filtered = key ? cat.items.filter(item => item.name.indexOf(key) !== -1) : cat.items;
+    const filtered = key ? cat.docs.filter(item => item.name.indexOf(key) !== -1) : cat.docs;
     this.setData({ searchKey: key, pickedItems: filtered });
   },
 

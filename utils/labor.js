@@ -10,7 +10,7 @@ const categories = [
     color: '#52C41A',
     desc: '员工主动声明离职',
     hot: true,
-    items: [
+    docs: [
       { name: '离职声明' },
       { name: '员工离职声明' },
       { name: '公司发布员工离职声明' },
@@ -22,7 +22,7 @@ const categories = [
     color: '#FA8C16',
     desc: '解除合同公告与通知书',
     hot: true,
-    items: [
+    docs: [
       { name: '解除合同公告' },
       { name: '解除合同通知书' },
     ]
@@ -33,7 +33,7 @@ const categories = [
     color: '#F5222D',
     desc: '企业主动解除员工劳动关系',
     hot: true,
-    items: [
+    docs: [
       { name: '公司解除员工劳动关系声明1' },
       { name: '公司解除员工劳动关系声明2' },
     ]
@@ -44,14 +44,14 @@ const categories = [
     color: '#5B6FE8',
     desc: '依法送达的劳动关系解除文书',
     hot: false,
-    items: [
+    docs: [
       { name: '解除劳动关系通知书' },
     ]
   }
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

@@ -12,7 +12,7 @@
   justify-content: space-between;
   padding: 0 32rpx;
   box-sizing: border-box;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .nav-back {

@@ -74,7 +74,7 @@
           data-name="{{item.name}}"
           style="--cat-color: {{categories[pickedIndex].color}};"
         >
-          <view class="doc-grid-color" style="background: linear-gradient(135deg, {{categories[pickedIndex].color}}22, {{categories[pickedIndex].color}}08);"></view>
+          <view class="doc-grid-color" style=""></view>
           <view class="doc-grid-content">
             <text class="doc-grid-name">{{item.name}}</text>
           </view>

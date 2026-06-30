@@ -26,7 +26,7 @@ module.exports = {
       color: '#F5222D',
       iconSvg: '/assets/icons/icon-doc-09-generic.svg',
       total: 119,
-      items: [
+      docs: [
         { name: '注册消防工程师资格证书', icon: '🔥' },
         { name: '一级注册消防工程师', icon: '🔥' },
         { name: '二级注册消防工程师', icon: '🔥' },
@@ -159,7 +159,7 @@ module.exports = {
       color: '#52C41A',
       iconSvg: '/assets/icons/icon-doc-03-generic.svg',
       total: 25,
-      items: [
+      docs: [
         { name: '委托代理合同书', icon: '📝' },
         { name: '诚意金协议书', icon: '📝' },
         { name: '驾校学车合同', icon: '📝' },
@@ -193,7 +193,7 @@ module.exports = {
       color: '#FA8C16',
       iconSvg: '/assets/icons/icon-doc-07-generic.svg',
       total: 34,
-      items: [
+      docs: [
         { name: '不动产权证书', icon: '🏠' },
         { name: '房屋所有权证', icon: '🏠' },
         { name: '共有权证', icon: '🏠' },
@@ -236,7 +236,7 @@ module.exports = {
       color: '#5B6FE8',
       iconSvg: '/assets/icons/icon-doc-05-generic.svg',
       total: 30,
-      items: [
+      docs: [
         { name: '增值税普通发票', icon: '🧾' },
         { name: '增值税专用发票', icon: '🧾' },
         { name: '电子发票', icon: '🧾' },
@@ -275,7 +275,7 @@ module.exports = {
       color: '#9BA8FF',
       iconSvg: '/assets/icons/icon-doc-11-generic.svg',
       total: 16,
-      items: [
+      docs: [
         { name: '驾驶证', icon: '🚗' },
         { name: '行驶证', icon: '🚗' },
         { name: '机动车登记证书', icon: '🚗' },
@@ -297,6 +297,6 @@ module.exports = {
   ],
 
   getTotalCount() {
-    return this.categories.reduce((sum, cat) => sum + cat.items.length, 0);
+    return this.categories.reduce((sum, cat) => sum + cat.docs.length, 0);
   }
 };

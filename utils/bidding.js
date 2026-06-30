@@ -10,7 +10,7 @@ const categories = [
     color: '#5B6FE8',
     desc: '工程项目、场地承租招标',
     hot: true,
-    items: [
+    docs: [
       { name: '工程招标公告' },
       { name: '场地承租项目招标公告' },
     ]
@@ -21,7 +21,7 @@ const categories = [
     color: '#FA8C16',
     desc: '物资采购、供应商入围招标',
     hot: true,
-    items: [
+    docs: [
       { name: '采购招标公告' },
       { name: '供应商招标公告' },
     ]
@@ -32,7 +32,7 @@ const categories = [
     color: '#52C41A',
     desc: '社会招聘、通用服务招标',
     hot: false,
-    items: [
+    docs: [
       { name: '社会招聘招标公告' },
       { name: '招标公告' },
     ]
@@ -40,7 +40,7 @@ const categories = [
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

@@ -93,15 +93,15 @@
   <view class="seal-select-section" wx:if="{{isPersonal}}">
     <view class="seal-select-title">选择印章类型</view>
     <view class="seal-grid">
-      <view class="seal-grid-item {{selectedCategory === 'personal' ? 'active' : ''}}" bindtap="onOpenPersonalSeals">
+      <view class="seal-grid-item {{selectedCategory === 9 ? 'active' : ''}}" bindtap="onOpenPersonalSeals">
         <text class="seal-grid-item-text">个人印章</text>
-        <view class="seal-check" wx:if="{{selectedCategory === 'personal'}}">
+        <view class="seal-check" wx:if="{{selectedCategory === 9}}">
           <image class="seal-check-icon svg-icon" src="/assets/icons/icon-wxml-6-61a236e7.svg" mode="aspectFit" />
         </view>
       </view>
-      <view class="seal-grid-item {{selectedCategory === 'professional' ? 'active' : ''}}" bindtap="onOpenProfessionalSeals">
+      <view class="seal-grid-item {{selectedCategory === 10 ? 'active' : ''}}" bindtap="onOpenProfessionalSeals">
         <text class="seal-grid-item-text">个人职业章</text>
-        <view class="seal-check" wx:if="{{selectedCategory === 'professional'}}">
+        <view class="seal-check" wx:if="{{selectedCategory === 10}}">
           <image class="seal-check-icon svg-icon" src="/assets/icons/icon-wxml-6-61a236e7.svg" mode="aspectFit" />
         </view>
       </view>

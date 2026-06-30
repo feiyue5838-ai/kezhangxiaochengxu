@@ -39,6 +39,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -278,7 +284,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -328,6 +334,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -567,7 +579,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -603,6 +615,311 @@ page {
   font-size: 34rpx;
   font-weight: 600;
   color: #fff;
+}
+
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+    /* pages/newspaper/idcard-page.wxss */
+page {
+  background: #F8F7FC;
+  min-height: 100vh;
+}
+
+/* ========== 瀵艰埅锟?========== */
+.nav-bar {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+
+.nav-back {
+  width: 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%;
+  top: 50%; transform: translate(-50%, -50%);
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
+/* ========== Banner ========== */
+.banner {
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  padding: 40rpx 32rpx 50rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 瑁呴グ锟? */
+.banner-deco-circle { 
+  position: absolute;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.14), transparent 70%);
+  right: 20rpx;
+  top: 10rpx;
+}
+
+.banner-deco-circle2 { 
+  position: absolute;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 70% 70%, rgb(255 255 255 / 0.10), transparent 70%);
+  left: 120rpx;
+  bottom: 20rpx;
+}
+
+.banner-title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #fff;
+  display: block;
+  margin-bottom: 12rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-subtitle {
+  font-size: 26rpx;
+  color: rgb(255 255 255 / 0.9);
+  display: block;
+  margin-bottom: 20rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-tags {
+  display: flex;
+  justify-content: center;
+  gap: 24rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-tag {
+  display: flex;
+  align-items: center;
+  font-size: 22rpx;
+  color: rgb(255 255 255 / 0.9);
+  background: rgb(255 255 255 / 0.2);
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+}
+
+.tag-icon {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 6rpx;
+}
+
+/* ========== 妯℃澘閫夋嫨鍖哄煙 ========== */
+.template-section {
+  padding: 24rpx;
+  margin-top: -30rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A2332;
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: center;
+}
+
+.section-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 10rpx;
+}
+
+/* ========== 妯℃澘鍗＄墖缃戞牸 ========== */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.template-card {
+  background: #fff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.10), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
+  border: 1rpx solid rgb(255 255 255 / 0.80);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.template-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 2rpx 10rpx rgb(91 111 232 / 0.12), 0 1rpx 2rpx rgb(12 26 46 / 0.03);
+}
+
+.template-card.selected {
+  border-color: rgb(91 111 232 / 0.30);
+  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
+}
+
+/* 鍗＄墖椤堕儴 */
+.card-top {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 28rpx 12rpx;
+  position: relative;
+  overflow: visible;
+}
+
+.card-top::before {
+  content: '';
+  position: absolute;
+  left: -20rpx;
+  top: -20rpx;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: var(--card-color, #5B6FE8);
+  opacity: 0.10;
+  filter: blur(24rpx);
+}
+
+.card-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: var(--card-color, #5B6FE8);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
+}
+
+.card-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: var(--card-color, #5B6FE8);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
+}
+
+.card-badge {
+  font-size: 21rpx;
+  color: #fff;
+  background: var(--card-color, #5B6FE8);
+  padding: 4rpx 18rpx;
+  border-radius: 20rpx;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
+}
+
+/* 鍗＄墖搴曢儴 */
+.card-body {
+  padding: 8rpx 24rpx 24rpx;
+  background: #fff;
+  flex: 1;
+  position: relative;
+}
+
+.card-name {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #1A2332;
+  display: block;
+  margin-bottom: 6rpx;
+  letter-spacing: 0.5rpx;
+  line-height: 1.35;
+}
+
+.card-desc {
+  font-size: 21rpx;
+  color: #8C97A6;
+  display: block;
+  line-height: 1.45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 閫変腑瑙掓爣 */
+.card-check {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48rpx;
+  height: 48rpx;
+  background: var(--card-color, #5B6FE8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 24rpx 0 16rpx;
+  z-index: 3;
+}
+
+.check-icon {
+  width: 26rpx;
+  height: 26rpx;
+}
+
+/* 搴曢儴鑹茬嚎 */
+.template-card::after {
+  content: '';
+  position: absolute;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 8rpx;
+  height: 4rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  opacity: 0.5;
+}
+
+.banner {
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  padding: 40rpx 32rpx 50rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
     /* pages/newspaper/idcard-page.wxss */
@@ -646,299 +963,12 @@ page {
   color: #fff;
 }
 
-/* ========== Banner ========== */
-.banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-  padding: 40rpx 32rpx 50rpx;
-  border-radius: 0 0 40rpx 40rpx;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
 
-/* 瑁呴グ锟? */
-.banner-deco-circle { 
-  position: absolute;
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.14), transparent 70%);
-  right: 20rpx;
-  top: 10rpx;
-}
 
-.banner-deco-circle2 { 
-  position: absolute;
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 50%;
-  background: radial-gradient(circle at 70% 70%, rgb(255 255 255 / 0.10), transparent 70%);
-  left: 120rpx;
-  bottom: 20rpx;
-}
-
-.banner-title {
-  font-size: 44rpx;
-  font-weight: bold;
-  color: #fff;
-  display: block;
-  margin-bottom: 12rpx;
-  position: relative;
-  z-index: 1;
-}
-
-.banner-subtitle {
-  font-size: 26rpx;
-  color: rgb(255 255 255 / 0.9);
-  display: block;
-  margin-bottom: 20rpx;
-  position: relative;
-  z-index: 1;
-}
-
-.banner-tags {
-  display: flex;
-  justify-content: center;
-  gap: 24rpx;
-  position: relative;
-  z-index: 1;
-}
-
-.banner-tag {
-  display: flex;
-  align-items: center;
-  font-size: 22rpx;
-  color: rgb(255 255 255 / 0.9);
-  background: rgb(255 255 255 / 0.2);
-  padding: 8rpx 20rpx;
-  border-radius: 20rpx;
-}
-
-.tag-icon {
-  width: 28rpx;
-  height: 28rpx;
-  margin-right: 6rpx;
-}
-
-/* ========== 妯℃澘閫夋嫨鍖哄煙 ========== */
-.template-section {
-  padding: 24rpx;
-  margin-top: -30rpx;
-  position: relative;
-  z-index: 10;
-}
-
-.section-title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #1A2332;
-  margin-bottom: 16rpx;
-  display: flex;
-  align-items: center;
-}
-
-.section-icon {
-  width: 32rpx;
-  height: 32rpx;
-  margin-right: 10rpx;
-}
-
-/* ========== 妯℃澘鍗＄墖缃戞牸 ========== */
-.template-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20rpx;
-}
-
-.template-card {
-  background: #fff;
-  border-radius: 24rpx;
-  overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.10), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
-  border: 1rpx solid rgb(255 255 255 / 0.80);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.template-card:active {
-  transform: scale(0.97);
-  box-shadow: 0 2rpx 10rpx rgb(91 111 232 / 0.12), 0 1rpx 2rpx rgb(12 26 46 / 0.03);
-}
-
-.template-card.selected {
-  border-color: rgb(91 111 232 / 0.30);
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
-}
-
-/* 鍗＄墖椤堕儴 */
-.card-top {
-  height: 80rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24rpx 28rpx 12rpx;
-  position: relative;
-  overflow: visible;
-}
-
-.card-top::before {
-  content: '';
-  position: absolute;
-  left: -20rpx;
-  top: -20rpx;
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
-  opacity: 0.10;
-  filter: blur(24rpx);
-}
-
-.card-dot {
-  width: 20rpx;
-  height: 20rpx;
-  border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
-}
-
-.card-dot {
-  width: 20rpx;
-  height: 20rpx;
-  border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
-}
-
-.card-badge {
-  font-size: 21rpx;
-  color: #fff;
-  background: var(--card-color, #5B6FE8);
-  padding: 4rpx 18rpx;
-  border-radius: 20rpx;
-  font-weight: 700;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
-}
-
-/* 鍗＄墖搴曢儴 */
-.card-body {
-  padding: 8rpx 24rpx 24rpx;
-  background: #fff;
-  flex: 1;
-  position: relative;
-}
-
-.card-name {
-  font-size: 26rpx;
-  font-weight: 700;
-  color: #1A2332;
-  display: block;
-  margin-bottom: 6rpx;
-  letter-spacing: 0.5rpx;
-  line-height: 1.35;
-}
-
-.card-desc {
-  font-size: 21rpx;
-  color: #8C97A6;
-  display: block;
-  line-height: 1.45;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* 閫変腑瑙掓爣 */
-.card-check {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 48rpx;
-  height: 48rpx;
-  background: var(--card-color, #5B6FE8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 24rpx 0 16rpx;
-  z-index: 3;
-}
-
-.check-icon {
-  width: 26rpx;
-  height: 26rpx;
-}
-
-/* 搴曢儴鑹茬嚎 */
-.template-card::after {
-  content: '';
-  position: absolute;
-  left: 24rpx;
-  right: 24rpx;
-  bottom: 8rpx;
-  height: 4rpx;
-  border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
-  opacity: 0.5;
-}
-
-.banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-  padding: 40rpx 32rpx 50rpx;
-  border-radius: 0 0 40rpx 40rpx;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-    /* pages/newspaper/idcard-page.wxss */
-page {
-  background: #F8F7FC;
-  min-height: 100vh;
-}
-
-/* ========== 瀵艰埅锟?========== */
-.nav-bar {
-  box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  padding: 0 32rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-}
-
-.nav-back {
+.nav-placeholder {
   width: 60rpx;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40rpx;
-  color: #fff;
-  font-weight: 300;
-  line-height: 1;
 }
-
-.nav-title {
-  position: absolute;
-  left: 50%;
-  top: 50%; transform: translate(-50%, -50%);
-  font-size: 34rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -1178,7 +1208,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -1286,6 +1316,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -1525,7 +1561,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -1592,6 +1628,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -1831,7 +1873,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -1904,6 +1946,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -2143,7 +2191,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -2243,6 +2291,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -2482,7 +2536,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -2554,6 +2608,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -2793,7 +2853,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -2857,6 +2917,12 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
@@ -3096,7 +3162,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 
@@ -3108,6 +3174,6 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }

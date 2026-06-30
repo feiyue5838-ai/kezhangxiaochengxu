@@ -12,10 +12,15 @@ Page({
   },
 
   onLoad() {
-    // 计算导航栏高度
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
-    this.setData({ statusBarHeight, navHeight });
+    try {
+      // 计算导航栏高度
+      const { statusBarHeight, navHeight } = common.getNavigationHeight();
+      this.setData({ statusBarHeight, navHeight });
+    } catch (e) {
+      console.error('onLoad error:', e);
+      // 兜底：使用默认值
+      this.setData({ statusBarHeight: 20, navHeight: 64 });
+    }
 
     // 从 Storage 读取模板数据
     const templateData = wx.getStorageSync('newspaperTemplate') || {};

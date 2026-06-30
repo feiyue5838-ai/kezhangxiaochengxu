@@ -10,7 +10,7 @@ const categories = [
     color: '#EB2F96',
     desc: '个人原因致歉公示',
     hot: true,
-    items: [
+    docs: [
       { name: '个人道歉声明' },
       { name: '个人误伤道歉' },
       { name: '个人侵权道歉' },
@@ -22,7 +22,7 @@ const categories = [
     color: '#5B6FE8',
     desc: '企业对外致歉公告',
     hot: true,
-    items: [
+    docs: [
       { name: '企业道歉声明' },
       { name: '企业服务道歉' },
       { name: '企业虚假宣传道歉' },
@@ -34,7 +34,7 @@ const categories = [
     color: '#FA8C16',
     desc: '产品质量问题致歉',
     hot: false,
-    items: [
+    docs: [
       { name: '产品道歉声明' },
       { name: '产品召回道歉' },
     ]
@@ -45,7 +45,7 @@ const categories = [
     color: '#52C41A',
     desc: '侵权、违约等致歉',
     hot: false,
-    items: [
+    docs: [
       { name: '侵权道歉声明' },
       { name: '违约道歉声明' },
     ]
@@ -53,7 +53,7 @@ const categories = [
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

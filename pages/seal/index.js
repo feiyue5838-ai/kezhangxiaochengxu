@@ -16,8 +16,7 @@ Page({
 
   onLoad() {
     // 固定 64px，与首页一致
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight, subCategories: this.data.categories.slice(1) });
   },
 

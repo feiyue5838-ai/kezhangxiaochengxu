@@ -21,8 +21,7 @@ Page({
   },
 
   onLoad(opt) {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
     // 从 Storage 或 URL 参数读取订单
     const storageOrder = wx.getStorageSync('aftersale_order');

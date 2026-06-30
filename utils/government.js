@@ -7,14 +7,14 @@ const categories = [
   {
     id: 1, name: '检察司法类公告', color: '#722ED1',
     desc: '人民检察院公告', hot: false,
-    items: [
+    docs: [
       { name: '人民检察院公告' },
     ]
   },
   {
     id: 2, name: '行政处罚送达催告', color: '#F5222D',
     desc: '处罚告知、决定书、催告书全套送达', hot: true,
-    items: [
+    docs: [
       { name: '行政处罚事先告知书送达公告' },
       { name: '听证告知书送达公告' },
       { name: '撤销行政许可听证告知书送达公告' },
@@ -27,7 +27,7 @@ const categories = [
   {
     id: 3, name: '劳动仲裁送达公告', color: '#5B6FE8',
     desc: '劳动仲裁、人事仲裁送达', hot: true,
-    items: [
+    docs: [
       { name: '劳动仲裁公告' },
       { name: '劳动人事仲裁委员会公告' },
       { name: '仲裁委员会公告函' },
@@ -36,21 +36,21 @@ const categories = [
   {
     id: 4, name: '规划行政许可公示', color: '#0FCB7D',
     desc: '规划设计条件变更公示', hot: false,
-    items: [
+    docs: [
       { name: '规划设计条件变更公示' },
     ]
   },
   {
     id: 5, name: '公证遗嘱类公告', color: '#FA8E17',
     desc: '遗嘱公告', hot: false,
-    items: [
+    docs: [
       { name: '遗嘱公告' },
     ]
   }
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

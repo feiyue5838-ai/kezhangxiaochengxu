@@ -14,8 +14,7 @@ Page({
 
   onLoad(options) {
     // 导航栏高度
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
 
     this.setData({
       statusBarHeight,

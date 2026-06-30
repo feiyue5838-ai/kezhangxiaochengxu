@@ -8,7 +8,10 @@ Component({
 
   data: {
     statusBarHeight: 20,
-    topPreviewHeight: 420, // 上半屏高度（64 导航 + 356 内容区），动态计算覆盖
+    navHeight: 64,
+    topPreviewHeight: 420,
+    menuButtonTop: 28,
+    menuButtonHeight: 32,
     visible: false,
     show: false,
     selectedIds: [],
@@ -210,10 +213,34 @@ Component({
   lifetimes: {
     attached() {
       const sys = wx.getSystemInfoSync();
-      const statusBarHeight = sys.statusBarHeight;
-      // 上半屏预览内容区高度（导航栏64px已独立为固定元素，在顶部）
+      const statusBarHeight = sys.statusBarHeight || 20;
+      
+      // 计算导航栏内容区高度（与胶囊按钮底部对齐）
+      let navContentHeight = 44;
+      let menuButtonTop = statusBarHeight + 8; // 胶囊top默认值
+      let menuButtonHeight = 32; // 胶囊高度默认值
+      
+      try {
+        const menuButton = wx.getMenuButtonBoundingClientRect();
+        if (menuButton && menuButton.height) {
+          navContentHeight = menuButton.height + (menuButton.top - statusBarHeight) * 2;
+          menuButtonTop = menuButton.top;
+          menuButtonHeight = menuButton.height;
+        }
+      } catch (e) {
+        navContentHeight = 44;
+      }
+      
+      const navHeight = statusBarHeight + navContentHeight;
       const topPreviewHeight = Math.round(380 / 750 * sys.windowWidth);
-      this.setData({ statusBarHeight, topPreviewHeight });
+      
+      this.setData({ 
+        statusBarHeight, 
+        navHeight, 
+        topPreviewHeight,
+        menuButtonTop,
+        menuButtonHeight
+      });
     }
   },
 

@@ -80,8 +80,7 @@ Page({
   },
 
   onLoad(opt) {
-    const statusBarHeight = common.getNavigationHeight().statusBarHeight;
-    const navHeight = statusBarHeight + 64;
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
     // 有status参数时自动切换tab
     if (opt && opt.status !== undefined) {

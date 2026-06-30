@@ -12,7 +12,7 @@ page {
   left: 0;
   right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   box-sizing: border-box;
 }
 
@@ -41,9 +41,15 @@ page {
   text-align: center;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== 头部区域 ========== */
 .header {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   padding: 48rpx 40rpx 40rpx;
 }
 
@@ -155,7 +161,7 @@ page {
   align-items: center;
   justify-content: center;
   margin-bottom: 12rpx;
-  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .func-icon-img {

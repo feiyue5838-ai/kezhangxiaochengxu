@@ -15,7 +15,7 @@ page {
   display: flex;
   align-items: center;
   padding: 0 32rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
 }
 
 .nav-back {
@@ -39,9 +39,15 @@ page {
   color: #fff;
 }
 
+
+
+.nav-placeholder {
+  width: 60rpx;
+  height: 100%;
+}
 /* ========== Banner ========== */
 .banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   padding: 40rpx 32rpx 50rpx;
   border-radius: 0 0 40rpx 40rpx;
   text-align: center;
@@ -278,7 +284,7 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(90deg, var(--card-color, #5B6FE8), transparent);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   opacity: 0.5;
 }
 

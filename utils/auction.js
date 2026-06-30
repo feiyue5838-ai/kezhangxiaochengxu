@@ -10,7 +10,7 @@ const categories = [
     color: '#F5222D',
     desc: '线下拍卖通用模板',
     hot: true,
-    items: [
+    docs: [
       { name: '拍卖公告' },
       { name: '拍卖公告 1' },
       { name: '拍卖公告 2' },
@@ -23,7 +23,7 @@ const categories = [
     color: '#5B6FE8',
     desc: '网络拍卖平台公告',
     hot: true,
-    items: [
+    docs: [
       { name: '网络拍卖公告 1' },
       { name: '网络拍卖公告 2' },
     ]
@@ -34,7 +34,7 @@ const categories = [
     color: '#FA8C16',
     desc: '资产、机动车专项拍卖',
     hot: false,
-    items: [
+    docs: [
       { name: '资产拍卖公告' },
       { name: '机动车拍卖公告' },
     ]
@@ -45,14 +45,14 @@ const categories = [
     color: '#F5222D',
     desc: '法院强制执行拍卖公告',
     hot: false,
-    items: [
+    docs: [
       { name: '法院拍卖公告' },
     ]
   }
 ];
 
 function getTotalCount() {
-  return categories.reduce((sum, cat) => sum + cat.items.length, 0);
+  return categories.reduce((sum, cat) => sum + cat.docs.length, 0);
 }
 
 /**

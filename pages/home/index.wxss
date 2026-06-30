@@ -21,7 +21,7 @@ page {
   left: 0;
   right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   box-sizing: border-box;
 }
 
@@ -62,7 +62,7 @@ page {
 .hero {
   padding: 48rpx 40rpx 80rpx;
   text-align: center;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7, #9BA8FF);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   position: relative;
 }
 
@@ -125,28 +125,15 @@ page {
 .svc-icon {
   width: 96rpx;
   height: 96rpx;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20rpx;
 }
 
-.svc-icon-seal {
-  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
-}
-
-.svc-icon-news {
-  background: linear-gradient(135deg, #F0F5FF, #E0ECFF);
-}
-
-.svc-icon-file {
-  background: linear-gradient(135deg, #E6F7FF, #D1E9FF);
-}
-
 .svc-svg {
-  width: 56rpx;
-  height: 56rpx;
+  width: 88rpx;
+  height: 88rpx;
 }
 
 .svc-name {
