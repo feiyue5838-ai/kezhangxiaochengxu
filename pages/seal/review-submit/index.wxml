@@ -15,7 +15,7 @@
           wx:key="*this"
           data-score="{{s + 1}}"
           bindtap="onServiceStarTap"
-        ><image src="/assets/icons/icon-wxml-26-97bcb345.svg" mode="aspectFit" class="star-icon" /></text>
+        ><text style="font-size:24rpx;">&#11088;</text></text>
       </view>
     </view>
 
@@ -30,7 +30,7 @@
           wx:key="*this"
           data-score="{{s + 1}}"
           bindtap="onQualityStarTap"
-        ><image src="/assets/icons/icon-wxml-26-97bcb345.svg" mode="aspectFit" class="star-icon" /></text>
+        ><text style="font-size:24rpx;">&#11088;</text></text>
       </view>
     </view>
 

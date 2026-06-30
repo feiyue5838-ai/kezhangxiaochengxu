@@ -7,7 +7,7 @@
       wx:key="id"
       bindtap="selectTemplate"
       data-id="{{item.id}}">
-      <view class="item-check" wx:if="{{item.id === selectedId}}"><image src="/assets/icons/icon-wxml-1-a3deb6ec.svg" mode="aspectFit" class="check-icon"/></view>
+      <view class="item-check" wx:if="{{item.id === selectedId}}"><text style="font-size:20rpx;color:#fff;">&#10003;</text></view>
       <view class="item-name">{{item.name}}</view>
       <view class="item-desc">{{item.desc}}</view>
     </view>

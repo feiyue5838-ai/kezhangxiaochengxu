@@ -14,8 +14,8 @@
     <text class="banner-title">身份证登报</text>
     <text class="banner-subtitle">安全可靠 · 当日见报</text>
     <view class="banner-tags">
-      <view class="banner-tag"><image src="/assets/icons/icon-idcard-shield.svg" mode="aspectFit" class="tag-icon" />官方认证</view>
-      <view class="banner-tag"><image src="/assets/icons/icon-idcard-check.svg" mode="aspectFit" class="tag-icon" />快速办理</view>
+      <view class="banner-tag"><text>&#10003;</text>官方认证</view>
+      <view class="banner-tag"><text style="font-size:24rpx;">&#10003;</text>快速办理</view>
     </view>
   </view>
 
@@ -36,7 +36,7 @@
           <text class="card-desc">{{item.desc}}</text>
         </view>
         <view class="card-check" wx:if="{{item.id === selectedTemplate}}">
-          <image src="/assets/icons/icon-wxml-1-a3deb6ec.svg" mode="aspectFit" class="check-icon" />
+          <text style="font-size:24rpx;">&#10003;</text>
         </view>
       </view>
     </view>

@@ -25,8 +25,7 @@
     >
       <text class="cat-name">{{item.name}}</text>
       <view wx:if="{{selectedId === item.id}}" class="selected-badge">
-        <image class="selected-icon svg-icon" src="/assets/icons/icon-wxml-6-61a236e7.svg" mode="aspectFit" />
-      </view>
+        </view>
     </view>
   </view>
 

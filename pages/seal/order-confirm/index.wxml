@@ -11,7 +11,6 @@
     <!-- 邮寄地址 -->
     <view class="form-item" bindtap="onAddressTap">
       <view class="form-label">
-        <image class="label-icon" src="/assets/icons/icon-wxml-13-40a4d29a.svg" mode="aspectFit" />
         <text>配送地址</text>
         <text class="required">*</text>
       </view>
@@ -37,7 +36,6 @@
     <!-- 联系号码 -->
     <view class="form-item">
       <view class="form-label">
-        <image class="label-icon" src="/assets/icons/icon-wxml-21-af9034ff.svg" mode="aspectFit" />
         <text>联系号码</text>
       </view>
       <input class="form-input" type="number" value="{{contactPhone}}" 
@@ -47,7 +45,7 @@
     <!-- 订单备注 -->
     <view class="form-item">
       <view class="form-label">
-        <image class="label-icon" src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
+        <text style="margin-right:4rpx;">&#127991;</text> src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
         <text>订单备注</text>
         <text class="optional">(选填)</text>
       </view>
@@ -59,7 +57,6 @@
     <!-- 开具发票 -->
     <view class="form-item" bindtap="onInvoiceTap">
       <view class="form-label">
-        <image class="label-icon" src="/assets/icons/icon-wxml-22-95f41509.svg" mode="aspectFit" />
         <text>开具发票</text>
       </view>
       <view class="form-content {{invoice ? 'has-value' : ''}}">
@@ -84,9 +81,9 @@
           <view class="material-item">
             <text class="material-type-label">营业执照</text>
             <view class="material-thumb-wrap">
-              <image src="{{materials.license}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.license}}" />
+              <text>&#10003;</text>
             </view>
-            <image class="material-delete svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" bindtap="onDeleteMaterial" data-type="license" />
+            <text>&#10003;</text>
           </view>
         </block>
 
@@ -95,10 +92,10 @@
           <view class="material-item">
             <text class="material-type-label">{{isPersonal ? '身份证' : '法人身份证'}}</text>
             <view class="material-thumb-wrap">
-              <image wx:if="{{materials.idCardFront}}" src="{{materials.idCardFront}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardFront}}" />
-              <image wx:if="{{materials.idCardBack}}" src="{{materials.idCardBack}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardBack}}" />
+              <text>&#10003;</text>
+              <text>&#10003;</text>
             </view>
-            <image class="material-delete svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" bindtap="onDeleteMaterial" data-type="idCard" />
+            <text>&#10003;</text>
           </view>
         </block>
 
@@ -107,9 +104,9 @@
           <view class="material-item">
             <text class="material-type-label">法人照片</text>
             <view class="material-thumb-wrap">
-              <image src="{{materials.photo}}" class="material-thumb" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.photo}}" />
+              <text>&#10003;</text>
             </view>
-            <image class="material-delete svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" bindtap="onDeleteMaterial" data-type="photo" />
+            <text>&#10003;</text>
           </view>
         </block>
       </view>
@@ -118,7 +115,7 @@
     <!-- 上传按钮 -->
     <view class="material-dash-box" bindtap="onMaterialTap">
       <view class="material-icon-wrap">
-        <image class="material-icon-large" src="/assets/icons/icon-idcard-doc.svg" mode="aspectFit" />
+        <text>&#10003;</text>
       </view>
       <text class="material-add-text">{{materials.license || materials.idCardFront ? '继续上传' : '点击上传'}}</text>
     </view>
@@ -127,7 +124,7 @@
     <view wx:if="{{!isPersonal}}" class="material-tips">
       <!-- 红色警告：特定区域必须上传法人照片 -->
       <view wx:if="{{needLegalPhoto}}" class="tips-warning">
-        <image class="warning-icon" src="/assets/icons/icon-wxml-23-af9b3587.svg" mode="aspectFit" />
+        <text>&#10003;</text>
         <text class="warning-text">重要提示：{{licenseRegion}}地区必须上传法人照片</text>
       </view>
       <view class="tips-title">基础材料上传：</view>
@@ -210,11 +207,11 @@
   <!-- 合规说明 -->
   <view class="compliance-section">
     <view class="compliance-item">
-      <image class="svg-icon" src="/assets/icons/icon-wxml-24-96393dff.svg" mode="aspectFit" />
+      <text>&#10003;</text>
       <text>定制产品不支持退换，敬请确认</text>
     </view>
     <view class="compliance-item">
-      <image class="svg-icon" src="/assets/icons/icon-wxml-16-db8dd95b.svg" mode="aspectFit" />
+      <text>&#10003;</text>
       <text>平台代办公安备案，合法合规</text>
     </view>
   </view>

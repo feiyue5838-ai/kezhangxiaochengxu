@@ -13,7 +13,7 @@
   <view class="search-wrap">
     <view class="search-bar">
       <input class="search-input" placeholder="搜索证件类型" placeholder-class="search-placeholder" bindinput="onSearch" value="{{searchKey}}" />
-      <image class="search-clear svg-icon" src="/assets/icons/icon-wxml-4-f218b854.svg" mode="aspectFit" />
+      <text>&#10003;</text>
     </view>
   </view>
 
@@ -23,7 +23,7 @@
       <view class="doc-card" wx:for="{{filteredDocs}}" wx:key="name" bindtap="selectDoc" data-doc="{{item}}"
         style="--cat-color: {{categoryColor}};">
         <view class="doc-icon-wrap">
-          <image class="doc-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+          <text>&#10003;</text>
         </view>
         <view class="doc-info">
           <text class="doc-name">{{item.name}}</text>
@@ -34,7 +34,7 @@
 
     <!-- 无搜索结果 -->
     <view class="empty-state" wx:if="{{searchKey && filteredDocs.length === 0}}">
-      <image class="empty-icon-img" src="/assets/icons/icon-wxml-5-d047bc08.svg" mode="aspectFit" />
+      <text>&#10003;</text>
       <text class="empty-text">未找到"{{searchKey}}"相关证件</text>
     </view>
   </scroll-view>

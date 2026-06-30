@@ -43,7 +43,7 @@
           
           <!-- 选中标记 -->
           <view class="check-mark" wx:if="{{selectedPaper === item.id}}">
-            <image class="svg-icon svg-icon" src="/assets/icons/icon-wxml-6-61a236e7.svg" mode="aspectFit" />
+            <text style="font-size:24rpx;">&#10003;</text>
           </view>
         </view>
       </view>

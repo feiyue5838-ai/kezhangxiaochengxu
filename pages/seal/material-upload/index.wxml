@@ -16,21 +16,18 @@
     <view class="upload-row">
       <view class="upload-item" bindtap="onIdCardFrontTap">
         <block wx:if="{{idCardFront}}">
-          <image src="{{idCardFront}}" mode="aspectFill" class="upload-img"
-                 data-url="{{idCardFront}}" data-type="single" bindtap="onPreviewImage" />
+          <text>&#10003;</text>
           <view class="delete-btn" data-type="idCardFront" catchtap="onDeleteImage">×</view>
         </block>
         <block wx:else>
           <view class="upload-placeholder card-style">
-            <image class="placeholder-emoji" src="/assets/icons/icon-wxml-17-c167733c.svg" mode="aspectFit" />
             <text class="placeholder-label">身份证正面（人像面）<text class="star">*</text></text>
           </view>
         </block>
       </view>
       <view class="upload-item" bindtap="onIdCardBackTap">
         <block wx:if="{{idCardBack}}">
-          <image src="{{idCardBack}}" mode="aspectFill" class="upload-img"
-                 data-url="{{idCardBack}}" data-type="single" bindtap="onPreviewImage" />
+          <text>&#10003;</text>
           <view class="delete-btn" data-type="idCardBack" catchtap="onDeleteImage">×</view>
         </block>
         <block wx:else>
@@ -51,13 +48,12 @@
     </view>
     <view class="upload-single" bindtap="onLicenseTap">
       <block wx:if="{{license}}">
-        <image src="{{license}}" mode="aspectFill" class="upload-img-lg"
-               data-url="{{license}}" data-type="single" bindtap="onPreviewImage" />
+        <text>&#10003;</text>
         <view class="delete-btn" data-type="license" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <image class="placeholder-emoji-lg" src="/assets/icons/icon-doc-00-4A8CFF.svg" mode="aspectFit" />
+          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
           <text class="placeholder-label">点击上传 营业执照<text class="star">*</text></text>
         </view>
       </block>
@@ -72,13 +68,12 @@
     </view>
     <view class="upload-single" bindtap="onLegalPhotoTap">
       <block wx:if="{{legalPhoto}}">
-        <image src="{{legalPhoto}}" mode="aspectFill" class="upload-img-lg"
-               data-url="{{legalPhoto}}" data-type="single" bindtap="onPreviewImage" />
+        <text>&#10003;</text>
         <view class="delete-btn" data-type="legalPhoto" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <image class="placeholder-emoji-lg" src="/assets/icons/icon-wxml-18-a039ec7b.svg" mode="aspectFit" />
+          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
           <text class="placeholder-label">点击上传 {{photoTitle}}<text class="star">*</text></text>
         </view>
       </block>
@@ -93,13 +88,12 @@
     </view>
     <view class="upload-single" bindtap="onCertTap">
       <block wx:if="{{professionalCert}}">
-        <image src="{{professionalCert}}" mode="aspectFill" class="upload-img-lg"
-               data-url="{{professionalCert}}" data-type="single" bindtap="onPreviewImage" />
+        <text>&#10003;</text>
         <view class="delete-btn" data-type="professionalCert" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <image class="placeholder-emoji-lg" src="/assets/icons/icon-wxml-19-6a93572d.svg" mode="aspectFit" />
+          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
           <text class="placeholder-label">点击上传 执业证书章</text>
         </view>
       </block>
@@ -114,13 +108,12 @@
     </view>
     <view class="upload-single" bindtap="onSignatureTap">
       <block wx:if="{{signature}}">
-        <image src="{{signature}}" mode="aspectFill" class="upload-img-lg"
-               data-url="{{signature}}" data-type="single" bindtap="onPreviewImage" />
+        <text>&#10003;</text>
         <view class="delete-btn" data-type="signature" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <image class="placeholder-emoji-lg" src="/assets/icons/icon-wxml-20-d77b7e02.svg" mode="aspectFit" />
+          <text style="font-size:48rpx;color:#ccc;">&#128247;</text>
           <text class="placeholder-label">点击上传 个人签名章</text>
         </view>
       </block>
@@ -134,8 +127,7 @@
     </view>
     <view class="upload-list" wx:if="{{additional.length > 0}}">
       <view class="upload-item-sm" wx:for="{{additional}}" wx:key="index">
-        <image src="{{item}}" mode="aspectFill" class="upload-img-sm"
-               data-url="{{item}}" data-urls="{{additional}}" bindtap="onPreviewImage" />
+        <text>&#10003;</text>
         <view class="delete-btn-sm" data-type="additional" data-index="{{index}}" catchtap="onDeleteImage">×</view>
       </view>
       <view class="upload-item-sm add-more" bindtap="onAdditionalTap" wx:if="{{additional.length < 5}}">
