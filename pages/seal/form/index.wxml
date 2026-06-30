@@ -66,7 +66,22 @@
   <stamp-promo-banner wx:if="{{!isPersonal && !isElectronic}}" />
 
   <!-- 2. 表单填写区（仅企业显示） -->
-  <stamp-apply-form wx:if="{{!isPersonal && !isElectronic}}" isPersonal="{{isPersonal}}" bind:formchange="onFormChange" />
+  <stamp-apply-form id="stampForm" wx:if="{{!isPersonal && !isElectronic}}" isPersonal="{{isPersonal}}" bind:formchange="onFormChange" bind:openregion="onOpenRegion" />
+
+  <!-- 地区选择弹窗（页面级，稳定性更好） -->
+  <view class="region-mask" wx:if="{{showRegion}}" bindtap="closeRegion"></view>
+  <view class="region-panel" wx:if="{{showRegion}}">
+    <view class="region-header">
+      <text class="region-btn cancel" bindtap="closeRegion">取消</text>
+      <text class="region-title">选择地区</text>
+      <text class="region-btn confirm" bindtap="confirmRegion">确定</text>
+    </view>
+    <picker-view class="region-pv" value="{{ri}}" bindchange="onRegionChange" indicator-style="height:88rpx;">
+      <picker-view-column><view class="region-cell" wx:for="{{ps}}">{{item}}</view></picker-view-column>
+      <picker-view-column><view class="region-cell" wx:for="{{cs}}">{{item}}</view></picker-view-column>
+      <picker-view-column><view class="region-cell" wx:for="{{ds}}">{{item}}</view></picker-view-column>
+    </picker-view>
+  </view>
 
   <!-- 3. 电子印章选择区（2列网格，与个人印章风格对齐） -->
   <view class="seal-select-section" wx:if="{{isElectronic}}">

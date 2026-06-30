@@ -1,6 +1,6 @@
 /* pages/seal/form/index.wxss */
 
-/* ========== 导航栏 ========== */
+/* ========== 导航�?========== */
 .nav-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -88,7 +88,7 @@
   transform: rotate(180deg);
 }
 
-/* 閸╁骸绔舵稉瀣閸掓銆? */
+/* 閸╁骸绔舵稉瀣閸掓�? */
 .query-city-dropdown {
   margin: -10rpx 24rpx 0;
   background: var(--bg-white);
@@ -113,7 +113,7 @@
   font-weight: 600;
 }
 
-/* 楠炲啿褰存穱鈩冧紖閸楋紕澧? */
+/* 楠炲啿褰存穱鈩冧紖閸楋紕�? */
 .query-platform-card {
   margin: 0 24rpx 24rpx;
   padding: 32rpx;
@@ -184,7 +184,7 @@
   color: var(--text-secondary);
 }
 
-/* 鐠囧瓨妲戞穱鈩冧紖 */
+/* 鐠囧瓨妲戞穱鈩冧�?*/
 .query-info-section {
   margin: 0 24rpx 24rpx;
   padding: 28rpx 32rpx;
@@ -222,7 +222,7 @@
   line-height: 1.6;
 }
 
-/* 娣団€叉崲閹绘劗銇? */
+/* 娣団€叉崲閹绘劗�? */
 .query-trust-card {
   margin: 0 24rpx 40rpx;
   padding: 28rpx 32rpx;
@@ -257,7 +257,7 @@
   line-height: 1.6;
 }
 
-/* 閸楁壆鐝烽柅澶嬪閸栫尨绱欑€靛綊缍?select 妞ゅ灚鐗卞蹇ョ礆 */
+/* 閸楁壆鐝烽柅澶嬪閸栫尨绱欑€靛綊缍?select 妞ゅ灚鐗卞蹇ョ�?*/
 .seal-select-section {
   padding: 30rpx 30rpx 10rpx;
 }
@@ -306,7 +306,7 @@
   font-weight: 600;
 }
 
-/* 閸欏厖绗傜憴鎺戝瑎闁顫楅敓? */
+/* 閸欏厖绗傜憴鎺戝瑎闁顫楅�? */
 .seal-check {
   position: absolute;
   top: 0;
@@ -325,4 +325,41 @@
   height: 24rpx;
 }
 
-/* 閿熸枻鎷烽敓鏂ゆ嫹鍗伴敓鏂ゆ嫹閫夐敓鏂ゆ嫹閿熸枻鎷? */
+/* 閿熸枻鎷烽敓鏂ゆ嫹鍗伴敓鏂ゆ嫹閫夐敓鏂ゆ嫹閿熸枻�? */
+/* ����ѡ�񵯴� */
+.region-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+.region-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  z-index: 10000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.region-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.region-btn { font-size: 28rpx; }
+.cancel { color: #999; }
+.confirm { color: #5B6FE8; font-weight: 500; }
+.region-title { font-size: 32rpx; font-weight: 600; color: #333; }
+.region-pv { height: 400rpx; margin: 0; }
+.region-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  font-size: 28rpx;
+  color: #333;
+}
