@@ -104,16 +104,54 @@ Page({
           const year = currentDate.getFullYear();
           const month = String(currentDate.getMonth() + 1).padStart(2, '0');
           const day = String(currentDate.getDate()).padStart(2, '0');
+          const dateStr = `${year}年${month}月${day}日`;
 
           let newContent = this.data.content;
-          newContent = newContent.replace(/XXX/g, name);
-          newContent = newContent.replace(/XXXX年XX月XX日/g, `${year}年${month}月${day}日`);
+
+          // 1. 日期占位符 → 自动填当天日期
+          newContent = newContent.replace(/XXXX年XX月XX日/g, dateStr);
+
+          // 2. 长串 X 正文占位符（15+ 连续X）→ 提示填写
+          newContent = newContent.replace(/X{15,}/g, '（请填写相关内容）');
+
+          // 3. 姓名类独立行（声明人/致歉人/联系人等）→ 替换为输入的姓名
+          const nameFields = [
+            '声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人'
+          ];
+          nameFields.forEach(field => {
+            const regex = new RegExp(`^${field}：XXX$`, 'gm');
+            newContent = newContent.replace(regex, `${field}：${name}`);
+          });
+
+          // 4. 其余 XXX 暂时保留，不乱替换证件号码等关键信息
+          // （如需用户自行填写，自然保留即可）
 
           this.setData({
             content: newContent,
             charCount: newContent.length
           });
-          wx.showToast({ title: '替换成功', icon: 'success' });
+
+          // 检测剩余未处理字段
+          const phoneCount = (newContent.match(/联系电话：XXXX/g) || []).length;
+          const addrCount = (newContent.match(/联系地址：XXXX/g) || []).length;
+          const contentPlaceholder = (newContent.match(/（请填写相关内容）/g) || []).length;
+          const otherX = (newContent.match(/XXXX(?!年)/g) || []).length;
+          const remaining = [];
+          if (phoneCount > 0) remaining.push(`联系电话（${phoneCount}处）`);
+          if (addrCount > 0) remaining.push(`联系地址（${addrCount}处）`);
+          if (contentPlaceholder > 0) remaining.push(`正文内容（${contentPlaceholder}处）`);
+          if (otherX > 0) remaining.push(`其他占位符（${otherX}处）`);
+
+          if (remaining.length > 0) {
+            wx.showModal({
+              title: '部分字段需手动填写',
+              content: `以下字段需要您手动填写：${remaining.join('、')}，其余占位符已自动替换`,
+              showCancel: false,
+              confirmText: '知道了'
+            });
+          } else {
+            wx.showToast({ title: '全部替换成功', icon: 'success' });
+          }
         } else if (res.confirm && !res.content?.trim()) {
           wx.showToast({ title: '请输入姓名', icon: 'none' });
         }
