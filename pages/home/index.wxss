@@ -2,7 +2,7 @@
 
 /* ========== 页面基础 ========== */
 page {
-  background: #F8F7FC;
+  background: var(--bg-color, #F8F7FC);
   min-height: 100vh;
 }
 
@@ -21,7 +21,7 @@ page {
   left: 0;
   right: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: var(--primary-gradient, linear-gradient(135deg, #5B6FE8, #7B8FF7));
   box-sizing: border-box;
 }
 
@@ -29,7 +29,7 @@ page {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 128rpx;  /* 首页自定义：64px */
+  height: 128rpx;
   padding: 0 32rpx;
 }
 
@@ -48,7 +48,7 @@ page {
   justify-content: center;
   font-size: 28rpx;
   font-weight: 700;
-  color: #5B6FE8;
+  color: var(--primary-color, #5B6FE8);
   margin-right: 16rpx;
 }
 
@@ -62,7 +62,7 @@ page {
 .hero {
   padding: 48rpx 40rpx 80rpx;
   text-align: center;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: var(--primary-gradient, linear-gradient(135deg, #5B6FE8, #7B8FF7));
   position: relative;
 }
 
@@ -94,7 +94,7 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #fff;
+  background: var(--bg-white, #fff);
   border-radius: 24rpx;
   padding: 40rpx 0;
   width: 30%;
@@ -106,7 +106,7 @@ page {
 
 /* 刻章卡片高亮 */
 .svc-col:first-child {
-  border-top: 6rpx solid #5B6FE8;
+  border-top: 6rpx solid var(--primary-color, #5B6FE8);
 }
 
 /* 卡片hover效果 */
@@ -131,26 +131,118 @@ page {
   margin-bottom: 20rpx;
 }
 
-.svc-svg {
-  width: 88rpx;
-  height: 88rpx;
+/* ========== 内联图标 — 刻章 ========== */
+.si-seal-body {
+  width: 78rpx;
+  height: 60rpx;
+  border: 4rpx solid var(--primary-color, #5B6FE8);
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.si-seal-face {
+  width: 30rpx;
+  height: 30rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.si-seal-ring {
+  position: absolute;
+  inset: 0;
+  border: 3rpx solid var(--primary-color, #5B6FE8);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.si-seal-x-h,
+.si-seal-x-v {
+  position: absolute;
+  background: var(--primary-color, #5B6FE8);
+  border-radius: 2rpx;
+}
+
+.si-seal-x-h {
+  width: 20rpx;
+  height: 3rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.si-seal-x-v {
+  width: 3rpx;
+  height: 20rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ========== 内联图标 — 登报 ========== */
+.si-news-body {
+  width: 66rpx;
+  height: 74rpx;
+  border: 4rpx solid var(--primary-color, #5B6FE8);
+  border-radius: 8rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  box-sizing: border-box;
+}
+
+.si-news-line {
+  width: 46rpx;
+  height: 4rpx;
+  background: var(--primary-color, #5B6FE8);
+  border-radius: 2rpx;
+  flex-shrink: 0;
+}
+
+.si-news-line--s {
+  width: 30rpx;
+}
+
+/* ========== 内联图标 — 商标 ========== */
+.si-tm-ring {
+  width: 70rpx;
+  height: 70rpx;
+  border: 4rpx solid var(--primary-color, #5B6FE8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.si-tm-r {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--primary-color, #5B6FE8);
+  line-height: 1;
 }
 
 .svc-name {
   font-size: 30rpx;
   font-weight: 600;
-  color: #1A202C;
+  color: var(--text-primary, #1A202C);
   margin-bottom: 8rpx;
 }
 
 .svc-desc {
   font-size: 24rpx;
-  color: #8896B3;
+  color: var(--text-secondary, #8896B3);
 }
 
 /* ========== 区块通用 ========== */
 .section {
-  background: #fff;
+  background: var(--bg-white, #fff);
   margin: 32rpx;
   border-radius: 24rpx;
   padding: 32rpx;
@@ -168,12 +260,49 @@ page {
 .section-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #1A202C;
+  color: var(--text-primary, #1A202C);
 }
 
 .section-more {
   font-size: 26rpx;
-  color: #8896B3;
+  color: var(--text-secondary, #8896B3);
+}
+
+/* ========== 订单区域加载骨架 ========== */
+.skeleton-order {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border-color, #E8EDF2);
+}
+
+.skeleton-order:last-child {
+  border-bottom: none;
+}
+
+.skeleton-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: var(--border-color, #E8EDF2);
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.skeleton-lines {
+  flex: 1;
+}
+
+.skeleton-line {
+  height: 28rpx;
+  background: var(--border-color, #E8EDF2);
+  border-radius: 8rpx;
+  margin-bottom: 10rpx;
+}
+
+.skeleton-line:last-child {
+  width: 60%;
+  margin-bottom: 0;
 }
 
 /* ========== 订单列表 ========== */
@@ -181,7 +310,7 @@ page {
   display: flex;
   align-items: center;
   padding: 24rpx 0;
-  border-bottom: 1rpx solid #F0F2F5;
+  border-bottom: 1rpx solid var(--border-color, #E8EDF2);
 }
 
 .order:last-child {
@@ -207,14 +336,14 @@ page {
 
 .order-name {
   font-size: 30rpx;
-  color: #1A202C;
+  color: var(--text-primary, #1A202C);
   display: block;
   font-weight: 500;
 }
 
 .order-meta {
   font-size: 24rpx;
-  color: #8896B3;
+  color: var(--text-secondary, #8896B3);
   display: block;
   margin-top: 6rpx;
 }
@@ -236,7 +365,7 @@ page {
 
 .empty-text {
   font-size: 28rpx;
-  color: #8896B3;
+  color: var(--text-secondary, #8896B3);
 }
 
 /* ========== 保障徽章 ========== */
@@ -256,7 +385,7 @@ page {
   align-items: center;
   justify-content: center;
   gap: 10rpx;
-  background: #fff;
+  background: var(--bg-white, #fff);
   border-radius: 20rpx;
   padding: 24rpx 12rpx;
   box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.06);
@@ -276,14 +405,14 @@ page {
 
 .badge-text {
   font-size: 24rpx;
-  color: #1A202C;
+  color: var(--text-primary, #1A202C);
   font-weight: 500;
   white-space: nowrap;
 }
 
-
-/* 底部安全区 */
+/* 底部安全区（在 scroll-view 内部） */
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;
+  background: transparent;
 }

@@ -22,17 +22,19 @@ Page({
       { id: 'f4', title: '7×12h', desc: '在线服务', iconSvg: '/assets/icons/icon-b64-6.svg' }
     ],
     orders: [],
+    loading: true,
     showPrivacyPopup: false
   },
 
   onLoad() {
-    // 使用自定义导航栏高度（64px），而不是全局的 44px
     const app = getApp();
     const globalNav = app.globalData.navigationHeight;
     this.setData({
       statusBarHeight: globalNav.statusBarHeight,
-      navHeight: globalNav.statusBarHeight + 64  // 首页用 64px
+      navHeight: globalNav.statusBarHeight + 64
     });
+
+    // 隐私授权弹窗
     if (wx.getPrivacySetting) {
       wx.getPrivacySetting({
         success: (res) => {
@@ -46,13 +48,27 @@ Page({
   },
 
   onShow() {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 0 });
-    }
+    this._ensureTabBar();
     this.loadOrders();
   },
 
+  // 确保 tabBar 选中态在冷启动时也能正确设置
+  _ensureTabBar() {
+    if (typeof this.getTabBar !== 'function') return;
+    const tabBar = this.getTabBar();
+    if (tabBar) {
+      tabBar.setData({ selected: 0 });
+    } else {
+      // 组件未就绪时延后重试
+      setTimeout(() => {
+        const tb = this.getTabBar && this.getTabBar();
+        if (tb) tb.setData({ selected: 0 });
+      }, 100);
+    }
+  },
+
   async loadOrders() {
+    this.setData({ loading: true });
     const allOrders = [];
 
     try {
@@ -80,7 +96,7 @@ Page({
       statusKey: o.status
     }));
 
-    this.setData({ orders: recent });
+    this.setData({ orders: recent, loading: false });
   },
 
   _formatDate(timestamp) {
@@ -117,6 +133,6 @@ Page({
   },
 
   goToOrders() {
-    wx.navigateTo({ url: '/pages/newspaper/order' });
+    wx.navigateTo({ url: '/pages/order/list/index' });
   }
 });
