@@ -68,6 +68,7 @@
             <image wx:if="{{materials.idCardFront}}" class="material-thumb" src="{{materials.idCardFront}}" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardFront}}" />
             <image wx:if="{{materials.idCardBack}}" class="material-thumb" src="{{materials.idCardBack}}" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardBack}}" />
           </view>
+          <text class="material-delete" data-type="idCard" catchtap="onDeleteMaterial">×</text>
         </view>
 
         <!-- 法人照片 -->

@@ -346,14 +346,22 @@ Page({
       handheldIdPhoto: 'materials.handheldIdPhoto'
     };
 
-    if (type && fieldMap[type]) {
+    if (type === 'idCard') {
+      this.setData({
+        'materials.idCardFront': '',
+        'materials.idCardBack': ''
+      });
+    } else if (type && fieldMap[type]) {
       this.setData({ [fieldMap[type]]: '' });
     }
 
     // 同步回 Storage
     const materialInfo = wx.getStorageSync('materialInfo') || {};
     const updated = { ...materialInfo };
-    if (type === 'photo') updated.legalPhoto = '';
+    if (type === 'idCard') {
+      updated.idCardFront = '';
+      updated.idCardBack = '';
+    } else if (type === 'photo') updated.legalPhoto = '';
     else if (type === 'professionalCert') updated.professionalCert = '';
     else if (type === 'signature') updated.signature = '';
     else if (type === 'handheldIdPhoto') updated.handheldIdPhoto = '';
