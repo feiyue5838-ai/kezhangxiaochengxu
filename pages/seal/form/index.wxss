@@ -342,7 +342,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 600rpx;
+  height: 800rpx;
   background: #fff;
   border-radius: 24rpx 24rpx 0 0;
   z-index: 10000;
