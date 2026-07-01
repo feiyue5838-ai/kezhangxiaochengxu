@@ -112,8 +112,9 @@ page {
 
 .selected-icon {
   position: absolute;
-  top: -28rpx;
+  top: -24rpx;
   right: 4rpx;
-  width: 24rpx;
-  height: 24rpx;
+  font-size: 18rpx;
+  color: #fff;
+  line-height: 1;
 }

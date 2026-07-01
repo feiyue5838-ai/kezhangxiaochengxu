@@ -25,7 +25,8 @@
     >
       <text class="cat-name">{{item.name}}</text>
       <view wx:if="{{selectedId === item.id}}" class="selected-badge">
-        </view>
+        <text class="selected-icon">✓</text>
+      </view>
     </view>
   </view>
 
