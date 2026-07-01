@@ -50,10 +50,16 @@
 
 .page {
   background: #F8F7FC;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+}
+
+/* 可滚动内容区 */
+.content-scroll {
+  flex: 1;
+  overflow-y: auto;
 }
 
 /* 信息回显模块 */
@@ -219,18 +225,13 @@
 
 /* 底部操作按钮�? */
 .bottom-actions {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  flex-shrink: 0;
   display: flex;
   gap: 20rpx;
   padding: 20rpx 32rpx;
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
   background: #fff;
   box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.05);
-  margin-top: auto;
 }
 
 .action-button {

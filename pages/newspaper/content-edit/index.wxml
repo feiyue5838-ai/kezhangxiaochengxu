@@ -14,8 +14,10 @@
     <view class="nav-right"></view>
   </view>
 
-  <!-- 信息回显模块 -->
-  <view class="info-display">
+  <!-- 可滚动内容区 -->
+  <scroll-view scroll-y class="content-scroll">
+    <!-- 信息回显模块 -->
+    <view class="info-display">
     <view class="info-row">
       <text class="info-label">登报类型</text>
       <text class="info-value">{{businessType || '个人证件'}}</text>
@@ -75,6 +77,10 @@
       <text class="note-desc">登报后开具正规电子发票，也可对公支付</text>
     </view>
   </view>
+
+    <!-- 底部占位，避免内容被按钮遮挡 -->
+    <view style="height: 160rpx;"></view>
+  </scroll-view>
 
   <!-- 底部操作按钮区 -->
   <view class="bottom-actions">
