@@ -117,6 +117,7 @@
       <view class="tips-highlight">注：您对章的材质、样式、排版有特殊要求，请下完单之后立即联系客服确认。</view>
       <view class="tips-highlight">注：执业章部分地区需要把刻过多少章的次数刻制在章上，如您有需求可以填写在备注里面，如无可直接忽略。</view>
       <view class="tips-highlight">请在订单备注中写上您的邮箱号，存证证书会发您的邮箱</view>
+    </view>
   </view>
 
   <!-- 办理信息回显（电子印章无需显示） -->
