@@ -21,7 +21,7 @@ module.exports = {
     { id: 6,  name: '公告声明',    iconSvg: '/assets/icons/icon-cat-announcement.svg', bgColor: '#F5222D',  route: '/pages/newspaper/announcement/index' },
     { id: 7,  name: '法院公告',    iconSvg: '/assets/icons/icon-cat-court.svg', bgColor: '#F5222D',  route: '/pages/newspaper/court/index' },
     { id: 8,  name: '政府送达',    iconSvg: '/assets/icons/icon-cat-government.svg', bgColor: '#7B8FF7',  route: '/pages/newspaper/government/index' },
-    { id: 9,  name: '债权债务',    iconSvg: '/assets/icons/icon-cat-debt.svg', bgColor: '#FAAD14',  route: '/pages/newspaper/creditor/index' },
+    { id: 9,  name: '债权债务',    iconSvg: '/assets/icons/icon-cat-creditor.svg', bgColor: '#FAAD14',  route: '/pages/newspaper/creditor/index' },
     { id: 10, name: '解除劳动',   iconSvg: '/assets/icons/icon-cat-labor.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/labor-dispute/index' },
     { id: 11, name: '环评公示',    iconSvg: '/assets/icons/icon-cat-env.svg', bgColor: '#0FCB7D',  route: '/pages/newspaper/env-assessment/index' },
     { id: 12, name: '拍卖公告',   iconSvg: '/assets/icons/icon-cat-auction.svg', bgColor: '#F5222D',  route: '/pages/newspaper/auction/index' },
