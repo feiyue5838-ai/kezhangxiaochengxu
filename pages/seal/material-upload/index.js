@@ -97,23 +97,18 @@ Page({
     }
 
     // 哪些区域需要上传法人/经营者照片（使用公共函数）
-    const needLegalPhoto = isCompany && common.needLegalPhoto(region);
+    // 法人白底自拍照：企业和个体户模式全部地区显示
+    const needLegalPhoto = (isCompany || (isIndividual));
     // 法人手持身份证：仅上海、山东、新疆、贵阳地区企业必填
     const HANDHELD_CITIES = ['上海', '山东', '新疆', '贵阳'];
     const needHandheldId = isCompany && HANDHELD_CITIES.some(city => (region || '').includes(city));
 
-    // 动态计算照片标题和提示（仅需要照片的区域）
+    // 动态计算照片标题和提示
     let photoTitle = '';
     let photoNote = '';
     if (needLegalPhoto) {
-      const isXinjin = region.includes('新津');
-      if (isIndividual) {
-        photoTitle = '经营者照片';
-        photoNote = isXinjin ? '新津地区需经营者手持身份证照片' : (region + '地区需经营者白底自拍照');
-      } else {
-        photoTitle = '法人照片';
-        photoNote = isXinjin ? '新津地区需法人手持身份证照片' : (region + '地区需法人白底自拍照');
-      }
+      photoTitle = isIndividual ? '经营者自拍半身照' : '法人自拍半身照';
+      photoNote = '';
     }
 
     this.setData({
