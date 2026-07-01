@@ -15,11 +15,18 @@ Page({
   },
 
   onLoad(options) {
-    // 导航栏安全区（与 realname 对齐）
+    // 导航栏安全区（与胶囊按钮对齐）
     const sysInfo = wx.getSystemInfoSync();
+    const menuRect = wx.getMenuButtonBoundingClientRect();
+    const statusBarHeight = sysInfo.statusBarHeight || 20;
+    // 导航栏总高 = 状态栏 + (胶囊top - 状态栏) × 2 + 胶囊高
+    const navContentHeight = (menuRect.top - statusBarHeight) * 2 + menuRect.height;
     this.setData({
-      statusBarHeight: sysInfo.statusBarHeight || 20,
-      navHeight: (sysInfo.statusBarHeight || 20) + 64
+      statusBarHeight,
+      navHeight: statusBarHeight + navContentHeight,
+      menuTop: menuRect.top,
+      menuHeight: menuRect.height,
+      menuRight: sysInfo.windowWidth - menuRect.right
     });
 
     // 初始化区域列表

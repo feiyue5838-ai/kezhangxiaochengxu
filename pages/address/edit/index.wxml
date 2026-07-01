@@ -1,10 +1,9 @@
 <view class="page">
   <!-- 导航栏 -->
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
+    <view class="nav-content" style="height: {{navHeight - statusBarHeight}}px; padding-right: {{menuRight + 8}}px;">
       <view class="nav-back" bindtap="onBack">‹</view>
       <text class="nav-title">填写邮寄地址</text>
-      <view class="nav-placeholder"></view>
     </view>
   </view>
 
