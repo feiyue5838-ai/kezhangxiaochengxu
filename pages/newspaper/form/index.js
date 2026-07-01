@@ -31,7 +31,6 @@ Page({
     // 收件信息
     contactName: '',
     contactPhone: '',
-    contactAddress: '',
     addressDetail: '',
     
     // 发票信息
