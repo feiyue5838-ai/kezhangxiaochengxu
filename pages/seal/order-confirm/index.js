@@ -257,12 +257,17 @@ Page({
 
   // 获取营业执照要求说明
   getLicenseNote(region) {
-    return common.getLicenseNote(region);
+    if (!region) return '请上传营业执照原件照片';
+    // 可在此按区域定制说明，例：
+    // if (region.includes('北京')) return '北京市要求提供营业执照原件扫描件';
+    return '请上传营业执照原件照片，需清晰可辨';
   },
 
-  // 获取照片要求说明（order-confirm 材料须知用）
+  // 获取照片要求说明
   getPhotoNote(region) {
-    return common.getPhotoNote(region);
+    if (!region) return '请上传法人本人照片';
+    // if (region.includes('广东')) return '广东省不强制要求法人照片';
+    return '请上传法人本人照片（正面免冠）';
   },
 
   // 检查是否可以提交
@@ -278,8 +283,13 @@ Page({
   },
 
   // 判断区域是否需要法人照片
+  // 注：刻章备案各地规则不同，默认需要法人照片，此处可根据实际业务细化
   _needLegalPhoto(region) {
-    return common.needLegalPhoto(region);
+    if (!region) return false;
+    // 个别区域豁免法人照片的例外列表可加在这里
+    // const noPhotoRegions = ['XX省', 'XX市'];
+    // if (noPhotoRegions.some(r => region.includes(r))) return false;
+    return true;
   },
 
   // 填写邮寄地址
@@ -466,6 +476,19 @@ Page({
     // 创建订单并调起微信支付
     wx.showLoading({ title: '创建订单...' });
 
+    // 读取完整的材料数据（含 material-upload 上传的全部字段）
+    const materialInfo = wx.getStorageSync('materialInfo') || {};
+    const submitMaterials = {
+      license: this.data.materials.license,
+      idCardFront: this.data.materials.idCardFront,
+      idCardBack: this.data.materials.idCardBack,
+      legalPhoto: this.data.materials.photo,
+      professionalCert: this.data.materials.professionalCert || materialInfo.professionalCert || '',
+      signature: this.data.materials.signature || materialInfo.signature || '',
+      handheldIdPhoto: this.data.materials.handheldIdPhoto || materialInfo.handheldIdPhoto || '',
+      additional: (this.data.materials.additional.length > 0 ? this.data.materials.additional : materialInfo.additional) || []
+    };
+
     // 收集订单数据
     const orderData = {
       sealIds: (wx.getStorageSync('selectedSealsData') || {}).ids || [],
@@ -481,19 +504,6 @@ Page({
       invoice: this.data.invoice,
       remark: this.data.remark,
       materials: submitMaterials
-    };
-
-    // 读取完整的材料数据（含 material-upload 上传的全部字段）
-    const materialInfo = wx.getStorageSync('materialInfo') || {};
-    const submitMaterials = {
-      license: this.data.materials.license,
-      idCardFront: this.data.materials.idCardFront,
-      idCardBack: this.data.materials.idCardBack,
-      legalPhoto: this.data.materials.photo,
-      professionalCert: this.data.materials.professionalCert || materialInfo.professionalCert || '',
-      signature: this.data.materials.signature || materialInfo.signature || '',
-      handheldIdPhoto: this.data.materials.handheldIdPhoto || materialInfo.handheldIdPhoto || '',
-      additional: (this.data.materials.additional.length > 0 ? this.data.materials.additional : materialInfo.additional) || []
     };
 
     api.createSealOrder(orderData).then((res) => {
