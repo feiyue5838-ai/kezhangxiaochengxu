@@ -127,7 +127,7 @@ Page({
 
   // 是否需要发票
   onInvoiceChange(e) {
-    this.setData({ needInvoice: e.detail.value.length > 0 });
+    this.setData({ needInvoice: !!e.detail.value });
   },
 
   // 选择发票类型
