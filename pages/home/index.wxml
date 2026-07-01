@@ -26,7 +26,6 @@
     <!-- 核心服务 -->
     <view class="services">
       <view class="svc-col" bindtap="goToPage" data-page="seal" hover-class="svc-tap">
-        <view class="svc-col-top"></view>
         <view class="svc-icon">
           <image class="svc-svg" src="{{iconSealBg}}" mode="aspectFit" />
         </view>
@@ -35,7 +34,6 @@
       </view>
 
       <view class="svc-col" bindtap="goToPage" data-page="newspaper" hover-class="svc-tap">
-        <view class="svc-col-top"></view>
         <view class="svc-icon">
           <image class="svc-svg" src="{{iconNewsBg}}" mode="aspectFit" />
         </view>
@@ -44,7 +42,6 @@
       </view>
 
       <view class="svc-col" bindtap="goToPage" data-page="license" hover-class="svc-tap">
-        <view class="svc-col-top"></view>
         <view class="svc-icon">
           <image class="svc-svg" src="{{iconTrademarkBg}}" mode="aspectFit" />
         </view>
