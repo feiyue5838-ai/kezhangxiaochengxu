@@ -30,26 +30,28 @@
   </view>
   <view class="bottom-placeholder"></view>
 
-  <!-- 提问弹窗 -->
+  <!-- 提问弹窗：按钮在上方，键盘不遮挡 -->
   <view class="ask-mask" wx:if="{{showAsk}}" bindtap="hideAskPopup">
     <view class="ask-popup" catchtap="stopProp">
-      <view class="ask-popup-title">我要提问</view>
+      <view class="ask-popup-header">
+        <text class="ask-popup-title">我要提问</text>
+      </view>
+      <view class="ask-popup-actions">
+        <view class="ask-cancel" bindtap="hideAskPopup">取消</view>
+        <view class="ask-submit" bindtap="submitQuestion">提交</view>
+      </view>
       <textarea
         class="ask-textarea"
         placeholder="请输入您的问题..."
         value="{{newQuestion}}"
         bindinput="onQuestionInput"
         maxlength="200"
-        auto-focus
+        focus="{{textareaFocus}}"
         adjust-position
         hold-keyboard
         show-confirm-bar
-        cursor-spacing="20"
+        cursor-spacing="100"
       />
-      <view class="ask-popup-actions">
-        <view class="ask-cancel" bindtap="hideAskPopup">取消</view>
-        <view class="ask-submit" bindtap="submitQuestion">提交</view>
-      </view>
     </view>
   </view>
 </view>

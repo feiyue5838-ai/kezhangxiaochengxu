@@ -94,7 +94,8 @@ Page({
     qaList: [],
     showAsk: false,
     newQuestion: '',
-    isPersonal: false
+    isPersonal: false,
+    textareaFocus: false
   },
   onLoad(options) {
     const isPersonal = options.isPersonal === 'true';
@@ -120,20 +121,15 @@ Page({
     }
   },
   showAskPopup() {
-    this.setData({ showAsk: true });
-    // 延迟聚焦，确保弹窗渲染完成
-    setTimeout(() => {
-      const query = wx.createSelectorQuery();
-      query.select('.ask-textarea').node().exec((res) => {
-        const textarea = res[0]?.node;
-        if (textarea) {
-          textarea.focus();
-        }
-      });
-    }, 100);
+    this.setData({ showAsk: true }, () => {
+      // 等待弹窗渲染完成后自动聚焦
+      setTimeout(() => {
+        this.setData({ textareaFocus: true });
+      }, 100);
+    });
   },
   hideAskPopup() {
-    this.setData({ showAsk: false, newQuestion: '' });
+    this.setData({ showAsk: false, newQuestion: '', textareaFocus: false });
   },
   stopProp() {},
   onQuestionInput(e) {
@@ -154,7 +150,7 @@ Page({
       replies: []
     };
     list.unshift(newItem);
-    this.setData({ qaList: list, showAsk: false, newQuestion: '' });
+    this.setData({ qaList: list, showAsk: false, newQuestion: '', textareaFocus: false });
     // 持久化到 storage
     this._saveToStorage();
     wx.showToast({ title: '提问成功', icon: 'success' });
