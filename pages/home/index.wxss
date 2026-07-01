@@ -176,10 +176,19 @@ page {
   transform: translateY(24rpx);
 }
 
-/* 渐进入场 */
-.svc-col:nth-child(1) { animation: cardIn 0.5s var(--ease-out-quart) 0.3s forwards; }
-.svc-col:nth-child(2) { animation: cardIn 0.5s var(--ease-out-quart) 0.4s forwards; }
-.svc-col:nth-child(3) { animation: cardIn 0.5s var(--ease-out-quart) 0.5s forwards; }
+/* 渐进入场 + 顶部颜色渗入卡片 */
+.svc-col:nth-child(1) {
+  animation: cardIn 0.5s var(--ease-out-quart) 0.3s forwards;
+  background: linear-gradient(180deg, #F5F0FF 0%, #FFFFFF 60rpx);
+}
+.svc-col:nth-child(2) {
+  animation: cardIn 0.5s var(--ease-out-quart) 0.4s forwards;
+  background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 60rpx);
+}
+.svc-col:nth-child(3) {
+  animation: cardIn 0.5s var(--ease-out-quart) 0.5s forwards;
+  background: linear-gradient(180deg, #F0FFFE 0%, #FFFFFF 60rpx);
+}
 
 @keyframes cardIn {
   to { opacity: 1; transform: translateY(0); }
