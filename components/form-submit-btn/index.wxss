@@ -28,9 +28,9 @@
   background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
 }
 
-.submit-btn[disabled] {
-  background: var(--text-disabled) !important;
-  color: var(--bg-white) !important;
+.submit-btn.disabled {
+  background: var(--text-disabled);
+  color: var(--bg-white);
 }
 
 .bottom-placeholder {

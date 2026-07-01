@@ -1,6 +1,6 @@
 <!--components/form-submit-btn/index.wxml-->
 <view class="submit-bar">
-  <button class="submit-btn {{enabled ? 'active' : ''}}" disabled="{{!enabled}}" bindtap="onSubmit">
+  <button class="submit-btn {{enabled ? 'active' : 'disabled'}}" disabled="{{!enabled}}" bindtap="onSubmit">
     立即办理
   </button>
 </view>
