@@ -42,12 +42,12 @@
       placeholder="请将模板中的 XXX 替换为您的真实信息，按要求填写证号、日期等" 
       value="{{content}}" 
       bindinput="onInput"
-      maxlength="500" 
+      maxlength="2000" 
       auto-height
     />
 
     <view class="editor-footer">
-      <text class="char-count">{{charCount}}/500字</text>
+      <text class="char-count">{{charCount}}/2000字</text>
     </view>
 
     <!-- 便捷替换按钮 -->
