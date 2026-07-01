@@ -73,6 +73,8 @@ Page({
   data: {
     statusBarHeight: 0,
     navHeight: 0,
+    capsuleTop: 0,
+    capsuleHeight: 32,
     activeTab: 0,  // 0=全部 1=待支付 2=进行中 3=已完成 4=售后
     tabs: ['全部', '待支付', '进行中', '已完成', '售后'],
     orders: [],
@@ -81,7 +83,16 @@ Page({
 
   onLoad(opt) {
     const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
+    let capsuleTop = statusBarHeight + 8;
+    let capsuleHeight = 32;
+    try {
+      const menuButton = wx.getMenuButtonBoundingClientRect();
+      if (menuButton) {
+        capsuleTop = menuButton.top;
+        capsuleHeight = menuButton.height;
+      }
+    } catch (e) {}
+    this.setData({ statusBarHeight, navHeight, capsuleTop, capsuleHeight });
     // 有status参数时自动切换tab
     if (opt && opt.status !== undefined) {
       const tab = parseInt(opt.status);

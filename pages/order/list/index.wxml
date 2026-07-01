@@ -1,9 +1,8 @@
 <view class="page">
-  <!-- 自定义导航栏 -->
+  <!-- 自定义导航栏（与胶囊对齐） -->
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">我的订单</text>
-    <view class="nav-placeholder"></view>
+    <view class="nav-back" style="top: {{capsuleTop - statusBarHeight}}px; height: {{capsuleHeight}}px;" bindtap="goBack">‹</view>
+    <text class="nav-title" style="top: {{capsuleTop - statusBarHeight}}px; height: {{capsuleHeight}}px; line-height: {{capsuleHeight}}px;">我的订单</text>
   </view>
 
   <!-- 状态Tab -->
