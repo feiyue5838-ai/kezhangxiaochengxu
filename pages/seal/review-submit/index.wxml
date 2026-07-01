@@ -43,7 +43,6 @@
         bindinput="onTextInput"
         maxlength="200"
         cursor-spacing="100"
-        auto-focus="{{false}}"
         show-confirm-bar
       />
       <text class="word-count">{{reviewText.length}}/200</text>
