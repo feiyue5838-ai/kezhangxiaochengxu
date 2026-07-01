@@ -346,6 +346,7 @@
   border-radius: 24rpx 24rpx 0 0;
   z-index: 10000;
   padding-bottom: env(safe-area-inset-bottom);
+  margin-bottom: 100rpx;
 }
 .region-header {
   display: flex;
