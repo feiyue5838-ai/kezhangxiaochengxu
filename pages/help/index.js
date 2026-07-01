@@ -43,9 +43,6 @@ Page({
     wx.makePhoneCall({ phoneNumber: '4008886666', fail: () => { wx.showToast({ title: '拨打失败', icon: 'none' }); } });
   },
 
-  onContactService() {
-    wx.makePhoneCall({ phoneNumber: '4008886666', fail: () => { wx.showToast({ title: '拨打失败', icon: 'none' }); } });
-  },
 
   onBack() {
     wx.navigateBack();

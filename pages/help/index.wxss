@@ -144,24 +144,4 @@ page { background: #F8F7FC; }
 }
 .faq-answer--open { display: block; }
 
-/* 浮动客服按钮 */
-.float-service {
-  position: fixed;
-  right: 32rpx;
-  bottom: calc(120rpx + env(safe-area-inset-bottom));
-  width: 96rpx;
-  height: 96rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6rpx 20rpx rgb(91 111 232 / 0.4);
-  z-index: 99;
-}
-.float-service text {
-  font-size: 26rpx;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -1rpx;
-}
+

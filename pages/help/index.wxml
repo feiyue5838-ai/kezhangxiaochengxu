@@ -47,9 +47,5 @@
       </view>
     </view>
 
-    <!-- 浮动客服 -->
-    <view class="float-service" bindtap="onContactService">
-      <text>客</text>
-    </view>
   </view>
 </view>
