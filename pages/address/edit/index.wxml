@@ -26,7 +26,7 @@
     <!-- 省市区 -->
     <view class="form-item">
       <text class="form-label">省市区</text>
-      <picker mode="selector" range="{{regionList}}" value="{{regionIndex}}" bindchange="onRegionChange">
+      <picker mode="multiSelector" range="{{regionColumns}}" value="{{regionIndex}}" bindchange="onRegionChange" bindcolumnchange="onRegionColumnChange">
         <view class="form-value">
           <text class="{{province ? 'text-normal' : 'placeholder'}}">{{regionText}}</text>
           <text class="arrow">›</text>

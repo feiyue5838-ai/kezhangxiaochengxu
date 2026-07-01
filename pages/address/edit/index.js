@@ -1,16 +1,21 @@
+// pages/address/edit/index.js
+const REGIONS = require('../../../utils/region-data.js');
+
 Page({
   data: {
     statusBarHeight: 0,
     navHeight: 0,
+    menuTop: 0,
+    menuHeight: 0,
+    menuRight: 0,
     name: '',
     phone: '',
     province: '',
     city: '',
     district: '',
-    detail: '',
     regionText: '请选择省市区',
-    regionIndex: -1,
-    regionList: [],
+    regionIndex: [0, 0, 0],
+    regionColumns: [[], [], []],
     isDefault: false
   },
 
@@ -19,7 +24,6 @@ Page({
     const sysInfo = wx.getSystemInfoSync();
     const menuRect = wx.getMenuButtonBoundingClientRect();
     const statusBarHeight = sysInfo.statusBarHeight || 20;
-    // 导航栏总高 = 状态栏 + (胶囊top - 状态栏) × 2 + 胶囊高
     const navContentHeight = (menuRect.top - statusBarHeight) * 2 + menuRect.height;
     this.setData({
       statusBarHeight,
@@ -29,48 +33,126 @@ Page({
       menuRight: sysInfo.windowWidth - menuRect.right
     });
 
-    // 初始化区域列表
-    const regions = [
-      { province: '四川省', city: '成都市', district: '锦江区' },
-      { province: '四川省', city: '成都市', district: '青羊区' },
-      { province: '四川省', city: '成都市', district: '金牛区' },
-      { province: '四川省', city: '成都市', district: '武侯区' },
-      { province: '四川省', city: '成都市', district: '成华区' },
-      { province: '四川省', city: '成都市', district: '龙泉驿区' },
-      { province: '四川省', city: '成都市', district: '青白江区' },
-      { province: '四川省', city: '成都市', district: '新都区' },
-      { province: '四川省', city: '成都市', district: '温江区' },
-      { province: '四川省', city: '成都市', district: '双流区' },
-      { province: '四川省', city: '成都市', district: '郫都区' },
-      { province: '四川省', city: '成都市', district: '新津区' },
-      { province: '四川省', city: '成都市', district: '金堂县' },
-      { province: '四川省', city: '成都市', district: '大邑县' },
-      { province: '四川省', city: '成都市', district: '蒲江县' },
-      { province: '四川省', city: '成都市', district: '简阳市' },
-      { province: '四川省', city: '成都市', district: '都江堰市' },
-      { province: '四川省', city: '成都市', district: '彭州市' },
-      { province: '四川省', city: '成都市', district: '邛崃市' },
-      { province: '四川省', city: '成都市', district: '崇州市' },
-      { province: '四川省', city: '成都市', district: '高新区' },
-      { province: '四川省', city: '成都市', district: '天府新区' },
-      { province: '四川省', city: '成都市', district: '东部新区' }
-    ];
-    this.setData({ regionList: regions.map(r => r.province + ' ' + r.city + ' ' + r.district) });
+    // 初始化省市区三列数据
+    const provinces = Object.keys(REGIONS);
+    const firstProvince = provinces[0];
+    const firstProvinceData = REGIONS[firstProvince];
+    let cities, firstCity, firstCityData;
+
+    if (Array.isArray(firstProvinceData)) {
+      // 直辖市：value 是区县数组，city 用省名
+      cities = [firstProvince];
+      firstCity = firstProvince;
+      firstCityData = firstProvinceData;
+    } else {
+      cities = Object.keys(firstProvinceData);
+      firstCity = cities[0];
+      firstCityData = firstProvinceData[firstCity];
+    }
+
+    this.setData({
+      regionColumns: [provinces, cities, firstCityData]
+    });
 
     // 读取已有地址
     const address = wx.getStorageSync('deliveryAddress');
-    if (address) {
-      this.setData({
-        name: address.name || '',
-        phone: address.phone || '',
-        province: address.province || '',
-        city: address.city || '',
-        district: address.district || '',
-        detail: address.detail || '',
-        regionText: address.province ? `${address.province} ${address.city} ${address.district}` : '请选择省市区',
-        isDefault: address.isDefault || false
-      });
+    if (address && address.province) {
+      const pIdx = provinces.indexOf(address.province);
+      if (pIdx >= 0) {
+        const pData = REGIONS[address.province];
+        let cIdx = 0, cName, cData, dIdx = 0;
+        if (Array.isArray(pData)) {
+          cName = address.province;
+          cData = pData;
+        } else {
+          const cities = Object.keys(pData);
+          cIdx = cities.indexOf(address.city);
+          if (cIdx < 0) cIdx = 0;
+          cName = cities[cIdx];
+          cData = pData[cName] || [];
+        }
+        dIdx = cData.indexOf(address.district);
+        if (dIdx < 0) dIdx = 0;
+        this.setData({
+          name: address.name || '',
+          phone: address.phone || '',
+          province: address.province,
+          city: cName,
+          district: cData[dIdx] || '',
+          regionText: `${address.province} ${cName} ${cData[dIdx] || ''}`.trim(),
+          regionIndex: [pIdx, cIdx, dIdx],
+          regionColumns: [
+            provinces,
+            Array.isArray(pData) ? [address.province] : Object.keys(pData),
+            cData
+          ],
+          isDefault: address.isDefault || false
+        });
+      }
     }
+  },
+
+  // 滚动某列触发（联动更新后续列）
+  onRegionColumnChange(e) {
+    const { column, value } = e.detail;
+    let { regionColumns, regionIndex } = this.data;
+    regionIndex = [...regionIndex];
+    regionIndex[column] = value;
+
+    if (column === 0) {
+      // 省变化，重置市/区
+      const province = regionColumns[0][value];
+      const pData = REGIONS[province];
+      let cities, cData;
+      if (Array.isArray(pData)) {
+        cities = [province];
+        cData = pData;
+      } else {
+        cities = Object.keys(pData);
+        cData = pData[cities[0]] || [];
+      }
+      regionColumns = [regionColumns[0], cities, cData];
+      regionIndex[1] = 0;
+      regionIndex[2] = 0;
+    } else if (column === 1) {
+      // 市变化，重置区
+      const province = regionColumns[0][regionIndex[0]];
+      const pData = REGIONS[province];
+      let cityName, cData;
+      if (Array.isArray(pData)) {
+        cityName = province;
+        cData = pData;
+      } else {
+        cityName = regionColumns[1][value];
+        cData = pData[cityName] || [];
+      }
+      regionColumns[2] = cData;
+      regionIndex[2] = 0;
+    }
+
+    this.setData({ regionColumns, regionIndex });
+  },
+
+  // 确认选择（点"确定"）
+  onRegionChange(e) {
+    const [pIdx, cIdx, dIdx] = e.detail.value;
+    const province = this.data.regionColumns[0][pIdx];
+    let city, district;
+    const pData = REGIONS[province];
+    if (Array.isArray(pData)) {
+      city = province;
+      district = pData[dIdx] || '';
+    } else {
+      city = this.data.regionColumns[1][cIdx];
+      district = this.data.regionColumns[2][dIdx] || '';
+    }
+    this.setData({
+      province,
+      city,
+      district,
+      regionText: `${province} ${city} ${district}`.trim(),
+      regionIndex: e.detail.value
+    });
   },
 
   onNameInput(e) {
@@ -79,43 +161,6 @@ Page({
 
   onPhoneInput(e) {
     this.setData({ phone: e.detail.value });
-  },
-
-  onRegionChange(e) {
-    const idx = e.detail.value;
-    const regions = [
-      { province: '四川省', city: '成都市', district: '锦江区' },
-      { province: '四川省', city: '成都市', district: '青羊区' },
-      { province: '四川省', city: '成都市', district: '金牛区' },
-      { province: '四川省', city: '成都市', district: '武侯区' },
-      { province: '四川省', city: '成都市', district: '成华区' },
-      { province: '四川省', city: '成都市', district: '龙泉驿区' },
-      { province: '四川省', city: '成都市', district: '青白江区' },
-      { province: '四川省', city: '成都市', district: '新都区' },
-      { province: '四川省', city: '成都市', district: '温江区' },
-      { province: '四川省', city: '成都市', district: '双流区' },
-      { province: '四川省', city: '成都市', district: '郫都区' },
-      { province: '四川省', city: '成都市', district: '新津区' },
-      { province: '四川省', city: '成都市', district: '金堂县' },
-      { province: '四川省', city: '成都市', district: '大邑县' },
-      { province: '四川省', city: '成都市', district: '蒲江县' },
-      { province: '四川省', city: '成都市', district: '简阳市' },
-      { province: '四川省', city: '成都市', district: '都江堰市' },
-      { province: '四川省', city: '成都市', district: '彭州市' },
-      { province: '四川省', city: '成都市', district: '邛崃市' },
-      { province: '四川省', city: '成都市', district: '崇州市' },
-      { province: '四川省', city: '成都市', district: '高新区' },
-      { province: '四川省', city: '成都市', district: '天府新区' },
-      { province: '四川省', city: '成都市', district: '东部新区' }
-    ];
-    const r = regions[idx];
-    this.setData({
-      regionIndex: idx,
-      province: r.province,
-      city: r.city,
-      district: r.district,
-      regionText: `${r.province} ${r.city} ${r.district}`
-    });
   },
 
   onDetailInput(e) {
