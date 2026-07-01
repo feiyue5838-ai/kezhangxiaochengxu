@@ -9,13 +9,13 @@
       <text class="score-label">服务态度</text>
       <view class="stars-row">
         <text
-          class="star {{serviceScore > s ? 'active' : ''}}"
+          class="star {{s < serviceScore ? 'active' : ''}}"
           wx:for="{{5}}"
           wx:for-item="s"
           wx:key="*this"
           data-score="{{s + 1}}"
           bindtap="onServiceStarTap"
-        ><text style="font-size:24rpx;">⭐</text></text>
+        >{{s < serviceScore ? '★' : '☆'}}</text>
       </view>
     </view>
 
@@ -24,13 +24,13 @@
       <text class="score-label">刻章质量</text>
       <view class="stars-row">
         <text
-          class="star {{qualityScore > s ? 'active' : ''}}"
+          class="star {{s < qualityScore ? 'active' : ''}}"
           wx:for="{{5}}"
           wx:for-item="s"
           wx:key="*this"
           data-score="{{s + 1}}"
           bindtap="onQualityStarTap"
-        ><text style="font-size:24rpx;">⭐</text></text>
+        >{{s < qualityScore ? '★' : '☆'}}</text>
       </view>
     </view>
 
@@ -42,12 +42,20 @@
         value="{{reviewText}}"
         bindinput="onTextInput"
         maxlength="200"
+        cursor-spacing="100"
+        auto-focus="{{false}}"
+        show-confirm-bar
       />
       <text class="word-count">{{reviewText.length}}/200</text>
     </view>
 
     <!-- 提交按钮 -->
-    <button class="submit-btn" bindtap="onSubmit">提交评价</button>
+    <view class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="onSubmit">
+      <text wx:if="{{submitting}}">提交中...</text>
+      <text wx:else>提交评价</text>
+    </view>
+
+    <view class="form-footer"></view>
 
   </view>
 </view>
