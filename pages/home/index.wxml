@@ -16,13 +16,17 @@
 
     <!-- Hero -->
     <view class="hero">
+      <view class="hero-deco"></view>
+      <view class="hero-deco-2"></view>
       <text class="hero-title">企业服务 一站通达</text>
       <text class="hero-sub">公安备案 · 省级报刊 · 商标注册</text>
+      <view class="hero-arc"></view>
     </view>
 
     <!-- 核心服务 -->
     <view class="services">
-      <view class="svc-col" bindtap="goToPage" data-page="seal" hover-class="svc-col--hover">
+      <view class="svc-col" bindtap="goToPage" data-page="seal" hover-class="svc-tap">
+        <view class="svc-col-top"></view>
         <view class="svc-icon">
           <!-- 刻章图标: 圆角方章 + 圆形章面 + 十字 -->
           <view class="si-seal-body">
@@ -37,7 +41,7 @@
         <text class="svc-desc">公安备案</text>
       </view>
 
-      <view class="svc-col" bindtap="goToPage" data-page="newspaper" hover-class="svc-col--hover">
+      <view class="svc-col" bindtap="goToPage" data-page="newspaper" hover-class="svc-tap">
         <view class="svc-icon">
           <!-- 登报图标: 报纸 + 文字线 -->
           <view class="si-news-body">
@@ -50,7 +54,7 @@
         <text class="svc-desc">省级报刊</text>
       </view>
 
-      <view class="svc-col" bindtap="goToPage" data-page="license" hover-class="svc-col--hover">
+      <view class="svc-col" bindtap="goToPage" data-page="license" hover-class="svc-tap">
         <view class="svc-icon">
           <!-- 商标图标: 圆 + ® 文字 -->
           <view class="si-tm-ring">
@@ -65,8 +69,11 @@
     <!-- 最近订单 -->
     <view class="section">
       <view class="section-hd">
-        <text class="section-title">最近订单</text>
-        <text class="section-more" bindtap="goToOrders">全部 ›</text>
+        <text class="section-title">
+          <view class="section-title-bar"></view>
+          最近订单
+        </text>
+        <text class="section-more" bindtap="goToOrders" hover-class="more-tap">全部 ›</text>
       </view>
 
       <block wx:if="{{loading}}">
@@ -80,7 +87,7 @@
       </block>
 
       <block wx:elif="{{orders.length > 0}}">
-        <view class="order" wx:for="{{orders}}" wx:key="id"
+        <view class="order" wx:for="{{orders}}" wx:key="id" hover-class="order-tap"
           bindtap="onOrderTap" data-type="{{item.type}}" data-id="{{item.id}}">
           <view class="order-dot {{item.statusKey === 'completed' ? 'done' : ''}}"></view>
           <view class="order-main">
@@ -98,7 +105,7 @@
 
     <!-- 保障 -->
     <view class="badges">
-      <view class="badge" wx:for="{{features}}" wx:key="id">
+      <view class="badge" wx:for="{{features}}" wx:key="id" hover-class="badge-tap">
         <image class="badge-icon" src="{{item.iconSvg}}" mode="aspectFit" />
         <text class="badge-text">{{item.title}}</text>
       </view>
