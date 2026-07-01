@@ -97,7 +97,9 @@
         data-category="{{item.categoryId}}"
       >
         <text class="seal-grid-item-text">{{item.name}}</text>
-        <view class="seal-check" wx:if="{{selectedElectronicCategory === item.id}}"></view>
+        <view class="seal-check" wx:if="{{selectedElectronicCategory === item.id}}">
+          <text class="seal-check-icon">✓</text>
+        </view>
       </view>
     </view>
   </view>
@@ -108,11 +110,15 @@
     <view class="seal-grid">
       <view class="seal-grid-item {{selectedCategory === 9 ? 'active' : ''}}" bindtap="onOpenPersonalSeals">
         <text class="seal-grid-item-text">个人印章</text>
-        <view class="seal-check" wx:if="{{selectedCategory === 9}}"></view>
+        <view class="seal-check" wx:if="{{selectedCategory === 9}}">
+          <text class="seal-check-icon">✓</text>
+        </view>
       </view>
       <view class="seal-grid-item {{selectedCategory === 10 ? 'active' : ''}}" bindtap="onOpenProfessionalSeals">
         <text class="seal-grid-item-text">个人职业章</text>
-        <view class="seal-check" wx:if="{{selectedCategory === 10}}"></view>
+        <view class="seal-check" wx:if="{{selectedCategory === 10}}">
+          <text class="seal-check-icon">✓</text>
+        </view>
       </view>
     </view>
   </view>

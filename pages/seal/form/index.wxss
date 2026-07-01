@@ -323,10 +323,11 @@
 
 .seal-check-icon {
   position: absolute;
-  top: -28rpx;
+  top: -24rpx;
   right: 4rpx;
-  width: 24rpx;
-  height: 24rpx;
+  font-size: 18rpx;
+  color: #fff;
+  line-height: 1;
 }
 
 /* 閿熸枻鎷烽敓鏂ゆ嫹鍗伴敓鏂ゆ嫹閫夐敓鏂ゆ嫹閿熸枻�? */
