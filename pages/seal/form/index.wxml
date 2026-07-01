@@ -132,8 +132,8 @@
   <!-- 6. 业务介绍图 -->
   <business-introduce-card isPersonal="{{isPersonal}}" />
 
-  <!-- 7. 底部提交按钮（电子印章不需要，点击卡片直接下一步） -->
-  <form-submit-btn wx:if="{{!isElectronic}}" enabled="{{formValid}}" bind:submit="onSubmit" />
+  <!-- 7. 底部提交按钮（电子印章/个人印章不需要，点击卡片直接下一步） -->
+  <form-submit-btn wx:if="{{!isElectronic && !isPersonal}}" enabled="{{formValid}}" bind:submit="onSubmit" />
 
   <!-- 8. 半屏弹窗 -->
   <half-screen-popup id="sealPopup" title="{{popupTitle}}" source-title="{{pageTitle}}" bind:confirm="onSealConfirm"></half-screen-popup>
