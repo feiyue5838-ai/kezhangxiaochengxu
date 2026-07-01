@@ -51,7 +51,6 @@
 .page {
   background: #F8F7FC;
   min-height: 100vh;
-  height: auto;
   padding-bottom: 180rpx;
   box-sizing: border-box;
 }
