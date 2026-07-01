@@ -45,6 +45,9 @@ Page({
 
     // ---------- 补充手续（选填） ----------
     additional: [],
+
+    // ---------- 提交 ----------
+    canSubmit: false,
   },
 
   onLoad(options) {
@@ -125,6 +128,9 @@ Page({
       photoTitle,
       photoNote
     });
+
+    // 初始化提交按钮状态
+    this.checkSubmitStatus();
   },
 
   // ---------- 清理过期数据 ----------

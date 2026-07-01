@@ -21,12 +21,10 @@
           <text class="check-badge">✓</text>
           <view class="delete-btn" data-type="idCardFront" catchtap="onDeleteImage">×</view>
         </block>
-        <block wx:else bindtap="onIdCardFrontTap">
-          <view class="upload-placeholder card-style">
-            <text class="placeholder-emoji">🪪</text>
-            <text class="placeholder-label">身份证正面（人像面）<text class="star">*</text></text>
-          </view>
-        </block>
+        <view wx:else class="upload-placeholder card-style" bindtap="onIdCardFrontTap">
+          <text class="placeholder-emoji">🪪</text>
+          <text class="placeholder-label">身份证正面（人像面）<text class="star">*</text></text>
+      </view>
       </view>
       <view class="upload-item">
         <block wx:if="{{idCardBack}}">
@@ -34,12 +32,10 @@
           <text class="check-badge">✓</text>
           <view class="delete-btn" data-type="idCardBack" catchtap="onDeleteImage">×</view>
         </block>
-        <block wx:else bindtap="onIdCardBackTap">
-          <view class="upload-placeholder card-style">
-            <text class="placeholder-emoji">🪪</text>
-            <text class="placeholder-label">身份证反面（国徽面）<text class="star">*</text></text>
-          </view>
-        </block>
+        <view wx:else class="upload-placeholder card-style" bindtap="onIdCardBackTap">
+          <text class="placeholder-emoji">🪪</text>
+          <text class="placeholder-label">身份证反面（国徽面）<text class="star">*</text></text>
+      </view>
       </view>
     </view>
     <!-- 规范提示 -->
@@ -59,12 +55,10 @@
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="license" catchtap="onDeleteImage">×</view>
       </block>
-      <block wx:else bindtap="onLicenseTap">
-        <view class="upload-placeholder-lg">
+      <view wx:else class="upload-placeholder-lg" bindtap="onLicenseTap">
           <text class="placeholder-emoji-lg">📄</text>
           <text class="placeholder-label">点击上传 营业执照<text class="star">*</text></text>
-        </view>
-      </block>
+      </view>
     </view>
     <!-- 规范提示 -->
     <view class="spec-tip">
@@ -84,12 +78,10 @@
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="legalPhoto" catchtap="onDeleteImage">×</view>
       </block>
-      <block wx:else bindtap="onLegalPhotoTap">
-        <view class="upload-placeholder-lg">
+      <view wx:else class="upload-placeholder-lg" bindtap="onLegalPhotoTap">
           <text class="placeholder-emoji-lg">🤳</text>
           <text class="placeholder-label">点击上传 {{photoTitle}}<text class="star">*</text></text>
-        </view>
-      </block>
+      </view>
     </view>
     <!-- 规范提示 -->
     <view class="spec-tip spec-tip-warn">
@@ -112,12 +104,10 @@
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="handheldIdPhoto" catchtap="onDeleteImage">×</view>
       </block>
-      <block wx:else bindtap="onHandheldIdTap">
-        <view class="upload-placeholder-lg">
+      <view wx:else class="upload-placeholder-lg" bindtap="onHandheldIdTap">
           <text class="placeholder-emoji-lg">📷</text>
           <text class="placeholder-label">点击上传 法人手持身份证拍照<text class="star">*</text></text>
-        </view>
-      </block>
+      </view>
     </view>
     <!-- 规范提示 -->
     <view class="spec-tip spec-tip-warn">
@@ -137,12 +127,10 @@
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="professionalCert" catchtap="onDeleteImage">×</view>
       </block>
-      <block wx:else bindtap="onCertTap">
-        <view class="upload-placeholder-lg">
+      <view wx:else class="upload-placeholder-lg" bindtap="onCertTap">
           <text class="placeholder-emoji-lg">📋</text>
           <text class="placeholder-label">点击上传 执业证书</text>
-        </view>
-      </block>
+      </view>
     </view>
     <!-- 规范提示 -->
     <view class="spec-tip">
@@ -161,12 +149,10 @@
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="signature" catchtap="onDeleteImage">×</view>
       </block>
-      <block wx:else bindtap="onSignatureTap">
-        <view class="upload-placeholder-lg">
+      <view wx:else class="upload-placeholder-lg" bindtap="onSignatureTap">
           <text class="placeholder-emoji-lg">✍️</text>
           <text class="placeholder-label">点击上传 个人签名章</text>
-        </view>
-      </block>
+      </view>
     </view>
     <!-- 规范提示 -->
     <view class="spec-tip">
