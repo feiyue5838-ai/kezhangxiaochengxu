@@ -2,9 +2,9 @@
 <view class="page">
   <!-- 自定义导航栏 -->
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
+    <view class="nav-back" style="top: {{menuCenterY}}px;" bindtap="goBack">‹</view>
     <text class="nav-title">{{pageTitle}}</text>
-    <view class="nav-placeholder"></view>
+    <view class="nav-placeholder" style="width: {{menuRight}}px;"></view>
   </view>
 
   <!-- 内容区域 -->

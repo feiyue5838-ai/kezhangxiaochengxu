@@ -6,6 +6,8 @@ Page({
     // 导航栏相关
     statusBarHeight: 20,
     navHeight: 64,
+    menuCenterY: 0,
+    menuRight: 0,
     pageTitle: '确认订单',
 
     // 印章信息（从上一页传入）
@@ -123,7 +125,9 @@ Page({
   onLoad(options) {
     // 从全局数据读取导航栏高度（app.js 已计算）
     const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
+    const menuRect = wx.getMenuButtonBoundingClientRect();
+    const menuCenterY = menuRect.top + menuRect.height / 2;
+    this.setData({ statusBarHeight, navHeight, menuCenterY, menuRight: menuRect.width + 12 });
 
     this.setData({ pageTitle: '确认订单' });
 

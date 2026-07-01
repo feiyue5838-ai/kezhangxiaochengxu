@@ -7,6 +7,8 @@ Page({
     popupTitle: '',
     statusBarHeight: 20,
     navHeight: 64,
+    menuCenterY: 0,
+    menuRight: 0,
     pageTitle: '自选刻章',
     categories: [
       { id: 1, name: '个体户' },
@@ -23,7 +25,9 @@ Page({
   onLoad(options) {
     // 从全局数据读取导航栏高度（app.js 已计算）
     const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
+    const menuRect = wx.getMenuButtonBoundingClientRect();
+    const menuCenterY = menuRect.top + menuRect.height / 2;
+    this.setData({ statusBarHeight, navHeight, menuCenterY, menuRight: menuRect.width + 12 });
 
     if (options.type) {
       this.setData({ selectedId: Number(options.type) });

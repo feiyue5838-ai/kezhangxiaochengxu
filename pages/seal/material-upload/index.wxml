@@ -8,7 +8,8 @@
 
   <!-- 内容区域 -->
   <view class="container" style="margin-top: {{navHeight}}px;">
-  <!-- ========== 1. 法人身份证（公司/个人模式都需要的） ========== -->
+
+  <!-- ========== 模块1：法人身份证【全局必填 *】 ========== -->
   <view class="module">
     <view class="title-row">
       <text class="module-title">{{idCardTitle}}</text>
@@ -16,52 +17,59 @@
     <view class="upload-row">
       <view class="upload-item" bindtap="onIdCardFrontTap">
         <block wx:if="{{idCardFront}}">
-          <text>✓</text>
+          <text class="check-icon">✓</text>
           <view class="delete-btn" data-type="idCardFront" catchtap="onDeleteImage">×</view>
         </block>
         <block wx:else>
           <view class="upload-placeholder card-style">
-            <text class="placeholder-emoji">🆔</text>
+            <text class="placeholder-emoji">🪪</text>
             <text class="placeholder-label">身份证正面（人像面）<text class="star">*</text></text>
           </view>
         </block>
       </view>
       <view class="upload-item" bindtap="onIdCardBackTap">
         <block wx:if="{{idCardBack}}">
-          <text>✓</text>
+          <text class="check-icon">✓</text>
           <view class="delete-btn" data-type="idCardBack" catchtap="onDeleteImage">×</view>
         </block>
         <block wx:else>
           <view class="upload-placeholder card-style">
-            <text class="placeholder-emoji">🆔</text>
+            <text class="placeholder-emoji">🪪</text>
             <text class="placeholder-label">身份证反面（国徽面）<text class="star">*</text></text>
           </view>
         </block>
       </view>
     </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip">
+      <text class="spec-tip-text">📷 需清晰拍摄正反面完整原件，无遮挡、反光</text>
+    </view>
   </view>
 
-  <!-- ========== 2. 营业执照（企业/电子印章显示） ========== -->
+  <!-- ========== 模块2：营业执照【全局必填 *】 ========== -->
   <view class="module" wx:if="{{isCompany || isElectronic}}">
     <view class="title-row">
       <text class="module-title">营业执照</text>
-      <text class="title-note">{{region === '成都' ? '成都地区只需上传营业执照副本' : '上传营业执照副本即可'}}</text>
     </view>
     <view class="upload-single" bindtap="onLicenseTap">
       <block wx:if="{{license}}">
-        <text>✓</text>
+        <text class="check-icon">✓</text>
         <view class="delete-btn" data-type="license" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">📷</text>
+          <text class="placeholder-emoji-lg">📄</text>
           <text class="placeholder-label">点击上传 营业执照<text class="star">*</text></text>
         </view>
       </block>
     </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip">
+      <text class="spec-tip-text">正副本均持有建议全部上传；适用于个体户、有限公司、民办非企业等全部市场主体执照</text>
+    </view>
   </view>
 
-  <!-- ========== 3. 法人照片（电子印章必填 + 特定区域企业必填） ========== -->
+  <!-- ========== 模块3：法人白底自拍照【全局必填 *】（特定区域） ========== -->
   <view class="module" wx:if="{{needLegalPhoto || isElectronic}}">
     <view class="title-row">
       <text class="module-title">{{photoTitle}}</text>
@@ -69,66 +77,105 @@
     </view>
     <view class="upload-single" bindtap="onLegalPhotoTap">
       <block wx:if="{{legalPhoto}}">
-        <text>✓</text>
+        <text class="check-icon">✓</text>
         <view class="delete-btn" data-type="legalPhoto" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">📷</text>
+          <text class="placeholder-emoji-lg">🤳</text>
           <text class="placeholder-label">点击上传 {{photoTitle}}<text class="star">*</text></text>
         </view>
       </block>
     </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip spec-tip-warn">
+      <text class="spec-tip-text spec-warn">⚠️ 硬性要求：纯白墙面背景，现场实时拍摄，人像露出双肩，禁止证件照/PS修图/AI生成，审核将直接驳回</text>
+    </view>
   </view>
 
-  <!-- ========== 4. 执业证书（仅职业章显示） ========== -->
+  <!-- ========== 模块4：法人手持身份证拍照【区域专项材料】（上海/山东/新疆/贵阳） ========== -->
+  <view class="module" wx:if="{{needHandheldId}}">
+    <view class="title-row">
+      <text class="module-title">法人手持身份证拍照</text>
+      <view class="title-row-right">
+        <text class="title-note">上海/山东/新疆/贵阳地区</text>
+        <text class="star">*</text>
+      </view>
+    </view>
+    <view class="upload-single" bindtap="onHandheldIdTap">
+      <block wx:if="{{handheldIdPhoto}}">
+        <text class="check-icon">✓</text>
+        <view class="delete-btn" data-type="handheldIdPhoto" catchtap="onDeleteImage">×</view>
+      </block>
+      <block wx:else>
+        <view class="upload-placeholder-lg">
+          <text class="placeholder-emoji-lg">📷</text>
+          <text class="placeholder-label">点击上传 法人手持身份证拍照<text class="star">*</text></text>
+        </view>
+      </block>
+    </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip spec-tip-warn">
+      <text class="spec-tip-text spec-warn">⚠️ 拍摄要求：法人本人出镜，双手持身份证举至胸前，正反面文字清晰可辨、人脸完整露出</text>
+    </view>
+  </view>
+
+  <!-- ========== 模块5：执业证书（职业章 s30-s47） ========== -->
   <view class="module" wx:if="{{needProfessionalCert}}">
     <view class="title-row">
       <text class="module-title">执业证书</text>
-      <text class="title-note">证书上需要带有有效期+聘用单位</text>
+      <text class="title-note">需含有有效期+聘用单位信息</text>
     </view>
     <view class="upload-single" bindtap="onCertTap">
       <block wx:if="{{professionalCert}}">
-        <text>✓</text>
+        <text class="check-icon">✓</text>
         <view class="delete-btn" data-type="professionalCert" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">📷</text>
-          <text class="placeholder-label">点击上传 执业证书章</text>
+          <text class="placeholder-emoji-lg">📋</text>
+          <text class="placeholder-label">点击上传 执业证书</text>
         </view>
       </block>
     </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip">
+      <text class="spec-tip-text">上传住建部颁发的注册证书，需包含有效期及聘用单位信息</text>
+    </view>
   </view>
 
-  <!-- ========== 5. 个人签名章（仅s26显示） ========== -->
+  <!-- ========== 模块6：个人签名章（s26） ========== -->
   <view class="module" wx:if="{{needSignature}}">
     <view class="title-row">
       <text class="module-title">个人签名章</text>
-      <text class="title-desc">本人在一张白纸上签名，会根据您的签名复刻出来</text>
     </view>
     <view class="upload-single" bindtap="onSignatureTap">
       <block wx:if="{{signature}}">
-        <text>✓</text>
+        <text class="check-icon">✓</text>
         <view class="delete-btn" data-type="signature" catchtap="onDeleteImage">×</view>
       </block>
       <block wx:else>
         <view class="upload-placeholder-lg">
-          <text style="font-size:48rpx;color:#ccc;">📷</text>
+          <text class="placeholder-emoji-lg">✍️</text>
           <text class="placeholder-label">点击上传 个人签名章</text>
         </view>
       </block>
     </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip">
+      <text class="spec-tip-text">本人在白纸上签名，将根据您的签名复刻章模</text>
+    </view>
   </view>
 
-  <!-- ========== 6. 补充手续 ========== -->
+  <!-- ========== 模块7：补充材料【选填】 ========== -->
   <view class="module">
     <view class="title-row">
-      <text class="module-title">补充手续</text>
+      <text class="module-title">补充材料</text>
+      <text class="title-note title-note-gray">选填</text>
     </view>
     <view class="upload-list" wx:if="{{additional.length > 0}}">
       <view class="upload-item-sm" wx:for="{{additional}}" wx:key="index">
-        <text>✓</text>
+        <text class="check-icon-sm">✓</text>
         <view class="delete-btn-sm" data-type="additional" data-index="{{index}}" catchtap="onDeleteImage">×</view>
       </view>
       <view class="upload-item-sm add-more" bindtap="onAdditionalTap" wx:if="{{additional.length < 5}}">
@@ -145,13 +192,17 @@
         <text class="placeholder-label">点击上传 补充材料</text>
       </view>
     </view>
+    <!-- 规范提示 -->
+    <view class="spec-tip spec-tip-gray">
+      <text class="spec-tip-text spec-gray">适用于遗失补刻、变更法人重刻、营业执照信息缺失等场景；客服将主动联系您补充对应佐证文件</text>
+    </view>
   </view>
 
   <view class="bottom-placeholder"></view>
   </view>
 </view>
 
-<!-- ========== 8. 底部提交按钮 ========== -->
+<!-- ========== 底部提交按钮 ========== -->
 <view class="bottom-bar">
   <button class="submit-btn {{canSubmit ? 'active' : ''}}" bindtap="onSubmit">提交</button>
 </view>

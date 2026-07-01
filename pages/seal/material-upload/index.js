@@ -21,7 +21,8 @@ Page({
     photoNote: '',
 
     // ---------- 区域照片标志 ----------
-    needLegalPhoto: false,
+    needLegalPhoto: false,      // 法人白底自拍照（特定区域）
+    needHandheldId: false,      // 法人手持身份证（上海/山东/新疆/贵阳）
 
     // ---------- 条件渲染标志 ----------
     needProfessionalCert: false,   // 选了职业章（s30-s47）时需要上传执业证书
@@ -31,9 +32,10 @@ Page({
     idCardFront: '',
     idCardBack: '',
 
-    // ---------- 企业模式：营业执照 + 法人照片 ----------
+    // ---------- 企业模式：营业执照 + 法人照片 + 手持身份证 ----------
     license: '',
     legalPhoto: '',
+    handheldIdPhoto: '',   // 法人手持身份证（上海/山东/新疆/贵阳地区）
 
     // ---------- 执业证书（职业章必填） ----------
     professionalCert: '',
@@ -96,6 +98,9 @@ Page({
 
     // 哪些区域需要上传法人/经营者照片（使用公共函数）
     const needLegalPhoto = isCompany && common.needLegalPhoto(region);
+    // 法人手持身份证：仅上海、山东、新疆、贵阳地区企业必填
+    const HANDHELD_CITIES = ['上海', '山东', '新疆', '贵阳'];
+    const needHandheldId = isCompany && HANDHELD_CITIES.some(city => (region || '').includes(city));
 
     // 动态计算照片标题和提示（仅需要照片的区域）
     let photoTitle = '';
@@ -118,6 +123,7 @@ Page({
       region,
       isIndividual,
       needLegalPhoto,
+      needHandheldId,
       needProfessionalCert: isPersonal && hasProfessional,
       needSignature: isPersonal && hasSignature,
       idCardTitle,
@@ -219,6 +225,7 @@ Page({
   onIdCardBackTap() { this.chooseImage('idCardBack'); },
   onLicenseTap() { this.chooseImage('license'); },
   onLegalPhotoTap() { this.chooseImage('legalPhoto'); },
+  onHandheldIdTap() { this.chooseImage('handheldIdPhoto'); },
   onCertTap() { this.chooseImage('professionalCert'); },
   onSignatureTap() { this.chooseImage('signature'); },
   onAdditionalTap() { this.chooseImage('additional', 5); },
@@ -230,9 +237,13 @@ Page({
     if (isCompany || isElectronic) {
       // 企业/电子印章模式：营业执照 + 法人身份证正反面
       let canSubmit = !!(license && idCardFront && idCardBack);
-      // 电子印章或特定区域需要法人/经营者照片
+      // 电子印章或特定区域需要法人/经营者白底自拍照
       if (isElectronic || this.data.needLegalPhoto) {
         canSubmit = canSubmit && !!legalPhoto;
+      }
+      // 上海/山东/新疆/贵阳地区需要法人手持身份证
+      if (this.data.needHandheldId) {
+        canSubmit = canSubmit && !!this.data.handheldIdPhoto;
       }
       this.setData({ canSubmit });
       return;
@@ -266,6 +277,9 @@ Page({
       // 个人印章特有材料
       professionalCert: this.data.professionalCert,
       signature: this.data.signature,
+
+      // 法人手持身份证（上海/山东/新疆/贵阳地区）
+      handheldIdPhoto: this.data.handheldIdPhoto,
 
       // 企业/电子印章材料
       license: this.data.license,

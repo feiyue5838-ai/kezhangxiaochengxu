@@ -263,6 +263,90 @@
 }
 
 /* ========== 搴曢儴鎻愪氦鎸夐挳 ========== */
+/* ========== 规范提示文字（每个上传模块下方） ===== */
+.spec-tip {
+  margin-top: 20rpx;
+  padding: 16rpx 20rpx;
+  background: #F8F7FC;
+  border-radius: 12rpx;
+}
+
+.spec-tip-warn {
+  background: #FFF7F0;
+  border: 1rpx solid #FFE0C0;
+}
+
+.spec-tip-gray {
+  background: #F8F7FC;
+}
+
+.spec-tip-text {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.7;
+  display: block;
+}
+
+.spec-warn {
+  color: #C06000;
+}
+
+.spec-gray {
+  color: #999;
+}
+
+/* ===== 标题右侧 ===== */
+.title-row-right {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+/* ===== 标题备注 ===== */
+.title-note {
+  font-size: 24rpx;
+  color: #999;
+  max-width: 280rpx;
+  text-align: right;
+}
+
+.title-note-gray {
+  font-size: 24rpx;
+  color: #B8C4D4;
+}
+
+/* ===== 已上传对勾图标 ===== */
+.check-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 48rpx;
+  color: #5B6FE8;
+  background: #F0F0FF;
+  border-radius: 20rpx;
+}
+
+.check-icon-sm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 36rpx;
+  color: #5B6FE8;
+  background: #F0F0FF;
+  border-radius: 16rpx;
+}
+
+/* ===== 大号 emoji 图标 ===== */
+.placeholder-emoji-lg {
+  font-size: 56rpx;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
 .bottom-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
