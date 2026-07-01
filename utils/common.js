@@ -247,44 +247,6 @@ function getNavigationHeight() {
 }
 
 /**
- * 判断区域是否需要法人照片
- * @param {string} region - 地区名称
- * @returns {boolean}
- */
-function needLegalPhoto(region) {
-  const photoRegions = ['新津', '简阳', '崇州', '邛崃', '彭州', '都江堰', '蒲江', '大邑', '郫都', '金堂', '温江'];
-  return photoRegions.some(r => (region || '').includes(r));
-}
-
-/**
- * 获取营业执照要求说明
- * @param {string} region - 地区名称
- * @returns {string}
- */
-function getLicenseNote(region) {
-  if (region === '成都') {
-    return '成都地区只需上传营业执照副本';
-  }
-  return '其他地区上传营业执照副本即可';
-}
-
-/**
- * 获取照片要求说明
- * @param {string} region - 地区名称
- * @returns {string}
- */
-function getPhotoNote(region) {
-  const photoRegions = ['新津', '简阳', '崇州', '邛崃', '彭州', '都江堰', '蒲江', '大邑', '郫都', '金堂'];
-  if (!photoRegions.includes(region)) {
-    return '';
-  }
-  if (region === '新津') {
-    return '新津地区需法人手持身份证照片';
-  }
-  return `${region}地区需法人白底自拍照`;
-}
-
-/**
  * 检查材料是否完整
  * @param {Object} materials - { license, idCardFront, idCardBack, photo }
  * @param {Object} options - { isPersonal, isElectronic, needPhoto }
@@ -328,8 +290,5 @@ module.exports = {
   // 导航栏高度计算
   getNavigationHeight: getNavigationHeight,
   // 地区判断和材料检查
-  needLegalPhoto: needLegalPhoto,
-  getLicenseNote: getLicenseNote,
-  getPhotoNote: getPhotoNote,
   checkMaterialsComplete: checkMaterialsComplete
 };

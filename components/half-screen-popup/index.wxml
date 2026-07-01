@@ -11,9 +11,9 @@
     </view>
   </view>
 
-  <!-- 上半屏预览浮窗（从导航栏下方弹出） -->
+  <!-- 上半屏预览浮窗（从导航栏下方弹出，始终显示关闭提示） -->
   <view
-    class="top-preview {{(selectedSealImg || previewSeals.length) ? 'top-preview-show' : ''}}"
+    class="top-preview top-preview-show"
     style="top: {{navHeight}}px; height: {{topPreviewHeight}}px;"
     catchtap="onPreviewTap"
   >
@@ -32,7 +32,7 @@
       </view>
       <text class="top-preview-name">{{selectedSealName}}</text>
       <text wx:if="{{selectedSealDesc}}" class="top-preview-desc">{{selectedSealDesc}}</text>
-      <text class="top-preview-hint">点击收起</text>
+      <text class="top-preview-hint">点击收起 ↑</text>
     </view>
   </view>
 
