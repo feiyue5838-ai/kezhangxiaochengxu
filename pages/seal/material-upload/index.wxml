@@ -73,7 +73,7 @@
   <view class="module" wx:if="{{needLegalPhoto || isElectronic}}">
     <view class="title-row">
       <text class="module-title">{{photoTitle}}</text>
-      <text class="title-note photo-note-red">{{photoNote}}</text>
+      <text wx:if="{{photoNote}}" class="title-note photo-note-red">{{photoNote}}</text>
     </view>
     <view class="upload-single" bindtap="onLegalPhotoTap">
       <block wx:if="{{legalPhoto}}">
@@ -98,7 +98,7 @@
     <view class="title-row">
       <text class="module-title">法人手持身份证拍照</text>
       <view class="title-row-right">
-        <text class="title-note">上海/山东/新疆/贵阳地区</text>
+        <text wx:if="{{needHandheldId}}" class="title-note">上海/山东/新疆/贵阳地区</text>
         <text class="star">*</text>
       </view>
     </view>
