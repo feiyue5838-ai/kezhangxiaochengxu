@@ -1,6 +1,9 @@
 // pages/seal/qa/index.js
 const STORAGE_KEY = 'seal_qa_data';
 
+// 键盘高度缓存（onKeyboardHeightChange 持续更新）
+let _keyboardHeight = 0;
+
 // 默认问答数据
 const DEFAULT_BIZ_QA = [
   {
@@ -95,12 +98,23 @@ Page({
     showAsk: false,
     newQuestion: '',
     isPersonal: false,
-    textareaFocus: false
+    textareaFocus: false,
+    keyboardHeight: 0
   },
   onLoad(options) {
     const isPersonal = options.isPersonal === 'true';
     this.setData({ isPersonal });
     this.loadQA(isPersonal);
+    // 持续监听键盘高度（iOS/Android 均稳定）
+    wx.onKeyboardHeightChange((res) => {
+      _keyboardHeight = res.height;
+      if (this.data.showAsk) {
+        this.setData({ keyboardHeight: res.height || 0 });
+      }
+    });
+  },
+  onUnload() {
+    wx.offKeyboardHeightChange();
   },
   loadQA(isPersonal) {
     const cached = wx.getStorageSync(STORAGE_KEY + '_' + (isPersonal ? 'personal' : 'biz'));
@@ -121,17 +135,25 @@ Page({
     }
   },
   showAskPopup() {
-    this.setData({ showAsk: true }, () => {
-      // 等待弹窗渲染完成后自动聚焦
-      setTimeout(() => {
-        this.setData({ textareaFocus: true });
-      }, 100);
+    this.setData({
+      showAsk: true,
+      textareaFocus: true,
+      keyboardHeight: _keyboardHeight || 0
     });
   },
   hideAskPopup() {
-    this.setData({ showAsk: false, newQuestion: '', textareaFocus: false });
+    this.setData({ showAsk: false, newQuestion: '', textareaFocus: false, keyboardHeight: 0 });
   },
   stopProp() {},
+  onTextareaFocus(e) {
+    const h = e.detail.height || 0;
+    if (h > 0) {
+      this.setData({ keyboardHeight: h });
+    }
+  },
+  onTextareaBlur() {
+    this.setData({ keyboardHeight: 0 });
+  },
   onQuestionInput(e) {
     this.setData({ newQuestion: e.detail.value });
   },
@@ -150,7 +172,7 @@ Page({
       replies: []
     };
     list.unshift(newItem);
-    this.setData({ qaList: list, showAsk: false, newQuestion: '', textareaFocus: false });
+    this.setData({ qaList: list, showAsk: false, newQuestion: '', textareaFocus: false, keyboardHeight: 0 });
     // 持久化到 storage
     this._saveToStorage();
     wx.showToast({ title: '提问成功', icon: 'success' });

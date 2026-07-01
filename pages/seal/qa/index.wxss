@@ -134,24 +134,25 @@
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgb(0 0 0 / 0.5);
   z-index: 1000;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
 }
 
 .ask-popup {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
+  box-sizing: border-box;
   background: var(--bg-white);
   border-radius: 24rpx 24rpx 0 0;
-  padding: 30rpx 30rpx;
+  padding: 40rpx 40rpx;
   padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
-  max-height: 60vh;
   display: flex;
   flex-direction: column;
-}
-
-.ask-popup-header {
-  margin-bottom: 20rpx;
+  transition: bottom 0.25s ease-out;
+  will-change: bottom;
+  pointer-events: auto;
+  max-height: 70vh;
 }
 
 .ask-popup-title {
@@ -159,48 +160,60 @@
   font-weight: bold;
   color: var(--text-primary);
   text-align: center;
-}
-
-.ask-popup-actions {
-  display: flex;
-  flex-direction: row;
-  gap: 24rpx;
-  margin-bottom: 20rpx;
+  margin-bottom: 30rpx;
   flex-shrink: 0;
 }
 
 .ask-textarea {
   width: 100%;
-  min-height: 200rpx;
-  max-height: 400rpx;
+  height: 180rpx;
   background: var(--bg-color);
   border-radius: 20rpx;
   padding: 20rpx;
   font-size: 28rpx;
   box-sizing: border-box;
   color: var(--text-primary);
-  flex: 1;
+  flex-shrink: 0;
+}
+
+.ask-popup-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 32rpx;
+  margin-top: 30rpx;
+  flex-shrink: 0;
 }
 
 .ask-cancel {
   flex: 1;
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 88rpx;
+  line-height: 84rpx;
   text-align: center;
-  background: var(--bg-light);
-  color: var(--text-regular);
+  background: var(--bg-white);
+  color: var(--text-primary);
   font-size: 30rpx;
-  border-radius: 20rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid var(--border-color);
+  box-sizing: border-box;
+}
+
+.ask-cancel:active {
+  background: var(--bg-light);
 }
 
 .ask-submit {
   flex: 1;
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 88rpx;
+  line-height: 88rpx;
   text-align: center;
   background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
   color: var(--bg-white);
   font-size: 30rpx;
   font-weight: bold;
-  border-radius: 20rpx;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
+.ask-submit:active {
+  opacity: 0.85;
 }
