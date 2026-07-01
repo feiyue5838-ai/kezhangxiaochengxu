@@ -51,7 +51,7 @@
 .page {
   background: #F8F7FC;
   min-height: 100vh;
-  padding-bottom: 120rpx;
+  padding-bottom: 180rpx;
 }
 
 /* 信息回显模块 */
