@@ -181,40 +181,22 @@ page {
 /* 渐进入场 + 顶部颜色渗入卡片 */
 .svc-col:nth-child(1) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.3s forwards;
-  background: linear-gradient(180deg, #F5F0FF 0%, #FCFCFF 60rpx, #FFFFFF 100%);
+  background: linear-gradient(180deg, #F3EFFF 0%, #FCFCFF 48rpx, #FFFFFF 100%);
 }
 .svc-col:nth-child(2) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.4s forwards;
-  background: linear-gradient(180deg, #F0F6FF 0%, #FCFCFF 60rpx, #FFFFFF 100%);
+  background: linear-gradient(180deg, #EEF5FF 0%, #FCFCFF 48rpx, #FFFFFF 100%);
 }
 .svc-col:nth-child(3) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.5s forwards;
-  background: linear-gradient(180deg, #F0FFFE 0%, #FCFCFF 60rpx, #FFFFFF 100%);
+  background: linear-gradient(180deg, #EEFFFD 0%, #FCFCFF 48rpx, #FFFFFF 100%);
 }
 
 @keyframes cardIn {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 卡片顶部装饰条（每张不同色） */
-.svc-col-top {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 8rpx;
-  border-radius: 24rpx 24rpx 0 0;
-}
-
-.svc-col:nth-child(1) .svc-col-top {
-  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
-}
-
-.svc-col:nth-child(2) .svc-col-top {
-  background: linear-gradient(135deg, #0984E3, #74B9FF);
-}
-
-.svc-col:nth-child(3) .svc-col-top {
-  background: linear-gradient(135deg, #00CEC9, #81ECEC);
-}
+/* 顶部装饰条已移除 - 颜色通过图标+背景渗色体现 */
 
 /* 卡片悬浮效果 - 轻触下沉+阴影加深 */
 .svc-tap {
