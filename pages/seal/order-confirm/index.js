@@ -371,6 +371,23 @@ Page({
     this.checkSubmitStatus();
   },
 
+  // 材料操作菜单：预览 / 替换
+  onMaterialOption(e) {
+    const { url, field } = e.currentTarget.dataset;
+
+    wx.showActionSheet({
+      itemList: ['预览图片', '重新上传'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          wx.previewImage({ current: url, urls: [url] });
+        } else if (res.tapIndex === 1) {
+          // 跳转 material-upload 重新上传
+          this.onMaterialTap();
+        }
+      }
+    });
+  },
+
   // 预览材料
   onPreviewMaterial(e) {
     const { url } = e.currentTarget.dataset;

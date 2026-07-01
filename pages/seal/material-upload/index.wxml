@@ -17,7 +17,7 @@
     <view class="upload-row">
       <view class="upload-item">
         <block wx:if="{{idCardFront}}">
-          <image class="upload-thumb" src="{{idCardFront}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{idCardFront}}" />
+          <image class="upload-thumb" src="{{idCardFront}}" mode="aspectFill" bindtap="onImageTap" data-url="{{idCardFront}}" data-field="idCardFront" />
           <text class="check-badge">✓</text>
           <view class="delete-btn" data-type="idCardFront" catchtap="onDeleteImage">×</view>
         </block>
@@ -28,7 +28,7 @@
       </view>
       <view class="upload-item">
         <block wx:if="{{idCardBack}}">
-          <image class="upload-thumb" src="{{idCardBack}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{idCardBack}}" />
+          <image class="upload-thumb" src="{{idCardBack}}" mode="aspectFill" bindtap="onImageTap" data-url="{{idCardBack}}" data-field="idCardBack" />
           <text class="check-badge">✓</text>
           <view class="delete-btn" data-type="idCardBack" catchtap="onDeleteImage">×</view>
         </block>
@@ -51,7 +51,7 @@
     </view>
     <view class="upload-single">
       <block wx:if="{{license}}">
-        <image class="upload-thumb-lg" src="{{license}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{license}}" />
+        <image class="upload-thumb-lg" src="{{license}}" mode="aspectFill" bindtap="onImageTap" data-url="{{license}}" data-field="license" />
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="license" catchtap="onDeleteImage">×</view>
       </block>
@@ -74,7 +74,7 @@
     </view>
     <view class="upload-single">
       <block wx:if="{{legalPhoto}}">
-        <image class="upload-thumb-lg" src="{{legalPhoto}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{legalPhoto}}" />
+        <image class="upload-thumb-lg" src="{{legalPhoto}}" mode="aspectFill" bindtap="onImageTap" data-url="{{legalPhoto}}" data-field="legalPhoto" />
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="legalPhoto" catchtap="onDeleteImage">×</view>
       </block>
@@ -100,7 +100,7 @@
     </view>
     <view class="upload-single">
       <block wx:if="{{handheldIdPhoto}}">
-        <image class="upload-thumb-lg" src="{{handheldIdPhoto}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{handheldIdPhoto}}" />
+        <image class="upload-thumb-lg" src="{{handheldIdPhoto}}" mode="aspectFill" bindtap="onImageTap" data-url="{{handheldIdPhoto}}" data-field="handheldIdPhoto" />
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="handheldIdPhoto" catchtap="onDeleteImage">×</view>
       </block>
@@ -123,7 +123,7 @@
     </view>
     <view class="upload-single">
       <block wx:if="{{professionalCert}}">
-        <image class="upload-thumb-lg" src="{{professionalCert}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{professionalCert}}" />
+        <image class="upload-thumb-lg" src="{{professionalCert}}" mode="aspectFill" bindtap="onImageTap" data-url="{{professionalCert}}" data-field="professionalCert" />
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="professionalCert" catchtap="onDeleteImage">×</view>
       </block>
@@ -145,7 +145,7 @@
     </view>
     <view class="upload-single">
       <block wx:if="{{signature}}">
-        <image class="upload-thumb-lg" src="{{signature}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{signature}}" />
+        <image class="upload-thumb-lg" src="{{signature}}" mode="aspectFill" bindtap="onImageTap" data-url="{{signature}}" data-field="signature" />
         <text class="check-badge">✓</text>
         <view class="delete-btn delete-btn-lg" data-type="signature" catchtap="onDeleteImage">×</view>
       </block>
@@ -168,7 +168,7 @@
     </view>
     <view class="upload-list" wx:if="{{additional.length > 0}}">
       <view class="upload-item-sm" wx:for="{{additional}}" wx:key="index">
-        <image class="upload-thumb-sm" src="{{item}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{item}}" />
+        <image class="upload-thumb-sm" src="{{item}}" mode="aspectFill" bindtap="onImageTap" data-url="{{item}}" data-field="additional" />
         <text class="check-badge-sm">✓</text>
         <view class="delete-btn-sm" data-type="additional" data-index="{{index}}" catchtap="onDeleteImage">×</view>
       </view>

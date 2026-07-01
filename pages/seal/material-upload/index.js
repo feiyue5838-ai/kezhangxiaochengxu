@@ -212,6 +212,24 @@ Page({
     this.checkSubmitStatus();
   },
 
+  // ---------- 预览/替换图片 ----------
+  onImageTap(e) {
+    const { url, field } = e.currentTarget.dataset;
+
+    wx.showActionSheet({
+      itemList: ['预览图片', '重新上传'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          wx.previewImage({ current: url, urls: [url] });
+        } else if (res.tapIndex === 1) {
+          // 重新上传，field 直接映射 chooseImage 的 type 参数
+          const cnt = field === 'additional' ? 5 : 1;
+          this.chooseImage(field, cnt);
+        }
+      }
+    });
+  },
+
   // ---------- 预览图片 ----------
   onPreviewImage(e) {
     const { url, urls } = e.currentTarget.dataset;
