@@ -12,11 +12,14 @@
   left: 0;
   right: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  padding: 0 32rpx;
   box-sizing: border-box;
   background: #5B6FE8;
+}
+
+.nav-content {
+  position: relative;
+  height: 100%;
+  padding: 0 32rpx;
 }
 
 .nav-back {
