@@ -51,34 +51,69 @@
     </view>
 
     <!-- 已上传材料列表 -->
-    <block wx:if="{{materials.license || materials.idCardFront || materials.idCardBack || materials.photo}}">
-      <view class="material-list">
+    <view wx:if="{{materials.license || materials.idCardFront || materials.idCardBack || materials.photo || materials.professionalCert || materials.signature || materials.handheldIdPhoto || materials.additional.length}}" class="material-list">
         <!-- 营业执照 -->
-        <view class="material-item" wx:if="{{materials.license && !isPersonal}}">
+        <view class="material-item" wx:if="{{materials.license && !isPersonal}}" data-type="license" data-url="{{materials.license}}" bindtap="onPreviewMaterial">
           <text class="material-type-label">营业执照</text>
           <view class="material-thumb-wrap">
             <image class="material-thumb" src="{{materials.license}}" mode="aspectFill" />
           </view>
+          <text class="material-delete" data-type="license" catchtap="onDeleteMaterial">×</text>
         </view>
 
-        <!-- 法人身份证 -->
+        <!-- 身份证 -->
         <view class="material-item" wx:if="{{materials.idCardFront || materials.idCardBack}}">
           <text class="material-type-label">{{isPersonal ? '身份证' : '法人身份证'}}</text>
           <view class="material-thumb-wrap">
-            <image wx:if="{{materials.idCardFront}}" class="material-thumb" src="{{materials.idCardFront}}" mode="aspectFill" />
-            <image wx:if="{{materials.idCardBack}}" class="material-thumb" src="{{materials.idCardBack}}" mode="aspectFill" />
+            <image wx:if="{{materials.idCardFront}}" class="material-thumb" src="{{materials.idCardFront}}" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardFront}}" />
+            <image wx:if="{{materials.idCardBack}}" class="material-thumb" src="{{materials.idCardBack}}" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{materials.idCardBack}}" />
           </view>
         </view>
 
         <!-- 法人照片 -->
-        <view class="material-item" wx:if="{{materials.photo && !isPersonal}}">
+        <view class="material-item" wx:if="{{materials.photo && !isPersonal}}" data-type="photo" data-url="{{materials.photo}}" bindtap="onPreviewMaterial">
           <text class="material-type-label">法人照片</text>
           <view class="material-thumb-wrap">
             <image class="material-thumb" src="{{materials.photo}}" mode="aspectFill" />
           </view>
+          <text class="material-delete" data-type="photo" catchtap="onDeleteMaterial">×</text>
         </view>
-      </view>
-    </block>
+
+        <!-- 执业证书（个人模式） -->
+        <view class="material-item" wx:if="{{materials.professionalCert}}" data-type="professionalCert" data-url="{{materials.professionalCert}}" bindtap="onPreviewMaterial">
+          <text class="material-type-label">执业证书</text>
+          <view class="material-thumb-wrap">
+            <image class="material-thumb" src="{{materials.professionalCert}}" mode="aspectFill" />
+          </view>
+          <text class="material-delete" data-type="professionalCert" catchtap="onDeleteMaterial">×</text>
+        </view>
+
+        <!-- 个人签名章（个人模式） -->
+        <view class="material-item" wx:if="{{materials.signature}}" data-type="signature" data-url="{{materials.signature}}" bindtap="onPreviewMaterial">
+          <text class="material-type-label">签名章样</text>
+          <view class="material-thumb-wrap">
+            <image class="material-thumb" src="{{materials.signature}}" mode="aspectFill" />
+          </view>
+          <text class="material-delete" data-type="signature" catchtap="onDeleteMaterial">×</text>
+        </view>
+
+        <!-- 手持身份证（特定区域） -->
+        <view class="material-item" wx:if="{{materials.handheldIdPhoto}}" data-type="handheldIdPhoto" data-url="{{materials.handheldIdPhoto}}" bindtap="onPreviewMaterial">
+          <text class="material-type-label">手持身份证</text>
+          <view class="material-thumb-wrap">
+            <image class="material-thumb" src="{{materials.handheldIdPhoto}}" mode="aspectFill" />
+          </view>
+          <text class="material-delete" data-type="handheldIdPhoto" catchtap="onDeleteMaterial">×</text>
+        </view>
+
+        <!-- 补充材料（选填） -->
+        <view class="material-item" wx:if="{{materials.additional.length}}">
+          <text class="material-type-label">补充材料</text>
+          <view class="material-thumb-wrap">
+            <image class="material-thumb" wx:for="{{materials.additional}}" wx:key="index" src="{{item}}" mode="aspectFill" bindtap="onPreviewMaterial" data-url="{{item}}" />
+          </view>
+        </view>
+    </view>
 
     <!-- 上传按钮 -->
     <view class="material-dash-box" bindtap="onMaterialTap">

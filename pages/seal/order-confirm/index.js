@@ -99,12 +99,16 @@ Page({
     invoice: null,
     remark: '',
 
-    // 材料上传
+    // 材料上传（与 material-upload page 写入格式完全对齐）
     materials: {
       license: '',
       idCardFront: '',
       idCardBack: '',
-      photo: ''
+      photo: '',
+      professionalCert: '',
+      signature: '',
+      handheldIdPhoto: '',
+      additional: []
     },
 
     // 地区材料要求
@@ -235,12 +239,16 @@ Page({
     // 读取材料（新版：支持公司/个人/电子印章）
     const material = wx.getStorageSync('materialInfo') || null;
     if (material) {
-      // 直接使用字符串字段，与 material-upload 写入格式一致
+      // 全量读取 material-upload 写入的所有字段
       this.setData({
         'materials.license': material.license || '',
         'materials.idCardFront': material.idCardFront || '',
         'materials.idCardBack': material.idCardBack || '',
-        'materials.photo': material.legalPhoto || ''
+        'materials.photo': material.legalPhoto || '',
+        'materials.professionalCert': material.professionalCert || '',
+        'materials.signature': material.signature || '',
+        'materials.handheldIdPhoto': material.handheldIdPhoto || '',
+        'materials.additional': material.additional || []
       });
     }
 
@@ -332,20 +340,25 @@ Page({
     const { type } = e.currentTarget.dataset;
     const fieldMap = {
       license: 'materials.license',
-      idCard: ['materials.idCardFront', 'materials.idCardBack'],
-      photo: 'materials.photo'
+      photo: 'materials.photo',
+      professionalCert: 'materials.professionalCert',
+      signature: 'materials.signature',
+      handheldIdPhoto: 'materials.handheldIdPhoto'
     };
 
-    if (type === 'idCard') {
-      this.setData({
-        'materials.idCardFront': '',
-        'materials.idCardBack': ''
-      });
-    } else {
-      this.setData({
-        [fieldMap[type]]: ''
-      });
+    if (type && fieldMap[type]) {
+      this.setData({ [fieldMap[type]]: '' });
     }
+
+    // 同步回 Storage
+    const materialInfo = wx.getStorageSync('materialInfo') || {};
+    const updated = { ...materialInfo };
+    if (type === 'photo') updated.legalPhoto = '';
+    else if (type === 'professionalCert') updated.professionalCert = '';
+    else if (type === 'signature') updated.signature = '';
+    else if (type === 'handheldIdPhoto') updated.handheldIdPhoto = '';
+    else if (type === 'license') updated.license = '';
+    wx.setStorageSync('materialInfo', updated);
 
     this.checkSubmitStatus();
   },
@@ -401,12 +414,20 @@ Page({
       address: this.data.address,
       invoice: this.data.invoice,
       remark: this.data.remark,
-      materials: {
-        license: this.data.materials.license,
-        idCardFront: this.data.materials.idCardFront,
-        idCardBack: this.data.materials.idCardBack,
-        legalPhoto: this.data.materials.photo
-      }
+      materials: submitMaterials
+    };
+
+    // 读取完整的材料数据（含 material-upload 上传的全部字段）
+    const materialInfo = wx.getStorageSync('materialInfo') || {};
+    const submitMaterials = {
+      license: this.data.materials.license,
+      idCardFront: this.data.materials.idCardFront,
+      idCardBack: this.data.materials.idCardBack,
+      legalPhoto: this.data.materials.photo,
+      professionalCert: this.data.materials.professionalCert || materialInfo.professionalCert || '',
+      signature: this.data.materials.signature || materialInfo.signature || '',
+      handheldIdPhoto: this.data.materials.handheldIdPhoto || materialInfo.handheldIdPhoto || '',
+      additional: (this.data.materials.additional.length > 0 ? this.data.materials.additional : materialInfo.additional) || []
     };
 
     api.createSealOrder(orderData).then((res) => {

@@ -301,11 +301,16 @@ page {
 }
 
 .material-delete {
-  width: 24rpx;
-  height: 24rpx;
-  padding: 8rpx;
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
   flex-shrink: 0;
   margin-left: 8rpx;
+  font-size: 32rpx;
+  color: #999;
+  background: rgba(0,0,0,0.05);
+  border-radius: 50%;
 }
 
 .material-note {
