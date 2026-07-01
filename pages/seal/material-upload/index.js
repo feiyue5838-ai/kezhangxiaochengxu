@@ -5,6 +5,8 @@ Page({
     // 导航栏相关
     statusBarHeight: 20,
     navHeight: 64,
+    menuCenterY: 0,
+    menuRight: 0,
     pageTitle: '上传材料',
 
     isPersonal: false,
@@ -46,7 +48,10 @@ Page({
   onLoad(options) {
     // 从全局数据读取导航栏高度（app.js 已计算）
     const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
+    // 读取胶囊按钮位置，让返回键与 ··· 三个点垂直居中对齐
+    const menuRect = wx.getMenuButtonBoundingClientRect();
+    const menuCenterY = (menuRect.top + menuRect.height / 2);
+    this.setData({ statusBarHeight, navHeight, menuCenterY, menuRight: menuRect.width + 12 });
 
     this.setData({ pageTitle: '上传材料' });
 

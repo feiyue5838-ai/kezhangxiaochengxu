@@ -1,9 +1,9 @@
 <view class="page">
   <!-- 自定义导航栏 -->
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
+    <view class="nav-back" style="top: {{menuCenterY}}px;" bindtap="goBack">‹</view>
     <text class="nav-title">{{pageTitle}}</text>
-    <view class="nav-placeholder"></view>
+    <view class="nav-placeholder" style="width: {{menuRight}}px;"></view>
   </view>
 
   <!-- 内容区域 -->
@@ -21,6 +21,7 @@
         </block>
         <block wx:else>
           <view class="upload-placeholder card-style">
+            <text class="placeholder-emoji">🆔</text>
             <text class="placeholder-label">身份证正面（人像面）<text class="star">*</text></text>
           </view>
         </block>
@@ -133,6 +134,10 @@
       <view class="upload-item-sm add-more" bindtap="onAdditionalTap" wx:if="{{additional.length < 5}}">
         <text class="plus-icon-lg">+</text>
       </view>
+    </view>
+    <view class="additional-tip" wx:if="{{additional.length > 0}}">
+      <text wx:if="{{additional.length < 5}}">已上传 {{additional.length}}/5 张，可继续添加</text>
+      <text wx:if="{{additional.length >= 5}}">已上传 5/5 张</text>
     </view>
     <view class="upload-single" bindtap="onAdditionalTap" wx:if="{{additional.length === 0}}">
       <view class="upload-placeholder-add">

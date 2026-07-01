@@ -19,15 +19,20 @@
 }
 
 .nav-back {
+  position: absolute;
+  left: 32rpx;
+  /* top 由 inline style 动态提供，与胶囊按钮垂直居中 */
+  transform: translateY(-50%);
   width: 60rpx;
-  height: 100%;
+  height: 60rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40rpx;
+  font-size: 48rpx;
   color: #fff;
   font-weight: 300;
   line-height: 1;
+  z-index: 2;
 }
 
 .nav-title {
@@ -72,12 +77,12 @@
 
 .title-note {
   font-size: 22rpx;
-  color: #8B95A5;
+  color: #6B7280;
 }
 
 .title-desc {
   font-size: 22rpx;
-  color: #8B95A5;
+  color: #6B7280;
 }
 
 .photo-note-red {
@@ -129,7 +134,7 @@
 
 .upload-img-lg {
   width: 100%;
-  height: 300rpx;
+  height: 200rpx;
   border-radius: 20rpx;
   object-fit: cover;
 }
@@ -185,7 +190,7 @@
 }
 
 .upload-placeholder-lg {
-  height: 300rpx;
+  height: 200rpx;
   border-radius: 20rpx;
   background: #fff;
   border: 2rpx dashed #D0D5DD;
@@ -193,7 +198,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24rpx;
+  gap: 16rpx;
 }
 
 .upload-placeholder-add {
@@ -224,24 +229,32 @@
 
 .placeholder-label {
   font-size: 24rpx;
-  color: #8B95A5;
+  color: #6B7280;
 }
 
 .star {
-  color: #5B6FE8;
+  color: #F53F3F;
 }
 
 /* ========== 鍔犲彿鍥炬爣 ========== */
 .plus-icon-lg {
   font-size: 48rpx;
-  color: #8B95A5;
+  color: #6B7280;
   line-height: 1;
 }
 
 .plus-icon-xl {
   font-size: 64rpx;
-  color: #8B95A5;
+  color: #6B7280;
   line-height: 1;
+}
+
+/* ========== 补充手续提示 ========== */
+.additional-tip {
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  color: #6B7280;
+  padding-left: 8rpx;
 }
 
 /* ========== 搴曢儴鍗犱綅 ========== */
@@ -277,5 +290,11 @@
 }
 
 .submit-btn.active {
-  background: #5B6FE8;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  box-shadow: 0 8rpx 24rpx rgba(91, 111, 232, 0.3);
+}
+
+.submit-btn.active:active {
+  box-shadow: 0 4rpx 12rpx rgba(91, 111, 232, 0.25);
+  transform: scale(0.98);
 }
