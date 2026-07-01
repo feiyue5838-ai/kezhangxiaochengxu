@@ -223,6 +223,14 @@ Page({
   onHandheldIdTap() { this.chooseImage('handheldIdPhoto'); },
   onCertTap() { this.chooseImage('professionalCert'); },
   onSignatureTap() { this.chooseImage('signature'); },
+
+  // 预览已上传的图片（全屏大图）
+  onPreviewImage(e) {
+    const url = e.currentTarget.dataset.url;
+    if (url) {
+      wx.previewImage({ urls: [url], current: url });
+    }
+  },
   onAdditionalTap() { this.chooseImage('additional', 5); },
 
   // ---------- 检查是否可以提交 ----------
