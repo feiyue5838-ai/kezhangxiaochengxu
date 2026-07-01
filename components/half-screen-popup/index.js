@@ -232,7 +232,7 @@ Component({
       }
       
       const navHeight = statusBarHeight + navContentHeight;
-      const topPreviewHeight = Math.round(380 / 750 * sys.windowWidth);
+      const topPreviewHeight = Math.round(320 / 750 * sys.windowWidth);
       
       this.setData({ 
         statusBarHeight, 

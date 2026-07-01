@@ -248,8 +248,8 @@
 }
 
 .top-preview-img {
-  width: 240rpx;
-  height: 240rpx;
+  width: 200rpx;
+  height: 200rpx;
 }
 
 .top-preview-name {
@@ -275,7 +275,7 @@
 
 .top-preview-swiper {
   width: 100%;
-  height: 320rpx;
+  height: 260rpx;
 }
 
 .preview-seal-item {
