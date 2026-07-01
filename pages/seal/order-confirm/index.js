@@ -371,7 +371,7 @@ Page({
     this.checkSubmitStatus();
   },
 
-  // 材料操作菜单：预览 / 替换
+  // 材料操作菜单：预览 / 原地替换
   onMaterialOption(e) {
     const { url, field } = e.currentTarget.dataset;
 
@@ -381,9 +381,50 @@ Page({
         if (res.tapIndex === 0) {
           wx.previewImage({ current: url, urls: [url] });
         } else if (res.tapIndex === 1) {
-          // 跳转 material-upload 重新上传
-          this.onMaterialTap();
+          this._replaceMaterial(field);
         }
+      }
+    });
+  },
+
+  // 原地替换指定材料
+  _replaceMaterial(field) {
+    // field → materials 路径 / Storage 键名 映射
+    const map = {
+      idCardFront:       { path: 'materials.idCardFront',      storage: 'idCardFront' },
+      idCardBack:        { path: 'materials.idCardBack',       storage: 'idCardBack' },
+      license:           { path: 'materials.license',          storage: 'license' },
+      legalPhoto:        { path: 'materials.photo',            storage: 'legalPhoto' },
+      professionalCert:  { path: 'materials.professionalCert', storage: 'professionalCert' },
+      signature:         { path: 'materials.signature',        storage: 'signature' },
+      handheldIdPhoto:   { path: 'materials.handheldIdPhoto',  storage: 'handheldIdPhoto' },
+      additional:        { path: 'materials.additional',       storage: 'additional' }
+    };
+
+    const m = map[field];
+    if (!m) return;
+
+    wx.chooseMedia({
+      count: field === 'additional' ? 5 : 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempPath = res.tempFiles[0].tempFilePath;
+
+        if (field === 'additional') {
+          // 补充材料：追加到数组末尾
+          const list = [...(this.data.materials.additional || []), ...res.tempFiles.map(f => f.tempFilePath)];
+          this.setData({ 'materials.additional': list });
+          const mi = wx.getStorageSync('materialInfo') || {};
+          wx.setStorageSync('materialInfo', { ...mi, additional: list });
+        } else {
+          // 单项替换
+          this.setData({ [m.path]: tempPath });
+          const mi = wx.getStorageSync('materialInfo') || {};
+          wx.setStorageSync('materialInfo', { ...mi, [m.storage]: tempPath });
+        }
+
+        this.checkSubmitStatus();
       }
     });
   },
