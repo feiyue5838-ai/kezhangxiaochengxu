@@ -170,7 +170,6 @@ page {
   width: 30%;
   box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.08);
   position: relative;
-  overflow: hidden;
   transition: transform 0.35s var(--ease-out-quart),
               box-shadow 0.35s var(--ease-out-quart);
   opacity: 0;
@@ -186,41 +185,44 @@ page {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 刻章卡片顶部装饰条 */
-.svc-col:first-child::before {
-  display: none;
-}
-
+/* 卡片顶部装饰条（每张不同色） */
 .svc-col-top {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 6rpx;
-  background: var(--primary-gradient);
+  height: 8rpx;
+  border-radius: 24rpx 24rpx 0 0;
 }
 
-/* 卡片悬浮效果 */
+.svc-col:nth-child(1) .svc-col-top {
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+
+.svc-col:nth-child(2) .svc-col-top {
+  background: linear-gradient(135deg, #F59E0B, #FCD34D);
+}
+
+.svc-col:nth-child(3) .svc-col-top {
+  background: linear-gradient(135deg, #10B981, #6EE7B7);
+}
+
+/* 卡片悬浮效果（只缩卡片，不缩图标） */
 .svc-tap {
   transform: scale(0.96);
   box-shadow: 0 8rpx 32rpx rgb(91 111 232 / 0.15);
 }
 
 .svc-icon {
-  width: 96rpx;
-  height: 96rpx;
+  width: 112rpx;
+  height: 112rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20rpx;
-  transition: transform 0.3s var(--ease-out-quart);
-}
-
-.svc-tap .svc-icon {
-  transform: scale(0.92);
 }
 
 .svc-svg {
-  width: 88rpx;
-  height: 88rpx;
+  width: 108rpx;
+  height: 108rpx;
 }
 
 .svc-name {
