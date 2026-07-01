@@ -333,23 +333,20 @@
 /* ����ѡ�񵯴� */
 .region-mask {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 100rpx;
+  inset: 0;
   background: rgba(0,0,0,0.5);
   z-index: 9999;
 }
 .region-panel {
   position: fixed;
-  bottom: 0;
+  bottom: 100rpx;
   left: 0;
   right: 0;
+  height: 600rpx;
   background: #fff;
   border-radius: 24rpx 24rpx 0 0;
   z-index: 10000;
   padding-bottom: env(safe-area-inset-bottom);
-  margin-bottom: 100rpx;
 }
 .region-header {
   display: flex;
