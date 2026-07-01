@@ -134,15 +134,22 @@ page {
 }
 
 .save-btn {
-  background: var(--primary-color);
-  color: var(--bg-white);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  color: #fff;
   font-size: 32rpx;
   font-weight: 600;
   border-radius: 20rpx;
   padding: 24rpx 0;
   border: none;
+  box-shadow: 0 8rpx 24rpx rgba(91, 111, 232, 0.3);
+  letter-spacing: 2rpx;
 }
 
 .save-btn::after {
   border: none;
+}
+
+.save-btn:active {
+  box-shadow: 0 4rpx 12rpx rgba(91, 111, 232, 0.25);
+  transform: scale(0.98);
 }
