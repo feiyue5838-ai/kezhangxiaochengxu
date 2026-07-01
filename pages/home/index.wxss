@@ -168,7 +168,8 @@ page {
   border-radius: 24rpx;
   padding: 36rpx 0;
   width: 30%;
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.08);
+  box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.06),
+              0 8rpx 32rpx rgb(91 111 232 / 0.08);
   position: relative;
   transition: transform 0.35s var(--ease-out-quart),
               box-shadow 0.35s var(--ease-out-quart);
@@ -214,10 +215,13 @@ page {
   background: linear-gradient(135deg, #00CEC9, #81ECEC);
 }
 
-/* 卡片悬浮效果（只缩卡片，不缩图标） */
+/* 卡片悬浮效果 - 轻触下沉+阴影加深 */
 .svc-tap {
   transform: scale(0.96);
-  box-shadow: 0 8rpx 32rpx rgb(91 111 232 / 0.15);
+  transition: transform 0.25s cubic-bezier(0.25,1,0.5,1),
+              box-shadow 0.25s cubic-bezier(0.25,1,0.5,1);
+  box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.1),
+              0 12rpx 40rpx rgb(91 111 232 / 0.18);
 }
 
 .svc-icon {
