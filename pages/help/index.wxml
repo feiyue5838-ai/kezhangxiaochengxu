@@ -7,7 +7,7 @@
     </view>
   </view>
 
-  <view class="help-wrap">
+  <view class="help-wrap" style="padding-top: {{navHeight}}px;">
 
     <!-- 客服热线 -->
     <view class="help-hotline">
