@@ -12,15 +12,8 @@ Page({
   },
 
   onLoad() {
-    try {
-      // 计算导航栏高度
-      const { statusBarHeight, navHeight } = common.getNavigationHeight();
-      this.setData({ statusBarHeight, navHeight });
-    } catch (e) {
-      console.error('onLoad error:', e);
-      // 兜底：使用默认值
-      this.setData({ statusBarHeight: 20, navHeight: 64 });
-    }
+    const { statusBarHeight, navHeight } = common.getNavigationHeight();
+    this.setData({ statusBarHeight, navHeight });
 
     // 从 Storage 读取模板数据
     const templateData = wx.getStorageSync('newspaperTemplate') || {};
@@ -140,8 +133,8 @@ Page({
       _timestamp: Date.now()
     });
 
-    // TODO: 跳转到预览页面
-    wx.showToast({ title: '预览功能开发中', icon: 'none' });
+    // 预览功能暂未接入，先保存内容
+    wx.showToast({ title: '内容已保存，可直接选报纸', icon: 'none' });
   },
 
   // 选择报纸
