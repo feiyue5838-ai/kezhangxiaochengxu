@@ -130,10 +130,11 @@
 
 .seal-badge-icon {
   position: absolute;
-  top: -24rpx;
+  top: -20rpx;
   right: 4rpx;
-  width: 28rpx;
-  height: 28rpx;
+  font-size: 18rpx;
+  color: #fff;
+  line-height: 1;
 }
 
 /* 底部按钮 */

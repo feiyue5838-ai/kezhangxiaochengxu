@@ -65,7 +65,7 @@
           data-id="{{item.id}}"
         >
           <view wx:if="{{item.selected}}" class="seal-badge">
-            <text style="font-size:20rpx;color:#fff;">✓</text>
+            <text class="seal-badge-icon">✓</text>
           </view>
           <text class="seal-name">{{item.name}}</text>
         </view>
@@ -82,7 +82,7 @@
         >
           <view class="badge" wx:if="{{item.badge}}">{{item.badge}}</view>
           <view wx:if="{{item.selected}}" class="seal-badge">
-            <text style="font-size:20rpx;color:#fff;">✓</text>
+            <text class="seal-badge-icon">✓</text>
           </view>
           <text class="seal-name">{{item.name}}</text>
         </view>
