@@ -48,7 +48,7 @@ Page({
       { province: '四川省', city: '成都市', district: '天府新区' },
       { province: '四川省', city: '成都市', district: '东部新区' }
     ];
-    this.setData({ regionList: regions.map(r => r.province + r.city + r.district) });
+    this.setData({ regionList: regions.map(r => r.province + ' ' + r.city + ' ' + r.district) });
 
     // 读取已有地址
     const address = wx.getStorageSync('deliveryAddress');

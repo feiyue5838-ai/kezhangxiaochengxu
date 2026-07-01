@@ -61,8 +61,9 @@ page {
 .form-label {
   font-size: 30rpx;
   color: var(--text-primary);
-  width: 160rpx;
+  width: 180rpx;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .form-input {
@@ -92,7 +93,7 @@ page {
 
 .arrow {
   font-size: 32rpx;
-  color: var(--text-disabled);
+  color: var(--text-secondary);
   margin-left: 12rpx;
 }
 
