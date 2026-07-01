@@ -111,8 +111,8 @@ Page({
           // 1. 日期占位符 → 自动填当天日期
           newContent = newContent.replace(/XXXX年XX月XX日/g, dateStr);
 
-          // 2. 长串 X 正文占位符（15+ 连续X）→ 提示填写
-          newContent = newContent.replace(/X{15,}/g, '（请填写相关内容）');
+          // 2. 长串 X 正文占位符（15+ 连续X）→ 替换为下划线提示
+          newContent = newContent.replace(/X{15,}/g, '________________');
 
           // 3. 姓名类独立行（声明人/致歉人/联系人等）→ 替换为输入的姓名
           const nameFields = [
@@ -123,8 +123,10 @@ Page({
             newContent = newContent.replace(regex, `${field}：${name}`);
           });
 
-          // 4. 其余 XXX 暂时保留，不乱替换证件号码等关键信息
-          // （如需用户自行填写，自然保留即可）
+          // 4. 其余 XXXX → 替换为下划线提示用户自行填写
+          newContent = newContent.replace(/XXXX/g, '____');
+          // 5. 其余 XXX（零散占位符）→ 替换为下划线
+          newContent = newContent.replace(/XXX/g, '___');
 
           this.setData({
             content: newContent,
@@ -132,10 +134,10 @@ Page({
           });
 
           // 检测剩余未处理字段
-          const phoneCount = (newContent.match(/联系电话：XXXX/g) || []).length;
-          const addrCount = (newContent.match(/联系地址：XXXX/g) || []).length;
-          const contentPlaceholder = (newContent.match(/（请填写相关内容）/g) || []).length;
-          const otherX = (newContent.match(/XXXX(?!年)/g) || []).length;
+          const phoneCount = (newContent.match(/联系电话：____/g) || []).length;
+          const addrCount = (newContent.match(/联系地址：____/g) || []).length;
+          const contentPlaceholder = (newContent.match(/________________/g) || []).length;
+          const otherX = (newContent.match(/____(?!年)/g) || []).length;
           const remaining = [];
           if (phoneCount > 0) remaining.push(`联系电话（${phoneCount}处）`);
           if (addrCount > 0) remaining.push(`联系地址（${addrCount}处）`);
@@ -145,7 +147,7 @@ Page({
           if (remaining.length > 0) {
             wx.showModal({
               title: '部分字段需手动填写',
-              content: `以下字段需要您手动填写：${remaining.join('、')}，其余占位符已自动替换`,
+              content: `以下字段需要您手动填写：${remaining.join('、')}，其余占位符已替换为下划线`,
               showCancel: false,
               confirmText: '知道了'
             });
