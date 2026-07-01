@@ -94,17 +94,19 @@ Page({
   quickReplace() {
     wx.showModal({
       title: '一键替换',
-      content: '将使用您的身份信息替换模板中的占位符 XXX',
-      confirmText: '替换',
+      content: '请输入您的真实姓名',
+      editable: true,
+      placeholderText: '例如：张三',
       success: (res) => {
-        if (res.confirm) {
+        if (res.confirm && res.content && res.content.trim()) {
+          const name = res.content.trim();
           const currentDate = new Date();
           const year = currentDate.getFullYear();
           const month = String(currentDate.getMonth() + 1).padStart(2, '0');
           const day = String(currentDate.getDate()).padStart(2, '0');
 
           let newContent = this.data.content;
-          newContent = newContent.replace(/XXX/g, '张三');
+          newContent = newContent.replace(/XXX/g, name);
           newContent = newContent.replace(/XXXX年XX月XX日/g, `${year}年${month}月${day}日`);
 
           this.setData({
@@ -112,6 +114,8 @@ Page({
             charCount: newContent.length
           });
           wx.showToast({ title: '替换成功', icon: 'success' });
+        } else if (res.confirm && !res.content?.trim()) {
+          wx.showToast({ title: '请输入姓名', icon: 'none' });
         }
       }
     });
