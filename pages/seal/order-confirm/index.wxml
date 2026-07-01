@@ -41,29 +41,6 @@
       <input class="form-input" type="number" value="{{contactPhone}}" 
              placeholder="请输入手机号" maxlength="11" bindinput="onPhoneInput" />
     </view>
-
-    <!-- 订单备注 -->
-    <view class="form-item">
-      <view class="form-label">
-        <text style="margin-right:4rpx;">🏷</text>
-        <text>订单备注</text>
-        <text class="optional">(选填)</text>
-      </view>
-      <textarea class="form-textarea" value="{{remark}}" 
-                placeholder="有特殊需求（比如加急、材质要求）可以在这里留言" 
-                maxlength="200" bindinput="onRemarkInput" />
-    </view>
-
-    <!-- 开具发票 -->
-    <view class="form-item" bindtap="onInvoiceTap">
-      <view class="form-label">
-        <text>开具发票</text>
-      </view>
-      <view class="form-content {{invoice ? 'has-value' : ''}}">
-        <text class="placeholder">{{invoice ? invoice.title : '点击填写发票信息'}}</text>
-        <text class="arrow">›</text>
-      </view>
-    </view>
   </view>
 
   <!-- 上传材料 -->
@@ -77,45 +54,36 @@
     <block wx:if="{{materials.license || materials.idCardFront || materials.idCardBack || materials.photo}}">
       <view class="material-list">
         <!-- 营业执照 -->
-        <block wx:if="{{materials.license && !isPersonal}}">
-          <view class="material-item">
-            <text class="material-type-label">营业执照</text>
-            <view class="material-thumb-wrap">
-              <text>✓</text>
-            </view>
-            <text>✓</text>
+        <view class="material-item" wx:if="{{materials.license && !isPersonal}}">
+          <text class="material-type-label">营业执照</text>
+          <view class="material-thumb-wrap">
+            <image class="material-thumb" src="{{materials.license}}" mode="aspectFill" />
           </view>
-        </block>
+        </view>
 
         <!-- 法人身份证 -->
-        <block wx:if="{{materials.idCardFront || materials.idCardBack}}">
-          <view class="material-item">
-            <text class="material-type-label">{{isPersonal ? '身份证' : '法人身份证'}}</text>
-            <view class="material-thumb-wrap">
-              <text>✓</text>
-              <text>✓</text>
-            </view>
-            <text>✓</text>
+        <view class="material-item" wx:if="{{materials.idCardFront || materials.idCardBack}}">
+          <text class="material-type-label">{{isPersonal ? '身份证' : '法人身份证'}}</text>
+          <view class="material-thumb-wrap">
+            <image wx:if="{{materials.idCardFront}}" class="material-thumb" src="{{materials.idCardFront}}" mode="aspectFill" />
+            <image wx:if="{{materials.idCardBack}}" class="material-thumb" src="{{materials.idCardBack}}" mode="aspectFill" />
           </view>
-        </block>
+        </view>
 
         <!-- 法人照片 -->
-        <block wx:if="{{materials.photo && !isPersonal}}">
-          <view class="material-item">
-            <text class="material-type-label">法人照片</text>
-            <view class="material-thumb-wrap">
-              <text>✓</text>
-            </view>
-            <text>✓</text>
+        <view class="material-item" wx:if="{{materials.photo && !isPersonal}}">
+          <text class="material-type-label">法人照片</text>
+          <view class="material-thumb-wrap">
+            <image class="material-thumb" src="{{materials.photo}}" mode="aspectFill" />
           </view>
-        </block>
+        </view>
       </view>
     </block>
 
     <!-- 上传按钮 -->
     <view class="material-dash-box" bindtap="onMaterialTap">
       <view class="material-icon-wrap">
-        <text>✓</text>
+        <text class="upload-icon">+</text>
       </view>
       <text class="material-add-text">{{materials.license || materials.idCardFront ? '继续上传' : '点击上传'}}</text>
     </view>
@@ -124,7 +92,7 @@
     <view wx:if="{{!isPersonal}}" class="material-tips">
       <!-- 红色警告：特定区域必须上传法人照片 -->
       <view wx:if="{{needLegalPhoto}}" class="tips-warning">
-        <text>✓</text>
+        <text>⚠️</text>
         <text class="warning-text">重要提示：{{licenseRegion}}地区必须上传法人照片</text>
       </view>
       <view class="tips-title">基础材料上传：</view>
@@ -149,6 +117,29 @@
       <view class="tips-highlight">注：您对章的材质、样式、排版有特殊要求，请下完单之后立即联系客服确认。</view>
       <view class="tips-highlight">注：执业章部分地区需要把刻过多少章的次数刻制在章上，如您有需求可以填写在备注里面，如无可直接忽略。</view>
       <view class="tips-highlight">请在订单备注中写上您的邮箱号，存证证书会发您的邮箱</view>
+    </view>
+
+    <!-- 订单备注 -->
+    <view class="form-item" style="margin-top:20rpx;">
+      <view class="form-label">
+        <text style="margin-right:4rpx;">🏷</text>
+        <text>订单备注</text>
+        <text class="optional">(选填)</text>
+      </view>
+      <textarea class="form-textarea" value="{{remark}}" 
+                placeholder="有特殊需求（比如加急、材质要求）可以在这里留言" 
+                maxlength="200" bindinput="onRemarkInput" />
+    </view>
+
+    <!-- 开具发票 -->
+    <view class="form-item">
+      <view class="form-label">
+        <text>开具发票</text>
+      </view>
+      <view class="form-content {{invoice ? 'has-value' : ''}}">
+        <text class="placeholder">{{invoice ? invoice.title : '点击填写发票信息'}}</text>
+        <text class="arrow">›</text>
+      </view>
     </view>
   </view>
 
@@ -207,11 +198,11 @@
   <!-- 合规说明 -->
   <view class="compliance-section">
     <view class="compliance-item">
-      <text>✓</text>
+      <text>✅</text>
       <text>定制产品不支持退换，敬请确认</text>
     </view>
     <view class="compliance-item">
-      <text>✓</text>
+      <text>✅</text>
       <text>平台代办公安备案，合法合规</text>
     </view>
   </view>

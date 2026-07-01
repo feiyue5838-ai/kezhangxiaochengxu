@@ -15,7 +15,7 @@ page {
   --disabled-bg: #D5DDE8;
 }
 
-/* ========== 椤甸潰鍩虹鏍峰紡 ========== */
+/* ========== 页面基础样式 ========== */
 .page {
   background: #F8F7FC;
   min-height: 100vh;
@@ -70,7 +70,7 @@ page {
   padding: 0;
 }
 
-/* ========== 琛ㄥ崟鍖哄潡 ========== */
+/* ========== 表单区块 ========== */
 .form-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -195,7 +195,7 @@ page {
   box-sizing: border-box;
 }
 
-/* ========== 鏉愭枡涓婁紶鍖哄煙 ========== */
+/* ========== 材料上传区域 ========== */
 .material-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -316,7 +316,7 @@ page {
   color: var(--text-disabled);
 }
 
-/* ========== 娓╅Θ鎻愮ず ========== */
+/* ========== 温馨提示 ========== */
 .material-tips {
   background: #F8F7FC;
   border-radius: 20rpx;
@@ -324,7 +324,7 @@ page {
   margin-top: 20rpx;
 }
 
-/* ========== 娉ㄦ剰浜嬮」 ========== */
+/* ========== 注意事项 ========== */
 .tips-warning {
   display: flex;
   align-items: center;
@@ -383,7 +383,7 @@ page {
   margin: 12rpx 0;
 }
 
-/* ========== 鍚堣璇存槑 ========== */
+/* ========== 合规说明 ========== */
 .compliance-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -399,7 +399,7 @@ page {
   line-height: 2;
 }
 
-/* ========== 璁㈠崟淇℃伅 ========== */
+/* ========== 订单信息 ========== */
 .info-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -440,7 +440,7 @@ page {
   height: 40rpx;
 }
 
-/* ========== 搴曢儴浠樻鏍?========== */
+/* ========== 底部付款栏 ========== */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -501,4 +501,12 @@ page {
 .svg-icon {
   width: 24rpx;
   height: 24rpx;
+}
+
+/* ========== 上传按钮加号样式 ========== */
+.upload-icon {
+  font-size: 64rpx;
+  color: var(--text-hint);
+  font-weight: 300;
+  line-height: 1;
 }
