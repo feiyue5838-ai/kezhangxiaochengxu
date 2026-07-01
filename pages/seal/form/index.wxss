@@ -48,6 +48,9 @@
 .page {
   background: var(--bg-color);
   min-height: 100vh;
+}
+
+.content {
   padding-bottom: 60rpx;
 }
 
