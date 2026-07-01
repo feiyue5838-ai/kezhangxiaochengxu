@@ -11,7 +11,7 @@
         <text class="qa-question">{{item.question}}</text>
       </view>
       <view class="qa-meta-row">
-        <text class="qa-reply-count">{{item.replyCount}} 条回复</text>
+        <text class="qa-reply-count">{{item.replies.length}} 条回复</text>
         <text class="qa-arrow">›</text>
       </view>
       <!-- 展开回复 -->
@@ -26,7 +26,7 @@
 
   <!-- 底部提问按钮 -->
   <view class="bottom-bar">
-    <view class="ask-btn" bindtap="showAskPopup"><text style="font-size:20px;margin-right:4px;vertical-align:middle;">❓</text>我要提问</view>
+    <view class="ask-btn" bindtap="showAskPopup">我要提问</view>
   </view>
   <view class="bottom-placeholder"></view>
 
@@ -40,6 +40,11 @@
         value="{{newQuestion}}"
         bindinput="onQuestionInput"
         maxlength="200"
+        auto-focus
+        adjust-position
+        hold-keyboard
+        show-confirm-bar
+        cursor-spacing="20"
       />
       <view class="ask-popup-actions">
         <view class="ask-cancel" bindtap="hideAskPopup">取消</view>

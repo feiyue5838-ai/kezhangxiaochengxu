@@ -12,8 +12,8 @@
           <text class="qa-q-icon">Q</text>
           <text class="qa-question">{{item.question}}</text>
         </view>
-        <view class="qa-reply-row" wx:if="{{item.replyCount > 0}}">
-          <text class="qa-reply-count">{{item.replyCount}} 条回复</text>
+        <view class="qa-reply-row" wx:if="{{item.replies.length > 0}}">
+          <text class="qa-reply-count">{{item.replies.length}} 条回复</text>
         </view>
       </view>
     </block>
