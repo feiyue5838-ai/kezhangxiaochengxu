@@ -225,7 +225,7 @@ function getNavigationHeight() {
   let statusBarHeight = 20;
   let navContentHeight = 44;
   try {
-    const sysInfo = wx.getSystemInfoSync();
+    const sysInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
     statusBarHeight = sysInfo.statusBarHeight || 20;
     try {
       const menuButton = wx.getMenuButtonBoundingClientRect();
