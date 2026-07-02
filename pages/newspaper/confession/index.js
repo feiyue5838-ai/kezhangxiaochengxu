@@ -25,16 +25,11 @@ Page({
   },
 
   onLoad() {
-    this._floatDragStart = null;
-    this._floatMoved = false;
     const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
   },
 
   onShow() {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 2 });
-    }
   },
 
   goBack() {
@@ -99,25 +94,4 @@ Page({
     wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
   },
 
-  // 浮动按钮拖拽
-  onFloatTouchStart(e) {
-    this._floatDragStart = e.touches[0].clientY;
-    this._floatMoved = false;
-  },
-  onFloatTouchMove(e) {
-    if (!this._floatDragStart) return;
-    const dy = e.touches[0].clientY - this._floatDragStart;
-    if (Math.abs(dy) > 10) this._floatMoved = true;
-    let top = this.data.floatBtnTop + dy;
-    top = Math.max(400, Math.min(1200, top));
-    this._floatDragStart = e.touches[0].clientY;
-    this.setData({ floatBtnTop: top });
-  },
-  onFloatTouchEnd() {
-    this._floatDragStart = null;
-  },
-  contactService() {
-    if (this._floatMoved) return;
-    wx.makePhoneCall({ phoneNumber: '4000049919' });
-  }
 });
