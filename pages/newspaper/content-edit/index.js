@@ -69,17 +69,18 @@ Page({
 
   // 输入时自动检测并替换占位符（500ms 防抖）
   onInput(e) {
-    const content = e.detail.value;
-    this.setData({ charCount: content.length });
+    const raw = e.detail.value;
+    this.setData({ charCount: raw.length });
 
-    // 防抖：用户停 500ms 再执行替换
     if (_smartReplaceTimer) clearTimeout(_smartReplaceTimer);
     _smartReplaceTimer = setTimeout(() => {
-      const replaced = this.smartReplace(content);
-      if (replaced !== content) {
-        this.setData({ content: replaced });
-      } else {
-        this.setData({ content });
+      const replaced = this.smartReplace(raw);
+      // 仅当有实际替换时才更新，避免 setData → onInput 死循环
+      if (replaced !== raw) {
+        this.setData({ content: replaced }, () => {
+          // 同步字数
+          this.setData({ charCount: replaced.length });
+        });
       }
     }, 500);
   },
