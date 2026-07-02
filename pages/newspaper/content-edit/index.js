@@ -40,7 +40,7 @@ Page({
     }
   },
 
-  // 智能替换占位符（无弹窗，自动对齐）
+  // 智能替换占位符（手动触发，统一替换一次）
   smartReplace(content) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -52,38 +52,26 @@ Page({
 
     // 1. 日期占位符 → 自动填当天日期
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
-    // 2. 长串 X（15+ 连续X）→ 替换为下划线
-    result = result.replace(/X{15,}/g, '______');
-    // 3. 姓名类独立行（声明人/致歉人/联系人/法人等）→ 下划线独占一行
+    // 2. 长串 X（15+ 连续X）→ 提示语
+    result = result.replace(/X{15,}/g, '（请填写相关内容）');
+    // 3. 姓名类字段 → 中文提示
     ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人'].forEach(field => {
-      result = result.replace(new RegExp(`^${field}：XXX$`, 'gm'), `${field}：\n____`);
+      result = result.replace(new RegExp(`^${field}：XXX$`, 'gm'), `${field}：（请填写）`);
     });
-    // 4. XXXX公司 → （公司名称）公司
-    result = result.replace(/XXXX公司/g, '（公司名称）公司');
-    // 5. XXXX → 下划线（4个）
-    result = result.replace(/XXXX(?!\d)/g, '____');
-    // 6. XXX → 下划线（3个）
-    result = result.replace(/XXX(?!\d)/g, '___');
+    // 4. XXXX公司 → 提示语
+    result = result.replace(/XXXX公司/g, '（请填写公司名称）');
+    // 5. XXXX → 提示语
+    result = result.replace(/XXXX(?!\d)/g, '（请填写）');
+    // 6. XXX → 提示语
+    result = result.replace(/XXX(?!\d)/g, '（请填写）');
 
     return result;
   },
 
-  // 输入时自动检测并替换占位符（500ms 防抖）
+  // 输入时只统计字数（不再自动替换）
   onInput(e) {
     const raw = e.detail.value;
-    this.setData({ charCount: raw.length });
-
-    if (_smartReplaceTimer) clearTimeout(_smartReplaceTimer);
-    _smartReplaceTimer = setTimeout(() => {
-      const replaced = this.smartReplace(raw);
-      // 仅当有实际替换时才更新，避免 setData → onInput 死循环
-      if (replaced !== raw) {
-        this.setData({ content: replaced }, () => {
-          // 同步字数
-          this.setData({ charCount: replaced.length });
-        });
-      }
-    }, 500);
+    this.setData({ content: raw, charCount: raw.length });
   },
 
   // 一键替换（手动触发，统一替换一次）
@@ -91,7 +79,7 @@ Page({
     const content = this.data.content;
     const replaced = this.smartReplace(content);
     this.setData({ content: replaced, charCount: replaced.length });
-    wx.showToast({ title: '已替换，下划线处需手动填写', icon: 'none', duration: 2000 });
+    wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
   },
 
   // 判断内容是否已修改（不再是原始模板）
@@ -152,7 +140,7 @@ Page({
     this.setData({ showPreview: false });
   },
 
-  // 选择报纸
+  // 选报纸
   selectPaper() {
     const { content, originalContent } = this.data;
     if (!content.trim() || content === originalContent) {
