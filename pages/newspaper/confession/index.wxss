@@ -19,7 +19,9 @@
   align-items: center;
   padding: 0 32rpx;
   box-sizing: border-box;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: saturate(180%) blur(20rpx);
+  -webkit-backdrop-filter: saturate(180%) blur(20rpx);
 }
 
 .nav-back {
