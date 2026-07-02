@@ -135,6 +135,11 @@
   transform: scale(0.96);
 }
 
+.paper-card--hover {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
 /* Logo 闂佸憡鐗曢幖顐︽偂? */
 .card-logo {
   height: 150rpx;

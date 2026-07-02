@@ -37,11 +37,11 @@ Page({
   },
 
   selectPaper(e) {
-    const id = e.currentTarget.dataset.id;
-    const paper = paperConfig.getPaperById(id);
+    const idx = e.currentTarget.dataset.index;
+    const paper = this.data.papers[idx];
     if (paper) {
       this.setData({
-        selectedPaper: id,
+        selectedPaper: paper.id,
         totalPrice: paper.price
       });
     }

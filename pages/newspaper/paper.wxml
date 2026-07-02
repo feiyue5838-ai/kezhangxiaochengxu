@@ -24,8 +24,8 @@
     
     <view class="paper-grid">
       <view class="paper-card {{selectedPaper === item.id ? 'selected' : ''}}" 
-        wx:for="{{papers}}" wx:key="id" 
-        bindtap="selectPaper" data-id="{{item.id}}">
+        wx:for="{{papers}}" wx:key="id" wx:for-index="idx"
+        catchtap="selectPaper" data-index="{{idx}}" hover-class="paper-card--hover">
         
         <!-- Logo -->
         <view class="card-logo" style="background: linear-gradient(135deg, {{item.logoColor || '#5B6FE8'}} 0%, {{item.logoColorEnd || '#7B8FF7'}} 100%);">
