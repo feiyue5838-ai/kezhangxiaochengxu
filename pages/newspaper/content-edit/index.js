@@ -38,7 +38,7 @@ Page({
     wx.createSelectorQuery().in(this).select('#contentEditor').context((res) => {
       this.editorCtx = res.context;
       if (this.data.content) {
-        this.editorCtx.setContents({ delta: { ops: this._plainToDelta(this.data.content) } });
+        this.editorCtx.setContents({ delta: this._plainToDelta(this.data.content) });
       }
     }).exec();
   },
@@ -105,7 +105,7 @@ Page({
         this.setData({ content: replaced, charCount: replaced.length });
         const delta = this._plainToDelta(replaced);
         console.log('[quickReplace] delta ops count=', delta.length, JSON.stringify(delta.slice(0, 2)));
-        this.editorCtx.setContents({ delta: { ops: delta } });
+        this.editorCtx.setContents({ delta: delta });
         wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
       },
       fail: (err) => {
@@ -119,7 +119,7 @@ Page({
 
   // 纯文本 → delta 格式（提示文字用 attributes 标红）
   _plainToDelta(text) {
-    if (!text) return [{ insert: '\n' }];
+    if (!text) return { ops: [{ insert: '\n' }] };
     const hintRe = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
     const lines = text.split('\n');
     const ops = [];
@@ -144,7 +144,7 @@ Page({
     if (!lastOp || (typeof lastOp.insert === 'string' && !lastOp.insert.endsWith('\n'))) {
       ops.push({ insert: '\n' });
     }
-    return ops;
+    return { ops: ops };
   },
 
   // 判断内容是否已修改（不再是原始模板）
