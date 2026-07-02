@@ -38,7 +38,7 @@ Page({
     wx.createSelectorQuery().in(this).select('#contentEditor').context((res) => {
       this.editorCtx = res.context;
       if (this.data.content) {
-        this.editorCtx.setContents({ html: this._plainToHtml(this.data.content) });
+        this.editorCtx.setContents({ delta: { ops: this._plainToDelta(this.data.content) } });
       }
     }).exec();
   },
@@ -65,42 +65,59 @@ Page({
 
   // 一键替换占位符 → 在 editor 中标红提示文字
   quickReplace() {
-    if (!this.editorCtx) return;
-    // 优先从 editor 拿最新纯文本，避免 bindinput 延迟导致的 content 旧值
+    if (!this.editorCtx) {
+      // 降级：editor 未就绪，只更新 data
+      const replaced = this.smartReplace(this.data.content);
+      this.setData({ content: replaced, charCount: replaced.length });
+      wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+      return;
+    }
     this.editorCtx.getContents({
       success: (res) => {
-        const currentText = res.text || '';
+        const currentText = (res && res.text) || '';
         const replaced = this.smartReplace(currentText);
         this.setData({ content: replaced, charCount: replaced.length });
-        this.editorCtx.blur();
-        setTimeout(() => {
-          this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
-        }, 50);
+        // 用 delta 格式设置，Quill 才能渲染红字
+        this.editorCtx.setContents({ delta: { ops: this._plainToDelta(replaced) } });
+        wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+      },
+      fail: (err) => {
+        console.error('[quickReplace] getContents fail:', err);
+        const replaced = this.smartReplace(this.data.content);
+        this.setData({ content: replaced, charCount: replaced.length });
         wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
       }
     });
   },
 
-  // 纯文本 → HTML（提示文字标红）
-  _plainToHtml(text) {
-    if (!text) return '<p><br></p>';
-    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // 纯文本 → delta 格式（提示文字用 attributes 标红）
+  _plainToDelta(text) {
+    if (!text) return [{ insert: '\n' }];
     const hintRe = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
     const lines = text.split('\n');
-    const htmlLines = lines.map(line => {
-      let out = '';
+    const ops = [];
+    lines.forEach((line, idx) => {
+      if (idx > 0) ops.push({ insert: '\n' });
       let last = 0;
       let m;
       hintRe.lastIndex = 0;
       while ((m = hintRe.exec(line)) !== null) {
-        out += esc(line.slice(last, m.index));
-        out += `<span style="color:#F5222D;font-weight:bold;">${m[0]}</span>`;
+        if (m.index > last) {
+          ops.push({ insert: line.slice(last, m.index) });
+        }
+        ops.push({ insert: m[0], attributes: { color: '#F5222D', bold: true } });
         last = m.index + m[0].length;
       }
-      out += esc(line.slice(last));
-      return `<p>${out || '<br>'}</p>`;
+      if (last < line.length) {
+        ops.push({ insert: line.slice(last) });
+      }
     });
-    return htmlLines.join('');
+    // Quill 要求以 \n 结尾
+    const lastOp = ops[ops.length - 1];
+    if (!lastOp || (typeof lastOp.insert === 'string' && !lastOp.insert.endsWith('\n'))) {
+      ops.push({ insert: '\n' });
+    }
+    return ops;
   },
 
   // 判断内容是否已修改（不再是原始模板）
