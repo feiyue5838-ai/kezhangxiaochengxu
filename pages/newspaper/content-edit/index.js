@@ -72,12 +72,10 @@ Page({
 
   // 一键替换占位符 → 用 HTML 格式写入 editor，提示文字标红
   quickReplace() {
-    // 从 editor 拿当前原始文本（保证拿最新用户编辑内容）
     const doReplace = (rawText) => {
       const replaced = this.smartReplace(rawText);
       this.setData({ content: replaced, charCount: replaced.length });
       if (!this.editorCtx) return;
-      // 用 HTML 格式写入，兼容性比 delta 更好
       this.editorCtx.setContents({
         html: this._plainToHtml(replaced),
         success: () => { wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 }); },
@@ -91,7 +89,6 @@ Page({
         fail: () => { doReplace(this.data.content || ''); }
       });
     } else {
-      // editor 未就绪：直接用 data.content
       doReplace(this.data.content || '');
     }
   },
@@ -118,10 +115,6 @@ Page({
     return htmlLines.join('');
   },
 
-
-
-  // 判断内容是否已修改（不再是原始模板）
-
   // 智能替换占位符（手动触发，统一替换一次）
   smartReplace(content) {
     const currentDate = new Date();
@@ -135,39 +128,39 @@ Page({
     // 1. 日期占位符 → 自动填当天日期
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
 
-    // 2. 姓名类字段（label: XXX）→ 示例格式
-    //    先做标签特定替换，避免 /XXX(?!\d)/ 吃掉 "本人XXX" 中的 XXX
-    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人'].forEach(field => {
+    // 2. 【关键】"本人XXX" → 姓名示例（必须在通用XXX之前，防止"本人"后的XXX被替换成身份证号）
+    result = result.replace(/本人XXX/g, '本人（示例：张三）');
+
+    // 3. 【关键】"声明单位：XXX有限公司" → 只替换中间的 XXX，保留 "有限公司" 原样
+    result = result.replace(/声明单位：XXX有限公司/g, function() {
+      return '声明单位：XX有限公司'.replace('XX', '（示例：XX）');
+    });
+
+    // 4. 姓名类标签字段（label: XXX）→ 姓名示例
+    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
 
-    // 3. 通用 XXXX（4个X，不是数字序列）→ 格式示例
-    //    先于"XXXX公司"处理，避免残留 XXX 被第4步误吞
+    // 5. XXXX公司 → 完整公司名示例
+    //    策略：把"XXXX公司"替换成"（示例：XX公司"，然后把后续"有限公司"等后缀包进括号
+    result = result.replace(/XXXX公司/g, '（示例：XX公司');
+    //    把孤立的"有限公司）"补全为"有限公司））"（闭合两处括号）
+    result = result.replace(/（示例：XX公司有限公司/g, '（示例：XX公司）有限公司');
+    //    把孤立的"集团）"等后缀补全
+    result = result.replace(/（示例：XX公司集团/g, '（示例：XX集团）');
+    //    兜底：剩余所有未被包围的"XXXX公司" → 完整示例
+    result = result.replace(/XXXX公司/g, '（示例：XX公司）');
+
+    // 6. 通用 XXXX（4个X，不是数字序列）→ 电话示例
     result = result.replace(/XXXX(?!\d)/g, '（示例：138****5678）');
 
-    // 4. XXXX公司 → 格式示例（XXXX已被第3步处理过，此处兜底）
-    //    匹配"XXXX公司"后紧跟字母/数字（公司名首字），捕获组保留公司后缀
-    result = result.replace(/XXXX公司(\w)?/g, function(match, suffix) {
-      return '（示例：XX公司' + (suffix || '') + '）';
-    });
-
-    // 5. 通用 XXX（3个X，不是数字序列）→ 格式示例
+    // 7. 通用 XXX（3个X，不是数字序列）→ 身份证号示例
     result = result.replace(/XXX(?!\d)/g, '（示例：110101199001011234）');
 
-    // 6. 长串 X（15+ 连续X）→ 兜底提示
+    // 8. 长串 X（15+ 连续X）→ 兜底提示
     result = result.replace(/X{15,}/g, '（请填写完整信息）');
 
     return result;
-  },
-
-  // 输入时实时解析提示文字（字数更新 + 预览同步）
-  onInput(e) {
-    const raw = e.detail.value || '';
-    this.setData({ content: raw, charCount: raw.length });
-    // 预览已打开时同步更新
-    if (this.data.showHintPreview) {
-      this.setData({ hintHtml: this._parseHintsToHtml(raw) });
-    }
   },
 
   // 判断内容是否已修改（不再是原始模板）
@@ -246,7 +239,6 @@ Page({
     });
 
     // 跳转到完整订单表单页面（包含选报纸、数量、收件信息等）
-    // 使用 navigateTo 而不是 redirectTo，允许用户返回修改内容
     wx.navigateTo({
       url: '/pages/newspaper/form'
     });
