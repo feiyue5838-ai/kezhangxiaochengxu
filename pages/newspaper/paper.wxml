@@ -56,6 +56,6 @@
       <text class="price-label">应付金额</text>
       <text class="price-value">¥{{totalPrice}}</text>
     </view>
-    <button class="submit-btn" bindtap="submitOrder" disabled="{{!selectedPaper}}">确认选择</button>
+    <button class="submit-btn {{!selectedPaper ? 'disabled' : ''}}" bindtap="submitOrder" disabled="{{!selectedPaper}}">确认选择</button>
   </view>
 </view>

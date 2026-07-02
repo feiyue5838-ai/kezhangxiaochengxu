@@ -274,7 +274,7 @@
   box-shadow: 0 6rpx 20rpx rgb(22 119 255 / 0.35);
 }
 
-.submit-btn[disabled] {
+.submit-btn.disabled {
   background: #D5DDE8;
   color: #8C97A6;
   box-shadow: none;
