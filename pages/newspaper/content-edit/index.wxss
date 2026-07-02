@@ -138,6 +138,7 @@
   color: #1A2332;
   line-height: 1.6;
   box-sizing: border-box;
+  word-break: keep-all;
 }
 
 .editor-footer {
