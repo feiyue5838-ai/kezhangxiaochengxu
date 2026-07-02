@@ -123,9 +123,11 @@ Page({
             newContent = newContent.replace(regex, `${field}：${name}`);
           });
 
-          // 4. 其余 XXXX → 替换为下划线提示用户自行填写
+          // 4. XXXX公司 → 替换为（公司名称）公司
+          newContent = newContent.replace(/XXXX公司/g, '（公司名称）公司');
+          // 5. 其余 XXXX → 替换为下划线提示用户自行填写
           newContent = newContent.replace(/XXXX/g, '____');
-          // 5. 其余 XXX（零散占位符）→ 替换为下划线
+          // 6. 其余 XXX（零散占位符）→ 替换为下划线
           newContent = newContent.replace(/XXX/g, '___');
 
           this.setData({
