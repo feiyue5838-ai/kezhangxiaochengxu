@@ -63,11 +63,35 @@ Page({
     }
   },
 
+  // 诊断函数：查看 editor 内部状态
+  debugEditor() {
+    console.log('=== [debugEditor] ===');
+    console.log('editorCtx:', !!this.editorCtx, this.editorCtx);
+    console.log('data.content:', this.data.content && this.data.content.substring(0, 50));
+    if (this.editorCtx) {
+      this.editorCtx.getContents({
+        success: (res) => {
+          console.log('getContents success - text:', res.text && res.text.substring(0, 50));
+          console.log('getContents success - html:', res.html && res.html.substring(0, 100));
+          wx.showToast({ title: 'editor正常:text=' + (res.text || '').length + '字', icon: 'none', duration: 2000 });
+        },
+        fail: (err) => {
+          console.error('getContents fail:', err);
+          wx.showToast({ title: 'getContents失败:' + JSON.stringify(err), icon: 'none', duration: 3000 });
+        }
+      });
+    } else {
+      wx.showToast({ title: 'editorCtx为空!', icon: 'none', duration: 2000 });
+    }
+  },
+
   // 一键替换占位符 → 在 editor 中标红提示文字
   quickReplace() {
+    console.log('[quickReplace] start, editorCtx=', !!this.editorCtx, ', content=', this.data.content && this.data.content.substring(0, 30));
     if (!this.editorCtx) {
-      // 降级：editor 未就绪，只更新 data
+      console.log('[quickReplace] editorCtx is null, using data.content fallback');
       const replaced = this.smartReplace(this.data.content);
+      console.log('[quickReplace] fallback replaced=', replaced.substring(0, 50));
       this.setData({ content: replaced, charCount: replaced.length });
       wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
       return;
@@ -75,10 +99,13 @@ Page({
     this.editorCtx.getContents({
       success: (res) => {
         const currentText = (res && res.text) || '';
+        console.log('[quickReplace] getContents text=', currentText.substring(0, 50), 'length=', currentText.length);
         const replaced = this.smartReplace(currentText);
+        console.log('[quickReplace] after smartReplace=', replaced.substring(0, 50));
         this.setData({ content: replaced, charCount: replaced.length });
-        // 用 delta 格式设置，Quill 才能渲染红字
-        this.editorCtx.setContents({ delta: { ops: this._plainToDelta(replaced) } });
+        const delta = this._plainToDelta(replaced);
+        console.log('[quickReplace] delta ops count=', delta.length, JSON.stringify(delta.slice(0, 2)));
+        this.editorCtx.setContents({ delta: { ops: delta } });
         wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
       },
       fail: (err) => {

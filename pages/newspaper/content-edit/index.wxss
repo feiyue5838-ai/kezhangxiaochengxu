@@ -142,6 +142,13 @@
   min-height: 1em;
 }
 
+/* 调试按钮 */
+.debug-btn {
+  background: #f0f0f0;
+  border: 2rpx solid #ddd;
+  margin-left: 16rpx;
+}
+
 .editor-footer {
   display: flex;
   justify-content: flex-end;

@@ -61,6 +61,10 @@
           <text class="replace-icon">🔄</text>
           <text class="replace-text">一键替换占位符</text>
         </view>
+        <!-- 调试按钮：诊断 editor 状态 -->
+        <view class="replace-btn debug-btn" bindtap="debugEditor">
+          <text class="replace-text">🔍 诊断</text>
+        </view>
       </view>
 
       <view class="editor-tip">
