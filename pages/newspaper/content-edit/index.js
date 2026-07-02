@@ -54,9 +54,9 @@ Page({
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
     // 2. 长串 X（15+ 连续X）→ 替换为下划线
     result = result.replace(/X{15,}/g, '______');
-    // 3. 姓名类独立行（声明人/致歉人/联系人/法人等）→ 对齐下划线
+    // 3. 姓名类独立行（声明人/致歉人/联系人/法人等）→ 下划线独占一行
     ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人'].forEach(field => {
-      result = result.replace(new RegExp(`^${field}：XXX$`, 'gm'), `${field}：____`);
+      result = result.replace(new RegExp(`^${field}：XXX$`, 'gm'), `${field}：\n____`);
     });
     // 4. XXXX公司 → （公司名称）公司
     result = result.replace(/XXXX公司/g, '（公司名称）公司');
