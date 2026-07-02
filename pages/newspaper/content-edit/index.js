@@ -53,7 +53,7 @@ Page({
     // 1. 日期占位符 → 自动填当天日期
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
     // 2. 长串 X（15+ 连续X）→ 替换为下划线
-    result = result.replace(/X{15,}/g, '________________');
+    result = result.replace(/X{15,}/g, '______');
     // 3. 姓名类独立行（声明人/致歉人/联系人/法人等）→ 对齐下划线
     ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人'].forEach(field => {
       result = result.replace(new RegExp(`^${field}：XXX$`, 'gm'), `${field}：____`);
