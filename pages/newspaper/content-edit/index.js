@@ -72,33 +72,28 @@ Page({
 
   // 一键替换占位符 → 用 HTML 格式写入 editor，提示文字标红
   quickReplace() {
-    if (!this.editorCtx) {
-      // editor 未初始化：直接用 data.content
-      const replaced = this.smartReplace(this.data.content);
-      this.setData({ content: replaced, charCount: replaced.length });
-      wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
-      return;
-    }
     // 从 editor 拿当前原始文本（保证拿最新用户编辑内容）
-    this.editorCtx.getContents({
-      success: (res) => {
-        const rawText = (res && res.text) || this.data.content || '';
-        const replaced = this.smartReplace(rawText);
-        this.setData({ content: replaced, charCount: replaced.length });
-        // 用 HTML 格式写入，兼容性比 delta 更好
-        this.editorCtx.setContents({
-          html: this._plainToHtml(replaced),
-          success: () => { wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 }); },
-          fail: (err) => { console.error('[quickReplace] setContents fail:', err); wx.showToast({ title: '替换失败', icon: 'none', duration: 2000 }); }
-        });
-      },
-      fail: (err) => {
-        console.error('[quickReplace] getContents fail:', err);
-        const replaced = this.smartReplace(this.data.content);
-        this.setData({ content: replaced, charCount: replaced.length });
-        wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
-      }
-    });
+    const doReplace = (rawText) => {
+      const replaced = this.smartReplace(rawText);
+      this.setData({ content: replaced, charCount: replaced.length });
+      if (!this.editorCtx) return;
+      // 用 HTML 格式写入，兼容性比 delta 更好
+      this.editorCtx.setContents({
+        html: this._plainToHtml(replaced),
+        success: () => { wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 }); },
+        fail: (err) => { console.error('[quickReplace] setContents fail:', err); wx.showToast({ title: '替换失败', icon: 'none', duration: 2000 }); }
+      });
+    };
+
+    if (this.editorCtx && this._editorReady) {
+      this.editorCtx.getContents({
+        success: (res) => { doReplace((res && res.text) || this.data.content || ''); },
+        fail: () => { doReplace(this.data.content || ''); }
+      });
+    } else {
+      // editor 未就绪：直接用 data.content
+      doReplace(this.data.content || '');
+    }
   },
 
   // 纯文本 → HTML（提示文字用 <span style> 标红，兼容性最好）
