@@ -9,7 +9,8 @@ Page({
     templateName: '',
     content: '',
     originalContent: '', // 保存原始模板，用于重置
-    charCount: 0
+    charCount: 0,
+    showPreview: false
   },
 
   onLoad() {
@@ -143,18 +144,12 @@ Page({
       wx.showToast({ title: '请先输入登报内容', icon: 'none' });
       return;
     }
+    this.setData({ showPreview: true });
+  },
 
-    // 保存内容到 Storage
-    wx.setStorageSync('newspaperContent', {
-      content: this.data.content,
-      charCount: this.data.charCount,
-      businessType: this.data.businessType,
-      templateName: this.data.templateName,
-      _timestamp: Date.now()
-    });
-
-    // 预览功能暂未接入，先保存内容
-    wx.showToast({ title: '内容已保存，可直接选报纸', icon: 'none' });
+  // 关闭预览
+  closePreview() {
+    this.setData({ showPreview: false });
   },
 
   // 选择报纸

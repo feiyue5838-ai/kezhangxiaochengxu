@@ -266,4 +266,111 @@
   font-weight: 600;
 }
 
+/* ========== 预览弹窗 ========== */
+.preview-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 900;
+}
 
+.preview-panel {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640rpx;
+  max-height: 75vh;
+  background: #fff;
+  border-radius: 24rpx;
+  z-index: 901;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8rpx 40rpx rgba(0,0,0,0.15);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx 20rpx;
+  border-bottom: 1rpx solid #F0F2F5;
+}
+
+.preview-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A2332;
+}
+
+.preview-close {
+  font-size: 28rpx;
+  color: #8C97A6;
+  padding: 8rpx 16rpx;
+}
+
+.preview-body {
+  flex: 1;
+  padding: 24rpx 32rpx;
+  overflow-y: auto;
+}
+
+.preview-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.preview-meta-label {
+  font-size: 24rpx;
+  color: #5B6FE8;
+  font-weight: 500;
+}
+
+.preview-meta-count {
+  font-size: 22rpx;
+  color: #8C97A6;
+}
+
+.preview-divider {
+  height: 1rpx;
+  background: #E8ECF1;
+  margin-bottom: 20rpx;
+}
+
+.preview-text {
+  background: #FAFBFC;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #1A2332;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.preview-footer {
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx 32rpx 28rpx;
+  border-top: 1rpx solid #F0F2F5;
+}
+
+.preview-btn {
+  flex: 1;
+  height: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 38rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  background: #F0F2F5;
+  color: #1A2332;
+}
+
+.preview-btn-primary {
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  color: #fff;
+}
