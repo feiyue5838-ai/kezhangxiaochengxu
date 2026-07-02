@@ -1,17 +1,17 @@
 /* pages/newspaper/paper.wxss */
 
+/* ========== 页面整体 ========== */
 .page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   background: #F8F7FC;
-  min-height: 100vh;
-  padding-bottom: 160rpx;
 }
 
-/* ========== 闂佺厧顨庢禍婊堟偩閻愵剛鈻曞璺侯煬閸ゃ倝鏌ら崜韫凹闁?========== */
+/* ========== 导航栏（固定顶部） ========== */
 .nav-bar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 100;
   display: flex;
   align-items: center;
@@ -41,8 +41,8 @@
 
 .nav-title {
   position: absolute;
-  left: 50%;
-  top: 50%; transform: translate(-50%, -50%);
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
   font-size: 34rpx;
   font-weight: 600;
   color: #fff;
@@ -50,15 +50,11 @@
 
 .nav-placeholder {
   width: 60rpx;
+  height: 100%;
 }
 
-/* ========== 闂佸憡鍔曢幊搴敊閹版澘绠烘俊顖涱儥濞?========== */
+/* ========== 内容摘要（普通流，在导航栏下方） ========== */
 .content-summary {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 90;
   padding: 24rpx 32rpx;
   background: #EBF3FF;
   border-bottom: 1rpx solid #BAE7FF;
@@ -82,12 +78,13 @@
   overflow: hidden;
 }
 
-/* ========== 濠电姴锕ラ懝鐐叏閳哄懎绀岄柛婵嗗閸?========== */
+/* ========== 报纸列表滚动区（flex 占满剩余空间） ========== */
 .paper-scroll {
-  height: calc(100vh - 140rpx);
+  flex: 1;
+  overflow-y: auto;
 }
 
-/* ========== 闂佸搫绉村ú顓€傞悾灞惧仒?========== */
+/* ========== 区域标题 ========== */
 .section-header {
   display: flex;
   align-items: baseline;
@@ -106,7 +103,7 @@
   color: #8C97A6;
 }
 
-/* ========== 闂佸憡鐟ラ懟顖炲垂椤忓棛纾鹃柟瀵稿仧婢?========== */
+/* ========== 报纸卡片网格 ========== */
 .paper-grid {
   display: flex;
   flex-wrap: wrap;
@@ -119,7 +116,7 @@
   border-radius: 20rpx;
   margin: 9rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 16rpx rgb(0 0 0 / 0.06);
+  box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.06);
   border: 3rpx solid transparent;
   transition: all 0.2s ease;
   position: relative;
@@ -127,7 +124,7 @@
 
 .paper-card.selected {
   border-color: #5B6FE8;
-  box-shadow: 0 8rpx 28rpx rgb(22 119 255 / 0.2);
+  box-shadow: 0 8rpx 28rpx rgba(22,119,255,0.2);
   transform: translateY(-2rpx);
 }
 
@@ -140,7 +137,7 @@
   transform: scale(0.97);
 }
 
-/* Logo 闂佸憡鐗曢幖顐︽偂? */
+/* Logo 区域 */
 .card-logo {
   height: 150rpx;
   display: flex;
@@ -153,11 +150,9 @@
 .card-logo::after {
   content: '';
   position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 100%;
-  height: 100%;
-  background: rgb(255 255 255 / 0.1);
+  top: -50%; right: -50%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.1);
   border-radius: 50%;
 }
 
@@ -165,15 +160,14 @@
   font-size: 52rpx;
   color: #fff;
   font-weight: bold;
-  text-shadow: 0 2rpx 8rpx rgb(0 0 0 / 0.15);
+  text-shadow: 0 2rpx 8rpx rgba(0,0,0,0.15);
   position: relative;
   z-index: 1;
 }
 
 .card-tag {
   position: absolute;
-  bottom: 10rpx;
-  left: 50%;
+  bottom: 10rpx; left: 50%;
   transform: translateX(-50%);
   font-size: 20rpx;
   padding: 4rpx 16rpx;
@@ -182,7 +176,7 @@
   z-index: 2;
 }
 
-/* 婵烇絽娲犻崜婵囧閸涙潙绀? */
+/* 信息区 */
 .card-body {
   padding: 20rpx 18rpx 24rpx;
   position: relative;
@@ -214,13 +208,11 @@
   font-weight: normal;
 }
 
-/* 闂備緡鍋勯ˇ顕€鎳欓幋锕€绀? */
+/* 选中标记 */
 .check-mark {
   position: absolute;
-  top: 8rpx;
-  right: 8rpx;
-  width: 40rpx;
-  height: 40rpx;
+  top: 8rpx; right: 8rpx;
+  width: 40rpx; height: 40rpx;
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   border-radius: 50%;
   display: flex;
@@ -229,22 +221,19 @@
   color: #fff;
   font-size: 24rpx;
   font-weight: bold;
-  box-shadow: 0 2rpx 8rpx rgb(22 119 255 / 0.3);
+  box-shadow: 0 2rpx 8rpx rgba(22,119,255,0.3);
 }
 
-/* ========== 闁圭厧鐡ㄥú鐔煎磿閹绢喖绠肩€广儱瀚粙濠囨煛?========== */
+/* ========== 底部操作栏（固定底部） ========== */
 .action-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20rpx 32rpx;
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.08);
+  background: #fff;
+  box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.08);
   z-index: 99;
 }
 
@@ -270,13 +259,13 @@
   height: 88rpx;
   line-height: 88rpx;
   background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-  color: white;
+  color: #fff;
   font-size: 30rpx;
   font-weight: 600;
   border-radius: 20rpx;
   border: none;
   text-align: center;
-  box-shadow: 0 6rpx 20rpx rgb(22 119 255 / 0.35);
+  box-shadow: 0 6rpx 20rpx rgba(22,119,255,0.35);
 }
 
 .submit-btn.disabled {
@@ -293,5 +282,3 @@
   width: 24rpx;
   height: 24rpx;
 }
-
-
