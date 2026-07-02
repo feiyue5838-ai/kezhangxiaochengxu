@@ -18,6 +18,7 @@
   display: flex;
   align-items: center;
   padding: 0 32rpx;
+  box-sizing: border-box;
   background: transparent;
 }
 

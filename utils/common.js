@@ -230,7 +230,10 @@ function getNavigationHeight() {
     try {
       const menuButton = wx.getMenuButtonBoundingClientRect();
       if (menuButton && menuButton.height) {
-        navContentHeight = menuButton.height + (menuButton.top - statusBarHeight) * 2;
+        // 底部对齐公式：navHeight = menuButton.top + menuButton.height
+        // 减去 statusBarHeight 后得到内容区高度，再减去 capsule 自身高度，
+        // 剩下的是状态栏到胶囊顶部之间的间隙
+        navContentHeight = menuButton.height + (menuButton.top - statusBarHeight);
       } else {
         navContentHeight = 44;
       }
