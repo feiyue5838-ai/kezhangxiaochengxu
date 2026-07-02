@@ -65,15 +65,20 @@ Page({
 
   // 一键替换占位符 → 在 editor 中标红提示文字
   quickReplace() {
-    const replaced = this.smartReplace(this.data.content);
-    this.setData({ content: replaced, charCount: replaced.length });
-    if (this.editorCtx) {
-      this.editorCtx.blur();
-      setTimeout(() => {
-        this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
-      }, 50);
-    }
-    wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+    if (!this.editorCtx) return;
+    // 优先从 editor 拿最新纯文本，避免 bindinput 延迟导致的 content 旧值
+    this.editorCtx.getContents({
+      success: (res) => {
+        const currentText = res.text || '';
+        const replaced = this.smartReplace(currentText);
+        this.setData({ content: replaced, charCount: replaced.length });
+        this.editorCtx.blur();
+        setTimeout(() => {
+          this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
+        }, 50);
+        wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+      }
+    });
   },
 
   // 纯文本 → HTML（提示文字标红）
