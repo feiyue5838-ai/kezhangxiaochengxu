@@ -39,14 +39,24 @@
         </view>
       </view>
 
-      <textarea 
-        class="editor-textarea" 
-        placeholder="请将模板中的 XXX 替换为您的真实信息，按要求填写证号、日期等" 
-        value="{{content}}" 
-        bindinput="onInput"
-        maxlength="2000" 
-        auto-height
-      />
+      <!-- 纯编辑区：view + contenteditable，innerHTML 由 JS 渲染 -->
+      <view
+        class="editor-box {{content.length === 0 ? 'empty' : ''}}"
+        id="editorBox"
+      >
+        <!-- 空时显示占位文字 -->
+        <view
+          wx:if="{{content.length === 0}}"
+          class="editor-placeholder"
+        >请将模板中的 XXX 替换为您的真实信息，按要求填写证号、日期等</view>
+        <!-- 可编辑区，innerHTML 由 JS 控制 -->
+        <view
+          class="editor-inner"
+          id="editorInner"
+          contenteditable="true"
+          bindinput="onInput"
+        ></view>
+      </view>
 
       <view class="editor-footer">
         <text class="char-count">{{charCount}}/2000字</text>

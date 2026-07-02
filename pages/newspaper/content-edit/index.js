@@ -8,18 +8,15 @@ Page({
     businessType: '个人证件',
     templateName: '',
     content: '',
-    originalContent: '', // 保存原始模板，用于重置
-    charCount: 0,
-    showPreview: false
+    originalContent: '',
+    charCount: 0
   },
 
   onLoad() {
     const { statusBarHeight, navHeight } = common.getNavigationHeight();
     this.setData({ statusBarHeight, navHeight });
 
-    // 从 Storage 读取模板数据
     const templateData = wx.getStorageSync('newspaperTemplate') || {};
-
     if (templateData.content) {
       this.setData({
         businessType: templateData.businessType || '个人证件',
@@ -27,18 +24,61 @@ Page({
         content: templateData.content,
         originalContent: templateData.content,
         charCount: templateData.content.length
+      }, () => {
+        this._syncInnerHtml(this.data.content);
       });
     }
 
-    // 从个人/企业证件页传来的数据
     const navData = wx.getStorageSync('formPageNavData') || {};
     if (navData.categoryName) {
-      this.setData({
-        businessType: navData.categoryName,
-        templateName: navData.itemName || ''
-      });
+      this.setData({ businessType: navData.categoryName, templateName: navData.itemName || '' });
     }
   },
+
+  // 输入时：捕获纯文本 → 更新 data → 同步 innerHTML
+  onInput(e) {
+    const raw = e.detail.value || '';
+    this.setData({ content: raw, charCount: raw.length });
+    this._syncInnerHtml(raw);
+  },
+
+  // 一键替换占位符 → 标红
+  quickReplace() {
+    const replaced = this.smartReplace(this.data.content);
+    this.setData({ content: replaced, charCount: replaced.length }, () => {
+      this._syncInnerHtml(replaced);
+    });
+    wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+  },
+
+  // 同步纯文本 → innerHTML（提示文字标红）
+  _syncInnerHtml(text) {
+    if (!text) return;
+    const html = this._plainToHtml(text);
+    wx.createSelectorQuery().in(this)
+      .select('#editorInner')
+      .evalAddr('setAttribute', 'innerHTML', html)
+      .exec();
+  },
+
+  // 纯文本 → HTML（提示文字标红）
+  _plainToHtml(text) {
+    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+    const hintRe = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
+    let out = '';
+    let last = 0;
+    let m;
+    hintRe.lastIndex = 0;
+    while ((m = hintRe.exec(text)) !== null) {
+      out += esc(text.slice(last, m.index));
+      out += `<span style="color:#F5222D;font-weight:bold;">${m[0]}</span>`;
+      last = m.index + m[0].length;
+    }
+    out += esc(text.slice(last));
+    return out;
+  },
+
+  // 判断内容是否已修改（不再是原始模板）
 
   // 智能替换占位符（手动触发，统一替换一次）
   smartReplace(content) {
@@ -78,18 +118,63 @@ Page({
     return result;
   },
 
-  // 输入时只统计字数（不再自动替换）
+  // 输入时实时解析提示文字（字数更新 + 预览同步）
   onInput(e) {
-    const raw = e.detail.value;
+    const raw = e.detail.value || '';
     this.setData({ content: raw, charCount: raw.length });
+    // 预览已打开时同步更新
+    if (this.data.showHintPreview) {
+      this.setData({ hintHtml: this._parseHintsToHtml(raw) });
+    }
   },
 
-  // 一键替换（手动触发，统一替换一次）
+  // 一键替换占位符，自动打开红色预览
   quickReplace() {
     const content = this.data.content;
     const replaced = this.smartReplace(content);
-    this.setData({ content: replaced, charCount: replaced.length });
+    const html = this._parseHintsToHtml(replaced);
+    this.setData({ content: replaced, charCount: replaced.length, showHintPreview: true, hintHtml: html });
     wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+  },
+
+  // 切换预览区开关
+  toggleHintPreview() {
+    const next = !this.data.showHintPreview;
+    this.setData({
+      showHintPreview: next,
+      hintHtml: next ? this._parseHintsToHtml(this.data.content) : ''
+    });
+  },
+
+  // 核心：将纯文本内容解析为带红色提示的 HTML
+  // 提示格式：（示例：xxx）或 （请填写xxx）
+  _parseHintsToHtml(text) {
+    if (!text) return '';
+    // HTML 转义（防注入）
+    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    // 替换函数：提示文字标红
+    const paint = m => `<span style="color:#F5222D;font-weight:bold;">${esc(m)}</span>`;
+    // 匹配所有提示格式
+    const hintPattern = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
+    // 先按行处理，保留换行结构
+    const lines = text.split('\n');
+    const htmlLines = lines.map(line => {
+      let html = esc(line);
+      // 将提示文字标红（逐个匹配替换）
+      let result = '';
+      let last = 0;
+      let match;
+      hintPattern.lastIndex = 0;
+      while ((match = hintPattern.exec(html)) !== null) {
+        result += esc(html.slice(last, match.index)) + paint(match[0]);
+        last = match.index + match[0].length;
+      }
+      result += esc(html.slice(last));
+      return result;
+    });
+    // rich-text 用 <p> 标签包裹每行
+    const body = htmlLines.map(l => `<p style="margin:0;word-break:break-all;font-size:28rpx;color:#1A2332;line-height:1.8;">${l}</p>`).join('');
+    return `<div style="padding:8rpx 0;">${body}</div>`;
   },
 
   // 判断内容是否已修改（不再是原始模板）
