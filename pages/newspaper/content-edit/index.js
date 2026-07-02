@@ -52,18 +52,28 @@ Page({
 
     // 1. 日期占位符 → 自动填当天日期
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
-    // 2. 长串 X（15+ 连续X）→ 提示语
-    result = result.replace(/X{15,}/g, '（请填写相关内容）');
-    // 3. 姓名类字段 → 中文提示
+
+    // 2. 姓名类字段（label: XXX）→ 示例格式
+    //    先做标签特定替换，避免 /XXX(?!\d)/ 吃掉 "本人XXX" 中的 XXX
     ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人'].forEach(field => {
-      result = result.replace(new RegExp(`^${field}：XXX$`, 'gm'), `${field}：（请填写）`);
+      result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
-    // 4. XXXX公司 → 提示语
-    result = result.replace(/XXXX公司/g, '（请填写公司名称）');
-    // 5. XXXX → 提示语
-    result = result.replace(/XXXX(?!\d)/g, '（请填写）');
-    // 6. XXX → 提示语
-    result = result.replace(/XXX(?!\d)/g, '（请填写）');
+
+    // 3. 通用 XXXX（4个X，不是数字序列）→ 格式示例
+    //    先于"XXXX公司"处理，避免残留 XXX 被第4步误吞
+    result = result.replace(/XXXX(?!\d)/g, '（示例：138****5678）');
+
+    // 4. XXXX公司 → 格式示例（XXXX已被第3步处理过，此处兜底）
+    //    匹配"XXXX公司"后紧跟字母/数字（公司名首字），捕获组保留公司后缀
+    result = result.replace(/XXXX公司(\w)?/g, function(match, suffix) {
+      return '（示例：XX公司' + (suffix || '') + '）';
+    });
+
+    // 5. 通用 XXX（3个X，不是数字序列）→ 格式示例
+    result = result.replace(/XXX(?!\d)/g, '（示例：110101199001011234）');
+
+    // 6. 长串 X（15+ 连续X）→ 兜底提示
+    result = result.replace(/X{15,}/g, '（请填写完整信息）');
 
     return result;
   },
