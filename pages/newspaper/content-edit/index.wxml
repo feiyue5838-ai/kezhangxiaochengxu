@@ -43,7 +43,6 @@
       <editor
         id="contentEditor"
         class="content-editor-rich"
-        placeholder="请将模板中的 XXX 替换为您的真实信息，按要求填写证号、日期等"
         show-img-size="{{false}}"
         show-img-toolbar="{{false}}"
         bindready="onEditorReady"
@@ -60,10 +59,6 @@
         <view class="replace-btn" bindtap="quickReplace">
           <text class="replace-icon">🔄</text>
           <text class="replace-text">一键替换占位符</text>
-        </view>
-        <!-- 调试按钮：诊断 editor 状态 -->
-        <view class="replace-btn debug-btn" bindtap="debugEditor">
-          <text class="replace-text">🔍 诊断</text>
         </view>
       </view>
 

@@ -33,12 +33,19 @@ Page({
     }
   },
 
-  // editor 初始化
+  // editor 初始化（onLoad 同步设置 data.content，这里直接用 HTML 格式写入）
   onEditorReady() {
     wx.createSelectorQuery().in(this).select('#contentEditor').context((res) => {
       this.editorCtx = res.context;
+      // 首次就绪：用 HTML 格式写入，Quill 能正确渲染 color 属性
       if (this.data.content) {
-        this.editorCtx.setContents({ delta: this._plainToDelta(this.data.content) });
+        this.editorCtx.setContents({
+          html: this._plainToHtml(this.data.content),
+          success: () => { this._editorReady = true; },
+          fail: (err) => { console.error('[onEditorReady] setContents fail:', err); this._editorReady = true; }
+        });
+      } else {
+        this._editorReady = true;
       }
     }).exec();
   },
@@ -63,50 +70,27 @@ Page({
     }
   },
 
-  // 诊断函数：查看 editor 内部状态
-  debugEditor() {
-    console.log('=== [debugEditor] ===');
-    console.log('editorCtx:', !!this.editorCtx, this.editorCtx);
-    console.log('data.content:', this.data.content && this.data.content.substring(0, 50));
-    if (this.editorCtx) {
-      this.editorCtx.getContents({
-        success: (res) => {
-          console.log('getContents success - text:', res.text && res.text.substring(0, 50));
-          console.log('getContents success - html:', res.html && res.html.substring(0, 100));
-          wx.showToast({ title: 'editor正常:text=' + (res.text || '').length + '字', icon: 'none', duration: 2000 });
-        },
-        fail: (err) => {
-          console.error('getContents fail:', err);
-          wx.showToast({ title: 'getContents失败:' + JSON.stringify(err), icon: 'none', duration: 3000 });
-        }
-      });
-    } else {
-      wx.showToast({ title: 'editorCtx为空!', icon: 'none', duration: 2000 });
-    }
-  },
-
-  // 一键替换占位符 → 在 editor 中标红提示文字
+  // 一键替换占位符 → 用 HTML 格式写入 editor，提示文字标红
   quickReplace() {
-    console.log('[quickReplace] start, editorCtx=', !!this.editorCtx, ', content=', this.data.content && this.data.content.substring(0, 30));
     if (!this.editorCtx) {
-      console.log('[quickReplace] editorCtx is null, using data.content fallback');
+      // editor 未初始化：直接用 data.content
       const replaced = this.smartReplace(this.data.content);
-      console.log('[quickReplace] fallback replaced=', replaced.substring(0, 50));
       this.setData({ content: replaced, charCount: replaced.length });
       wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
       return;
     }
+    // 从 editor 拿当前原始文本（保证拿最新用户编辑内容）
     this.editorCtx.getContents({
       success: (res) => {
-        const currentText = (res && res.text) || '';
-        console.log('[quickReplace] getContents text=', currentText.substring(0, 50), 'length=', currentText.length);
-        const replaced = this.smartReplace(currentText);
-        console.log('[quickReplace] after smartReplace=', replaced.substring(0, 50));
+        const rawText = (res && res.text) || this.data.content || '';
+        const replaced = this.smartReplace(rawText);
         this.setData({ content: replaced, charCount: replaced.length });
-        const delta = this._plainToDelta(replaced);
-        console.log('[quickReplace] delta ops count=', delta.length, JSON.stringify(delta.slice(0, 2)));
-        this.editorCtx.setContents({ delta: delta });
-        wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
+        // 用 HTML 格式写入，兼容性比 delta 更好
+        this.editorCtx.setContents({
+          html: this._plainToHtml(replaced),
+          success: () => { wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 }); },
+          fail: (err) => { console.error('[quickReplace] setContents fail:', err); wx.showToast({ title: '替换失败', icon: 'none', duration: 2000 }); }
+        });
       },
       fail: (err) => {
         console.error('[quickReplace] getContents fail:', err);
@@ -117,35 +101,29 @@ Page({
     });
   },
 
-  // 纯文本 → delta 格式（提示文字用 attributes 标红）
-  _plainToDelta(text) {
-    if (!text) return { ops: [{ insert: '\n' }] };
-    const hintRe = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
+  // 纯文本 → HTML（提示文字用 <span style> 标红，兼容性最好）
+  _plainToHtml(text) {
+    if (!text) return '<p><br></p>';
+    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const hintRe = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）|（请填写相关内容）/g;
     const lines = text.split('\n');
-    const ops = [];
-    lines.forEach((line, idx) => {
-      if (idx > 0) ops.push({ insert: '\n' });
+    const htmlLines = lines.map(line => {
+      let out = '';
       let last = 0;
       let m;
       hintRe.lastIndex = 0;
       while ((m = hintRe.exec(line)) !== null) {
-        if (m.index > last) {
-          ops.push({ insert: line.slice(last, m.index) });
-        }
-        ops.push({ insert: m[0], attributes: { color: '#F5222D', bold: true } });
+        out += esc(line.slice(last, m.index));
+        out += `<span style="color:#F5222D;font-weight:bold;">${esc(m[0])}</span>`;
         last = m.index + m[0].length;
       }
-      if (last < line.length) {
-        ops.push({ insert: line.slice(last) });
-      }
+      out += esc(line.slice(last));
+      return `<p>${out || '<br>'}</p>`;
     });
-    // Quill 要求以 \n 结尾
-    const lastOp = ops[ops.length - 1];
-    if (!lastOp || (typeof lastOp.insert === 'string' && !lastOp.insert.endsWith('\n'))) {
-      ops.push({ insert: '\n' });
-    }
-    return { ops: ops };
+    return htmlLines.join('');
   },
+
+
 
   // 判断内容是否已修改（不再是原始模板）
 
@@ -195,55 +173,6 @@ Page({
     if (this.data.showHintPreview) {
       this.setData({ hintHtml: this._parseHintsToHtml(raw) });
     }
-  },
-
-  // 一键替换占位符，自动打开红色预览
-  quickReplace() {
-    const content = this.data.content;
-    const replaced = this.smartReplace(content);
-    const html = this._parseHintsToHtml(replaced);
-    this.setData({ content: replaced, charCount: replaced.length, showHintPreview: true, hintHtml: html });
-    wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
-  },
-
-  // 切换预览区开关
-  toggleHintPreview() {
-    const next = !this.data.showHintPreview;
-    this.setData({
-      showHintPreview: next,
-      hintHtml: next ? this._parseHintsToHtml(this.data.content) : ''
-    });
-  },
-
-  // 核心：将纯文本内容解析为带红色提示的 HTML
-  // 提示格式：（示例：xxx）或 （请填写xxx）
-  _parseHintsToHtml(text) {
-    if (!text) return '';
-    // HTML 转义（防注入）
-    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    // 替换函数：提示文字标红
-    const paint = m => `<span style="color:#F5222D;font-weight:bold;">${esc(m)}</span>`;
-    // 匹配所有提示格式
-    const hintPattern = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
-    // 先按行处理，保留换行结构
-    const lines = text.split('\n');
-    const htmlLines = lines.map(line => {
-      let html = esc(line);
-      // 将提示文字标红（逐个匹配替换）
-      let result = '';
-      let last = 0;
-      let match;
-      hintPattern.lastIndex = 0;
-      while ((match = hintPattern.exec(html)) !== null) {
-        result += esc(html.slice(last, match.index)) + paint(match[0]);
-        last = match.index + match[0].length;
-      }
-      result += esc(html.slice(last));
-      return result;
-    });
-    // rich-text 用 <p> 标签包裹每行
-    const body = htmlLines.map(l => `<p style="margin:0;word-break:break-all;font-size:28rpx;color:#1A2332;line-height:1.8;">${l}</p>`).join('');
-    return `<div style="padding:8rpx 0;">${body}</div>`;
   },
 
   // 判断内容是否已修改（不再是原始模板）
