@@ -1,9 +1,17 @@
 /* content-edit.wxss - 填写登报内容页面 */
+
+/* ========== 页面整体 ========== */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F8F7FC;
+}
+
+/* ========== 导航栏（固定顶部） ========== */
 .nav-bar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 100;
   display: flex;
   align-items: center;
@@ -27,8 +35,7 @@
 
 .nav-title {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 50%; top: 50%;
   transform: translate(-50%, -50%);
   font-size: 34rpx;
   font-weight: 600;
@@ -37,32 +44,17 @@
   white-space: nowrap;
 }
 
+.nav-placeholder { width: 60rpx; height: 100%; }
+.nav-right { width: 60rpx; height: 100%; }
 
-
-.nav-placeholder {
-  width: 60rpx;
-  height: 100%;
-}
-.nav-right {
-  width: 60rpx;
-  height: 100%;
-}
-
-.page {
-  background: #F8F7FC;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-/* 可滚动内容区 */
+/* ========== 可滚动内容区 ========== */
 .content-scroll {
   flex: 1;
-  overflow-y: auto;
+  height: 0;
+  padding-top: 0;
 }
 
-/* 信息回显模块 */
+/* ========== 信息回显模块 ========== */
 .info-display {
   background: #fff;
   margin: 20rpx;
@@ -77,22 +69,12 @@
   border-bottom: 1rpx solid #F0F2F5;
 }
 
-.info-row:last-child {
-  border-bottom: none;
-}
+.info-row:last-child { border-bottom: none; }
 
-.info-label {
-  font-size: 28rpx;
-  color: #8C97A6;
-}
+.info-label { font-size: 28rpx; color: #8C97A6; }
+.info-value { font-size: 28rpx; color: #1A2332; font-weight: 500; }
 
-.info-value {
-  font-size: 28rpx;
-  color: #1A2332;
-  font-weight: 500;
-}
-
-/* 登报内容编辑模块 */
+/* ========== 登报内容编辑模块 ========== */
 .content-editor {
   background: #fff;
   margin: 20rpx;
@@ -126,8 +108,10 @@
 
 .action-divider {
   color: #D5DDE8;
+  font-size: 26rpx;
 }
 
+/* 文本编辑区 */
 .editor-textarea {
   width: 100%;
   min-height: 400rpx;
@@ -168,15 +152,8 @@
   border-radius: 40rpx;
 }
 
-.replace-icon {
-  font-size: 28rpx;
-}
-
-.replace-text {
-  font-size: 26rpx;
-  color: #fff;
-  font-weight: 500;
-}
+.replace-icon { font-size: 28rpx; }
+.replace-text { font-size: 26rpx; color: #fff; font-weight: 500; }
 
 .editor-tip {
   margin-top: 16rpx;
@@ -192,7 +169,7 @@
   line-height: 1.5;
 }
 
-/* 信息填写说明模块 */
+/* ========== 信息填写说明模块 ========== */
 .note-section {
   background: #fff;
   margin: 20rpx;
@@ -200,13 +177,8 @@
   border-radius: 20rpx;
 }
 
-.note-item {
-  margin-bottom: 24rpx;
-}
-
-.note-item:last-child {
-  margin-bottom: 0;
-}
+.note-item { margin-bottom: 24rpx; }
+.note-item:last-child { margin-bottom: 0; }
 
 .note-title {
   display: block;
@@ -224,7 +196,7 @@
   margin-top: 8rpx;
 }
 
-/* 底部操作按钮�? */
+/* ========== 底部操作按钮区 ========== */
 .bottom-actions {
   flex-shrink: 0;
   display: flex;
@@ -232,7 +204,7 @@
   padding: 20rpx 32rpx;
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
   background: #fff;
-  box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.05);
+  box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.05);
 }
 
 .action-button {
@@ -307,7 +279,7 @@
 .preview-close {
   font-size: 28rpx;
   color: #8C97A6;
-  padding: 8rpx 16rpx;
+  padding: 8rpx;
 }
 
 .preview-body {
@@ -347,24 +319,25 @@
   font-size: 28rpx;
   line-height: 1.8;
   color: #1A2332;
+  word-break: keep-all;
   white-space: pre-wrap;
-  word-break: break-all;
 }
 
 .preview-footer {
   display: flex;
   gap: 20rpx;
-  padding: 20rpx 32rpx 28rpx;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
   border-top: 1rpx solid #F0F2F5;
 }
 
 .preview-btn {
   flex: 1;
-  height: 76rpx;
+  height: 80rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 38rpx;
+  border-radius: 40rpx;
   font-size: 28rpx;
   font-weight: 500;
   background: #F0F2F5;
