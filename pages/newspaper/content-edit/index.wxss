@@ -111,47 +111,35 @@
   font-size: 26rpx;
 }
 
-/* 编辑区容器 */
-.editor-box {
-  position: relative;
+/* 富文本编辑器（原生 editor 组件）*/
+.content-editor-rich {
   width: 100%;
   min-height: 400rpx;
   background: #F8F7FC;
   border-radius: 12rpx;
   padding: 24rpx;
   box-sizing: border-box;
-}
-
-/* 占位提示 */
-.editor-placeholder {
-  position: absolute;
-  top: 24rpx;
-  left: 24rpx;
-  right: 24rpx;
-  font-size: 28rpx;
-  color: #C0C8D4;
-  line-height: 1.8;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 可编辑区 */
-.editor-inner {
-  width: 100%;
-  min-height: 360rpx;
   font-size: 28rpx;
   color: #1A2332;
   line-height: 1.8;
-  word-break: break-all;
-  white-space: pre-wrap;
-  outline: none;
-  -webkit-user-select: text;
-  overflow-wrap: break-word;
+  word-break: keep-all;
+  overflow: hidden;
 }
 
-.editor-box.empty .editor-inner {
-  color: transparent;
-  caret-color: #1A2332;
+.content-editor-rich .ql-container,
+.content-editor-rich .ql-editor {
+  min-height: 360rpx;
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #1A2332;
+  word-break: keep-all;
+  padding: 0;
+}
+
+.content-editor-rich .ql-editor p {
+  margin: 0;
+  padding: 0;
+  min-height: 1em;
 }
 
 .editor-footer {

@@ -24,8 +24,6 @@ Page({
         content: templateData.content,
         originalContent: templateData.content,
         charCount: templateData.content.length
-      }, () => {
-        this._syncInnerHtml(this.data.content);
       });
     }
 
@@ -35,47 +33,69 @@ Page({
     }
   },
 
-  // 输入时：捕获纯文本 → 更新 data → 同步 innerHTML
-  onInput(e) {
-    const raw = e.detail.value || '';
-    this.setData({ content: raw, charCount: raw.length });
-    this._syncInnerHtml(raw);
+  // editor 初始化
+  onEditorReady() {
+    wx.createSelectorQuery().in(this).select('#contentEditor').context((res) => {
+      this.editorCtx = res.context;
+      if (this.data.content) {
+        this.editorCtx.setContents({ html: this._plainToHtml(this.data.content) });
+      }
+    }).exec();
   },
 
-  // 一键替换占位符 → 标红
+  // editor 输入事件
+  onEditorInput(e) {
+    const text = (e.detail && e.detail.text) || '';
+    this.setData({ content: text, charCount: text.length });
+  },
+
+  onEditorBlur() {
+    // 失焦时同步最新纯文本（避免某些版本 bindinput 不返回 text）
+    if (this.editorCtx) {
+      this.editorCtx.getContents({
+        success: (res) => {
+          const text = res.text || '';
+          if (text !== this.data.content) {
+            this.setData({ content: text, charCount: text.length });
+          }
+        }
+      });
+    }
+  },
+
+  // 一键替换占位符 → 在 editor 中标红提示文字
   quickReplace() {
     const replaced = this.smartReplace(this.data.content);
-    this.setData({ content: replaced, charCount: replaced.length }, () => {
-      this._syncInnerHtml(replaced);
-    });
+    this.setData({ content: replaced, charCount: replaced.length });
+    if (this.editorCtx) {
+      this.editorCtx.blur();
+      setTimeout(() => {
+        this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
+      }, 50);
+    }
     wx.showToast({ title: '已替换占位符', icon: 'none', duration: 2000 });
-  },
-
-  // 同步纯文本 → innerHTML（提示文字标红）
-  _syncInnerHtml(text) {
-    if (!text) return;
-    const html = this._plainToHtml(text);
-    wx.createSelectorQuery().in(this)
-      .select('#editorInner')
-      .evalAddr('setAttribute', 'innerHTML', html)
-      .exec();
   },
 
   // 纯文本 → HTML（提示文字标红）
   _plainToHtml(text) {
-    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+    if (!text) return '<p><br></p>';
+    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const hintRe = /（示例：[^）]{1,40}）|（请填写[^）]{0,30}）/g;
-    let out = '';
-    let last = 0;
-    let m;
-    hintRe.lastIndex = 0;
-    while ((m = hintRe.exec(text)) !== null) {
-      out += esc(text.slice(last, m.index));
-      out += `<span style="color:#F5222D;font-weight:bold;">${m[0]}</span>`;
-      last = m.index + m[0].length;
-    }
-    out += esc(text.slice(last));
-    return out;
+    const lines = text.split('\n');
+    const htmlLines = lines.map(line => {
+      let out = '';
+      let last = 0;
+      let m;
+      hintRe.lastIndex = 0;
+      while ((m = hintRe.exec(line)) !== null) {
+        out += esc(line.slice(last, m.index));
+        out += `<span style="color:#F5222D;font-weight:bold;">${m[0]}</span>`;
+        last = m.index + m[0].length;
+      }
+      out += esc(line.slice(last));
+      return `<p>${out || '<br>'}</p>`;
+    });
+    return htmlLines.join('');
   },
 
   // 判断内容是否已修改（不再是原始模板）
