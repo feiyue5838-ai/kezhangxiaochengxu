@@ -143,7 +143,7 @@ Page({
     });
 
     // 4. 姓名类标签字段（label: XXX）→ 姓名示例
-    ['声明人', '致歉人', '道歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长', '出借人', '借款人', '股东', '权利人'].forEach(field => {
+    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长', '出借人', '借款人', '股东', '权利人'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
 
@@ -216,31 +216,6 @@ Page({
 
     // 【电话】XXXX-XXXXXXXX → 整体电话示例（防止被拆成多个电话号）
     result = result.replace(/XXXX-XXXXXXXX/g, '（示例：0755-12345678）');
-
-
-    // ════════════════════════════════════════════════════════════════
-    // 6b. 登报机构名专项（必须位于所有通用XXXX规则之前，防止 XXXX(?!) 误匹配内嵌XXXX）
-    // ════════════════════════════════════════════════════════════════
-    // 规则：完整机构名 → 带后缀示例 → dedup
-    result = result.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
-    result = result.replace(/XXXX人民法院/g, '（示例：XX人民法院）');
-    result = result.replace(/XXXX拍卖有限公司/g, '（示例：XX拍卖）有限公司');
-    result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
-    // dedup：消除多规则叠加产生的双后缀残留
-    result = result.replace(/（示例：XX公司）有限公司）有限公司/g, '（示例：XX公司）有限公司');
-    result = result.replace(/（示例：XX拍卖）有限公司）有限公司/g, '（示例：XX拍卖）有限公司');
-    result = result.replace(/（示例：XX人民法院）有限公司/g, '（示例：XX人民法院）');
-    result = result.replace(/（示例：XX公司）有限公司有限公司/g, '（示例：XX公司）有限公司');
-    result = result.replace(/（示例：XX拍卖）有限公司有限公司/g, '（示例：XX拍卖）有限公司');
-    result = result.replace(/（示例：XX公司）有限公司代理/g, '（示例：XX公司）代理');
-    result = result.replace(/（示例：XX公司）有限公司网络/g, '（示例：XX公司）有限公司网络');
-    result = result.replace(/（示例：XX公司）有限公司法院/g, '（示例：XX公司）有限公司法院');
-    result = result.replace(/（示例：XX公司）有限公司注册/g, '（示例：XX公司）有限公司注册');
-    result = result.replace(/（示例：XX公司）有限公司联系/g, '（示例：XX公司）有限公司联系');
-    result = result.replace(/（示例：XX公司）有限公司公告/g, '（示例：XX公司）有限公司公告');
-    result = result.replace(/（示例：XX拍卖）有限公司办理/g, '（示例：XX拍卖）有限公司办理');
-    result = result.replace(/（示例：XX拍卖）有限公司联系/g, '（示例：XX拍卖）有限公司联系');
-    result = result.replace(/（示例：XX拍卖）有限公司公告/g, '（示例：XX拍卖）有限公司公告');
 
     // 【公司名】XXXX有限公司 → 公司名称示例（在通用XXXX之前）
     result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
@@ -377,58 +352,6 @@ Page({
     result = result.replace(/（示例：XX公司集团/g, '（示例：XX集团）');
 
     // ════════════════════════════════════════════════════════════════
-
-    // ════════════════════════════════════════════════════════════════
-    // 7b2. 拍卖公告专项（在通用XXXX之前，防止误伤公司名/法院名/网址/金额等）
-    // ════════════════════════════════════════════════════════════════
-    result = result.replace(/XXXX拍卖有限公司/g, '（示例：XX拍卖）有限公司');
-    // 金额：XXXXXXXX元 → 数字示例（防止8X被拆成两个电话）
-    result = result.replace(/XXXXXXXX元(?!地)/g, '（示例：100）元');
-    result = result.replace(/XXXXXXXXX元(?!地)/g, '（示例：1000）元');
-    // 8位X字段（请填写提示，优于通用 XXXX(?!)）
-    result = result.replace(/拍卖标的：XXXXXXXX/g, '拍卖标的：（请填写拍卖标的详情）');
-    result = result.replace(/标的名称：XXXXXXXX/g, '标的名称：（请填写标的名称）');
-    result = result.replace(/标的物：XXXXXXXX/g, '标的物：（请填写标的物信息）');
-    result = result.replace(/拍卖依据：XXXXXXXX/g, '拍卖依据：（请填写依据来源）');
-    result = result.replace(/网址：XXXXXXXX/g, '网址：（请填写网址）');
-    result = result.replace(/报名地点：XXXXXXXX/g, '报名地点：（请填写报名地址）');
-    result = result.replace(/展示地点：XXXXXXXX/g, '展示地点：（请填写展示地址）');
-    result = result.replace(/其他事项：XXXXXXXX/g, '其他事项：（请填写其他说明）');
-    result = result.replace(/特别说明：XXXXXXXX/g, '特别说明：（请填写特别说明）');
-    result = result.replace(/竞买人资格：XXXXXXXX/g, '竞买人资格：（请填写竞买条件）');
-    result = result.replace(/竞买人条件：XXXXXXXX/g, '竞买人条件：（请填写竞买条件）');
-    result = result.replace(/竞买保证金：XXXXXXXX/g, '竞买保证金：（示例：1万元）/标的');
-    result = result.replace(/缴纳竞买保证金XXXX元/g, '缴纳竞买保证金（示例：1万元）');
-    result = result.replace(/品牌型号：XXXXXXXX/g, '品牌型号：（请填写品牌型号）');
-    result = result.replace(/车牌号：XXXXXXXX/g, '车牌号：（请填写车牌号）');
-    result = result.replace(/资产名称：XXXXXXXX/g, '资产名称：（请填写资产名称）');
-    result = result.replace(/资产位置：XXXXXXXX/g, '资产位置：（请填写资产位置）');
-    result = result.replace(/资产规模：XXXXXXXX/g, '资产规模：（请填写资产规模）');
-    result = result.replace(/参考价：XXXXXXXX/g, '参考价：（示例：XX万元）');
-    result = result.replace(/拍卖财产：XXXXXXXX/g, '拍卖财产：（请填写拍卖财产详情）');
-    result = result.replace(/评估价：XXXXXXXX/g, '评估价：（示例：XX万元）');
-    result = result.replace(/起拍价：XXXXXXXX/g, '起拍价：（示例：XX万元）');
-    result = result.replace(/保证金：XXXXXXXX/g, '保证金：（示例：X万元）');
-    result = result.replace(/增价幅度：XXXXXXXX/g, '增价幅度：（示例：XXX元）');
-    // 标的所在地通用占位
-    result = result.replace(/标的所在地展示/g, '（标的所在地）展示');
-    result = result.replace(/XXXXXXXX展示/g, '（标的所在地）展示');
-    // 10X+元地带（评估价/起拍价等）
-    result = result.replace(/XXXXXXXXXX元地带XXX/g, '（示例：XX万元）元地带（示例：X万元）');
-    // 工作日/日内
-    result = result.replace(/XXXXXXX个工作日/g, '（示例：5）个工作日');
-    result = result.replace(/XXXX日内/g, '（示例：7）日内');
-    // 咨询看样方式（长字段）
-    result = result.replace(/咨询、展示看样的时间与方式：XXXXXXXX/g, '咨询、展示看样的时间与方式：（请填写咨询方式）');
-    // 8X后跟标点/空白的兜底
-    result = result.replace(/XXXXXXXX(?!地)/g, '（示例：518000）');
-    result = result.replace(/XXXXXXX(?!日|个|工作)/g, '（示例：518000）');
-    // dedup
-    result = result.replace(/（示例：XX公司）有限公司）有限公司/g, '（示例：XX公司）有限公司');
-    result = result.replace(/（示例：XX拍卖）有限公司）有限公司/g, '（示例：XX拍卖）有限公司');
-    result = result.replace(/（示例：XX公司）有限公司代理/g, '（示例：XX公司）代理');
-    result = result.replace(/（示例：XX公司）有限公司有限公司/g, '（示例：XX公司）有限公司');
-
     // 7b. 环评公示专项（在通用XXXX之前，防止误伤数量单位/邮箱/邮编/备案号等）
     // ════════════════════════════════════════════════════════════════
     // 邮箱 XXXX@XXXX.com → 完整邮箱示例（必须在 XXXX(?!\d) 之前，防止 @ 前XXXX被吞）
@@ -484,73 +407,10 @@ Page({
     // 变更原因：XXXXXXXXX（如：……）类型 → 把XXXX部分换数字示例，保留括号说明
     result = result.replace(/变更原因：XXXXXXXXX（如：.*?）/g, '变更原因：（示例：生产规模扩大）（如：增加生产线）');
 
-    // ════════════════════════════════════════════════════════════════
-    // 道歉模板专项（必须在 X{15,}/通用XXXX 之前，防止被长串兜底/电话示例误伤）
-    // ════════════════════════════════════════════════════════════════
-
-    // 身份证号：按长度从长到短排列（贪婪匹配，先长后短，防止16位规则先吞16个X导致18位无法匹配）
-    result = result.replace(/XXXXXXXXXXXXXXXXXX/g, '（示例：110101199001011234）'); // 18位
-    result = result.replace(/XXXXXXXXXXXXXXXX/g, '（示例：110101199001011234）');   // 16位
-    // XXXX公司 → 保护（先于 X{4} 通用，防止被替换成电话号码）
-    result = result.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
-    result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
-
-    // 带字段名的8X：事件/内容/原因/情形等 → 内容示例
-    ['事件', '内容', '原因', '情形', '情况', '账号', '理由'].forEach(field => {
-      result = result.replace(new RegExp(field + '：XXXXXXXX', 'g'), field + '：（示例：具体内容）');
-    });
-
-    // 无前缀8X通用（道歉模板中的自由文本占位）→ 内容示例（先于拍卖8X兜底，防止被邮编/电话误伤）
-    // 句式：事件/损害/虚假/问题/道歉/补偿/批次/联系方式 等
-    result = result.replace(/不实言论内容：XXXXXXXX/g, '不实言论内容：（示例：夸大产品功效）');
-    result = result.replace(/虚假宣传内容：XXXXXXXX/g, '虚假宣传内容：（示例：绝对化用语）');
-    result = result.replace(/损害描述：XXXXXXXX/g, '损害描述：（示例：造成经济损失）');
-    result = result.replace(/道歉原因：XXXXXXXX/g, '道歉原因：（示例：产品存在质量问题）');
-    result = result.replace(/处理措施：XXXXXXXX/g, '处理措施：（示例：立即整改并赔偿）');
-    result = result.replace(/联系方式：XXXXXXXX/g, '联系方式：（示例：0755-12345678）');
-    result = result.replace(/补偿方式：XXXXXXXX/g, '补偿方式：（示例：退换货并赔偿）');
-    result = result.replace(/批次号：XXXXXXXX/g, '批次号：（示例：A2024001）');
-    result = result.replace(/生产日期：XXXXXXXX/g, '生产日期：（示例：2024年01月01日）');
-    result = result.replace(/产品批次：XXXXXXXX/g, '产品批次：（示例：A2024001）');
-    result = result.replace(/账号信息：XXXXXXXX/g, '账号信息：（示例：6222****1234）');
-    result = result.replace(/具体情况：XXXXXXXX/g, '具体情况：（示例：详见附件）');
-    result = result.replace(/具体内容：XXXXXXXX/g, '具体内容：（示例：详见正文）');
-    result = result.replace(/具体说明：XXXXXXXX/g, '具体说明：（示例：详见正文）');
-    result = result.replace(/事件描述：XXXXXXXX/g, '事件描述：（示例：详见正文）');
-    result = result.replace(/造成损害：XXXXXXXX/g, '造成损害：（示例：经济损失若干）');
-    result = result.replace(/道歉事由：XXXXXXXX/g, '道歉事由：（示例：详见正文）');
-    result = result.replace(/致歉内容：XXXXXXXX/g, '致歉内容：（示例：详见正文）');
-    result = result.replace(/致歉理由：XXXXXXXX/g, '致歉理由：（示例：详见正文）');
-    result = result.replace(/公告内容：XXXXXXXX/g, '公告内容：（示例：详见正文）');
-    result = result.replace(/问题详情：XXXXXXXX/g, '问题详情：（示例：详见正文）');
-    result = result.replace(/具体方式：XXXXXXXX/g, '具体方式：（示例：退换货并赔偿）');
-
-    // 无字段名前缀的裸8X → 按语义替换
-    // ① 动词/介词+8X（平台/场合、不实言论、虚假宣传等）
-    result = result.replace(/在XXXXXXXX（平台/g, '在（示例：XX平台）（平台');
-    result = result.replace(/发布了XXXXXXXX的不实/g, '发布了（示例：夸大产品功效）的不实');
-    result = result.replace(/XXXXXXXX产品进行/g, '（示例：XX产品）进行');
-    result = result.replace(/对XXXXXXXX产品/g, '对（示例：XX产品）');
-    result = result.replace(/XXXXXXXX服务/g, '（示例：XX服务）');
-    result = result.replace(/XXXXXXXX（具体/g, '（示例：XX）');
-    result = result.replace(/我司已XXXXXX进行/g, '我司已（示例：立即整改）进行');
-    result = result.replace(/对XXXX造成/g, '对（示例：XX）造成');
-    result = result.replace(/对XXXX进行/g, '对（示例：XX）进行');
-    result = result.replace(/已XXXX进行处理/g, '已（示例：退换货）进行处理');
-    result = result.replace(/予以XXXX补偿/g, '予以（示例：退换货）补偿');
-
-    // ② 句中8X → 事件/内容描述示例
-    // 覆盖"在XXXXXXXX"（无括号）、"XXXXXXXX中"、"XXXXXXXX或XXXXXXXX"等自由句式
-    result = result.replace(/在XXXXXXXX(?![））])/g, '在（示例：XX事件）');
-
-    // ════════════════════════════════════════════════════════════════
-
     // 7. 【重要】长串 X（15+ 连续X）→ 兜底提示（必须在XXXX/XXX之前，防止长串被拆成电话/身份证示例）
     result = result.replace(/X{15,}/g, '（请填写完整信息）');
 
     // 8. 通用 XXXX（4个X，不是数字/日期的闭合括号）→ 电话示例
-    // XXXX人民法院 兜底（在通用 XXXX(?!) 之前，防止 XXXX 被当电话替换）
-    result = result.replace(/XXXX人民法院/g, '（示例：XX人民法院）');
     result = result.replace(/XXXX(?!\d)/g, '（示例：138****5678）');
 
     // 9. 通用 XXX（3个X，不是数字序列）→ 身份证号示例
@@ -641,7 +501,8 @@ Page({
 
     // 跳转到完整订单表单页面（包含选报纸、数量、收件信息等）
     wx.navigateTo({
-      url: '/pages/newspaper/form'
+      url: "/pages/newspaper/form"
     });
   }
+}
 });
