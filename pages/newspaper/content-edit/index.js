@@ -174,7 +174,7 @@ Page({
     });
 
     // 4.7 票据/证件/信用代码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
-    ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号', '证件号码', '统一社会信用代码'].forEach(field => {
+    ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号', '证件号码'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：12345678）`);
       result = result.replace(new RegExp(`${field}：XXXX`, 'g'), `${field}：（示例：91XXXXXXXXXX）`);
     });
@@ -233,6 +233,9 @@ Page({
     result = result.replace(/XXX内容/g, '（示例：XX内容）');
     result = result.replace(/XXX名称/g, '（示例：XX名称）');
     result = result.replace(/XXX概要/g, '（示例：XX概要）');
+    result = result.replace(/XXXX（事项/g, '（示例：XX事项');
+    result = result.replace(/XXXX（行为/g, '（示例：XX行为');
+    result = result.replace(/XXXX（相关/g, '（示例：XX相关');
     result = result.replace(/案由：XXX/g, '案由：（示例：XX纠纷）');
 
     // 规划条件内容占位符
