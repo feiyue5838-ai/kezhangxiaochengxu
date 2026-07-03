@@ -217,6 +217,31 @@ Page({
     // 【电话】XXXX-XXXXXXXX → 整体电话示例（防止被拆成多个电话号）
     result = result.replace(/XXXX-XXXXXXXX/g, '（示例：0755-12345678）');
 
+
+    // ════════════════════════════════════════════════════════════════
+    // 6b. 登报机构名专项（必须位于所有通用XXXX规则之前，防止 XXXX(?!) 误匹配内嵌XXXX）
+    // ════════════════════════════════════════════════════════════════
+    // 规则：完整机构名 → 带后缀示例 → dedup
+    result = result.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
+    result = result.replace(/XXXX人民法院/g, '（示例：XX人民法院）');
+    result = result.replace(/XXXX拍卖有限公司/g, '（示例：XX拍卖）有限公司');
+    result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
+    // dedup：消除多规则叠加产生的双后缀残留
+    result = result.replace(/（示例：XX公司）有限公司）有限公司/g, '（示例：XX公司）有限公司');
+    result = result.replace(/（示例：XX拍卖）有限公司）有限公司/g, '（示例：XX拍卖）有限公司');
+    result = result.replace(/（示例：XX人民法院）有限公司/g, '（示例：XX人民法院）');
+    result = result.replace(/（示例：XX公司）有限公司有限公司/g, '（示例：XX公司）有限公司');
+    result = result.replace(/（示例：XX拍卖）有限公司有限公司/g, '（示例：XX拍卖）有限公司');
+    result = result.replace(/（示例：XX公司）有限公司代理/g, '（示例：XX公司）代理');
+    result = result.replace(/（示例：XX公司）有限公司网络/g, '（示例：XX公司）有限公司网络');
+    result = result.replace(/（示例：XX公司）有限公司法院/g, '（示例：XX公司）有限公司法院');
+    result = result.replace(/（示例：XX公司）有限公司注册/g, '（示例：XX公司）有限公司注册');
+    result = result.replace(/（示例：XX公司）有限公司联系/g, '（示例：XX公司）有限公司联系');
+    result = result.replace(/（示例：XX公司）有限公司公告/g, '（示例：XX公司）有限公司公告');
+    result = result.replace(/（示例：XX拍卖）有限公司办理/g, '（示例：XX拍卖）有限公司办理');
+    result = result.replace(/（示例：XX拍卖）有限公司联系/g, '（示例：XX拍卖）有限公司联系');
+    result = result.replace(/（示例：XX拍卖）有限公司公告/g, '（示例：XX拍卖）有限公司公告');
+
     // 【公司名】XXXX有限公司 → 公司名称示例（在通用XXXX之前）
     result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
     // 【公司名】XXX保险公司 / XXX物业/ XXX管理 等特殊后缀
@@ -352,6 +377,58 @@ Page({
     result = result.replace(/（示例：XX公司集团/g, '（示例：XX集团）');
 
     // ════════════════════════════════════════════════════════════════
+
+    // ════════════════════════════════════════════════════════════════
+    // 7b2. 拍卖公告专项（在通用XXXX之前，防止误伤公司名/法院名/网址/金额等）
+    // ════════════════════════════════════════════════════════════════
+    result = result.replace(/XXXX拍卖有限公司/g, '（示例：XX拍卖）有限公司');
+    // 金额：XXXXXXXX元 → 数字示例（防止8X被拆成两个电话）
+    result = result.replace(/XXXXXXXX元(?!地)/g, '（示例：100）元');
+    result = result.replace(/XXXXXXXXX元(?!地)/g, '（示例：1000）元');
+    // 8位X字段（请填写提示，优于通用 XXXX(?!)）
+    result = result.replace(/拍卖标的：XXXXXXXX/g, '拍卖标的：（请填写拍卖标的详情）');
+    result = result.replace(/标的名称：XXXXXXXX/g, '标的名称：（请填写标的名称）');
+    result = result.replace(/标的物：XXXXXXXX/g, '标的物：（请填写标的物信息）');
+    result = result.replace(/拍卖依据：XXXXXXXX/g, '拍卖依据：（请填写依据来源）');
+    result = result.replace(/网址：XXXXXXXX/g, '网址：（请填写网址）');
+    result = result.replace(/报名地点：XXXXXXXX/g, '报名地点：（请填写报名地址）');
+    result = result.replace(/展示地点：XXXXXXXX/g, '展示地点：（请填写展示地址）');
+    result = result.replace(/其他事项：XXXXXXXX/g, '其他事项：（请填写其他说明）');
+    result = result.replace(/特别说明：XXXXXXXX/g, '特别说明：（请填写特别说明）');
+    result = result.replace(/竞买人资格：XXXXXXXX/g, '竞买人资格：（请填写竞买条件）');
+    result = result.replace(/竞买人条件：XXXXXXXX/g, '竞买人条件：（请填写竞买条件）');
+    result = result.replace(/竞买保证金：XXXXXXXX/g, '竞买保证金：（示例：1万元）/标的');
+    result = result.replace(/缴纳竞买保证金XXXX元/g, '缴纳竞买保证金（示例：1万元）');
+    result = result.replace(/品牌型号：XXXXXXXX/g, '品牌型号：（请填写品牌型号）');
+    result = result.replace(/车牌号：XXXXXXXX/g, '车牌号：（请填写车牌号）');
+    result = result.replace(/资产名称：XXXXXXXX/g, '资产名称：（请填写资产名称）');
+    result = result.replace(/资产位置：XXXXXXXX/g, '资产位置：（请填写资产位置）');
+    result = result.replace(/资产规模：XXXXXXXX/g, '资产规模：（请填写资产规模）');
+    result = result.replace(/参考价：XXXXXXXX/g, '参考价：（示例：XX万元）');
+    result = result.replace(/拍卖财产：XXXXXXXX/g, '拍卖财产：（请填写拍卖财产详情）');
+    result = result.replace(/评估价：XXXXXXXX/g, '评估价：（示例：XX万元）');
+    result = result.replace(/起拍价：XXXXXXXX/g, '起拍价：（示例：XX万元）');
+    result = result.replace(/保证金：XXXXXXXX/g, '保证金：（示例：X万元）');
+    result = result.replace(/增价幅度：XXXXXXXX/g, '增价幅度：（示例：XXX元）');
+    // 标的所在地通用占位
+    result = result.replace(/标的所在地展示/g, '（标的所在地）展示');
+    result = result.replace(/XXXXXXXX展示/g, '（标的所在地）展示');
+    // 10X+元地带（评估价/起拍价等）
+    result = result.replace(/XXXXXXXXXX元地带XXX/g, '（示例：XX万元）元地带（示例：X万元）');
+    // 工作日/日内
+    result = result.replace(/XXXXXXX个工作日/g, '（示例：5）个工作日');
+    result = result.replace(/XXXX日内/g, '（示例：7）日内');
+    // 咨询看样方式（长字段）
+    result = result.replace(/咨询、展示看样的时间与方式：XXXXXXXX/g, '咨询、展示看样的时间与方式：（请填写咨询方式）');
+    // 8X后跟标点/空白的兜底
+    result = result.replace(/XXXXXXXX(?!地)/g, '（示例：518000）');
+    result = result.replace(/XXXXXXX(?!日|个|工作)/g, '（示例：518000）');
+    // dedup
+    result = result.replace(/（示例：XX公司）有限公司）有限公司/g, '（示例：XX公司）有限公司');
+    result = result.replace(/（示例：XX拍卖）有限公司）有限公司/g, '（示例：XX拍卖）有限公司');
+    result = result.replace(/（示例：XX公司）有限公司代理/g, '（示例：XX公司）代理');
+    result = result.replace(/（示例：XX公司）有限公司有限公司/g, '（示例：XX公司）有限公司');
+
     // 7b. 环评公示专项（在通用XXXX之前，防止误伤数量单位/邮箱/邮编/备案号等）
     // ════════════════════════════════════════════════════════════════
     // 邮箱 XXXX@XXXX.com → 完整邮箱示例（必须在 XXXX(?!\d) 之前，防止 @ 前XXXX被吞）
@@ -411,6 +488,8 @@ Page({
     result = result.replace(/X{15,}/g, '（请填写完整信息）');
 
     // 8. 通用 XXXX（4个X，不是数字/日期的闭合括号）→ 电话示例
+    // XXXX人民法院 兜底（在通用 XXXX(?!) 之前，防止 XXXX 被当电话替换）
+    result = result.replace(/XXXX人民法院/g, '（示例：XX人民法院）');
     result = result.replace(/XXXX(?!\d)/g, '（示例：138****5678）');
 
     // 9. 通用 XXX（3个X，不是数字序列）→ 身份证号示例
