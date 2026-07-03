@@ -176,6 +176,39 @@ Page({
     result = result.replace(/致：XXX/g, '致：（示例：张三）');
     result = result.replace(/联系地址：XXXX/g, '联系地址：（示例：XX市XX区XX路XX号）');
 
+    // ════════════════════════════════
+    // 4.8 法院/法律特有格式（在通用XXXX/XXX之前）
+    // ════════════════════════════════
+
+    // 【案号年份】（XXXX）→ 示例年份
+    result = result.replace(/（XXXX）XX/g, '（2026）XX');
+    // 【案号年份】〔XXXX〕→ 示例年份（如 X市监罚告字〔2026〕XX号）
+    result = result.replace(/〔XXXX〕/g, '〔2026〕');
+    // 【案号尾号】XXX号 → 示例案号（仅限法院案号上下文，如 民初XXX号）
+    result = result.replace(/([民刑]初)XXX号/g, '$1（示例：1234）号');
+
+    // 【电话】XXXX-XXXXXXXX → 整体电话示例（防止被拆成多个电话号）
+    result = result.replace(/XXXX-XXXXXXXX/g, '（示例：0755-12345678）');
+
+    // 【公司名】XXXX有限公司 → 公司名称示例（在通用XXXX之前）
+    result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
+    // 【公司名】XXX保险公司 / XXX物业/ XXX管理 等特殊后缀
+    result = result.replace(/XXX保险公司/g, '（示例：XX保险公司）');
+    result = result.replace(/XXX物业管理有限公司/g, '（示例：XX物业管理有限公司）');
+
+    // 【长串号码字段】身份证号/注册号/执业证号等（10+ X）→ 兜底
+    ['身份证号', '注册号', '执业证号', '许可证编号', '保单号', '机构编码'].forEach(field => {
+      result = result.replace(new RegExp(`${field}：X{10,}`, 'g'), `${field}：（请填写完整信息）`);
+    });
+
+    // 4.13 无冒号的角色标签 + XXX（法院模板大量使用：被告XXX、债权人XXX等）
+    //    这些没有被 4.1（XXX（...））捕获时，不能落到通用身份证号替换
+    ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人'].forEach(role => {
+      result = result.replace(new RegExp(role + 'XXX(?!（)', 'g'), role + '（示例：张三）');
+    });
+    // XXX诉 → 姓名示例（如 已受理XXX诉你仲裁一案）
+    result = result.replace(/XXX诉/g, '（示例：张三）诉');
+
     // 5. XXX公司（3个X+公司）→ 公司名示例（在通用XXX之前，避免被身份证号替换）
     result = result.replace(/XXX公司(?!\d)/g, '（示例：XX公司）');
 
