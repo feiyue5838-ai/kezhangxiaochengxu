@@ -344,11 +344,68 @@ Page({
 
     // 6. XXXX公司 → 完整公司名示例
     //    策略：把"XXXX公司"替换成"（示例：XX公司"，然后把后续"有限公司"等后缀包进括号
-    result = result.replace(/XXXX公司/g, '（示例：XX公司');
+    result = result.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
+    result = result.replace(/（示例：XX公司）有限公司）有限公司/g, '（示例：XX公司）有限公司');
     //    把孤立的"有限公司）"补全为"有限公司））"（闭合两处括号）
     result = result.replace(/（示例：XX公司有限公司/g, '（示例：XX公司）有限公司');
     //    把孤立的"集团）"等后缀补全
     result = result.replace(/（示例：XX公司集团/g, '（示例：XX集团）');
+
+    // ════════════════════════════════════════════════════════════════
+    // 7b. 环评公示专项（在通用XXXX之前，防止误伤数量单位/邮箱/邮编/备案号等）
+    // ════════════════════════════════════════════════════════════════
+    // 邮箱 XXXX@XXXX.com → 完整邮箱示例（必须在 XXXX(?!\d) 之前，防止 @ 前XXXX被吞）
+    result = result.replace(/XXXX@[^\s，,。.！!？?\n]+/g, '（示例：test@example.com）');
+    // 数量单位：X万元、X千瓦时、X吨/年、X个（防止被 XXXX(?!\d) 误当电话号）
+    result = result.replace(/XXXX万元/g, '（示例：100）万元');
+    result = result.replace(/XXXX千瓦时/g, '（示例：100）千瓦时');
+    result = result.replace(/XXXX吨(?=\/|年|\s)/g, '（示例：10）吨');
+    result = result.replace(/XXXX个/g, '（示例：2）个');
+    result = result.replace(/XXXX平方米/g, '（示例：1000）平方米');
+    // 邮编 XXXXXX（6位纯数字占位，末尾加空格/括号等）→ 保持6位格式
+    result = result.replace(/XXXXXX(?=[）\)\s]|$)/g, '（示例：518000）');
+    // 环保措施/废气废水噪声固废 等具体填写项（XXXXXXXX）→ 请填写提示
+    result = result.replace(/废气：XXXXXXXX/g, '废气：（请填写具体措施）');
+    result = result.replace(/废水：XXXXXXXX/g, '废水：（请填写具体措施）');
+    result = result.replace(/噪声：XXXXXXXX/g, '噪声：（请填写具体措施）');
+    result = result.replace(/固废：XXXXXXXX/g, '固废：（请填写具体措施）');
+    result = result.replace(/噪声防治设施：XXXXXXXX/g, '噪声防治设施：（请填写具体内容）');
+    result = result.replace(/固体废物污染防治设施：XXXXXXXX/g, '固体废物污染防治设施：（请填写具体内容）');
+    result = result.replace(/排放口数量及分布：XXXXXXXX/g, '排放口数量及分布：（请填写具体数量）');
+    result = result.replace(/主要污染防治设施：XXXXXXXX/g, '主要污染防治设施：（请填写具体内容）');
+    result = result.replace(/查阅方式和途径：XXXXXXXX/g, '查阅方式和途径：（请填写查阅方式）');
+    result = result.replace(/验收报告及验收意见查阅方式：XXXXXXXX/g, '验收报告及验收意见查阅方式：（请填写查阅方式）');
+    result = result.replace(/联系方式：XXXXXXXX/g, '联系方式：（请填写联系方式）');
+    result = result.replace(/联系人及联系方式：XXXXXXXX/g, '联系人及联系方式：（请填写联系方式）');
+    result = result.replace(/验收调查单位：XXXXXXXX/g, '验收调查单位：（请填写单位名称）');
+    result = result.replace(/验收监测单位：XXXXXXXX/g, '验收监测单位：（请填写单位名称）');
+    result = result.replace(/主要建设内容：XXXXXXXX/g, '主要建设内容：（请填写具体建设内容）');
+    result = result.replace(/许可排放量及排放标准：XXXXXXXX/g, '许可排放量及排放标准：（请填写具体数值）');
+    result = result.replace(/年排放量：XXXXXXXX/g, '年排放量：（请填写具体排放量）');
+    result = result.replace(/已完成.*?方案（X项）：XXXXXXXX/g, '已完成方案（示例：5项）：（请填写具体方案）');
+    result = result.replace(/已实施.*?方案（X项）：XXXXXXXX/g, '已实施方案（示例：3项）：（请填写具体方案）');
+    result = result.replace(/下一步清洁生产计划：XXXXXXXX/g, '下一步清洁生产计划：（请填写计划内容）');
+    result = result.replace(/应急预案备案编号：XXXXXXXX/g, '应急预案备案编号：（请填写备案编号）');
+    result = result.replace(/备案编号：XXXXXXXX/g, '备案编号：（请填写备案编号）');
+    result = result.replace(/风险等级：XXXXXXXX/g, '风险等级：（请填写风险等级）');
+    result = result.replace(/主要风险源：XXXXXXXX/g, '主要风险源：（请填写具体风险源）');
+    result = result.replace(/可能影响：XXXXXXXX/g, '可能影响：（请填写可能影响）');
+    result = result.replace(/防范措施：XXXXXXXX/g, '防范措施：（请填写防范措施）');
+    result = result.replace(/许可证编号：XXXXXXXX/g, '许可证编号：（示例：12345678）');
+    result = result.replace(/变更前主要内容：XXXXXXXX/g, '变更前主要内容：（请填写具体内容）');
+    result = result.replace(/变更后主要内容：XXXXXXXX/g, '变更后主要内容：（请填写具体内容）');
+    result = result.replace(/变更原因：XXXXXXXX/g, '变更原因：（请填写变更原因）');
+    result = result.replace(/注销原因：XXXXXXXX/g, '注销原因：（请填写注销原因）');
+    result = result.replace(/延续申请理由：XXXXXXXX/g, '延续申请理由：（请填写理由）');
+    result = result.replace(/场地原使用情况：XXXXXXXX/g, '场地原使用情况：（请填写场地历史用途）');
+    result = result.replace(/污染物识别结果：XXXXXXXX/g, '污染物识别结果：（请填写识别结果）');
+    result = result.replace(/土壤检测结果：XXXXXXXX/g, '土壤检测结果：（请填写检测结果）');
+    result = result.replace(/地下水检测结果：XXXXXXXX/g, '地下水检测结果：（请填写检测结果）');
+    result = result.replace(/许可经营危险废物类别及规模：XXXXXXXX/g, '许可经营危险废物类别及规模：（请填写具体类别）');
+    result = result.replace(/许可范围：XXXXXXXX/g, '许可范围：（请填写许可范围）');
+    result = result.replace(/行业类别：XXXX/g, '行业类别：（示例：制造业）');
+    // 变更原因：XXXXXXXXX（如：……）类型 → 把XXXX部分换数字示例，保留括号说明
+    result = result.replace(/变更原因：XXXXXXXXX（如：.*?）/g, '变更原因：（示例：生产规模扩大）（如：增加生产线）');
 
     // 7. 【重要】长串 X（15+ 连续X）→ 兜底提示（必须在XXXX/XXX之前，防止长串被拆成电话/身份证示例）
     result = result.replace(/X{15,}/g, '（请填写完整信息）');
