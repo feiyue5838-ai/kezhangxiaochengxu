@@ -137,7 +137,7 @@ Page({
     });
 
     // 4. 姓名类标签字段（label: XXX）→ 姓名示例
-    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '家人', '家长'].forEach(field => {
+    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
 
@@ -164,29 +164,37 @@ Page({
       return m.replace(/XXX/g, '（示例：张三）');
     });
 
-    // 4.6 票据/证件号码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
-    ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号'].forEach(field => {
+    // 4.6 票据/证件/信用代码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
+    ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号', '证件号码', '统一社会信用代码'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：12345678）`);
+      result = result.replace(new RegExp(`${field}：XXXX`, 'g'), `${field}：（示例：91XXXXXXXXXX）`);
     });
 
-    // 5. XXXX公司 → 完整公司名示例
+    // 4.7 公告/通知类特有字段 → 具体示例
+    result = result.replace(/公告单位：XXX/g, '公告单位：（示例：XX有限公司）');
+    result = result.replace(/通知人：XXX/g, '通知人：（示例：张三）');
+    result = result.replace(/致：XXX/g, '致：（示例：张三）');
+    result = result.replace(/联系地址：XXXX/g, '联系地址：（示例：XX市XX区XX路XX号）');
+
+    // 5. XXX公司（3个X+公司）→ 公司名示例（在通用XXX之前，避免被身份证号替换）
+    result = result.replace(/XXX公司(?!\d)/g, '（示例：XX公司）');
+
+    // 6. XXXX公司 → 完整公司名示例
     //    策略：把"XXXX公司"替换成"（示例：XX公司"，然后把后续"有限公司"等后缀包进括号
     result = result.replace(/XXXX公司/g, '（示例：XX公司');
     //    把孤立的"有限公司）"补全为"有限公司））"（闭合两处括号）
     result = result.replace(/（示例：XX公司有限公司/g, '（示例：XX公司）有限公司');
     //    把孤立的"集团）"等后缀补全
     result = result.replace(/（示例：XX公司集团/g, '（示例：XX集团）');
-    //    兜底：剩余所有未被包围的"XXXX公司" → 完整示例
-    result = result.replace(/XXXX公司/g, '（示例：XX公司）');
 
-    // 6. 通用 XXXX（4个X，不是数字序列）→ 电话示例
+    // 7. 【重要】长串 X（15+ 连续X）→ 兜底提示（必须在XXXX/XXX之前，防止长串被拆成电话/身份证示例）
+    result = result.replace(/X{15,}/g, '（请填写完整信息）');
+
+    // 8. 通用 XXXX（4个X，不是数字/日期的闭合括号）→ 电话示例
     result = result.replace(/XXXX(?!\d)/g, '（示例：138****5678）');
 
-    // 7. 通用 XXX（3个X，不是数字序列）→ 身份证号示例
+    // 9. 通用 XXX（3个X，不是数字序列）→ 身份证号示例
     result = result.replace(/XXX(?!\d)/g, '（示例：110101199001011234）');
-
-    // 8. 长串 X（15+ 连续X）→ 兜底提示
-    result = result.replace(/X{15,}/g, '（请填写完整信息）');
 
     return result;
   },
