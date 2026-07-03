@@ -178,8 +178,10 @@ Page({
 
     // 4.7 票据/证件/信用代码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
     ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号', '证件号码'].forEach(field => {
+      // ⚠️ X{4,} 必须在 XXX 之前，否则 编号：XXXX（4个X）会被 XXX 吃掉前3个X留下无用残X
+      // ⚠️ 替换文本不能用含连续4个X的示例，防止后续 XXXX(?!\d) 误伤
+      result = result.replace(new RegExp(`${field}：X{4,}`, 'g'), `${field}：__NUMCODE__`);
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：12345678）`);
-      result = result.replace(new RegExp(`${field}：XXXX`, 'g'), `${field}：（示例：91XXXXXXXXXX）`);
     });
 
     // 4.8 公告/通知类特有字段 → 具体示例
@@ -187,6 +189,16 @@ Page({
     result = result.replace(/通知人：XXX/g, '通知人：（示例：张三）');
     result = result.replace(/致：XXX/g, '致：（示例：张三）');
     result = result.replace(/联系地址：XXXX/g, '联系地址：（示例：XX市XX区XX路XX号）');
+
+    // 4.8.5 债权债务特有字段
+    result = result.replace(/受让人：XXX/g, '受让人：（示例：张三）');
+    result = result.replace(/受让方：XXX/g, '受让方：（示例：张三）');
+    result = result.replace(/转让人：XXX/g, '转让人：（示例：张三）');
+    result = result.replace(/原债权人：XXX/g, '原债权人：（示例：张三）');
+    result = result.replace(/名称：XXX/g, '名称：（示例：XX公司）');
+    result = result.replace(/贷款机构：XXX/g, '贷款机构：（示例：XX银行）');
+    result = result.replace(/授权代表：XXX/g, '授权代表：（示例：张三）');
+    result = result.replace(/保险公司：XXX/g, '保险公司：（示例：XX保险公司）');
 
     // ════════════════════════════════
     // 4.9 法院/法律特有格式（在通用XXXX/XXX之前）
@@ -207,6 +219,9 @@ Page({
     // 【公司名】XXX保险公司 / XXX物业/ XXX管理 等特殊后缀
     result = result.replace(/XXX保险公司/g, '（示例：XX保险公司）');
     result = result.replace(/XXX物业管理有限公司/g, '（示例：XX物业管理有限公司）');
+    // 保险名称占位符：投保了XXX保险
+    result = result.replace(/投保了XXX保险/g, '投保了（示例：XX保险）');
+    result = result.replace(/XXX保险/g, '（示例：XX保险）');
 
     // 4.10 无冒号的角色标签 + XXX（法院模板大量使用：被告XXX、债权人XXX等）
     //    这些没有被 4.1（XXX（...））捕获时，不能落到通用身份证号替换
@@ -322,6 +337,8 @@ Page({
 
     // 还原统一社会信用代码哨兵
     result = result.replace(/统一社会信用代码：__CREDIT_CODE__/g, '统一社会信用代码：（示例：91XXXXXXXXXX）');
+    // 还原编号哨兵（编号：XXXX / 合同编号：XXXX 等 → 编号：__NUMCODE__ → 编号：（示例：91XXXXXXXXXX））
+    result = result.replace(/__NUMCODE__/g, '（示例：91XXXXXXXXXX）');
 
     return result;
   },
