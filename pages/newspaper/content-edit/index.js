@@ -69,7 +69,7 @@ Page({
     if (!this.editorCtx || !this._editorReady) return;
     const doReplace = (rawText) => {
       if (!rawText) rawText = this.data.originalContent;
-      const replaced = smartReplaceUtil.doSmartReplace(rawText);
+      const replaced = smartReplaceUtil.doSmartReplace(rawText, this.data.businessType);
       this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
       this.setData({ content: replaced, charCount: replaced.length });
       wx.showToast({ title: '占位符已替换', icon: 'success' });
@@ -95,7 +95,7 @@ Page({
   },
 
   smartReplace(content) {
-    return smartReplaceUtil.doSmartReplace(content);
+    return smartReplaceUtil.doSmartReplace(content, this.data.businessType);
   },
 
   isContentModified() {
