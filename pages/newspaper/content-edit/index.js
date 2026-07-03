@@ -205,6 +205,9 @@ Page({
     // ════════════════════════════════
 
     // 【案号年份】（XXXX）→ 示例年份（覆盖 XX民初、民借仲、其他所有法院案号格式）
+    // ⚠️ 先处理「案号：XXXX」（劳动/仲裁场景），防止被 XXXX(?!\d) 匹配为电话号
+    result = result.replace(/案号：XXXX/g, '案号：（示例：2026）');
+    result = result.replace(/（案号：XXXX）/g, '（案号：（示例：2026））');
     result = result.replace(/（XXXX）/g, '（（示例：2026））');
     // 【案号年份】〔XXXX〕→ 示例年份（如 X市监罚告字〔2026〕XX号）
     result = result.replace(/〔XXXX〕/g, '〔2026〕');
@@ -251,6 +254,27 @@ Page({
     result = result.replace(/XXX内容/g, '（示例：XX内容）');
     result = result.replace(/XXX名称/g, '（示例：XX名称）');
     result = result.replace(/XXX概要/g, '（示例：XX概要）');
+
+    // ════════════════════════════════
+    // 4.15 【方括号占位符】— 劳动/仲裁/工伤等模板大量使用【XXX】【公司全称】等
+    // ════════════════════════════════
+    result = result.replace(/【XXX】/g, '（示例：张三）');
+    result = result.replace(/【XX】/g, '（示例：XX）');
+    result = result.replace(/【名称】/g, '（示例：XX机构）');
+    result = result.replace(/【日期】/g, '（日期：____年__月__日）');
+    result = result.replace(/【电话】/g, '（示例：138****5678）');
+    result = result.replace(/【公司全称】/g, '（示例：XX公司）');
+    result = result.replace(/【公司地址】/g, '（示例：XX市XX区XX路XX号）');
+    result = result.replace(/【仲裁委员会名称】/g, '（示例：XX仲裁委员会）');
+    result = result.replace(/【仲裁委员会地址】/g, '（示例：XX市XX区XX路XX号）');
+    result = result.replace(/【工伤认定部门】/g, '（示例：XX人社局）');
+    result = result.replace(/【劳动争议事项】/g, '（示例：XX争议）');
+    result = result.replace(/【调解内容】/g, '（请填写调解内容）');
+    result = result.replace(/【部门\/岗位】/g, '（示例：XX部/XX岗）');
+    result = result.replace(/【解除原因】/g, '（示例：个人原因）');
+    result = result.replace(/【辞退原因】/g, '（示例：违反公司制度）');
+    result = result.replace(/【原因】/g, '（示例：XX原因）');
+    result = result.replace(/【事故地点】/g, '（示例：XX车间/岗位）');
     result = result.replace(/XXXX（事项/g, '（示例：XX事项');
     result = result.replace(/XXXX（行为/g, '（示例：XX行为');
     result = result.replace(/XXXX（相关/g, '（示例：XX相关');
