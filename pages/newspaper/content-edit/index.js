@@ -128,7 +128,10 @@ Page({
     // 1. 日期占位符 → 自动填当天日期
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
 
-    // 2. 【关键】"本人XXX" → 姓名示例（必须在通用XXX之前，防止"本人"后的XXX被替换成身份证号）
+    // 2. 【关键】统一社会信用代码（必在一切XXX/XXXX子串匹配之前，防止被序号截胡）
+    result = result.replace(/统一社会信用代码：X{8,}/g, '统一社会信用代码：（示例：91XXXXXXXXXX）');
+
+    // 3. 【关键】"本人XXX" → 姓名示例（必须在通用XXX之前，防止"本人"后的XXX被替换成身份证号）
     result = result.replace(/本人XXX/g, '本人（示例：张三）');
 
     // 3. 【关键】"声明单位：XXX有限公司" → 只替换中间的 XXX，保留 "有限公司" 原样
@@ -137,7 +140,7 @@ Page({
     });
 
     // 4. 姓名类标签字段（label: XXX）→ 姓名示例
-    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长'].forEach(field => {
+    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长', '出借人', '借款人', '股东', '权利人'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
 
@@ -167,7 +170,7 @@ Page({
     // 4.6 【必须先于 4.7】长串号码字段（10+ X）→ 兜底
     //    在 4.7 之前运行，防止 证号/编号 子串匹配截胡许可证号等复合字段
     ['身份证号', '注册号', '执业证号', '许可证编号', '许可证号', '保单号', '机构编码', '账号'].forEach(field => {
-      result = result.replace(new RegExp(`${field}：X{10,}`, 'g'), `${field}：（请填写完整信息）`);
+      result = result.replace(new RegExp(`${field}：X{8,}`, 'g'), `${field}：（请填写完整信息）`);
     });
 
     // 4.7 票据/证件/信用代码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
@@ -205,10 +208,10 @@ Page({
     // 4.10 无冒号的角色标签 + XXX（法院模板大量使用：被告XXX、债权人XXX等）
     //    这些没有被 4.1（XXX（...））捕获时，不能落到通用身份证号替换
     //    注：申请人/被申请人 有冒号在 step4 已处理，但无冒号时也须覆盖
-    ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人', '申请人', '被申请人', '声明人', '当事人', '通知人', '公告人'].forEach(role => {
+    ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人', '申请人', '被申请人', '声明人', '当事人', '通知人', '公告人', '被保险人', '主要负责人', '权利人', '股东'].forEach(role => {
     //    这些没有被 4.1（XXX（...））捕获时，不能落到通用身份证号替换
     //    注：申请人/被申请人 有冒号在 step4 已处理，但无冒号时也须覆盖
-    ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人', '申请人', '被申请人', '声明人', '当事人', '通知人', '公告人'].forEach(role => {
+    ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人', '申请人', '被申请人', '声明人', '当事人', '通知人', '公告人', '被保险人', '主要负责人', '权利人', '股东'].forEach(role => {
       result = result.replace(new RegExp(role + 'XXX(?!（)', 'g'), role + '（示例：张三）');
     });
     // XXX诉 → 姓名示例（如 已受理XXX诉你仲裁一案）
@@ -247,6 +250,49 @@ Page({
     result = result.replace(/XXXX(劳人仲|合同仲|民仲)/g, '（示例：2026）$1');
     // 6-8位X + 字第（如 XXXXXX字第XX号）
     result = result.replace(/X{4,8}字第/g, '（示例：2026）字第');
+
+    // ════════════════════════════════
+    // 4.15 法院特有专业名词
+    // ════════════════════════════════
+
+    // 专业机构/企业后缀
+    result = result.replace(/XXX律师事务所/g, '（示例：XX律师事务所）');
+    result = result.replace(/XXX律师/g, '（示例：XX律师）');
+    result = result.replace(/XXX证券期货有限公司/g, '（示例：XX证券期货有限公司）');
+    result = result.replace(/XXX出版社/g, '（示例：XX出版社）');
+
+    // 车牌/车辆相关
+    result = result.replace(/车牌号：X{6,8}/g, '车牌号：（示例：粤B12345）');
+
+    // 票据票号（8位X）
+    result = result.replace(/票号：X{6,10}/g, '票号：（示例：12345678）');
+    result = result.replace(/存放编号：X{8,}/g, '存放编号：（示例：12345678）');
+    result = result.replace(/机构名称：XXX/g, '机构名称：（示例：XX证券）');
+    result = result.replace(/XXX单位/g, '（示例：XX单位）');
+    result = result.replace(/XXX项目/g, '（示例：XX项目）');
+    result = result.replace(/随身携带物品：XXX/g, '随身携带物品：（示例：XX）');
+    result = result.replace(/《XXXX》/g, '《（示例：XXXX）》');
+    result = result.replace(/XXX事项/g, '（示例：XX事项）');
+    result = result.replace(/XXX内容/g, '（示例：XX内容）');
+    result = result.replace(/XXX系列/g, '（示例：XX系列）');
+
+    // 书籍/出版相关
+    result = result.replace(/ISBN：X{13,}/g, 'ISBN：（示例：978-7-XXXX-XXXX-X）');
+
+    // 地址中的占位符（XXX路XXX号XXX室 → 不落身份证号）
+    result = result.replace(/XXX路/g, '（示例：XX）路');
+    result = result.replace(/XXX号/g, '（示例：XX）号');
+    result = result.replace(/XXX室/g, '（示例：XX）室');
+    result = result.replace(/XXX平方米/g, '（示例：XX）平方米');
+
+    // 内容描述型（法院专用）
+    result = result.replace(/提存原因：XXX/g, '提存原因：（示例：XX）');
+    result = result.replace(/车型：XXX/g, '车型：（示例：XX牌XX型）');
+    result = result.replace(/身高：XXXcm/g, '身高：（示例：170）cm');
+    result = result.replace(/体貌特征：XXX/g, '体貌特征：（示例：XX）');
+    result = result.replace(/(起火|死亡)原因为XXX/g, '$1原因为（示例：XX）');
+    result = result.replace(/授权范围：XXX/g, '授权范围：（示例：XX）');
+    result = result.replace(/办理XXX案件/g, '办理（示例：XX）案件');
 
     // 5. XXX公司（3个X+公司）→ 公司名示例（在通用XXX之前，避免被身份证号替换）
     result = result.replace(/XXX公司(?!\d)/g, '（示例：XX公司）');
