@@ -129,7 +129,10 @@ Page({
     result = result.replace(/XXXX年XX月XX日/g, dateStr);
 
     // 2. 【关键】统一社会信用代码（必在一切XXX/XXXX子串匹配之前，防止被序号截胡）
-    result = result.replace(/统一社会信用代码：X{8,}/g, '统一社会信用代码：（示例：91XXXXXXXXXX）');
+    result = result.replace(/统一社会信用代码：X{8,}/g, '统一社会信用代码：__CREDIT_CODE__');
+    // 兼容 "统一社会信用代码：91XXXXXXXXXXXXXXXX"（数字前缀+X占位符）
+    // 用哨兵占位符，防止后续 XXXX(?!\d) 误伤内部的 X
+    result = result.replace(/统一社会信用代码：\d{2}X{6,}/g, '统一社会信用代码：__CREDIT_CODE__');
 
     // 3. 【关键】"本人XXX" → 姓名示例（必须在通用XXX之前，防止"本人"后的XXX被替换成身份证号）
     result = result.replace(/本人XXX/g, '本人（示例：张三）');
@@ -316,6 +319,9 @@ Page({
 
     // 9. 通用 XXX（3个X，不是数字序列）→ 身份证号示例
     result = result.replace(/XXX(?!\d)/g, '（示例：110101199001011234）');
+
+    // 还原统一社会信用代码哨兵
+    result = result.replace(/统一社会信用代码：__CREDIT_CODE__/g, '统一社会信用代码：（示例：91XXXXXXXXXX）');
 
     return result;
   },
