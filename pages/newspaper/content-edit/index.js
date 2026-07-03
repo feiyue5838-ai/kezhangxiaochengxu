@@ -164,20 +164,26 @@ Page({
       return m.replace(/XXX/g, '（示例：张三）');
     });
 
-    // 4.6 票据/证件/信用代码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
+    // 4.6 【必须先于 4.7】长串号码字段（10+ X）→ 兜底
+    //    在 4.7 之前运行，防止 证号/编号 子串匹配截胡许可证号等复合字段
+    ['身份证号', '注册号', '执业证号', '许可证编号', '许可证号', '保单号', '机构编码', '账号'].forEach(field => {
+      result = result.replace(new RegExp(`${field}：X{10,}`, 'g'), `${field}：（请填写完整信息）`);
+    });
+
+    // 4.7 票据/证件/信用代码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
     ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号', '证件号码', '统一社会信用代码'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：12345678）`);
       result = result.replace(new RegExp(`${field}：XXXX`, 'g'), `${field}：（示例：91XXXXXXXXXX）`);
     });
 
-    // 4.7 公告/通知类特有字段 → 具体示例
+    // 4.8 公告/通知类特有字段 → 具体示例
     result = result.replace(/公告单位：XXX/g, '公告单位：（示例：XX有限公司）');
     result = result.replace(/通知人：XXX/g, '通知人：（示例：张三）');
     result = result.replace(/致：XXX/g, '致：（示例：张三）');
     result = result.replace(/联系地址：XXXX/g, '联系地址：（示例：XX市XX区XX路XX号）');
 
     // ════════════════════════════════
-    // 4.8 法院/法律特有格式（在通用XXXX/XXX之前）
+    // 4.9 法院/法律特有格式（在通用XXXX/XXX之前）
     // ════════════════════════════════
 
     // 【案号年份】（XXXX）→ 示例年份（覆盖 XX民初、民借仲、其他所有法院案号格式）
@@ -196,12 +202,10 @@ Page({
     result = result.replace(/XXX保险公司/g, '（示例：XX保险公司）');
     result = result.replace(/XXX物业管理有限公司/g, '（示例：XX物业管理有限公司）');
 
-    // 【长串号码字段】身份证号/注册号/执业证号等（10+ X）→ 兜底
-    ['身份证号', '注册号', '执业证号', '许可证编号', '保单号', '机构编码'].forEach(field => {
-      result = result.replace(new RegExp(`${field}：X{10,}`, 'g'), `${field}：（请填写完整信息）`);
-    });
-
-    // 4.13 无冒号的角色标签 + XXX（法院模板大量使用：被告XXX、债权人XXX等）
+    // 4.10 无冒号的角色标签 + XXX（法院模板大量使用：被告XXX、债权人XXX等）
+    //    这些没有被 4.1（XXX（...））捕获时，不能落到通用身份证号替换
+    //    注：申请人/被申请人 有冒号在 step4 已处理，但无冒号时也须覆盖
+    ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人', '申请人', '被申请人', '声明人', '当事人', '通知人', '公告人'].forEach(role => {
     //    这些没有被 4.1（XXX（...））捕获时，不能落到通用身份证号替换
     //    注：申请人/被申请人 有冒号在 step4 已处理，但无冒号时也须覆盖
     ['被告', '债务人', '借款人', '出借人', '被执行人', '被征收人', '失踪人', '担保人', '债权人', '遗赠人', '受遗赠人', '抚养人', '收养人', '申请人', '被申请人', '声明人', '当事人', '通知人', '公告人'].forEach(role => {
@@ -209,6 +213,40 @@ Page({
     });
     // XXX诉 → 姓名示例（如 已受理XXX诉你仲裁一案）
     result = result.replace(/XXX诉/g, '（示例：张三）诉');
+
+    // ════════════════════════════════
+    // 4.14 政府送达/行政模板特有格式
+    // ════════════════════════════════
+
+    // 句中角色名（XXX与/就XXX）：被 4.13 捕获后剩余的句中姓名
+    result = result.replace(/XXX与/g, '（示例：张三）与');
+    result = result.replace(/就XXX/g, '就（示例：XX）');
+
+    // 内容描述型占位符（不可能是身份证号）
+    result = result.replace(/XXX罪/g, '（示例：XX罪）');
+    result = result.replace(/XXX事项/g, '（示例：XX事项）');
+    result = result.replace(/XXX情形/g, '（示例：XX情形）');
+    result = result.replace(/XXX争议/g, '（示例：XX争议）');
+    result = result.replace(/XXX内容/g, '（示例：XX内容）');
+    result = result.replace(/XXX名称/g, '（示例：XX名称）');
+    result = result.replace(/XXX概要/g, '（示例：XX概要）');
+    result = result.replace(/案由：XXX/g, '案由：（示例：XX纠纷）');
+
+    // 规划条件内容占位符
+    result = result.replace(/原规划条件：XXX/g, '原规划条件：（示例：XX）');
+    result = result.replace(/变更后规划条件：XXX/g, '变更后规划条件：（示例：XX）');
+
+    // 地址字段（和电话字段分开，避免地址：XXXX 被替换为电话号）
+    result = result.replace(/地址：XXXX/g, '地址：（示例：XX市XX区XX路XX号）');
+
+    // 户名账号（银行信息）
+    result = result.replace(/户名：XXXX/g, '户名：（示例：XX银行）');
+    result = result.replace(/账号：X{8,20}/g, '账号：（示例：6222****1234）');
+
+    // 无括号的案号年份：XXXX劳人仲 / XXXX合同仲 / XXXX民仲
+    result = result.replace(/XXXX(劳人仲|合同仲|民仲)/g, '（示例：2026）$1');
+    // 6-8位X + 字第（如 XXXXXX字第XX号）
+    result = result.replace(/X{4,8}字第/g, '（示例：2026）字第');
 
     // 5. XXX公司（3个X+公司）→ 公司名示例（在通用XXX之前，避免被身份证号替换）
     result = result.replace(/XXX公司(?!\d)/g, '（示例：XX公司）');
