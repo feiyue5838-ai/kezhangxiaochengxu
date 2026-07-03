@@ -20,6 +20,9 @@ function doSmartReplace(content, categoryName) {
   result = result.replace(/统一社会信用代码：X{8,}/g, '统一社会信用代码：__CREDIT__');
   result = result.replace(/统一社会信用代码：\d{2}X{6,}/g, '统一社会信用代码：__CREDIT__');
 
+  // 电话号码 XXXX-XXXXXXXX（所有分类通用）
+  result = result.replace(/XXXX-XXXXXXXX/g, '（示例：0755-12345678）');
+
   // 姓名类
   result = result.replace(/本人XXX/g, '本人（示例：张三）');
   result = result.replace(/XXX（[^）]*）/g, '（示例：张三）');
