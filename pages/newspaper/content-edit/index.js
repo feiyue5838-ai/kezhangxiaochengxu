@@ -143,7 +143,7 @@ Page({
     });
 
     // 4. 姓名类标签字段（label: XXX）→ 姓名示例
-    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长', '出借人', '借款人', '股东', '权利人'].forEach(field => {
+    ['声明人', '致歉人', '道歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '祝福你的人', '永远的朋友', '家人', '家长', '出借人', '借款人', '股东', '权利人'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
 
@@ -483,6 +483,67 @@ Page({
     result = result.replace(/行业类别：XXXX/g, '行业类别：（示例：制造业）');
     // 变更原因：XXXXXXXXX（如：……）类型 → 把XXXX部分换数字示例，保留括号说明
     result = result.replace(/变更原因：XXXXXXXXX（如：.*?）/g, '变更原因：（示例：生产规模扩大）（如：增加生产线）');
+
+    // ════════════════════════════════════════════════════════════════
+    // 道歉模板专项（必须在 X{15,}/通用XXXX 之前，防止被长串兜底/电话示例误伤）
+    // ════════════════════════════════════════════════════════════════
+
+    // 身份证号：按长度从长到短排列（贪婪匹配，先长后短，防止16位规则先吞16个X导致18位无法匹配）
+    result = result.replace(/XXXXXXXXXXXXXXXXXX/g, '（示例：110101199001011234）'); // 18位
+    result = result.replace(/XXXXXXXXXXXXXXXX/g, '（示例：110101199001011234）');   // 16位
+    // XXXX公司 → 保护（先于 X{4} 通用，防止被替换成电话号码）
+    result = result.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
+    result = result.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
+
+    // 带字段名的8X：事件/内容/原因/情形等 → 内容示例
+    ['事件', '内容', '原因', '情形', '情况', '账号', '理由'].forEach(field => {
+      result = result.replace(new RegExp(field + '：XXXXXXXX', 'g'), field + '：（示例：具体内容）');
+    });
+
+    // 无前缀8X通用（道歉模板中的自由文本占位）→ 内容示例（先于拍卖8X兜底，防止被邮编/电话误伤）
+    // 句式：事件/损害/虚假/问题/道歉/补偿/批次/联系方式 等
+    result = result.replace(/不实言论内容：XXXXXXXX/g, '不实言论内容：（示例：夸大产品功效）');
+    result = result.replace(/虚假宣传内容：XXXXXXXX/g, '虚假宣传内容：（示例：绝对化用语）');
+    result = result.replace(/损害描述：XXXXXXXX/g, '损害描述：（示例：造成经济损失）');
+    result = result.replace(/道歉原因：XXXXXXXX/g, '道歉原因：（示例：产品存在质量问题）');
+    result = result.replace(/处理措施：XXXXXXXX/g, '处理措施：（示例：立即整改并赔偿）');
+    result = result.replace(/联系方式：XXXXXXXX/g, '联系方式：（示例：0755-12345678）');
+    result = result.replace(/补偿方式：XXXXXXXX/g, '补偿方式：（示例：退换货并赔偿）');
+    result = result.replace(/批次号：XXXXXXXX/g, '批次号：（示例：A2024001）');
+    result = result.replace(/生产日期：XXXXXXXX/g, '生产日期：（示例：2024年01月01日）');
+    result = result.replace(/产品批次：XXXXXXXX/g, '产品批次：（示例：A2024001）');
+    result = result.replace(/账号信息：XXXXXXXX/g, '账号信息：（示例：6222****1234）');
+    result = result.replace(/具体情况：XXXXXXXX/g, '具体情况：（示例：详见附件）');
+    result = result.replace(/具体内容：XXXXXXXX/g, '具体内容：（示例：详见正文）');
+    result = result.replace(/具体说明：XXXXXXXX/g, '具体说明：（示例：详见正文）');
+    result = result.replace(/事件描述：XXXXXXXX/g, '事件描述：（示例：详见正文）');
+    result = result.replace(/造成损害：XXXXXXXX/g, '造成损害：（示例：经济损失若干）');
+    result = result.replace(/道歉事由：XXXXXXXX/g, '道歉事由：（示例：详见正文）');
+    result = result.replace(/致歉内容：XXXXXXXX/g, '致歉内容：（示例：详见正文）');
+    result = result.replace(/致歉理由：XXXXXXXX/g, '致歉理由：（示例：详见正文）');
+    result = result.replace(/公告内容：XXXXXXXX/g, '公告内容：（示例：详见正文）');
+    result = result.replace(/问题详情：XXXXXXXX/g, '问题详情：（示例：详见正文）');
+    result = result.replace(/具体方式：XXXXXXXX/g, '具体方式：（示例：退换货并赔偿）');
+
+    // 无字段名前缀的裸8X → 按语义替换
+    // ① 动词/介词+8X（平台/场合、不实言论、虚假宣传等）
+    result = result.replace(/在XXXXXXXX（平台/g, '在（示例：XX平台）（平台');
+    result = result.replace(/发布了XXXXXXXX的不实/g, '发布了（示例：夸大产品功效）的不实');
+    result = result.replace(/XXXXXXXX产品进行/g, '（示例：XX产品）进行');
+    result = result.replace(/对XXXXXXXX产品/g, '对（示例：XX产品）');
+    result = result.replace(/XXXXXXXX服务/g, '（示例：XX服务）');
+    result = result.replace(/XXXXXXXX（具体/g, '（示例：XX）');
+    result = result.replace(/我司已XXXXXX进行/g, '我司已（示例：立即整改）进行');
+    result = result.replace(/对XXXX造成/g, '对（示例：XX）造成');
+    result = result.replace(/对XXXX进行/g, '对（示例：XX）进行');
+    result = result.replace(/已XXXX进行处理/g, '已（示例：退换货）进行处理');
+    result = result.replace(/予以XXXX补偿/g, '予以（示例：退换货）补偿');
+
+    // ② 句中8X → 事件/内容描述示例
+    // 覆盖"在XXXXXXXX"（无括号）、"XXXXXXXX中"、"XXXXXXXX或XXXXXXXX"等自由句式
+    result = result.replace(/在XXXXXXXX(?![））])/g, '在（示例：XX事件）');
+
+    // ════════════════════════════════════════════════════════════════
 
     // 7. 【重要】长串 X（15+ 连续X）→ 兜底提示（必须在XXXX/XXX之前，防止长串被拆成电话/身份证示例）
     result = result.replace(/X{15,}/g, '（请填写完整信息）');
