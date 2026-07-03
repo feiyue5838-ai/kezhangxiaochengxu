@@ -137,9 +137,25 @@ Page({
     });
 
     // 4. 姓名类标签字段（label: XXX）→ 姓名示例
-    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）'].forEach(field => {
+    ['声明人', '致歉人', '联系人', '法定代表人', '债权申报联系人', '申请人', '被申请人', '当事人', '负责人', '声明人（单位）', '新郎', '新娘', '学生', '学子', '祝福人', '家人', '家长'].forEach(field => {
       result = result.replace(new RegExp(`${field}：XXX`, 'g'), `${field}：（示例：张三）`);
     });
+
+    // 4.1 XXX + 空格 + 称呼 → 姓名示例（真情告白模块大量使用）
+    result = result.replace(/XXX（[^）]*）/g, '（示例：张三）');
+    result = result.replace(/XXX (?=先生|女士|老师|小姐|公子|寿星)/g, '张三 ');
+
+    // 4.2 常见情感类句式前缀 → 姓名示例
+    result = result.replace(/致我最好的朋友 XXX/g, '致我最好的朋友 张三');
+    result = result.replace(/(亲爱的|敬爱的) XXX/g, '$1 张三');
+    result = result.replace(/致 XXX/g, '致 张三');
+
+    // 4.3 英文标签 → 姓名示例
+    result = result.replace(/TO: XXX/g, 'TO: 张三');
+    result = result.replace(/FROM: XXX/g, 'FROM: 张三');
+
+    // 4.4 中文带修饰语 → 姓名示例
+    result = result.replace(/您的孩子：XXX/g, '您的孩子：（示例：张三）');
 
     // 4.5 票据/证件号码字段 → 号码示例（在通用XXX之前，避免被身份证号替换）
     ['票据号码', '证号', '编号', '权证编号', '证书编号', '设备编号', '证件编号', '合同编号', '备案/登记编号', '许可证号/证书号'].forEach(field => {
