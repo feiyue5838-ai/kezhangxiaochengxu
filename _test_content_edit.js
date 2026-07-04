@@ -1,6 +1,4 @@
-const common = require('../../../utils/common.js');
-const smartReplaceUtil = require('../../../utils/smart-replace.js');
-let _smartReplaceTimer = null;
+var smartReplace = require('../../utils/smart-replace.js');
 
 Page({
   data: {
@@ -35,28 +33,29 @@ Page({
   },
 
   onEditorReady() {
-    const query = wx.createSelectorQuery().in(this);
-    query.select('#contentEditor').context((res) => {
+    wx.createSelectorQuery().in(this).select('#contentEditor').context((res) => {
       if (res && res.context) {
         this.editorCtx = res.context;
         this._editorReady = true;
         if (this.data.content) {
-          this.editorCtx.setContents({ html: this.data.content });
+          this.editorCtx.setContents({
+            html: this._plainToHtml(this.data.content)
+          });
         }
       }
     }).exec();
   },
 
   onEditorInput(e) {
-    const content = e.detail.text || '';
-    this.setData({ content, charCount: content.length });
+    const text = e.detail.text;
+    this.setData({ content: text, charCount: text.length });
   },
 
   onEditorBlur() {
     if (this.editorCtx) {
       this.editorCtx.getContents({
         success: (res) => {
-          const text = res.text || '';
+          const text = res.text;
           if (text !== this.data.content) {
             this.setData({ content: text, charCount: text.length });
           }
@@ -66,10 +65,9 @@ Page({
   },
 
   quickReplace() {
-    if (!this.editorCtx || !this._editorReady) return;
     const doReplace = (rawText) => {
       if (!rawText) rawText = this.data.originalContent;
-      const replaced = smartReplaceUtil.doSmartReplace(rawText, this.data.businessType);
+      const replaced = smartReplace.doSmartReplace(rawText, this.data.businessType);
       this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
       this.setData({ content: replaced, charCount: replaced.length });
       wx.showToast({ title: '占位符已替换', icon: 'success' });
@@ -84,13 +82,10 @@ Page({
     const lines = text.split('\n');
     const htmlLines = lines.map(line => {
       let escaped = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      // 优化提示样式：红色+加粗+浅红背景
       const hintRe = /（示例：.*?）|（请填写.*?）|（日期：.*?）/g;
       let m;
       while ((m = hintRe.exec(line)) !== null) {
-        const hint = m[0];
-        const styledHint = '<span style="color:#E34D59;font-weight:bold;background:#FFF1F0;padding:2rpx 6rpx;border-radius:4rpx;">' + hint + '</span>';
-        escaped = escaped.replace(hint, styledHint);
+        escaped = escaped.replace(m[0], '<span style="color:#E34D59">' + m[0] + '</span>');
       }
       return '<p>' + (escaped || '<br>') + '</p>';
     });
@@ -98,7 +93,7 @@ Page({
   },
 
   smartReplace(content) {
-    return smartReplaceUtil.doSmartReplace(content, this.data.businessType);
+    return smartReplace.doSmartReplace(content, this.data.businessType);
   },
 
   isContentModified() {
@@ -120,10 +115,6 @@ Page({
             content: this.data.originalContent,
             charCount: this.data.originalContent.length
           });
-          if (this.editorCtx && this._editorReady) {
-            this.editorCtx.setContents({ html: this.data.originalContent });
-          }
-          wx.showToast({ title: '已重置', icon: 'success' });
         }
       }
     });
@@ -131,15 +122,11 @@ Page({
 
   clearContent() {
     wx.showModal({
-      title: '清空确认',
-      content: '确定要清空所有内容吗？',
+      title: '清除确认',
+      content: '确定要清除所有内容吗？',
       success: (res) => {
         if (res.confirm) {
           this.setData({ content: '', charCount: 0 });
-          if (this.editorCtx && this._editorReady) {
-            this.editorCtx.setContents({ html: '' });
-          }
-          wx.showToast({ title: '已清空', icon: 'success' });
         }
       }
     });
@@ -147,7 +134,7 @@ Page({
 
   previewContent() {
     if (!this.data.content.trim()) {
-      wx.showToast({ title: '请先填写内容', icon: 'none' });
+      wx.showToast({ title: '请先填写登报内容', icon: 'none' });
       return;
     }
     this.setData({ showPreview: true });
@@ -167,11 +154,8 @@ Page({
       content: this.data.content,
       charCount: this.data.charCount,
       businessType: this.data.businessType,
-      templateName: this.data.templateName,
-      _timestamp: Date.now()
+      templateName: this.data.templateName
     });
-    wx.navigateTo({
-      url: "/pages/newspaper/form"
-    });
+    wx.navigateTo({ url: '/pages/newspaper/form' });
   }
 });
