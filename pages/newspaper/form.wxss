@@ -201,7 +201,7 @@
 .paper-card {
   background: #F8F7FC;
   border-radius: 20rpx;
-  padding: 20rpx 12rpx 16rpx;
+  padding: 20rpx 12rpx 56rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -210,7 +210,6 @@
   transition: all 0.3s ease;
   box-sizing: border-box;
   height: 260rpx;
-  justify-content: space-between;
 }
 
 .paper-card.selected {
@@ -298,11 +297,13 @@
 }
 
 .paper-price-row {
+  position: absolute;
+  bottom: 16rpx;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: baseline;
   justify-content: center;
-  width: 100%;
-  flex-shrink: 0;
 }
 
 .paper-price {
