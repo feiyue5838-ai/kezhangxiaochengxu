@@ -231,7 +231,7 @@ module.exports = {
     // 直辖市特殊处理：北京市、天津市、上海市、重庆市
     const municipalities = ['北京市', '天津市', '上海市', '重庆市'];
     if (municipalities.includes(province)) {
-      return ['全市'];
+      return ['直辖市'];
     }
     return this.cities[province] || [];
   },
@@ -244,9 +244,15 @@ module.exports = {
   // 根据省份、城市、类型筛选报纸
   filterPapers(province, city, type) {
     return this.papers.filter(p => {
-      const provinceMatch = province === '全部' || p.province === province;
-      const cityMatch = city === '全部' || p.city === city || p.city === '全部';
-      const typeMatch = type === '全部' || p.type === type;
+      // 省份匹配
+      const provinceMatch = p.province === province || p.province === '全国性';
+      
+      // 城市匹配（直辖市的"直辖市"匹配该省所有报纸）
+      const cityMatch = city === '直辖市' || !p.city || p.city === city;
+      
+      // 类型匹配
+      const typeMatch = type === '全部' || !p.type || p.type === type;
+      
       return provinceMatch && cityMatch && typeMatch;
     });
   },
