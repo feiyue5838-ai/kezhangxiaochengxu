@@ -1,11 +1,21 @@
 /**
  * 登报模块 - 报纸数据统一配置
- * 替代各处重复定义的报纸列表
+ * 支持省市区二级联动筛选
  */
 module.exports = {
 
-  // 地域分类
-  regions: ['全部', '四川', '西南', '全国'],
+  // 省份列表
+  provinces: ['全部', '四川省', '云南省', '贵州省', '重庆市', '全国性'],
+
+  // 城市映射（省份 -> 城市列表）
+  cities: {
+    '全部': ['全部'],
+    '四川省': ['全部', '成都市', '绵阳市', '德阳市', '宜宾市', '泸州市', '南充市', '达州市', '其他城市'],
+    '云南省': ['全部', '昆明市', '大理市', '曲靖市', '其他城市'],
+    '贵州省': ['全部', '贵阳市', '遵义市', '其他城市'],
+    '重庆市': ['全部', '主城区', '万州区', '其他区县'],
+    '全国性': ['全部']
+  },
 
   // 报纸类型分类
   types: ['全部', '综合', '经济', '科技', '法制', '都市'],
@@ -21,7 +31,8 @@ module.exports = {
       tag: '热门',
       logoColor: '#5B6FE8',
       logoColorEnd: '#7B8FF7',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '经济'
     },
     {
@@ -33,7 +44,8 @@ module.exports = {
       tag: '推荐',
       logoColor: '#FA8C16',
       logoColorEnd: '#FFD666',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '都市'
     },
     {
@@ -45,7 +57,8 @@ module.exports = {
       tag: null,
       logoColor: '#52C41A',
       logoColorEnd: '#95DE64',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '科技'
     },
     {
@@ -57,7 +70,8 @@ module.exports = {
       tag: '性价比',
       logoColor: '#13C2C2',
       logoColorEnd: '#5CDBD3',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '综合'
     },
     {
@@ -69,7 +83,8 @@ module.exports = {
       tag: '权威',
       logoColor: '#722ED1',
       logoColorEnd: '#B37FEB',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '综合'
     },
     {
@@ -81,7 +96,8 @@ module.exports = {
       tag: null,
       logoColor: '#EB2F96',
       logoColorEnd: '#F759AB',
-      region: '西南',
+      province: '四川省',
+      city: '成都市',
       type: '经济'
     },
     {
@@ -93,7 +109,8 @@ module.exports = {
       tag: null,
       logoColor: '#F5222D',
       logoColorEnd: '#FF7875',
-      region: '全国',
+      province: '全国性',
+      city: '全部',
       type: '经济'
     },
     {
@@ -105,7 +122,8 @@ module.exports = {
       tag: null,
       logoColor: '#FAAD14',
       logoColorEnd: '#FFE58F',
-      region: '全国',
+      province: '全国性',
+      city: '全部',
       type: '综合'
     },
     {
@@ -117,7 +135,8 @@ module.exports = {
       tag: null,
       logoColor: '#2F54EB',
       logoColorEnd: '#85A5FF',
-      region: '全国',
+      province: '全国性',
+      city: '全部',
       type: '综合'
     },
     {
@@ -129,7 +148,8 @@ module.exports = {
       tag: null,
       logoColor: '#1890FF',
       logoColorEnd: '#69C0FF',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '经济'
     },
     {
@@ -141,7 +161,8 @@ module.exports = {
       tag: '本地',
       logoColor: '#A0D911',
       logoColorEnd: '#D3F261',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '综合'
     },
     {
@@ -153,7 +174,8 @@ module.exports = {
       tag: '本地',
       logoColor: '#8C8C8C',
       logoColorEnd: '#BFBFBF',
-      region: '四川',
+      province: '四川省',
+      city: '成都市',
       type: '都市'
     }
   ],
@@ -205,9 +227,14 @@ module.exports = {
     return this.versions;
   },
 
-  // 获取地域列表
-  getRegions() {
-    return this.regions;
+  // 获取省份列表
+  getProvinces() {
+    return this.provinces;
+  },
+
+  // 根据省份获取城市列表
+  getCitiesByProvince(province) {
+    return this.cities[province] || ['全部'];
   },
 
   // 获取类型列表
@@ -215,13 +242,19 @@ module.exports = {
     return this.types;
   },
 
-  // 根据地域和类型筛选报纸
-  filterPapers(region, type) {
+  // 根据省份、城市、类型筛选报纸
+  filterPapers(province, city, type) {
     return this.papers.filter(p => {
-      const regionMatch = region === '全部' || p.region === region;
+      const provinceMatch = province === '全部' || p.province === province;
+      const cityMatch = city === '全部' || p.city === city || p.city === '全部';
       const typeMatch = type === '全部' || p.type === type;
-      return regionMatch && typeMatch;
+      return provinceMatch && cityMatch && typeMatch;
     });
+  },
+
+  // 旧接口兼容（region -> province）
+  get regions() {
+    return this.provinces;
   },
 
   // 计算价格

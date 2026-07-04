@@ -27,11 +27,11 @@
     </view>
   </view>
 
-  <!-- 筛选栏 -->
+  <!-- 筛选栏 - 省市区合并选择器 + 类型 -->
   <view class="filter-bar">
-    <picker class="filter-picker" bindchange="onRegionChange" value="{{regionIndex}}" range="{{regions}}">
+    <picker class="filter-picker" mode="multiSelector" bindchange="onRegionChange" bindcolumnchange="onRegionColumnChange" value="{{regionValue}}" range="{{regionArray}}">
       <view class="filter-item">
-        <text class="filter-text">{{regions[regionIndex]}}</text>
+        <text class="filter-text">{{regionText}}</text>
         <text class="filter-arrow">▼</text>
       </view>
     </picker>

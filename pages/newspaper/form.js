@@ -10,7 +10,7 @@ Page({
     businessType: '个人声明',
     charCount: 0,
     isSubmitting: false,
-    // 身份证信息（从idcard-page传来）
+    // 身份证信息(从idcard-page传来)
     idCardName: '',
     idCardNumber: '',
     templateId: '',
@@ -27,10 +27,11 @@ Page({
     remark: '',
     invoice: null,
     papers: paperConfig.papers,
-    // 筛选器
-    regions: paperConfig.regions,
+    // 筛选器 - 省市区合并选择器
+    regionArray: [paperConfig.provinces, paperConfig.getCitiesByProvince('全部')],
+    regionValue: [0, 0],
+    regionText: '全部地区',
     types: paperConfig.types,
-    regionIndex: 0,
     typeIndex: 0,
     filteredPapers: paperConfig.papers,
     publishFee: 0,
@@ -74,30 +75,59 @@ Page({
     this.calculatePrice();
   },
 
-  // 筛选器：地域选择
+  // 筛选器：省市区多列选择器 - 列变化时更新城市列表
+  onRegionColumnChange(e) {
+    if (e.detail.column === 0) {
+      // 省份变化，更新城市列表
+      const province = paperConfig.provinces[e.detail.value];
+      const cities = paperConfig.getCitiesByProvince(province);
+      this.setData({
+        'regionArray[1]': cities,
+        'regionValue[1]': 0  // 重置城市为第一个
+      });
+    }
+  },
+
+  // 筛选器：省市区多列选择器 - 确定选择
   onRegionChange(e) {
-    const regionIndex = parseInt(e.detail.value);
-    const region = this.data.regions[regionIndex];
+    const value = e.detail.value;
+    const province = paperConfig.provinces[value[0]];
+    const cities = paperConfig.getCitiesByProvince(province);
+    const city = cities[value[1]];
     const type = this.data.types[this.data.typeIndex];
+    
+    // 优化显示文本：如果城市是"全部"，只显示省份
+    let regionText;
+    if (city === '全部') {
+      regionText = province === '全部' ? '全部地区' : province;
+    } else {
+      regionText = province + ' · ' + city;
+    }
+    
     this.setData({
-      regionIndex,
-      filteredPapers: paperConfig.filterPapers(region, type)
+      regionValue: value,
+      regionText: regionText,
+      filteredPapers: paperConfig.filterPapers(province, city, type)
     });
   },
 
   // 筛选器：类型选择
   onTypeChange(e) {
     const typeIndex = parseInt(e.detail.value);
-    const region = this.data.regions[this.data.regionIndex];
+    const value = this.data.regionValue;
+    const province = paperConfig.provinces[value[0]];
+    const cities = paperConfig.getCitiesByProvince(province);
+    const city = cities[value[1]];
     const type = this.data.types[typeIndex];
+    
     this.setData({
       typeIndex,
-      filteredPapers: paperConfig.filterPapers(region, type)
+      filteredPapers: paperConfig.filterPapers(province, city, type)
     });
   },
 
   onShow() {
-    // 读取已保存的发票信息（invoiceInfo 由发票编辑页写入，持久保留）
+    // 读取已保存的发票信息(invoiceInfo 由发票编辑页写入,持久保留)
     const invoiceInfo = wx.getStorageSync('invoiceInfo');
     if (invoiceInfo && invoiceInfo.title) {
       this.setData({ invoice: invoiceInfo });
@@ -189,10 +219,10 @@ Page({
       mediaType: ['image'],
       sourceType: ['album', 'camera'],
       success(res) {
-        // 校验图片大小（限制5MB）
+        // 校验图片大小(限制5MB)
         const validFiles = res.tempFiles.filter(item => {
           if (item.size > 5 * 1024 * 1024) {
-            wx.showToast({ title: `图片 ${item.tempFilePath.split('/').pop()} 超过5MB，已跳过`, icon: 'none' });
+            wx.showToast({ title: `图片 ${item.tempFilePath.split('/').pop()} 超过5MB,已跳过`, icon: 'none' });
             return false;
           }
           return true;
@@ -254,7 +284,7 @@ Page({
   submitOrder() {
     // 防重复提交
     if (this.data.isSubmitting) {
-      wx.showToast({ title: '请求处理中，请稍候', icon: 'none' });
+      wx.showToast({ title: '请求处理中,请稍候', icon: 'none' });
       return;
     }
     this.setData({ isSubmitting: true });
@@ -279,7 +309,7 @@ Page({
 
     wx.showModal({
       title: '确认支付',
-      content: '报纸：' + paper.name + '\n版面费：' + that.data.issueCount + '期\n报纸费：' + that.data.copyCount + '份\n合计：' + that.data.totalPrice,
+      content: '报纸:' + paper.name + '\n版面费:' + that.data.issueCount + '期\n报纸费:' + that.data.copyCount + '份\n合计:' + that.data.totalPrice,
       success(res) {
         if (res.confirm) {
           wx.showLoading({ title: '提交中..' });
