@@ -83,8 +83,11 @@ Page({
       const cities = paperConfig.getCitiesByProvince(province);
       // 使用整个数组更新，避免部分更新导致滚动问题
       const newRegionArray = [this.data.regionArray[0], cities];
+      // 同时更新 regionValue，保持省份索引，城市重置为 0
+      const newRegionValue = [e.detail.value, 0];
       this.setData({
-        regionArray: newRegionArray
+        regionArray: newRegionArray,
+        regionValue: newRegionValue
       });
     }
   },
