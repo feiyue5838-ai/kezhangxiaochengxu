@@ -70,7 +70,15 @@ Page({
     const doReplace = (rawText) => {
       if (!rawText) rawText = this.data.originalContent;
       const replaced = smartReplaceUtil.doSmartReplace(rawText, this.data.businessType);
-      this.editorCtx.setContents({ html: this._plainToHtml(replaced) });
+      this.editorCtx.setContents({ 
+        html: this._plainToHtml(replaced),
+        success: () => {
+          // 替换后滚动到顶部
+          setTimeout(() => {
+            this.editorCtx.scrollIntoView({ selector: 'p' });
+          }, 100);
+        }
+      });
       this.setData({ content: replaced, charCount: replaced.length });
       wx.showToast({ title: '占位符已替换', icon: 'success' });
     };
