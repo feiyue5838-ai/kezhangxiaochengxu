@@ -209,7 +209,7 @@
   position: relative;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  min-height: 240rpx;
+  height: 260rpx;
 }
 
 .paper-card.selected {
@@ -243,7 +243,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 12rpx;
+  margin-bottom: 8rpx;
   flex-shrink: 0;
 }
 
@@ -255,11 +255,12 @@
 
 .paper-tag {
   font-size: 18rpx;
-  padding: 4rpx 10rpx;
+  padding: 2rpx 10rpx;
   border-radius: 20rpx;
   color: #fff;
-  margin-bottom: 8rpx;
-  min-height: 26rpx;
+  margin-bottom: 4rpx;
+  height: 26rpx;
+  line-height: 26rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,13 +287,13 @@
   color: #1A2332;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 8rpx;
   line-height: 1.3;
   width: 100%;
-  min-height: 62rpx;
+  height: 64rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .paper-price-row {
@@ -300,8 +301,8 @@
   align-items: baseline;
   justify-content: center;
   margin-top: auto;
-  padding-top: 8rpx;
   width: 100%;
+  padding-top: 4rpx;
 }
 
 .paper-price {
