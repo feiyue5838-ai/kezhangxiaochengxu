@@ -1,5 +1,6 @@
 const common = require('../../utils/common.js');
 const auth = require('../../utils/auth.js');
+const api = require('../../utils/api.js');
 const app = getApp();
 
 Page({
@@ -40,10 +41,10 @@ Page({
     // Step1: wx.login 获取 code
     wx.login({
       success: (loginRes) => {
-        // TODO: 替换为真实后端接口
+        // 调用后端登录接口（api.js 已配置）
         this._doLogin(loginRes.code, e.detail);
-        // 模拟登录成功（开发阶段）
-        this._mockLogin(e.detail);
+        // 开发阶段模拟登录（生产环境删除此行）
+        // this._mockLogin(e.detail);
       },
       fail: () => {
         this.setData({ loading: false });
@@ -52,22 +53,23 @@ Page({
     });
   },
 
-  // 真实后端登录（接入时替换 _mockLogin）
+  // 真实后端登录（已接入 api.js）
   _doLogin(code, phoneDetail) {
-    wx.request({ timeout: 15000,
-      url: 'https://your-api.com/auth/login',
+    const { request } = require('../../utils/auth.js');
+    request({
+      url: api.getApi('AUTH.LOGIN'),
       method: 'POST',
       data: {
-        code,                          // wx.login 获得的 code
+        code,
         encryptedData: phoneDetail.encryptedData,
         iv: phoneDetail.iv,
       },
       success: (res) => {
         this.setData({ loading: false });
-        if (res.data.code === 0) {
-          this._saveAndRedirect(res.data.data);
+        if (res.code === 0) {
+          this._saveAndRedirect(res.data);
         } else {
-          wx.showToast({ title: res.data.msg || '登录失败', icon: 'none' });
+          wx.showToast({ title: res.msg || '登录失败', icon: 'none' });
         }
       },
       fail: () => {

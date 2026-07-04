@@ -1,4 +1,7 @@
 // pages/seal/review-submit/index.js
+const api = require('../../utils/api.js');
+const { request } = require('../../utils/auth.js');
+
 Page({
   data: {
     serviceScore: 0,
@@ -39,12 +42,30 @@ Page({
 
     this.setData({ submitting: true });
 
-    // TODO: 接入真实 API 替换这里的模拟提交
-    setTimeout(() => {
-      wx.showToast({ title: '评价提交成功！', icon: 'success' });
-      setTimeout(() => {
-        wx.navigateBack();
-      }, 1500);
-    }, 800);
+    // 调用后端评价接口（api.js 已配置）
+    request({
+      url: api.getApi('SEAL.REVIEW'),
+      method: 'POST',
+      data: {
+        serviceScore,
+        qualityScore,
+        content: trimmed
+      },
+      success: (res) => {
+        this.setData({ submitting: false });
+        if (res.code === 0) {
+          wx.showToast({ title: '评价提交成功！', icon: 'success' });
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 1500);
+        } else {
+          wx.showToast({ title: res.msg || '提交失败', icon: 'none' });
+        }
+      },
+      fail: () => {
+        this.setData({ submitting: false });
+        wx.showToast({ title: '网络异常', icon: 'none' });
+      }
+    });
   }
 });
