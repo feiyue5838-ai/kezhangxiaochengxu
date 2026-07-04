@@ -62,7 +62,7 @@
           <text class="logo-text">{{item.logoText}}</text>
         </view>
         <!-- 标签 -->
-        <view class="paper-tag" wx:if="{{item.tag}}" style="background: {{item.logoColor}}22; color: {{item.logoColor}};">{{item.tag}}</view>
+        <view class="paper-tag {{item.tag ? '' : 'empty'}}" style="{{item.tag ? 'background: ' + item.logoColor + '22; color: ' + item.logoColor + ';' : ''}}">{{item.tag || ''}}</view>
         <!-- 报纸名称 -->
         <text class="paper-name">{{item.name}}</text>
         <!-- 价格 -->

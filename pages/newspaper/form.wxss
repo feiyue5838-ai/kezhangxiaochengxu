@@ -264,6 +264,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+}
+
+.paper-tag.empty {
+  background: transparent !important;
+  color: transparent !important;
 }
 
 .paper-tag.hot {
