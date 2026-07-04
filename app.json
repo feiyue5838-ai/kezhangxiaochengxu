@@ -53,12 +53,9 @@
     "navigationBarTitleText": "蓉城企服",
     "navigationBarTextStyle": "white"
   },
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于定位帮您匹配服务网点"
-    }
-  },
-  "requiredPrivateInfos": ["getLocation"],
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
   "tabBar": {
     "custom": false,
     "color": "#8B95A5",
