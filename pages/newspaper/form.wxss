@@ -1,4 +1,41 @@
 /* form.wxss - 登报表单 */
+
+/* 筛选栏 */
+.filter-bar {
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx 24rpx;
+  background: #fff;
+  margin: 0 20rpx 0 20rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.filter-picker {
+  flex: 1;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 20rpx;
+  background: #F5F6FA;
+  border-radius: 12rpx;
+}
+
+.filter-text {
+  font-size: 28rpx;
+  color: #1A2332;
+  font-weight: 500;
+}
+
+.filter-arrow {
+  font-size: 20rpx;
+  color: #8C8C8C;
+  margin-left: 8rpx;
+}
+
 .nav-bar {
   position: fixed;
   top: 0;

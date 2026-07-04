@@ -4,6 +4,12 @@
  */
 module.exports = {
 
+  // 地域分类
+  regions: ['全部', '四川', '西南', '全国'],
+
+  // 报纸类型分类
+  types: ['全部', '综合', '经济', '科技', '法制', '都市'],
+
   // 报纸列表
   papers: [
     {
@@ -14,7 +20,9 @@ module.exports = {
       logoText: '川',
       tag: '热门',
       logoColor: '#5B6FE8',
-      logoColorEnd: '#7B8FF7'
+      logoColorEnd: '#7B8FF7',
+      region: '四川',
+      type: '经济'
     },
     {
       id: 'huaxi',
@@ -24,7 +32,9 @@ module.exports = {
       logoText: '华',
       tag: '推荐',
       logoColor: '#FA8C16',
-      logoColorEnd: '#FFD666'
+      logoColorEnd: '#FFD666',
+      region: '四川',
+      type: '都市'
     },
     {
       id: 'sichuan-keji',
@@ -34,7 +44,9 @@ module.exports = {
       logoText: '科',
       tag: null,
       logoColor: '#52C41A',
-      logoColorEnd: '#95DE64'
+      logoColorEnd: '#95DE64',
+      region: '四川',
+      type: '科技'
     },
     {
       id: 'sichuan-gongren',
@@ -44,7 +56,9 @@ module.exports = {
       logoText: '工',
       tag: '性价比',
       logoColor: '#13C2C2',
-      logoColorEnd: '#5CDBD3'
+      logoColorEnd: '#5CDBD3',
+      region: '四川',
+      type: '综合'
     },
     {
       id: 'sichuan-ribao',
@@ -54,7 +68,9 @@ module.exports = {
       logoText: '四',
       tag: '权威',
       logoColor: '#722ED1',
-      logoColorEnd: '#B37FEB'
+      logoColorEnd: '#B37FEB',
+      region: '四川',
+      type: '综合'
     },
     {
       id: 'xinan-shangbao',
@@ -64,7 +80,9 @@ module.exports = {
       logoText: '商',
       tag: null,
       logoColor: '#EB2F96',
-      logoColorEnd: '#F759AB'
+      logoColorEnd: '#F759AB',
+      region: '西南',
+      type: '经济'
     },
     {
       id: 'qiyejia-ribao',
@@ -74,7 +92,9 @@ module.exports = {
       logoText: '企',
       tag: null,
       logoColor: '#F5222D',
-      logoColorEnd: '#FF7875'
+      logoColorEnd: '#FF7875',
+      region: '全国',
+      type: '经济'
     },
     {
       id: 'wenzhai-zhoubao',
@@ -84,7 +104,9 @@ module.exports = {
       logoText: '摘',
       tag: null,
       logoColor: '#FAAD14',
-      logoColorEnd: '#FFE58F'
+      logoColorEnd: '#FFE58F',
+      region: '全国',
+      type: '综合'
     },
     {
       id: 'renli-ziyuan',
@@ -94,7 +116,9 @@ module.exports = {
       logoText: '人',
       tag: null,
       logoColor: '#2F54EB',
-      logoColorEnd: '#85A5FF'
+      logoColorEnd: '#85A5FF',
+      region: '全国',
+      type: '综合'
     },
     {
       id: 'jinrong-touzi',
@@ -104,7 +128,9 @@ module.exports = {
       logoText: '融',
       tag: null,
       logoColor: '#1890FF',
-      logoColorEnd: '#69C0FF'
+      logoColorEnd: '#69C0FF',
+      region: '四川',
+      type: '经济'
     },
     {
       id: 'chengdu-ribao',
@@ -114,7 +140,9 @@ module.exports = {
       logoText: '蓉',
       tag: '本地',
       logoColor: '#A0D911',
-      logoColorEnd: '#D3F261'
+      logoColorEnd: '#D3F261',
+      region: '四川',
+      type: '综合'
     },
     {
       id: 'chengdu-shangbao',
@@ -124,7 +152,9 @@ module.exports = {
       logoText: '商',
       tag: '本地',
       logoColor: '#8C8C8C',
-      logoColorEnd: '#BFBFBF'
+      logoColorEnd: '#BFBFBF',
+      region: '四川',
+      type: '都市'
     }
   ],
 
@@ -173,6 +203,25 @@ module.exports = {
   // 获取所有版本
   getAllVersions() {
     return this.versions;
+  },
+
+  // 获取地域列表
+  getRegions() {
+    return this.regions;
+  },
+
+  // 获取类型列表
+  getTypes() {
+    return this.types;
+  },
+
+  // 根据地域和类型筛选报纸
+  filterPapers(region, type) {
+    return this.papers.filter(p => {
+      const regionMatch = region === '全部' || p.region === region;
+      const typeMatch = type === '全部' || p.type === type;
+      return regionMatch && typeMatch;
+    });
   },
 
   // 计算价格

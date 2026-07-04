@@ -27,6 +27,12 @@ Page({
     remark: '',
     invoice: null,
     papers: paperConfig.papers,
+    // 筛选器
+    regions: paperConfig.regions,
+    types: paperConfig.types,
+    regionIndex: 0,
+    typeIndex: 0,
+    filteredPapers: paperConfig.papers,
     publishFee: 0,
     totalPrice: 0
   },
@@ -66,6 +72,28 @@ Page({
     }
 
     this.calculatePrice();
+  },
+
+  // 筛选器：地域选择
+  onRegionChange(e) {
+    const regionIndex = parseInt(e.detail.value);
+    const region = this.data.regions[regionIndex];
+    const type = this.data.types[this.data.typeIndex];
+    this.setData({
+      regionIndex,
+      filteredPapers: paperConfig.filterPapers(region, type)
+    });
+  },
+
+  // 筛选器：类型选择
+  onTypeChange(e) {
+    const typeIndex = parseInt(e.detail.value);
+    const region = this.data.regions[this.data.regionIndex];
+    const type = this.data.types[typeIndex];
+    this.setData({
+      typeIndex,
+      filteredPapers: paperConfig.filterPapers(region, type)
+    });
   },
 
   onShow() {

@@ -27,16 +27,32 @@
     </view>
   </view>
 
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <picker class="filter-picker" bindchange="onRegionChange" value="{{regionIndex}}" range="{{regions}}">
+      <view class="filter-item">
+        <text class="filter-text">{{regions[regionIndex]}}</text>
+        <text class="filter-arrow">▼</text>
+      </view>
+    </picker>
+    <picker class="filter-picker" bindchange="onTypeChange" value="{{typeIndex}}" range="{{types}}">
+      <view class="filter-item">
+        <text class="filter-text">{{types[typeIndex]}}</text>
+        <text class="filter-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
   <!-- 报纸选择区 - 3列网格 -->
   <view class="paper-section">
     <view class="section-header">
       <text class="section-title">选择报纸</text>
-      <text class="section-count">共{{papers.length}}家</text>
+      <text class="section-count">共{{filteredPapers.length}}家</text>
     </view>
     
     <!-- 报纸3列网格 -->
     <view class="paper-grid">
-      <view class="paper-card {{selectedPaper === item.id ? 'selected' : ''}}" wx:for="{{papers}}" wx:key="id" bindtap="selectPaper" data-id="{{item.id}}">
+      <view class="paper-card {{selectedPaper === item.id ? 'selected' : ''}}" wx:for="{{filteredPapers}}" wx:key="id" bindtap="selectPaper" data-id="{{item.id}}">
         <!-- 选中状态右上角勾 -->
         <view class="paper-check" wx:if="{{selectedPaper === item.id}}">
           <text style="font-size:24rpx;">✓</text>
