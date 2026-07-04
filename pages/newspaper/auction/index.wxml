@@ -1,13 +1,9 @@
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">拍卖公告</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="拍卖公告" bind:back="goBack"></nav-bar>
 
   <!-- Banner -->
-  <view class="banner" style="margin-top: {{navHeight}}px;">
+  <view class="banner">
     <view class="banner-deco-circle"></view>
     <view class="banner-deco-circle2"></view>
     <text class="banner-title">拍卖公告登报</text>
