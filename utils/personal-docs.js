@@ -8,13 +8,13 @@
  */
 function generateContent(name, categoryName) {
   const templates = {
-    '职业资格与执业证件': `遗失声明\n\n本人XXX不慎遗失${name}，证书编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
-    '合同协议与法律文书': `遗失声明\n\n本人XXX不慎遗失${name}，编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
-    '房产与土地相关证件单据': `遗失声明\n\n本人XXX不慎遗失${name}，权证编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
-    '金融财税与票据': `遗失声明\n\n本人XXX不慎遗失${name}，票据编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
-    '交通与运输相关证件': `遗失声明\n\n本人XXX不慎遗失${name}，证号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`
+    '职业资格与执业证件': `${name}遗失声明\n\n本人XXX不慎遗失${name}，证书编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
+    '合同协议与法律文书': `${name}遗失声明\n\n本人XXX不慎遗失${name}，编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
+    '房产与土地相关证件单据': `${name}遗失声明\n\n本人XXX不慎遗失${name}，权证编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
+    '金融财税与票据': `${name}遗失声明\n\n本人XXX不慎遗失${name}，票据编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`,
+    '交通与运输相关证件': `${name}遗失声明\n\n本人XXX不慎遗失${name}，证号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`
   };
-  return templates[categoryName] || `遗失声明\n\n本人XXX不慎遗失${name}，编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`;
+  return templates[categoryName] || `${name}遗失声明\n\n本人XXX不慎遗失${name}，编号：XXX，特此声明作废。\n\n声明人：XXX\n联系电话：XXXX\n日期：XXXX年XX月XX日`;
 }
 
 module.exports = {
