@@ -28,9 +28,9 @@ Page({
     invoice: null,
     papers: paperConfig.papers,
     // 筛选器 - 省市区合并选择器
-    regionArray: [paperConfig.provinces, paperConfig.getCitiesByProvince('全部')],
+    regionArray: [paperConfig.provinces, paperConfig.getCitiesByProvince(paperConfig.provinces[0])],
     regionValue: [0, 0],
-    regionText: '全部地区',
+    regionText: paperConfig.provinces[0],
     types: paperConfig.types,
     typeIndex: 0,
     filteredPapers: paperConfig.papers,
@@ -100,13 +100,8 @@ Page({
     const city = cities[value[1]];
     const type = this.data.types[this.data.typeIndex];
     
-    // 优化显示文本：如果城市是"全部"，只显示省份
-    let regionText;
-    if (city === '全部') {
-      regionText = province === '全部' ? '全部地区' : province;
-    } else {
-      regionText = province + ' · ' + city;
-    }
+    // 显示文本：省份 + 城市（去掉"全部"选项后直接显示）
+    let regionText = province + (city ? ' · ' + city : '');
     
     this.setData({
       regionValue: value,
