@@ -210,6 +210,7 @@
   transition: all 0.3s ease;
   box-sizing: border-box;
   height: 260rpx;
+  justify-content: space-between;
 }
 
 .paper-card.selected {
@@ -300,9 +301,8 @@
   display: flex;
   align-items: baseline;
   justify-content: center;
-  margin-top: auto;
   width: 100%;
-  padding-top: 4rpx;
+  flex-shrink: 0;
 }
 
 .paper-price {
