@@ -228,7 +228,12 @@ module.exports = {
 
   // 根据省份获取城市列表
   getCitiesByProvince(province) {
-    return this.cities[province] || ['全部'];
+    // 直辖市特殊处理：北京市、天津市、上海市、重庆市
+    const municipalities = ['北京市', '天津市', '上海市', '重庆市'];
+    if (municipalities.includes(province)) {
+      return ['全市'];
+    }
+    return this.cities[province] || [];
   },
 
   // 获取类型列表
