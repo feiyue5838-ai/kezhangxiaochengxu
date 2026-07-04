@@ -70,9 +70,12 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/在XXXXXXXX中/g, '在（示例：XX事件）中');
   r = r.replace(/就XXXXXXXX事件/g, '就（示例：XX）事件');
   r = r.replace(/XXXXXXXX事件/g, '（示例：XX）事件');
+  r = r.replace(/XXXXXXXX事项/g, '（示例：XX）事项');
+  r = r.replace(/XXXXXXXX项目/g, '（示例：XX）项目');
   r = r.replace(/对XXXX造成了/g, '对（示例：XX）造成了');
   r = r.replace(/误解了XXXX/g, '误解了（示例：XX）');
   r = r.replace(/误伤了XXXX/g, '误伤了（示例：XX）');
+  r = r.replace(/XXXXXXXX证件/g, '（示例：XX）证件');
 
   // ══════════════════════════════════════════════════════
   // 7. 通用 8X 兜底（排除年、数字、中文）
@@ -85,6 +88,9 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/金额：XXXX/g, '金额：（示例：1000）');
   r = r.replace(/地址：XXXX/g, '地址：（示例：XX路XX号）');
   r = r.replace(/案号：XXXX/g, '案号：（示例：2024）');
+  // 金额格式
+  r = r.replace(/XXXX万元/g, '（示例：100）万元');
+  r = r.replace(/XXX万元/g, '（示例：50）万元');
 
   // ══════════════════════════════════════════════════════
   // 9. XXXX公司 / XXX公司（必须在通用 4X/3X 之前）
@@ -126,6 +132,10 @@ function doSmartReplace(content, categoryName) {
   // ══════════════════════════════════════════════════════
   // 12. 通用 XXX 兜底（排除数字、中文，且不被其他X包围）
   // ══════════════════════════════════════════════════════
+  // 姓名由...变为...模式
+  r = r.replace(/由XXX变更为/g, '由（示例：张三）变更为');
+  r = r.replace(/变更为XXX/g, '变更为（示例：张三）');
+  // 通用 XXX 兜底
   r = r.replace(/(?<![X])XXX(?![X年\d一-龥])/g, '（示例：张三）');
 
   return r;
