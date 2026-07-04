@@ -81,9 +81,10 @@ Page({
       // 省份变化，更新城市列表
       const province = paperConfig.provinces[e.detail.value];
       const cities = paperConfig.getCitiesByProvince(province);
+      // 使用整个数组更新，避免部分更新导致滚动问题
+      const newRegionArray = [this.data.regionArray[0], cities];
       this.setData({
-        'regionArray[1]': cities,
-        'regionValue[1]': 0  // 重置城市为第一个
+        regionArray: newRegionArray
       });
     }
   },
