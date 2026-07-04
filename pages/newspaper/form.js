@@ -30,7 +30,7 @@ Page({
     // 筛选器 - 省市区合并选择器
     regionArray: [paperConfig.provinces, paperConfig.getCitiesByProvince(paperConfig.provinces[0])],
     regionValue: [0, 0],
-    regionText: paperConfig.provinces[0],
+    regionText: paperConfig.provinces[0] + ' · ' + paperConfig.getCitiesByProvince(paperConfig.provinces[0])[0],
     types: paperConfig.types,
     typeIndex: 0,
     filteredPapers: paperConfig.papers,
