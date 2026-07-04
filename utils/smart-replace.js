@@ -66,8 +66,9 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/XXXXXXXX元/g, '（示例：XX万元）元');
   r = r.replace(/XXXXXXXX展示/g, '（示例：XX地点）展示');
   r = r.replace(/发布了关于XXXXXXXX的/g, '发布了关于（示例：具体内容）的');
-  r = r.replace(/在XXXXXXXX发布了/g, '在（示例：XX平台）发布了');
-  r = r.replace(/在XXXXXXXX中/g, '在（示例：XX事件）中');
+  r = r.replace(/在XXXXXXXX发布了/g, '在（示例：XX平台）（平台/场合）发布了');
+  r = r.replace(/在XXXXXXXX中/g, '在（示例：XX事件）（事件）中');
+  r = r.replace(/在XXXXXXXX遗失了/g, '在（示例：XX地点）遗失了');
   r = r.replace(/就XXXXXXXX事件/g, '就（示例：XX）事件');
   r = r.replace(/XXXXXXXX事件/g, '（示例：XX）事件');
   r = r.replace(/XXXXXXXX事项/g, '（示例：XX）事项');
@@ -78,7 +79,12 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/XXXXXXXX证件/g, '（示例：XX）证件');
 
   // ══════════════════════════════════════════════════════
-  // 7. 通用 8X 兜底（排除年、数字、中文）
+  // 7. 特殊 8X 模式（证件类，必须在通用兜底之前）
+  // ══════════════════════════════════════════════════════
+  r = r.replace(/XXXXXXXX证件/g, '（示例：XX）证件');
+  
+  // ══════════════════════════════════════════════════════
+  // 8. 通用 8X 兜底（排除年、数字、中文）
   // ══════════════════════════════════════════════════════
   r = r.replace(/XXXXXXXX(?![年\d一-龥])/g, '（示例：请填写）');
 
@@ -140,6 +146,9 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/变更为XXX/g, '变更为（示例：张三）');
   // 通用 XXX 兜底
   r = r.replace(/(?<![X])XXX(?![X年\d一-龥])/g, '（示例：张三）');
+  
+  // XXX证件 规则（必须在姓名规则之前执行，但代码位置在函数内末尾）
+  r = r.replace(/XXX证件/g, '（示例：身份证）证件');
 
   return r;
 }
