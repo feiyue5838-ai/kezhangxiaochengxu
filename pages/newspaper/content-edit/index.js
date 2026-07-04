@@ -41,7 +41,9 @@ Page({
         this.editorCtx = res.context;
         this._editorReady = true;
         if (this.data.content) {
-          this.editorCtx.setContents({ html: this.data.content });
+          // 转HTML并标红占位符
+          const html = this._plainToHtml(this.data.content);
+          this.editorCtx.setContents({ html: html });
         }
       }
     }).exec();
@@ -100,8 +102,8 @@ Page({
     const lines = text.split('\n');
     const htmlLines = lines.map(line => {
       let escaped = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      // 优化提示样式：红色+加粗+浅红背景
-      const hintRe = /（示例：.*?）|（请填写.*?）|（日期：.*?）/g;
+      // 优化提示样式：红色+加粗+浅红背景（支持中英文括号）
+      const hintRe = /（示例：.*?）|（请填写.*?）|（日期：.*?）|\(示例：.*?\)|\(请填写.*?\)|\(日期：.*?\)/g;
       let m;
       while ((m = hintRe.exec(line)) !== null) {
         const hint = m[0];
@@ -132,12 +134,13 @@ Page({
       content: '确定要恢复为原始模板内容吗？',
       success: (res) => {
         if (res.confirm) {
+          const html = this._plainToHtml(this.data.originalContent);
           this.setData({
             content: this.data.originalContent,
             charCount: this.data.originalContent.length
           });
           if (this.editorCtx && this._editorReady) {
-            this.editorCtx.setContents({ html: this.data.originalContent });
+            this.editorCtx.setContents({ html: html });
           }
           wx.showToast({ title: '已重置', icon: 'success' });
         }
