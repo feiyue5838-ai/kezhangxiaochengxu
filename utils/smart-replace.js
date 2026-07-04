@@ -103,6 +103,8 @@ function doSmartReplace(content, categoryName) {
   // 9. XXXX公司 / XXX公司（必须在通用 4X/3X 之前）
   // ══════════════════════════════════════════════════════
   r = r.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
+  r = r.replace(/XXXX单位/g, '（示例：XX单位）');
+
   r = r.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
   r = r.replace(/XXXX人民法院/g, '（示例：XX市）人民法院');
   r = r.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
@@ -137,6 +139,11 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/致我最好的朋友XXX/g, '致我最好的朋友（示例：张三）');
   r = r.replace(/永远爱你的：XXX/g, '永远爱你的：（示例：张三）');
 
+
+  // 律师事务所/律师
+  r = r.replace(/XXX律师事务所/g, '（示例：XX）律师事务所');
+  r = r.replace(/XXX律师/g, '（示例：张三）律师');
+
   // ══════════════════════════════════════════════════════
   // 12. 通用 XXX 兜底（排除数字、中文，且不被其他X包围）
   // ══════════════════════════════════════════════════════
@@ -144,6 +151,14 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/由XXX变更为XXX/g, '由（示例：张三）变更为（示例：李四）');
   r = r.replace(/由XXX变更为/g, '由（示例：张三）变更为');
   r = r.replace(/变更为XXX/g, '变更为（示例：张三）');
+  // 4X 带上下文（必须在通用4X之前）
+  r = r.replace(/XXXX事项/g, '（示例：XX）事项');
+  r = r.replace(/XXXX事件/g, '（示例：XX）事件');
+  r = r.replace(/XXXX项目/g, '（示例：XX）项目');
+  r = r.replace(/XXXX内容/g, '（示例：具体内容）');
+  r = r.replace(/XXXX原因/g, '（示例：XX原因');
+  r = r.replace(/XXXX情况/g, '（示例：XX情况');
+
   // 通用 XXX 兜底
   r = r.replace(/(?<![X])XXX(?![X年\d一-龥])/g, '（示例：张三）');
   
