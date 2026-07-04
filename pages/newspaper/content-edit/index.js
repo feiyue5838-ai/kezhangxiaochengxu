@@ -49,7 +49,15 @@ Page({
 
   onEditorInput(e) {
     const content = e.detail.text || '';
-    this.setData({ content, charCount: content.length });
+    const charCount = content.length;
+    this.setData({ content, charCount });
+    
+    // 字数接近限制时提醒
+    if (charCount > 1800 && charCount <= 2000) {
+      wx.showToast({ title: '已输入' + charCount + '字，接近2000字限制', icon: 'none' });
+    } else if (charCount > 2000) {
+      wx.showToast({ title: '已超过2000字限制，请删减内容', icon: 'none' });
+    }
   },
 
   onEditorBlur() {
