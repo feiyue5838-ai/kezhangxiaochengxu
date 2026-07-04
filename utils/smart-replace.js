@@ -88,7 +88,8 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/金额：XXXX/g, '金额：（示例：1000）');
   r = r.replace(/地址：XXXX/g, '地址：（示例：XX路XX号）');
   r = r.replace(/案号：XXXX/g, '案号：（示例：2024）');
-  // 金额格式
+  // 金额格式（减资场景：由X减至Y）
+  r = r.replace(/由XXXX万元减至XXXX万元/g, '由（示例：500）万元减至（示例：100）万元');
   r = r.replace(/XXXX万元/g, '（示例：100）万元');
   r = r.replace(/XXX万元/g, '（示例：50）万元');
 
@@ -98,6 +99,7 @@ function doSmartReplace(content, categoryName) {
   r = r.replace(/XXXX公司/g, '（示例：XX公司）有限公司');
   r = r.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
   r = r.replace(/XXXX人民法院/g, '（示例：XX市）人民法院');
+  r = r.replace(/XXXX有限公司/g, '（示例：XX公司）有限公司');
   r = r.replace(/XXX公司(?!\d)/g, '（示例：XX公司）');
   r = r.replace(/XXX有限公司/g, '（示例：XX）有限公司');
 
@@ -132,7 +134,8 @@ function doSmartReplace(content, categoryName) {
   // ══════════════════════════════════════════════════════
   // 12. 通用 XXX 兜底（排除数字、中文，且不被其他X包围）
   // ══════════════════════════════════════════════════════
-  // 姓名由...变为...模式
+  // 姓名由...变为...模式（前后应不同）
+  r = r.replace(/由XXX变更为XXX/g, '由（示例：张三）变更为（示例：李四）');
   r = r.replace(/由XXX变更为/g, '由（示例：张三）变更为');
   r = r.replace(/变更为XXX/g, '变更为（示例：张三）');
   // 通用 XXX 兜底
