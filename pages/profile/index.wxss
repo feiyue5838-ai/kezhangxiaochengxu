@@ -26,6 +26,19 @@ page {
   margin-bottom: 16rpx;
 }
 
+.avatar--default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255 255 255 / 0.25);
+  border: 2rpx solid rgb(255 255 255 / 0.4);
+}
+
+.avatar-icon {
+  font-size: 60rpx;
+  line-height: 1;
+}
+
 .nickname {
   font-size: 36rpx;
   font-weight: bold;

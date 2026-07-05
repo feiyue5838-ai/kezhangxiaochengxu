@@ -6,7 +6,10 @@
   <!-- 用户信息区 -->
   <view class="header">
     <view class="user-info">
-      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+      <image wx:if="{{userInfo.avatarUrl}}" class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view wx:else class="avatar avatar--default">
+        <text class="avatar-icon">👤</text>
+      </view>
       <text class="nickname">{{userInfo.nickName || '未登录'}}</text>
       <text class="phone" wx:if="{{userInfo.phone}}">{{userInfo.phone}}</text>
       <button class="login-btn" wx:if="{{!userInfo.phone}}" bindtap="onLoginTap">
