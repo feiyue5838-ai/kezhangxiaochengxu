@@ -6,9 +6,9 @@
   position: relative;
 }
 
-/* 渐变紫色背景（默认） */
+/* 渐变蓝紫背景 */
 .nav-bar--gradient {
-  background: linear-gradient(135deg, #7B5CFA 0%, #A78BFA 100%);
+  background: linear-gradient(135deg, #5B6FE8 0%, #A78BFA 100%);
 }
 
 /* 固定定位 */

@@ -1,19 +1,6 @@
 /* pages/newspaper/order.wxss */
 
 /* ========== 閻庝絻澹堥崺鍛村冀?========== */
-.nav-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32rpx;
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-}
 
 .nav-back {
   width: 60rpx;
@@ -179,5 +166,3 @@
   margin-top: 12rpx;
   display: block;
 }
-
-

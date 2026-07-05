@@ -32,15 +32,6 @@ page {
 }
 
 /* ========== 导航栏 ========== */
-.nav-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: var(--primary-gradient);
-  box-sizing: border-box;
-}
 
 .nav-content {
   display: flex;

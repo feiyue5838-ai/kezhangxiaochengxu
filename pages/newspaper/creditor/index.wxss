@@ -3,14 +3,6 @@ page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
 /* ========== 导航栏（紫色渐变背景�?========== */
-.nav-bar {
-  box-sizing: border-box;
-  position: fixed;
-  top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center;
-  padding: 0 32rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-}
 
 .nav-back {
   width: 60rpx;
@@ -29,8 +21,6 @@ page { background: #F8F7FC; }
   left: 50%; top: 50%; transform: translate(-50%, -50%);
   font-size: 34rpx; font-weight: 600; color: #fff;
 }
-
-
 
 .nav-placeholder {
   width: 60rpx;
@@ -255,7 +245,6 @@ page { background: #F8F7FC; }
 
 /* ========== 搜索�?========== */
 
-
 /* ========== 弹窗列表 ========== */
 .doc-picker-body {
   max-height: 52vh; padding: 0 32rpx 48rpx;
@@ -313,5 +302,3 @@ page { background: #F8F7FC; }
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.40);
 }
 .float-btn-icon { width: 44rpx; height: 44rpx; }
-
-

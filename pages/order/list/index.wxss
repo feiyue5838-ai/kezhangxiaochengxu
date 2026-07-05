@@ -6,15 +6,6 @@
 }
 
 /* 导航栏（与胶囊对齐） */
-.nav-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  box-sizing: border-box;
-  background: #5B6FE8;
-}
 
 .nav-content {
   position: relative;

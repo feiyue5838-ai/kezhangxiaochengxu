@@ -4,15 +4,6 @@ page {
 }
 
 /* ========== 导航栏（与 realname 对齐）========== */
-.nav-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
-  box-sizing: border-box;
-}
 .nav-content {
   display: flex;
   align-items: center;
