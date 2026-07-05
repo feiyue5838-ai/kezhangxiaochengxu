@@ -18,7 +18,7 @@
     </view>
   </view>
 
-  <!-- 订单统计 -->
+  <!-- 订单统计（3个状态） -->
   <view class="stats-row">
     <view class="stat-item" wx:for="{{orderTypes}}" wx:key="id" bindtap="goToOrderList" data-type="{{item.id}}">
       <view class="stat-icon-wrap" style="background:{{item.bgColor}}">
@@ -29,29 +29,42 @@
     </view>
   </view>
 
-  <!-- 功能入口 -->
-  <view class="func-grid">
-    <view class="func-item {{item.id === 7 ? 'func-item--contact' : ''}}" wx:for="{{functions}}" wx:key="id" bindtap="{{item.id === 7 ? 'onContactService' : 'onFuncTap'}}" data-id="{{item.id}}">
-      <view class="func-icon-wrap" style="background:{{item.bgColor}}">
-        <image class="func-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+  <!-- 电子印章管理（突出显示） -->
+  <view class="seal-card" bindtap="goToSealManage">
+    <view class="seal-card__content">
+      <view class="seal-card__icon-wrap">
+        <image class="seal-card__icon" src="/assets/icons/icon-b64-17.svg" mode="aspectFit" />
       </view>
-      <text class="func-name">{{item.name}}</text>
+      <view class="seal-card__info">
+        <text class="seal-card__title">电子印章管理</text>
+        <text class="seal-card__desc">查看我的印章</text>
+      </view>
+    </view>
+    <text class="seal-card__arrow">›</text>
+  </view>
+
+  <!-- 常用功能（4个） -->
+  <view class="func-section">
+    <text class="func-section__title">常用功能</text>
+    <view class="func-grid">
+      <view class="func-item" wx:for="{{functions}}" wx:key="id" bindtap="{{item.id === 7 ? 'onContactService' : 'onFuncTap'}}" data-id="{{item.id}}">
+        <view class="func-icon-wrap" style="background:{{item.bgColor}}">
+          <image class="func-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+        </view>
+        <text class="func-name">{{item.name}}</text>
+      </view>
     </view>
   </view>
 
   <!-- 菜单列表 -->
   <view class="menu-list">
     <view class="menu-item" bindtap="goToOrders">
-      <view class="menu-icon-wrap">
+      <view class="menu-icon-wrap menu-icon-wrap--primary">
         <image class="menu-icon-img" src="/assets/icons/icon-clipboard.svg" mode="aspectFit" />
       </view>
       <text class="menu-name">全部订单</text>
       <text class="menu-arrow">›</text>
     </view>
-  </view>
-
-  <!-- 协议入口 -->
-  <view class="menu-list">
     <view class="menu-item" bindtap="onViewPrivacy">
       <view class="menu-icon-wrap">
         <image class="menu-icon-img" src="/assets/icons/icon-b64-22.svg" mode="aspectFit" />
@@ -66,15 +79,15 @@
       <text class="menu-name">用户服务协议</text>
       <text class="menu-arrow">›</text>
     </view>
+    <view class="menu-item" bindtap="goToAbout">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon-img" src="/assets/icons/icon-b64-24.svg" mode="aspectFit" />
+      </view>
+      <text class="menu-name">关于我们</text>
+      <text class="menu-arrow">›</text>
+    </view>
   </view>
 
-  <!-- 底部协议 -->
-  <view class="footer-agreement">
-    <text class="footer-agreement-text">
-      <text class="footer-link" bindtap="onViewPrivacy">《隐私政策》</text>
-      <text class="footer-link" bindtap="onViewTerms">《用户服务协议》</text>
-    </text>
-  </view>
+  <!-- 底部安全区 -->
+  <view class="safe-bottom"></view>
 </view>
-
-<view class='safe-bottom'></view>
