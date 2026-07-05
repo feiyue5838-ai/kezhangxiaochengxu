@@ -33,6 +33,7 @@
     "pages/newspaper/creditor/index",
     "pages/newspaper/content-edit/index",
     "pages/newspaper/form",
+    "pages/seal/order-detail/index",
     "pages/license/index",
     "pages/profile/index",
     "pages/webview/index",

@@ -19,27 +19,16 @@ Page({
     this.loadSavedAddress();
   },
 
-  // 初始化省市区三列
+  // 初始化省市区三列（省→市→区 三级结构）
   initRegionData() {
     const provinces = REGIONS.provinces;
     const firstProv = provinces[0];
-    const cityOrDistrictList = REGIONS.cities[firstProv] || [];
-
-    let cities, districtList;
-
-    // 直辖市：cities[省] 是区数组
-    if (Array.isArray(cityOrDistrictList)) {
-      cities = [firstProv];
-      districtList = cityOrDistrictList;
-    } else {
-      // 普通省：cities[省] 是市数组，再取第一个市的区
-      cities = cityOrDistrictList;
-      const firstCity = cities[0];
-      districtList = REGIONS.cities[firstCity] || [];
-    }
+    const cities = REGIONS.cities[firstProv] || [];
+    const firstCity = cities[0] || '';
+    const districts = REGIONS.districts[firstCity] || [];
 
     this.setData({
-      regionColumns: [provinces, cities, districtList]
+      regionColumns: [provinces, cities, districts]
     });
   },
 
@@ -52,37 +41,22 @@ Page({
     const pIdx = provinces.indexOf(address.province);
     if (pIdx < 0) return;
 
-    const cityOrDistrictList = REGIONS.cities[address.province];
-    let cIdx = 0, cName, dList;
+    const cities = REGIONS.cities[address.province] || [];
+    const cIdx = cities.indexOf(address.city);
+    const cName = cIdx >= 0 ? address.city : cities[0] || '';
 
-    if (Array.isArray(cityOrDistrictList)) {
-      // 直辖市
-      cName = address.province;
-      dList = cityOrDistrictList;
-    } else {
-      const cities = cityOrDistrictList || [];
-      cIdx = cities.indexOf(address.city);
-      if (cIdx < 0) cIdx = 0;
-      cName = cities[cIdx];
-      dList = REGIONS.cities[cName] || [];
-    }
-
-    const dIdx = dList.indexOf(address.district);
-    if (dIdx < 0) dIdx = 0;
+    const districts = REGIONS.districts[cName] || [];
+    const dIdx = districts.indexOf(address.district);
 
     this.setData({
       name: address.name || '',
       phone: address.phone || '',
       province: address.province,
       city: cName,
-      district: dList[dIdx] || '',
-      regionText: `${address.province} ${cName} ${dList[dIdx] || ''}`.trim(),
-      regionIndex: [pIdx, cIdx, dIdx],
-      regionColumns: [
-        provinces,
-        Array.isArray(cityOrDistrictList) ? [address.province] : cityOrDistrictList,
-        dList
-      ],
+      district: dIdx >= 0 ? address.district : (districts[0] || ''),
+      regionText: `${address.province} ${cName} ${dIdx >= 0 ? address.district : districts[0] || ''}`.trim(),
+      regionIndex: [pIdx, cIdx >= 0 ? cIdx : 0, dIdx >= 0 ? dIdx : 0],
+      regionColumns: [provinces, cities, districts],
       isDefault: address.isDefault || false
     });
   },
@@ -95,36 +69,20 @@ Page({
     regionIndex[column] = value;
 
     if (column === 0) {
-      // 省变化
+      // 省变化 → 重置市和区
       const province = regionColumns[0][value];
-      const cityOrDistrictList = REGIONS.cities[province];
-      let cities, dList;
+      const cities = REGIONS.cities[province] || [];
+      const districts = REGIONS.districts[cities[0]] || [];
 
-      if (Array.isArray(cityOrDistrictList)) {
-        cities = [province];
-        dList = cityOrDistrictList;
-      } else {
-        cities = cityOrDistrictList;
-        dList = REGIONS.cities[cities[0]] || [];
-      }
-
-      regionColumns = [regionColumns[0], cities, dList];
+      regionColumns = [regionColumns[0], cities, districts];
       regionIndex[1] = 0;
       regionIndex[2] = 0;
     } else if (column === 1) {
-      // 市变化
-      const province = regionColumns[0][regionIndex[0]];
-      const cityOrDistrictList = REGIONS.cities[province];
-      let dList;
+      // 市变化 → 重置区
+      const cityName = regionColumns[1][value];
+      const districts = REGIONS.districts[cityName] || [];
 
-      if (Array.isArray(cityOrDistrictList)) {
-        dList = cityOrDistrictList;
-      } else {
-        const cityName = regionColumns[1][value];
-        dList = REGIONS.cities[cityName] || [];
-      }
-
-      regionColumns[2] = dList;
+      regionColumns[2] = districts;
       regionIndex[2] = 0;
     }
 
@@ -135,17 +93,10 @@ Page({
   onRegionChange(e) {
     const [pIdx, cIdx, dIdx] = e.detail.value;
     const province = this.data.regionColumns[0][pIdx];
-    const cityOrDistrictList = REGIONS.cities[province];
-
-    let city, district;
-
-    if (Array.isArray(cityOrDistrictList)) {
-      city = province;
-      district = cityOrDistrictList[dIdx] || '';
-    } else {
-      city = this.data.regionColumns[1][cIdx];
-      district = this.data.regionColumns[2][dIdx] || '';
-    }
+    const cities = REGIONS.cities[province] || [];
+    const city = cities[cIdx] || '';
+    const districts = REGIONS.districts[city] || [];
+    const district = districts[dIdx] || '';
 
     this.setData({
       province,

@@ -1,58 +1,65 @@
 <view class="page">
-  <!-- 自定义导航栏（与胶囊对齐） -->
-  <nav-bar title="我的订单" bind:back="goBack" />
+  <nav-bar title="全部订单" bind:back="goBack" />
 
-  <!-- 状态Tab -->
+  <!-- Tab 栏 -->
   <view class="tab-bar">
     <view
-      class="tab-item {{activeTab === index ? 'active' : ''}}"
       wx:for="{{tabs}}"
-      wx:key="index"
+      wx:key="status"
+      class="tab-item {{currentTab === index ? 'active' : ''}}"
+      data-idx="{{index}}"
       bindtap="switchTab"
-      data-index="{{index}}"
-    >{{item}}</view>
+    >
+      <text class="tab-text">{{item.name}}</text>
+      <view class="tab-line" wx:if="{{currentTab === index}}"></view>
+    </view>
   </view>
 
   <!-- 订单列表 -->
-  <view class="order-list" wx:if="{{orders.length > 0}}" style="margin-top: calc({{navHeight}}px + 88rpx);">
+  <view class="order-list" wx:if="{{list.length > 0}}">
     <view
-      class="order-item"
-      wx:for="{{orders}}"
+      class="order-card"
+      wx:for="{{list}}"
       wx:key="id"
-      bindtap="viewOrder"
-      data-order="{{item}}"
     >
-      <view class="order-left">
-        <view class="order-type-row">
-          <text class="order-module">{{item.type}}</text>
-          <text class="order-status-tag {{item.statusClass}}">{{item.statusText}}</text>
-        </view>
-        <text class="order-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
-        <text class="order-date" wx:if="{{item.date}}">{{item.date}}</text>
+      <!-- 订单头 -->
+      <view class="order-header">
+        <text class="order-type">{{item.type}}</text>
+        <text class="order-status {{item.statusClass}}">{{item.statusText}}</text>
       </view>
-      <view class="order-right">
-        <text class="order-arrow">›</text>
-        <view
-          wx:if="{{item.status === 'completed'}}"
-          class="review-btn"
-          catchtap="goReview"
-          data-order="{{item}}"
-        >去评价</view>
-        <view
-          wx:if="{{item.status === 'completed'}}"
-          class="aftersale-btn"
-          catchtap="goAftersale"
-          data-order="{{item}}"
-        >申请售后</view>
+
+      <!-- 订单内容（点击跳转详情） -->
+      <view class="order-body" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="goToDetail">
+        <view class="order-desc">{{item.desc}}</view>
+        <view class="order-meta">
+          <text class="order-date">{{item.date}}</text>
+          <text class="order-price">¥{{item.price}}</text>
+        </view>
+      </view>
+
+      <!-- 快捷操作按钮 -->
+      <view class="order-actions">
+        <!-- 待支付：取消 + 支付 -->
+        <block wx:if="{{item.status === 'pending'}}">
+          <view class="action-btn cancel" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onCancelOrder">取消订单</view>
+          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onPayOrder">立即支付</view>
+        </block>
+        <!-- 进行中：完成 -->
+        <block wx:elif="{{item.status === 'processing'}}">
+          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onCompleteOrder">确认完成</view>
+        </block>
       </view>
     </view>
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{orders.length === 0}}" style="margin-top: calc({{navHeight}}px + 88rpx);">
-    <image class="empty-icon" src="/assets/icons/empty-order.svg" mode="aspectFit" />
-    <text class="empty-title">暂无相关订单</text>
-    <text class="empty-desc">您还没有相关的订单记录</text>
-    <view class="empty-btn btn-hover" bindtap="goToHome">去首页看看</view>
+  <view class="empty-wrap" wx:elif="{{!loading}}">
+    <text class="empty-text">暂无订单</text>
+    <navigator url="/pages/home/index" open-type="switchTab" class="empty-btn">去下单</navigator>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:else>
+    <text class="loading-text">加载中...</text>
   </view>
 </view>
