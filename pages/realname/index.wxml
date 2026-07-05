@@ -1,14 +1,8 @@
 <view class="page">
   <!-- 导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-back" bindtap="onBack">‹</view>
-      <text class="nav-title">实名认证</text>
-      <view class="nav-placeholder"></view>
-    </view>
-  </view>
+  <nav-bar title="实名认证" bind:back="onBack" />
 
-  <view class="verify-wrap" style="padding-top: {{navHeight}}px;">
+  <view class="verify-wrap">
 
     <!-- 认证状态卡片 -->
     <view class="status-card">

@@ -1,6 +1,6 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "privacy-popup": "/components/privacy-popup/index"
+    "nav-bar": "/components/nav-bar/nav-bar"
   }
 }

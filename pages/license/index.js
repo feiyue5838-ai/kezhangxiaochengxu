@@ -2,8 +2,6 @@
 const common = require('../../utils/common.js');
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     services: [
       { id: 1, name: '商标注册申请', iconSvg: '/assets/icons/icon-b64-7.svg', color: '#5B6FE8', bgColor: '#E6F7FF' },
       { id: 2, name: '商标续展', iconSvg: '/assets/icons/icon-b64-8.svg', color: '#2F54EB', bgColor: '#F0F0FF' },
@@ -13,8 +11,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
   },
 
   onShow() {

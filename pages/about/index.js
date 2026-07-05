@@ -2,7 +2,6 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
     features: [
       { id: 1, name: '电子印章', icon: '/assets/icons/icon-b64-17.svg' },
       { id: 2, name: '登报公告', icon: '/assets/icons/icon-b64-7.svg'  },
@@ -14,8 +13,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight });
   },
 
   onCopyWechat() {

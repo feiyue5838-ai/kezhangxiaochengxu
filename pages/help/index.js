@@ -2,10 +2,6 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
-    capsuleTop: 0,
-    capsuleHeight: 32,
     openIndex: -1,
     categories: [
       { id: 'order',  name: '订单问题',  icon: '/assets/icons/icon-b64-13.svg' },
@@ -26,17 +22,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    let capsuleTop = statusBarHeight + 8;
-    let capsuleHeight = 32;
-    try {
-      const menuButton = wx.getMenuButtonBoundingClientRect();
-      if (menuButton) {
-        capsuleTop = menuButton.top;
-        capsuleHeight = menuButton.height;
-      }
-    } catch (e) {}
-    this.setData({ statusBarHeight, navHeight, capsuleTop, capsuleHeight });
   },
 
   onFaqTap(e) {

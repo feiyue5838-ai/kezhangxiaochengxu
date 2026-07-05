@@ -9,13 +9,9 @@ Page({
     orders: [],
     filteredOrders: [],
     emptyText: '暂无订单',
-    statusBarHeight: 20,
-    navHeight: 64
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
   },
 
   onShow() {

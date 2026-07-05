@@ -4,8 +4,6 @@ let _smartReplaceTimer = null;
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     businessType: '个人证件',
     templateName: '',
     content: '',
@@ -14,9 +12,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
-
     const templateData = wx.getStorageSync('newspaperTemplate') || {};
     if (templateData.content) {
       this.setData({

@@ -1,13 +1,8 @@
 <view class="page">
-  <!-- 导航栏（与胶囊对齐） -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-back" style="top: {{capsuleTop - statusBarHeight}}px; height: {{capsuleHeight}}px;" bindtap="onBack">‹</view>
-      <text class="nav-title" style="top: {{capsuleTop - statusBarHeight}}px; height: {{capsuleHeight}}px; line-height: {{capsuleHeight}}px;">帮助中心</text>
-    </view>
-  </view>
+  <!-- 导航栏 -->
+  <nav-bar title="帮助中心" bind:back="onBack" />
 
-  <view class="help-wrap" style="padding-top: {{navHeight}}px;">
+  <view class="help-wrap">
 
     <!-- 客服热线 -->
     <view class="help-hotline">

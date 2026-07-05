@@ -2,8 +2,6 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
     verifyStatus: 0,   // 0=未认证 1=已认证 2=认证失败
     statusIcon: '/assets/icons/icon-b64-20.svg',
     statusTitle: '未认证',
@@ -20,8 +18,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
     this.loadVerifyStatus();
   },
 

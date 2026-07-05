@@ -3,9 +3,6 @@ const paperConfig = require('../../utils/newspaper-papers.js');
 
 Page({
   data: {
-    // 导航栏
-    statusBarHeight: 20,
-    navHeight: 64,
     // 内容
     businessType: '个人声明',
     charCount: 0,
@@ -39,10 +36,6 @@ Page({
   },
 
   onLoad(options) {
-    // 导航栏高度
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
-
     const { type } = options;
 
     // 优先读取 idcard-page 跳转时存入的模板数据

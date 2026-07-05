@@ -1,16 +1,10 @@
 <!-- pages/profile/index.wxml -->
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-side nav-side--left"></view>
-      <text class="nav-title">我的</text>
-      <view class="nav-side nav-side--right"></view>
-    </view>
-  </view>
+  <nav-bar title="我的" />
 
   <!-- 用户信息区 -->
-  <view class="header" style="padding-top: {{navHeight}}px;">
+  <view class="header">
     <view class="user-info">
       <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
       <text class="nickname">{{userInfo.nickName || '未登录'}}</text>

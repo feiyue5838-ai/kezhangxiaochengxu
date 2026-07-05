@@ -2,17 +2,10 @@
 <privacy-popup show="{{showPrivacyPopup}}"></privacy-popup>
 <view class="page">
   <!-- 导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-brand">
-        <view class="brand-mark">R</view>
-        <text class="brand-name">蓉城企服</text>
-      </view>
-    </view>
-  </view>
+  <nav-bar title="蓉城企服" />
 
   <!-- 滚动内容 -->
-  <scroll-view scroll-y class="scroll" style="padding-top: {{navHeight}}px;">
+  <scroll-view scroll-y class="scroll">
 
     <!-- Hero -->
     <view class="hero">

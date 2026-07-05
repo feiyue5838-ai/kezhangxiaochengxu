@@ -1,15 +1,5 @@
 <!-- pages/newspaper/order-detail.wxml -->
 <view class="page">
-  <!-- 顶部导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">订单详情</text>
-    <view class="nav-placeholder"></view>
-  </view>
-
-  <!-- 占位，撑开内容区 -->
-  <view style="height: {{navHeight}}px;"></view>
-
   <!-- 订单状态 -->
   <view class="status-card {{order.statusClass}}">
     <image class="status-icon" src="{{order.statusIconSvg}}" mode="aspectFit" />

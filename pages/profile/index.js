@@ -2,8 +2,6 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
     userInfo: { nickName: '', phone: '' },
     orderTypes: [
       { id: 'pending',    name: '待支付',   iconSvg: '/assets/icons/icon-b64-13.svg', bgColor: '#FFF7E6', color: '#FAAD14', count: 0 },
@@ -24,8 +22,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
     const userInfo = wx.getStorageSync('userInfo');
     if (userInfo) this.setData({ userInfo });
     this.refreshOrderCounts();

@@ -1,13 +1,9 @@
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">我的订单</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="我的订单" bind:back="goBack" />
 
   <!-- Tab 切换栏 -->
-  <view class="tab-bar" style="top: {{navHeight + statusBarHeight}}px;">
+  <view class="tab-bar">
     <view
       class="tab-item {{currentTab === index ? 'active' : ''}}"
       wx:for="{{tabs}}"
@@ -21,7 +17,7 @@
   </view>
 
   <!-- 订单列表 -->
-  <view class="order-list" wx:if="{{filteredOrders.length > 0}}" style="margin-top: {{navHeight + 88}}rpx;">
+  <view class="order-list" wx:if="{{filteredOrders.length > 0}}">
     <view class="order-item" wx:for="{{filteredOrders}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.id}}">
       <view class="order-info">
         <text class="order-title">{{item.type}}</text>
@@ -33,7 +29,7 @@
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-order" wx:else style="margin-top: {{navHeight + 88}}rpx;">
+  <view class="empty-order" wx:else>
     <image class="empty-icon" src="/assets/icons/icon-empty-order.svg" mode="aspectFit" />
     <text class="empty-text">暂无订单</text>
     <text class="empty-sub">快去选择报纸办理登报吧</text>

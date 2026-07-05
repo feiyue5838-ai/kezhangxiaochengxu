@@ -3,8 +3,6 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     categories: [
       { id: 1, name: '企业刻章', desc: '营业执照 + 法人身份证', iconSvg: '/assets/icons/icon-b64-25.svg', bgColor: 'rgba(74,140,255,0.10)', route: '/pages/seal/form/index?type=company' },
       { id: 2, name: '个人印章', desc: '姓名 + 身份证照片', iconSvg: '/assets/icons/icon-b64-26.svg', bgColor: 'rgba(250,140,22,0.10)', route: '/pages/seal/form/index?type=personal' },
@@ -15,9 +13,7 @@ Page({
   },
 
   onLoad() {
-    // 固定 64px，与首页一致
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight, subCategories: this.data.categories.slice(1) });
+    this.setData({ subCategories: this.data.categories.slice(1) });
   },
 
   onShow() {

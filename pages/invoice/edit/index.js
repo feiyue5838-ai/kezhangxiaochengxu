@@ -3,9 +3,6 @@ const common = require('../../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
-
     // 发票类型: normal=普通发票, special=增值税专用发票
     invoiceType: 'normal',
 
@@ -31,9 +28,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
-
     // 读取已有发票信息
     try {
       const info = wx.getStorageSync('invoiceData') || {};

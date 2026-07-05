@@ -4,14 +4,10 @@ const catConfig = require('../../utils/categories.js');
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     categories: catConfig.list
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
   },
 
   onShow() {

@@ -6,13 +6,9 @@
   }
 </wxs>
 
-<view class="page" style="padding-top: {{navHeight}}px;">
+<view class="page">
   <!-- 顶部导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">填写登报内容</text>
-    <view class="nav-right"></view>
-  </view>
+  <nav-bar title="填写登报内容" bind:back="goBack" />
 
   <!-- 可滚动内容区 -->
   <scroll-view scroll-y class="content-scroll">

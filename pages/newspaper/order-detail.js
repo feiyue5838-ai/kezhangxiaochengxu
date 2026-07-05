@@ -6,17 +6,9 @@ Page({
   data: {
     order: null,
     isSubmitting: false,
-    statusBarHeight: 20,
-    navHeight: 64
-  },
+
 
   onLoad: function(options) {
-    var sysInfo = common.getNavigationHeight();
-    this.setData({
-      statusBarHeight: sysInfo.statusBarHeight,
-      navHeight: sysInfo.navHeight
-    });
-
     if (options.id) {
       this.loadOrder(options.id);
     }

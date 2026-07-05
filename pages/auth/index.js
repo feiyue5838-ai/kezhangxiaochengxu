@@ -5,15 +5,12 @@ const app = getApp();
 
 Page({
   data: {
-    statusBarHeight: 0,
     loading: false,
     agreed: true,  // 默认勾选（符合最小摩擦原则）
     _redirected: false,
   },
 
   onLoad() {
-    const sysInfo = wx.getSystemInfoSync();
-    this.setData({ statusBarHeight: sysInfo.statusBarHeight || 20 });
     // 已登录则直接跳转
     if (this._checkLogin() && !this.data._redirected) {
       this.setData({ _redirected: true });

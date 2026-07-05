@@ -5,7 +5,7 @@
   <view class="bg-circle c2"></view>
 
   <!-- 顶部占位（配合状态栏） -->
-  <view style="height: {{statusBarHeight}}px;"></view>
+  <nav-bar title="" />
 
   <!-- Logo区 -->
   <view class="logo-section">

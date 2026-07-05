@@ -1,13 +1,7 @@
 <!-- pages/license/index.wxml -->
-<view class="page" style="padding-top: {{navHeight}}px;">
+<view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-side nav-side--left"></view>
-      <text class="nav-title">商标注册</text>
-      <view class="nav-side nav-side--right"></view>
-    </view>
-  </view>
+  <nav-bar title="商标注册" />
 
   <!-- Banner -->
   <view class="banner">

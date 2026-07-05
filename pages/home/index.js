@@ -13,8 +13,6 @@ const STATUS_MAP = {
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
     // 高精度 SVG 图标（base64 内联，兼容 iOS/Android）
     iconSealBg: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MiA1MiI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTAiIGZpbGw9IiNGNUYwRkYiIHN0cm9rZT0iIzZDNUNFNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMiwyKSBzY2FsZSgwLjA0Njg3NSkiIGZpbGw9IiM2QzVDRTciPjxwYXRoIGQ9Ik03OTUuNCA4MzYuN0gyMjguNmMtMjAuMyAwLTM2LjgtMTYuNi0zNi44LTM2LjggMC0yMC4zIDE2LjYtMzYuOCAzNi44LTM2LjhoNTY2LjljMjAuMyAwIDM2LjggMTYuNiAzNi44IDM2LjggMCAyMC4zLTE2LjYgMzYuOC0zNi45IDM2Ljh6Ii8+PHBhdGggZD0iTTgzMS44IDUwOC4zSDY0MC45Yy0wLjctMC4zLTEuNS0wLjUtMi4zLTAuNWgtMC4xYy0yNC45IDAtNDUtMjAuMi00NS00NSAwLTE0LjQgNi43LTI3LjEgMTcuMi0zNS40IDU2LjMtMzMuNiA5My45LTk1LjEgOTMuOS0xNjUuNSAwLTEwNi40LTg2LjMtMTkyLjctMTkyLjctMTkyLjdTMzE5LjMgMTU1LjUgMzE5LjMgMjYyYzAgNzAuMyAzNy43IDEzMS44IDk0IDE2NS41IDExLjIgOC4yIDE4LjUgMjEuNCAxOC41IDM2LjMgMCAyMi42LTE2LjcgNDEuNC0zOC40IDQ0LjVIMTkyLjJjLTE5LjggMC0zNiAxNi4yLTM2IDM2djEwNy44YzAgMTkuOCAxNi4yIDM2IDM2IDM2aDYzOS42YzE5LjggMCAzNi0xNi4yIDM2LTM2VjU0NC4zYzAtMTkuOC0xNi4yLTM2LTM2LTM2eiIvPjwvZz48L3N2Zz4=',
     iconNewsBg: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MiA1MiI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTAiIGZpbGw9IiNFRkY1RkYiIHN0cm9rZT0iIzA5ODRFMyIgc3Ryb2tlLXdpZHRoPSIyIi8+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDk4NEUzIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iMzQiIGhlaWdodD0iMzQiIHJ4PSIyIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjkiIGhlaWdodD0iMzQiIHJ4PSIxIi8+PHJlY3QgeD0iMjAiIHk9IjkiIHdpZHRoPSIyMyIgaGVpZ2h0PSI1Ii8+PGxpbmUgeDE9IjIwIiB5MT0iMTciIHgyPSI0MyIgeTI9IjE3Ii8+PGxpbmUgeDE9IjIwIiB5MT0iMjIiIHgyPSI0MyIgeTI9IjIyIi8+PGxpbmUgeDE9IjIwIiB5MT0iMjciIHgyPSI0MyIgeTI9IjI3Ii8+PGxpbmUgeDE9IjIwIiB5MT0iMzIiIHgyPSI0MyIgeTI9IjMyIi8+PGxpbmUgeDE9IjIwIiB5MT0iMzciIHgyPSI0MyIgeTI9IjM3Ii8+PC9nPjwvc3ZnPg==',
@@ -31,13 +29,6 @@ Page({
   },
 
   onLoad() {
-    const app = getApp();
-    const globalNav = app.globalData.navigationHeight;
-    this.setData({
-      statusBarHeight: globalNav.statusBarHeight,
-      navHeight: globalNav.statusBarHeight + 64
-    });
-
     // 隐私授权弹窗
     if (wx.getPrivacySetting) {
       wx.getPrivacySetting({

@@ -2,14 +2,11 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
     notifications: [],
     currentDate: '',
   },
 
   onLoad() {
-    const { statusBarHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight });
     const now = new Date();
     this.setData({ currentDate: `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日` });
     this.loadNotifications();
