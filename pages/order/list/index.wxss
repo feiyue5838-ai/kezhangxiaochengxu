@@ -66,12 +66,19 @@
 }
 
 .order-type {
+  flex: 1;
+  min-width: 0;
   font-size: 30rpx;
   font-weight: 600;
   color: #1A2332;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .order-status {
+  flex-shrink: 0;
+  margin-left: 16rpx;
   font-size: 26rpx;
   font-weight: 500;
 }
