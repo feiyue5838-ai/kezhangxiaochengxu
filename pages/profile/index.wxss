@@ -5,37 +5,6 @@ page {
   padding-bottom: 120rpx;
 }
 
-/* ========== 瀵艰埅鏍?========== */
-
-.nav-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 88rpx;
-  padding: 0 32rpx;
-}
-
-.nav-side {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-}
-.nav-side--left  { left: 32rpx; }
-.nav-side--right { right: 32rpx; }
-
-.nav-title {
-  font-size: 34rpx;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
-}
-
-.nav-placeholder {
-  width: 60rpx;
-  height: 100%;
-}
 /* ========== 澶撮儴鍖哄煙 ========== */
 .header {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
@@ -78,7 +47,7 @@ page {
   margin-top: -20rpx;
   border-radius: 20rpx;
   padding: 28rpx 0;
-  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  box-shadow: 0 2rpx 12rpx rgb(123 92 250 / 0.06);
   position: relative;
   z-index: 10;
   transition: all 0.3s ease;
@@ -130,7 +99,7 @@ page {
   margin: 0 20rpx;
   border-radius: 20rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  box-shadow: 0 2rpx 12rpx rgb(123 92 250 / 0.06);
   transition: all 0.3s ease;
 }
 
@@ -171,7 +140,7 @@ page {
   background: #fff;
   border-radius: 20rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  box-shadow: 0 2rpx 12rpx rgb(123 92 250 / 0.06);
   transition: all 0.3s ease;
 }
 
@@ -219,9 +188,9 @@ page {
   color: #7B5CFA;
   font-size: 30rpx;
   font-weight: 600;
-  border-radius: 20rpx;
+  border-radius: 40rpx;
   border: none;
-  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.3);
+  box-shadow: 0 4rpx 16rpx rgb(123 92 250 / 0.3);
   transition: all 0.3s ease;
 }
 
@@ -238,7 +207,7 @@ page {
   color: #999;
 }
 
-/* 鑱旂郴瀹㈡湇鍔熻兘椤归珮浜?*/
+/* 鑱旂郴瀹㈡湇鍔熻兘椤堕珮浜?*/
 .func-item--contact .func-icon-wrap {
   background: #FFF0F0 !important;
 }
