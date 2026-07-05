@@ -13,8 +13,6 @@ const totalCount = categories.reduce((s, c) => s + c.docs.length, 0);
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     totalCount,
     categories,
     // Sheet 状态
@@ -25,8 +23,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
   },
 
   onShow() {

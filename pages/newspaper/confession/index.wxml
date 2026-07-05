@@ -1,16 +1,10 @@
-<!-- pages/newspaper/confession/index.wxml -->
+<!--pages/newspaper/confession/index.wxml-->
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">
-      <text class="back-icon">‹</text>
-    </view>
-    <text class="nav-title">真情告白</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="真情告白" bind:back="goBack"></nav-bar>
 
   <!-- 头部区域 -->
-  <view class="header" style="padding-top: {{navHeight}}px;">
+  <view class="header">
     <view class="header-content">
       <view class="header-text">
         <text class="header-title">真情告白登报</text>
@@ -23,7 +17,7 @@
 
   <!-- 主内容区 -->
   <scroll-view scroll-y class="main-scroll">
-    <!-- 分类2列网格?-->
+    <!-- 分类2列网格 -->
     <view class="cat-grid">
       <view
         class="cat-card"
@@ -51,9 +45,9 @@
   <!-- 模板弹窗（底部半屏） -->
   <view class="doc-mask" wx:if="{{showDocPicker}}" bindtap="closeDocPicker"></view>
   <view class="doc-picker {{showDocPicker ? 'doc-picker--show' : ''}}">
-    <!-- 拖拽区?-->
+    <!-- 拖拽区 -->
     <view class="doc-picker-drag"><view class="drag-bar"></view></view>
-    <!-- 标题区?-->
+    <!-- 标题区 -->
     <view class="doc-picker-header">
       <view class="doc-picker-title-wrap">
         <view class="doc-picker-dot" style="background: {{categories[pickedIndex].color}};"></view>
@@ -62,7 +56,7 @@
       </view>
       <view class="doc-picker-close" bindtap="closeDocPicker"><text>✕</text></view>
     </view>
-    <!-- 搜索框?-->
+    <!-- 搜索框 -->
     
     <scroll-view scroll-y class="doc-picker-body" style="margin-top: 20rpx;">
       <view class="doc-grid">

@@ -416,10 +416,6 @@ Page({
     stampType: 'company',
     isPersonal: false,
     isQuery: false,
-    statusBarHeight: 20,
-    navHeight: 64,
-    menuCenterY: 0,
-    menuRight: 0,
     pageTitle: '印章申请',
     currentProvince: { name: '四川省', url: 'https://yzcx.sczwfw.gov.cn:18511/', cities: [{ name: '成都市', url: 'https://yzcx.sczwfw.gov.cn:18511/' }] },
     currentCity: '成都市',
@@ -444,12 +440,6 @@ Page({
   },
 
   onLoad(options) {
-    // 从全局数据读取导航栏高度（app.js 已计算）
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    const menuRect = wx.getMenuButtonBoundingClientRect();
-    const menuCenterY = menuRect.top + menuRect.height / 2;
-    this.setData({ statusBarHeight, navHeight, menuCenterY, menuRight: menuRect.width + 12 });
-
     // 清除旧流程数据，避免各入口互相影响
     // 只清除流程核心数据,不清除材料/地址/发票(用户在流程中可以来回切换)
     wx.removeStorageSync('selectedSealsData');

@@ -1,12 +1,8 @@
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" style="top: {{menuCenterY}}px;" bindtap="goBack">‹</view>
-    <text class="nav-title">{{pageTitle}}</text>
-    <view class="nav-placeholder" style="width: {{menuRight}}px;"></view>
-  </view>
+  <nav-bar title="{{pageTitle}}" bind:back="goBack"></nav-bar>
   <!-- 表单区域 -->
-  <view class="container" style="margin-top: {{navHeight}}px;">
+  <view class="container">
   <view class="form-section">
     <!-- 邮寄地址 -->
     <view class="form-item" bindtap="onAddressTap">
