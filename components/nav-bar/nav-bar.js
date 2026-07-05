@@ -1,4 +1,4 @@
-﻿Component({
+Component({
   /**
    * 组件属性
    */
@@ -53,37 +53,49 @@
    * 生命周期
    */
   lifetimes: {
-    // 设备信息在 attached 计算（不影响 WXML 条件渲染）
+    // 设备信息在 attached 计算（异步，兼容新版废弃警告）
     attached() {
-      const systemInfo = wx.getSystemInfoSync();
-      const statusBarHeight = systemInfo.statusBarHeight;
+      // 先获取系统信息（含状态栏高度）
+      wx.getSystemInfo({
+        success: (systemInfo) => {
+          const statusBarHeight = systemInfo.statusBarHeight || 20;
 
-      let navContentHeight = 44;
-      let capsuleLeft = 0;
-      let capsuleTop = 0;
-      let capsuleWidth = 0;
-      let capsuleHeight = 32;
-
-      try {
-        const capsule = wx.getMenuButtonBoundingClientRect();
-        if (capsule) {
-          capsuleLeft = capsule.left;
-          capsuleTop = capsule.top;
-          capsuleWidth = capsule.width;
-          capsuleHeight = capsule.height;
-          navContentHeight = capsule.bottom - statusBarHeight;
-          navContentHeight = Math.max(32, Math.min(64, navContentHeight));
+          // 再获取胶囊按钮信息
+          try {
+            const capsule = wx.getMenuButtonBoundingClientRect();
+            if (capsule) {
+              const navContentHeight = Math.max(
+                32,
+                Math.min(64, capsule.bottom - statusBarHeight)
+              );
+              this.setData({
+                statusBarHeight,
+                navContentHeight,
+                navHeight: statusBarHeight + navContentHeight,
+                capsuleLeft: capsule.left,
+                capsuleTop: capsule.top,
+                capsuleWidth: capsule.width,
+                capsuleHeight: capsule.height
+              });
+            } else {
+              this.setData({
+                statusBarHeight,
+                navHeight: statusBarHeight + 44
+              });
+            }
+          } catch (e) {
+            this.setData({
+              statusBarHeight,
+              navHeight: statusBarHeight + 44
+            });
+          }
+        },
+        fail: () => {
+          this.setData({
+            statusBarHeight: 20,
+            navHeight: 64
+          });
         }
-      } catch (e) {}
-
-      this.setData({
-        statusBarHeight,
-        navContentHeight,
-        navHeight: statusBarHeight + navContentHeight,
-        capsuleLeft,
-        capsuleTop,
-        capsuleWidth,
-        capsuleHeight
       });
     },
 
@@ -92,12 +104,15 @@
       // 自动判断是否需要返回键（页面栈 > 1 时显示）
       const pages = getCurrentPages();
       const autoShowBack = pages.length > 1;
-      
+
       // 如果用户显式传了 showBack，以传入值为准；否则用自动判断
-      const hasExplicitShowBack = this.properties.hasOwnProperty('showBack') && 
-                                   typeof this.properties.showBack === 'boolean';
-      const finalShowBack = hasExplicitShowBack ? this.properties.showBack : autoShowBack;
-      
+      const hasExplicitShowBack =
+        this.properties.hasOwnProperty('showBack') &&
+        typeof this.properties.showBack === 'boolean';
+      const finalShowBack = hasExplicitShowBack
+        ? this.properties.showBack
+        : autoShowBack;
+
       this.setData({ showBack: finalShowBack });
     }
   },
