@@ -76,6 +76,8 @@
 .order-status.processing { color: #5B6FE8; }
 .order-status.completed { color: #52C41A; }
 .order-status.cancelled { color: #999; }
+.order-status.refund { color: #FA8C16; }   /* 退款：橙色，与profile'退款/售后'图标色一致 */
+.order-status.refunded { color: #FA8C16; }  /* 同上，兼容两种拼写 */
 
 /* 订单内容 */
 .order-body {

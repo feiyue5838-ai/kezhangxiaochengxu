@@ -35,8 +35,12 @@ Page({
           found.statusIconSvg = '/assets/icons/icon-order-check.svg';
         } else if (found.statusClass === 'processing') {
           found.statusIconSvg = '/assets/icons/icon-order-hourglass.svg';
-        } else if (found.statusClass === 'cancelled') {
+        } else if (found.statusClass === 'cancelled' || found.statusClass === 'refunded') {
           found.statusIconSvg = '/assets/icons/icon-order-cancelled.svg';
+          if (found.statusClass === 'refunded') {
+            found.statusClass = 'refund';
+            found.statusText = '已退款';
+          }
         } else {
           found.statusIconSvg = '/assets/icons/icon-order-doc.svg';
         }
