@@ -8,15 +8,10 @@
       type: String,
       value: ''
     },
-    // 是否显示返回键
+    // 是否显示返回键（自动计算，可手动覆盖）
     showBack: {
       type: Boolean,
       value: true
-    },
-    // 返回键文字（默认 "<"）
-    backText: {
-      type: String,
-      value: '<'
     },
     // 背景颜色（默认主题蓝）
     backgroundColor: {
@@ -46,7 +41,12 @@
   data: {
     statusBarHeight: 20,
     navHeight: 64,
-    navContentHeight: 44
+    navContentHeight: 44,
+    capsuleLeft: 0,
+    capsuleTop: 0,
+    capsuleWidth: 0,
+    capsuleHeight: 32,
+    showBack: true
   },
 
   /**
@@ -57,21 +57,37 @@
       const systemInfo = wx.getSystemInfoSync();
       const statusBarHeight = systemInfo.statusBarHeight;
 
-      let navContentHeight = 44; // 默认 44px
+      let navContentHeight = 44;
+      let capsuleLeft = 0;
+      let capsuleTop = 0;
+      let capsuleWidth = 0;
+      let capsuleHeight = 32;
+
       try {
         const capsule = wx.getMenuButtonBoundingClientRect();
         if (capsule) {
-          // navContentHeight = 胶囊底部距状态栏底的距离，即 (胶囊底部 - 状态栏顶部) - 状态栏高度
+          capsuleLeft = capsule.left;
+          capsuleTop = capsule.top;
+          capsuleWidth = capsule.width;
+          capsuleHeight = capsule.height;
           navContentHeight = capsule.bottom - statusBarHeight;
-          // 兜底：最小 32（胶囊高度），最大 64
           navContentHeight = Math.max(32, Math.min(64, navContentHeight));
         }
       } catch (e) {}
 
+      // 判断是否显示返回按钮（首页无上一页则隐藏）
+      const pages = getCurrentPages();
+      const showBack = pages.length > 1;
+
       this.setData({
         statusBarHeight,
         navContentHeight,
-        navHeight: statusBarHeight + navContentHeight
+        navHeight: statusBarHeight + navContentHeight,
+        capsuleLeft,
+        capsuleTop,
+        capsuleWidth,
+        capsuleHeight,
+        showBack
       });
     }
   },

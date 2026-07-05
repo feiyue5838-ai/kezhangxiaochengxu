@@ -5,12 +5,13 @@
   
   <!-- 导航内容（高度由 JS 动态计算，胶囊对齐） -->
   <view class="nav-content" style="height: {{navContentHeight}}px;">
-    <!-- 左侧：返回键 -->
-    <view class="nav-left">
-      <view class="nav-back" wx:if="{{showBack}}" bindtap="onBack">
-        <text class="nav-back-text" style="color: {{color}};">{{backText}}</text>
-      </view>
-    </view>
+    <!-- 左侧：系统胶囊按钮区（透明覆盖，点击即返回） -->
+    <view
+      wx:if="{{showBack}}"
+      class="nav-capsule"
+      style="left: {{capsuleLeft}}px; top: {{capsuleTop}}px; width: {{capsuleWidth}}px; height: {{capsuleHeight}}px;"
+      bindtap="onBack"
+    ></view>
     
     <!-- 中间：标题 或 自定义插槽（垂直居中于 navContentHeight） -->
     <view class="nav-center" style="height: {{navContentHeight}}px;">

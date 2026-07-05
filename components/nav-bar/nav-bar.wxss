@@ -3,6 +3,7 @@
 .nav-bar {
   width: 100%;
   z-index: 1000;
+  position: relative;
 }
 
 /* 固定定位 */
@@ -26,24 +27,11 @@
   box-sizing: border-box;
 }
 
-/* 左侧区域 */
-.nav-left {
-  flex: 0 0 60rpx;
-  display: flex;
-  align-items: center;
-}
-
-/* 返回键 */
-.nav-back {
-  display: flex;
-  align-items: center;
-  padding: 10rpx 0;
-}
-
-.nav-back-text {
-  font-size: 44rpx;
-  font-weight: 300;
-  line-height: 1;
+/* 系统胶囊按钮覆盖层（透明，点击触发返回） */
+.nav-capsule {
+  position: relative;
+  z-index: 10;
+  background: transparent;
 }
 
 /* 中间区域（标题或插槽） */
