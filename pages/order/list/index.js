@@ -70,6 +70,13 @@ Page({
     this.setData({ currentTab: tab });
   },
 
+  goBack: function () {
+    wx.navigateBack({ delta: 1, fail: () => {
+      // 页面栈为空（直接打开），跳到首页
+      wx.switchTab({ url: '/pages/home/index' });
+    }});
+  },
+
   onShow: function () {
     this.loadOrders();
   },
