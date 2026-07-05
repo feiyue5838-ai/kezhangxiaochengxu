@@ -1,15 +1,17 @@
 // pages/newspaper/order-detail.js
-var common = require('../../../utils/common.js');
-
 Page({
   data: {
     order: null,
+    loading: true,
     isSubmitting: false
   },
 
   onLoad: function(options) {
     if (options.id) {
       this.loadOrder(options.id);
+    } else {
+      this.setData({ loading: false });
+      wx.showToast({ title: '订单ID缺失', icon: 'none' });
     }
   },
 
@@ -20,21 +22,31 @@ Page({
   loadOrder: function(id) {
     try {
       var orders = wx.getStorageSync('newspaper_orders') || [];
-      var found = orders.find(function(o) { return o.id === id; });
+      var found = null;
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].id === id) {
+          found = orders[i];
+          break;
+        }
+      }
       if (found) {
+        // 设置状态图标
         if (found.statusClass === 'completed') {
           found.statusIconSvg = '/assets/icons/icon-order-check.svg';
         } else if (found.statusClass === 'processing') {
           found.statusIconSvg = '/assets/icons/icon-order-hourglass.svg';
+        } else if (found.statusClass === 'cancelled') {
+          found.statusIconSvg = '/assets/icons/icon-order-cancelled.svg';
         } else {
           found.statusIconSvg = '/assets/icons/icon-order-doc.svg';
         }
-        this.setData({ order: found });
+        this.setData({ order: found, loading: false });
       } else {
+        this.setData({ loading: false });
         wx.showToast({ title: '订单不存在', icon: 'none' });
-        setTimeout(function() { wx.navigateBack(); }, 1500);
       }
     } catch (e) {
+      this.setData({ loading: false });
       wx.showToast({ title: '读取失败', icon: 'none' });
     }
   },
@@ -94,17 +106,17 @@ Page({
     try {
       var orders = wx.getStorageSync('newspaper_orders') || [];
       var orderId = this.data.order.id;
-      var index = -1;
+      var found = false;
       for (var i = 0; i < orders.length; i++) {
         if (orders[i].id === orderId) {
-          index = i;
+          orders[i].status = status;
+          orders[i].statusText = statusText;
+          orders[i].statusClass = statusClass;
+          found = true;
           break;
         }
       }
-      if (index > -1) {
-        orders[index].status = status;
-        orders[index].statusText = statusText;
-        orders[index].statusClass = statusClass;
+      if (found) {
         wx.setStorageSync('newspaper_orders', orders);
         this.setData({
           'order.status': status,

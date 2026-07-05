@@ -1,5 +1,28 @@
 .page { background: #F8F7FC; min-height: 100vh; padding-bottom: 160rpx; }
 
+/* 加载中 / 空状态 */
+.loading-wrap, .empty-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+.loading-text, .empty-text {
+  font-size: 30rpx;
+  color: #8C97A6;
+  margin-bottom: 32rpx;
+}
+.back-btn {
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
+  color: #fff;
+  font-size: 28rpx;
+  border-radius: 40rpx;
+  padding: 16rpx 60rpx;
+  border: none;
+}
+.back-btn::after { border: none; }
+
 /* 状态卡 */
 .status-card { margin: 24rpx; padding: 40rpx; border-radius: 20rpx; display: flex; flex-direction: column; align-items: center; }
 .status-card.pending { background: linear-gradient(135deg, #5B6FE8, #A78BFA); }

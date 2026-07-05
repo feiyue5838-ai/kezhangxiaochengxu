@@ -1,82 +1,76 @@
 <view class="page">
   <nav-bar title="订单详情" bind:back="goBack" />
-  <!-- 订单状态 -->
-  <view class="status-card {{order.statusClass}}">
-    <image class="status-icon" src="{{order.statusIconSvg}}" mode="aspectFit" />
-    <text class="status-text">{{order.statusText}}</text>
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
   </view>
 
-  <!-- 订单信息 -->
-  <view class="info-card">
-    <view class="info-title">订单信息</view>
-    <view class="info-row">
-      <text class="info-label">登报类型</text>
-      <text class="info-value">{{order.type}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-label">选择报纸</text>
-      <text class="info-value">{{order.paper}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-label">提交时间</text>
-      <text class="info-value">{{order.date}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-label">订单金额</text>
-      <text class="info-value price">¥{{order.price}}</text>
-    </view>
+  <!-- 订单不存在 -->
+  <view class="empty-wrap" wx:elif="{{!order}}">
+    <text class="empty-text">订单不存在或已被删除</text>
+    <button class="back-btn" bindtap="goBack">返回</button>
   </view>
 
-  <!-- 发票信息 -->
-  <view class="info-card" wx:if="{{order.invoice && order.invoice.title}}">
-    <view class="info-title">发票信息</view>
-    <view class="info-row">
-      <text class="info-label">发票类型</text>
-      <text class="info-value">{{order.invoice.type === 'normal' ? '普通发票' : '增值税专用发票'}}</text>
+  <!-- 订单详情 -->
+  <block wx:else>
+    <!-- 订单状态 -->
+    <view class="status-card {{order.statusClass}}">
+      <image class="status-icon" src="{{order.statusIconSvg}}" mode="aspectFit" />
+      <text class="status-text">{{order.statusText}}</text>
     </view>
-    <view class="info-row">
-      <text class="info-label">发票抬头</text>
-      <text class="info-value">{{order.invoice.title}}</text>
-    </view>
-    <view class="info-row" wx:if="{{order.invoice.taxNumber}}">
-      <text class="info-label">纳税人识别号</text>
-      <text class="info-value">{{order.invoice.taxNumber}}</text>
-    </view>
-    <view class="info-row" wx:if="{{order.invoice.type === 'special'}}">
-      <text class="info-label">注册地址</text>
-      <text class="info-value">{{order.invoice.address || '未填写'}}</text>
-    </view>
-    <view class="info-row" wx:if="{{order.invoice.type === 'special'}}">
-      <text class="info-label">注册电话</text>
-      <text class="info-value">{{order.invoice.phone || '未填写'}}</text>
-    </view>
-    <view class="info-row" wx:if="{{order.invoice.type === 'special'}}">
-      <text class="info-label">开户银行</text>
-      <text class="info-value">{{order.invoice.bankName || '未填写'}}</text>
-    </view>
-    <view class="info-row" wx:if="{{order.invoice.type === 'special'}}">
-      <text class="info-label">银行账户</text>
-      <text class="info-value">{{order.invoice.bankAccount || '未填写'}}</text>
-    </view>
-    <view class="info-row" wx:if="{{order.invoice.email}}">
-      <text class="info-label">收票邮箱</text>
-      <text class="info-value">{{order.invoice.email}}</text>
-    </view>
-  </view>
 
-  <!-- 登报内容 -->
-  <view class="info-card">
-    <view class="info-title">登报内容</view>
-    <text class="content-text">{{order.desc}}</text>
-  </view>
+    <!-- 订单信息 -->
+    <view class="info-card">
+      <view class="info-title">订单信息</view>
+      <view class="info-row">
+        <text class="info-label">登报类型</text>
+        <text class="info-value">{{order.type}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">选择报纸</text>
+        <text class="info-value">{{order.paper}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">提交时间</text>
+        <text class="info-value">{{order.date}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">订单金额</text>
+        <text class="info-value price">¥{{order.price}}</text>
+      </view>
+    </view>
 
-  <!-- 底部操作 -->
-  <view class="bottom-bar" wx:if="{{order.status === 'pending'}}">
-    <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>
-    <button class="pay-btn" bindtap="payOrder">立即支付</button>
-  </view>
-  <!-- 进行中：演示用完成按钮 -->
-  <view class="bottom-bar" wx:if="{{order.status === 'processing'}}">
-    <button class="complete-btn" bindtap="completeOrder">确认完成</button>
-  </view>
+    <!-- 发票信息 -->
+    <view class="info-card" wx:if="{{order.invoice && order.invoice.title}}">
+      <view class="info-title">发票信息</view>
+      <view class="info-row">
+        <text class="info-label">发票类型</text>
+        <text class="info-value">{{order.invoice.type === 'normal' ? '普通发票' : '增值税专用发票'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">发票抬头</text>
+        <text class="info-value">{{order.invoice.title}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.invoice.taxNumber}}">
+        <text class="info-label">纳税人识别号</text>
+        <text class="info-value">{{order.invoice.taxNumber}}</text>
+      </view>
+    </view>
+
+    <!-- 登报内容 -->
+    <view class="info-card">
+      <view class="info-title">登报内容</view>
+      <text class="content-text">{{order.desc}}</text>
+    </view>
+
+    <!-- 底部操作 -->
+    <view class="bottom-bar" wx:if="{{order.status === 'pending'}}">
+      <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>
+      <button class="pay-btn" bindtap="payOrder">立即支付</button>
+    </view>
+    <view class="bottom-bar" wx:elif="{{order.status === 'processing'}}">
+      <button class="complete-btn" bindtap="completeOrder">确认完成</button>
+    </view>
+  </block>
 </view>
