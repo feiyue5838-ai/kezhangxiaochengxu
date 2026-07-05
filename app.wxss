@@ -1,8 +1,8 @@
 page {
   /* 现代蓝紫渐变 */
-  --primary-color: #5B6FE8;
-  --primary-light: #7B8FF7;
-  --primary-dark: #4A5FD8;
+  --primary-color: #7B5CFA;
+  --primary-light: #A78BFA;
+  --primary-dark: #6B4FD4;
   --primary-bg: #F8F7FC;
   
   /* 辅助色 */
