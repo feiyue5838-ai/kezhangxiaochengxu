@@ -1,5 +1,5 @@
 <!-- components/nav-bar/nav-bar.wxml -->
-<view class="nav-bar {{fixed ? 'nav-bar--fixed' : ''}}" style="background: {{backgroundColor}};">
+<view class="nav-bar {{fixed ? 'nav-bar--fixed' : ''}} nav-bar--gradient">
   <!-- 状态栏占位 -->
   <view class="nav-status-bar" style="height: {{statusBarHeight}}px;"></view>
   
