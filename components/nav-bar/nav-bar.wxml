@@ -3,8 +3,8 @@
   <!-- 状态栏占位 -->
   <view class="nav-status-bar" style="height: {{statusBarHeight}}px;"></view>
   
-  <!-- 导航内容 -->
-  <view class="nav-content">
+  <!-- 导航内容（高度由 JS 动态计算，胶囊对齐） -->
+  <view class="nav-content" style="height: {{navContentHeight}}px;">
     <!-- 左侧：返回键 -->
     <view class="nav-left">
       <view class="nav-back" wx:if="{{showBack}}" bindtap="onBack">
@@ -12,9 +12,9 @@
       </view>
     </view>
     
-    <!-- 中间：标题 或 自定义插槽 -->
-    <view class="nav-center">
-      <text class="nav-title" style="color: {{color}};" wx:if="{{!customCenter}}">{{title}}</text>
+    <!-- 中间：标题 或 自定义插槽（垂直居中于 navContentHeight） -->
+    <view class="nav-center" style="height: {{navContentHeight}}px;">
+      <text class="nav-title" style="color: {{color}}; height: {{navContentHeight}}px; line-height: {{navContentHeight}}px;" wx:if="{{!customCenter}}">{{title}}</text>
       <slot name="center" wx:else></slot>
     </view>
     

@@ -45,7 +45,8 @@
    */
   data: {
     statusBarHeight: 20,
-    navHeight: 64
+    navHeight: 64,
+    navContentHeight: 44
   },
 
   /**
@@ -55,10 +56,22 @@
     attached() {
       const systemInfo = wx.getSystemInfoSync();
       const statusBarHeight = systemInfo.statusBarHeight;
-      const navHeight = statusBarHeight + 64;
+
+      let navContentHeight = 44; // 默认 44px
+      try {
+        const capsule = wx.getMenuButtonBoundingClientRect();
+        if (capsule) {
+          // navContentHeight = 胶囊底部距状态栏底的距离，即 (胶囊底部 - 状态栏顶部) - 状态栏高度
+          navContentHeight = capsule.bottom - statusBarHeight;
+          // 兜底：最小 32（胶囊高度），最大 64
+          navContentHeight = Math.max(32, Math.min(64, navContentHeight));
+        }
+      } catch (e) {}
+
       this.setData({
         statusBarHeight,
-        navHeight
+        navContentHeight,
+        navHeight: statusBarHeight + navContentHeight
       });
     }
   },

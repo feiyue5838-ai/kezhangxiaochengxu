@@ -18,9 +18,8 @@
   width: 100%;
 }
 
-/* 导航内容区 */
+/* 导航内容区（高度由 JS 动态计算传入） */
 .nav-content {
-  height: 64px;
   display: flex;
   align-items: center;
   padding: 0 20rpx;
@@ -30,7 +29,6 @@
 /* 左侧区域 */
 .nav-left {
   flex: 0 0 60rpx;
-  height: 100%;
   display: flex;
   align-items: center;
 }
