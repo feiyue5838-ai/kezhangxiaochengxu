@@ -29,15 +29,15 @@
     </view>
   </view>
 
-  <!-- 电子印章管理（突出显示） -->
-  <view class="seal-card" bindtap="goToSealManage">
+  <!-- 订单管理（突出显示） -->
+  <view class="seal-card" bindtap="goToOrders">
     <view class="seal-card__content">
       <view class="seal-card__icon-wrap">
-        <image class="seal-card__icon" src="/assets/icons/icon-b64-17.svg" mode="aspectFit" />
+        <image class="seal-card__icon" src="/assets/icons/icon-clipboard.svg" mode="aspectFit" />
       </view>
       <view class="seal-card__info">
-        <text class="seal-card__title">电子印章管理</text>
-        <text class="seal-card__desc">查看我的印章</text>
+        <text class="seal-card__title">订单管理</text>
+        <text class="seal-card__desc">查看全部订单</text>
       </view>
     </view>
     <text class="seal-card__arrow">›</text>

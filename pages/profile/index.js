@@ -67,11 +67,6 @@ Page({
     wx.navigateTo({ url: '/pages/order/list/index' });
   },
 
-  // 电子印章管理（独立卡片）
-  goToSealManage() {
-    wx.navigateTo({ url: '/pages/seal/index' });
-  },
-
   // 关于我们
   goToAbout() {
     wx.navigateTo({ url: '/pages/about/index' });
