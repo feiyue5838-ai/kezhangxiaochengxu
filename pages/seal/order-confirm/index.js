@@ -497,7 +497,6 @@ Page({
 
     api.createSealOrder(orderData).then((res) => {
       wx.hideLoading();
-
       // 后端返回微信支付参数，调起支付
       const payParams = res.payParams || res;
       wx.requestPayment({
@@ -508,12 +507,8 @@ Page({
         paySign: payParams.paySign,
         success: () => {
           wx.showToast({ title: '支付成功', icon: 'success' });
-          // 清理当前订单临时数据
           this._clearOrderCache();
-          // 跳转订单详情或首页
-          setTimeout(() => {
-            wx.switchTab({ url: '/pages/home/index' });
-          }, 1500);
+          setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1500);
         },
         fail: (err) => {
           if (err.errMsg.includes('cancel')) {
@@ -525,9 +520,18 @@ Page({
         }
       });
     }).catch((err) => {
+      // 后端未开发时的本地模拟下单
       wx.hideLoading();
-      wx.showToast({ title: err.message || '订单创建失败', icon: 'none' });
-      this.setData({ isSubmitting: false });
+      wx.showModal({
+        title: '模拟下单',
+        content: '后端接口未接通，是否以本地模拟方式完成下单演示？',
+        success: (modalRes) => {
+          if (modalRes.confirm) {
+            this._mockSaveSealOrder(orderData);
+          }
+          this.setData({ isSubmitting: false });
+        }
+      });
     });
   },
 
@@ -565,6 +569,38 @@ Page({
   _getStorageKey(baseKey) {
     const orderId = wx.getStorageSync('currentOrderId') || 'DEFAULT';
     return `${baseKey}_${orderId}`;
+  },
+
+  // 本地模拟保存刻章订单（后端未开发时的演示用）
+  _mockSaveSealOrder(orderData) {
+    const selectedData = wx.getStorageSync('selectedSealsData') || {};
+    const ids = selectedData.ids || [];
+    // 获取印章名称
+    const allSeals = [...this.data.singleSeals, ...this.data.businessSeals, ...this.data.personalSeals, ...this.data.professionalSeals];
+    const sealMap = new Map(allSeals.map(s => [s.id, s]));
+    const sealNames = ids.map(id => sealMap.get(id)?.name || id).join('、');
+    const order = {
+      id: 'SEAL_' + Date.now().toString(36),
+      module: 'seal',
+      type: '在线刻章',
+      desc: sealNames || '电子印章',
+      date: new Date().toISOString().split('T')[0],
+      createTime: new Date().toISOString().replace('T', ' ').substring(0, 16),
+      status: 'pending',
+      statusText: '待支付',
+      statusClass: 'pending',
+      price: orderData.totalPrice,
+      productName: sealNames,
+      url: '/pages/seal/order-confirm/index?id=' + 'SEAL_' + Date.now().toString(36)
+    };
+    try {
+      const orders = wx.getStorageSync('seal_orders') || [];
+      orders.unshift(order);
+      wx.setStorageSync('seal_orders', orders);
+    } catch (e) {}
+    wx.showToast({ title: '模拟下单成功', icon: 'success' });
+    this._clearOrderCache();
+    setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1500);
   }
 });
 

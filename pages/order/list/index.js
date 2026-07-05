@@ -72,7 +72,7 @@ const statusClass = (s) => {
 Page({
   data: {
     activeTab: 0,  // 0=全部 1=待支付 2=进行中 3=已完成 4=售后
-    tabs: ['全部', '待支付', '进行中', '已完成', '售后'],
+    tabs: ['全部', '待支付', '进行中', '已完成', '已取消'],
     orders: [],
     allOrders: []
   },
@@ -110,18 +110,14 @@ Page({
 
   switchTab(e) {
     const idx = parseInt(e.currentTarget.dataset.index);
-    // 售后Tab → 跳转售后列表页
-    if (idx === 4) {
-      wx.navigateTo({ url: '/pages/aftersale/list/index' });
-      return;
-    }
     this.setData({ activeTab: idx });
     this.filterOrders();
   },
 
   filterOrders() {
     const { activeTab, allOrders } = this.data;
-    const statusMap = [null, 'pending', 'processing', 'completed', 'refund'];  // 4=售后（显示退款）
+    const statusMap = [null, 'pending', 'processing', 'completed', 'cancelled'];  // 4=已取消
+    // 全部/待支付/进行中/已完成/已取消 对应 null/pending/processing/completed/cancelled
     const targetStatus = statusMap[activeTab];
     const filtered = targetStatus
       ? allOrders.filter(o => o.status === targetStatus)

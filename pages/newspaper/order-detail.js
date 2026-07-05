@@ -75,6 +75,20 @@ Page({
     });
   },
 
+  completeOrder: function() {
+    var that = this;
+    wx.showModal({
+      title: '确认完成',
+      content: '确认订单已完成？',
+      success: function(res) {
+        if (res.confirm) {
+          that.updateOrderStatus('completed', '已完成', 'completed');
+          wx.showToast({ title: '订单已完成', icon: 'success' });
+        }
+      }
+    });
+  },
+
   updateOrderStatus: function(status, statusText, statusClass) {
     try {
       var orders = wx.getStorageSync('newspaper_orders') || [];

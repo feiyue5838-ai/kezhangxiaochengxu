@@ -75,4 +75,8 @@
     <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>
     <button class="pay-btn" bindtap="payOrder">立即支付</button>
   </view>
+  <!-- 进行中：演示用完成按钮 -->
+  <view class="bottom-bar" wx:if="{{order.status === 'processing'}}">
+    <button class="complete-btn" bindtap="completeOrder">确认完成</button>
+  </view>
 </view>
