@@ -1,13 +1,9 @@
 <view class="page">
   <!-- 自定义导航栏（紫色渐变，与政府送达对齐）-->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">发票收据</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="发票收据" bind:back="goBack"></nav-bar>
 
   <!-- Banner -->
-  <view class="banner" style="margin-top: {{navHeight}}px;">
+  <view class="banner">
     <view class="banner-deco-circle"></view>
     <view class="banner-deco-circle2"></view>
     <text class="banner-title">发票收据登报</text>
@@ -69,4 +65,3 @@
     </scroll-view>
   </view>
 </view>
-

@@ -4,8 +4,6 @@ const personalDocsConfig = require('../../../utils/personal-docs.js');
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     showDocPicker: false,
     pickedIndex: 0,
     pickedItems: [],
@@ -15,8 +13,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
     this._floatDragStart = null;
     this._floatMoved = false;
   },

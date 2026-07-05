@@ -3,8 +3,6 @@ const common = require('../../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     // 模板选择
     selectedTemplate: 'simple',
     // 身份证挂失模板列表
@@ -41,12 +39,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({
-      statusBarHeight,
-      navHeight,
-      selectedTemplate: 'simple'
-    });
   },
 
   goBack() {
