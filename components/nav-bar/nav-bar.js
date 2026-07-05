@@ -53,6 +53,7 @@
    * 生命周期
    */
   lifetimes: {
+    // 设备信息在 attached 计算（不影响 WXML 条件渲染）
     attached() {
       const systemInfo = wx.getSystemInfoSync();
       const statusBarHeight = systemInfo.statusBarHeight;
@@ -75,10 +76,6 @@
         }
       } catch (e) {}
 
-      // 判断是否显示返回按钮（首页无上一页则隐藏）
-      const pages = getCurrentPages();
-      const showBack = pages.length > 1;
-
       this.setData({
         statusBarHeight,
         navContentHeight,
@@ -86,9 +83,21 @@
         capsuleLeft,
         capsuleTop,
         capsuleWidth,
-        capsuleHeight,
-        showBack
+        capsuleHeight
       });
+    },
+
+    // showBack 判断在 ready 时执行，避免与初始化阶段冲突
+    ready() {
+      // 用户若手动传了 showBack，以传入值为准；否则自动判断
+      const showBackProp = this.data.showBack;
+      if (typeof showBackProp === 'boolean' && !this.properties.showBack) {
+        // 用户显式传了 false，不覆盖
+        return;
+      }
+      const pages = getCurrentPages();
+      const showBack = pages.length > 1;
+      this.setData({ showBack });
     }
   },
 
