@@ -32,17 +32,29 @@
   box-sizing: border-box;
 }
 
-/* 系统胶囊按钮覆盖层（透明，点击触发返回） */
-.nav-capsule {
-  position: absolute;
-  z-index: 10;
-  background: transparent;
-}
-
 /* 左侧占位（与右侧对称，保证标题居中） */
 .nav-left {
   flex: 0 0 60rpx;
   height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 返回按钮 */
+.nav-back {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -10rpx;
+}
+
+.nav-back-icon {
+  font-size: 48rpx;
+  color: #fff;
+  line-height: 1;
+  margin-top: -4rpx;
 }
 
 /* 中间区域（标题或插槽） */
@@ -73,11 +85,7 @@
   justify-content: flex-end;
 }
 
-/* 无返回键时左侧也占60rpx，保持标题居中 */
-.nav-left:empty,
-.nav-capsule:empty {
-  display: none;
-}
+
 
 /* 占位元素 */
 .nav-bar-placeholder {
