@@ -52,7 +52,7 @@
 }
 
 .tab-item.active .tab-text {
-  color: #5B6FE8;
+  color: #7B5CFA;
   font-weight: 600;
 }
 
@@ -63,7 +63,7 @@
   transform: translateX(-50%);
   width: 48rpx;
   height: 5rpx;
-  background: #5B6FE8;
+  background: #7B5CFA;
   border-radius: 20rpx;
 }
 
@@ -125,7 +125,7 @@
 }
 
 .order-status.processing {
-  color: #5B6FE8;
+  color: #7B5CFA;
   background: #E6F4FF;
 }
 

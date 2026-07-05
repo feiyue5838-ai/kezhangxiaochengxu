@@ -2,4 +2,4 @@
 .price-preview{display:flex;align-items:baseline;gap:8rpx}
 .preview-label{font-size:26rpx;color:var(--text-secondary)}
 .preview-price{font-size:40rpx;font-weight:bold;color:var(--primary-color)}
-.submit-btn{background:linear-gradient(135deg,#5B6FE8,#7B8FF7);color:#fff;font-size:30rpx;font-weight:bold;border-radius:44rpx;padding:22rpx 48rpx;margin-left:auto}
+.submit-btn{background:linear-gradient(135deg,#5B6FE8,#A78BFA);color:#fff;font-size:30rpx;font-weight:bold;border-radius:44rpx;padding:22rpx 48rpx;margin-left:auto}

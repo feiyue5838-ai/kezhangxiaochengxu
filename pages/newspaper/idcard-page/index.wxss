@@ -176,7 +176,7 @@ page {
   width: 160rpx;
   height: 160rpx;
   border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
+  background: var(--card-color, #7B5CFA);
   opacity: 0.10;
   filter: blur(24rpx);
 }
@@ -185,7 +185,7 @@ page {
   width: 20rpx;
   height: 20rpx;
   border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
+  background: var(--card-color, #7B5CFA);
   position: relative;
   z-index: 1;
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
@@ -195,7 +195,7 @@ page {
   width: 20rpx;
   height: 20rpx;
   border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
+  background: var(--card-color, #7B5CFA);
   position: relative;
   z-index: 1;
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
@@ -204,7 +204,7 @@ page {
 .card-badge {
   font-size: 21rpx;
   color: #fff;
-  background: var(--card-color, #5B6FE8);
+  background: var(--card-color, #7B5CFA);
   padding: 4rpx 18rpx;
   border-radius: 20rpx;
   font-weight: 700;
@@ -248,7 +248,7 @@ page {
   right: 0;
   width: 48rpx;
   height: 48rpx;
-  background: var(--card-color, #5B6FE8);
+  background: var(--card-color, #7B5CFA);
   display: flex;
   align-items: center;
   justify-content: center;

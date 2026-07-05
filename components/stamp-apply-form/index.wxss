@@ -65,7 +65,7 @@
 }
 .region-btn { font-size: 28rpx; }
 .cancel { color: #999; }
-.confirm { color: #5B6FE8; font-weight: 500; }
+.confirm { color: #7B5CFA; font-weight: 500; }
 .region-title { font-size: 32rpx; font-weight: 600; color: #333; }
 .region-pv { height: 440rpx; }
 .region-cell {

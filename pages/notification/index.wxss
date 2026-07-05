@@ -77,7 +77,7 @@ page { background: #F8F7FC; }
   width: 12rpx;
   height: 12rpx;
   border-radius: 50%;
-  background: #5B6FE8;
+  background: #7B5CFA;
   flex-shrink: 0;
   margin-top: 10rpx;
 }

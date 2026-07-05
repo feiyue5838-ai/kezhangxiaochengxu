@@ -120,7 +120,7 @@ page { background: #F8F7FC; }
   left: -20rpx; top: -20rpx;
   width: 160rpx; height: 160rpx;
   border-radius: 50%;
-  background: var(--card-color, #5B6FE8);
+  background: var(--card-color, #7B5CFA);
   opacity: 0.10;
   filter: blur(24rpx);
 }
@@ -281,7 +281,7 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid-color {
-  background: var(--cat-color, #5B6FE8);
+  background: var(--cat-color, #7B5CFA);
   position: absolute;
   left: 0; right: 0; top: 0;
   height: 8rpx;

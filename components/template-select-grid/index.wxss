@@ -23,7 +23,7 @@
 }
 
 .grid-item.selected {
-  border-color: var(--primary-color, #5B6FE8);
+  border-color: var(--primary-color, #7B5CFA);
   background: linear-gradient(135deg, rgb(22 119 255 / 0.05), rgb(64 150 255 / 0.08));
 }
 
@@ -38,7 +38,7 @@
   right: 0;
   width: 40rpx;
   height: 40rpx;
-  background: var(--primary-color, #5B6FE8);
+  background: var(--primary-color, #7B5CFA);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,7 +58,7 @@
 }
 
 .grid-item.selected .item-name {
-  color: var(--primary-color, #5B6FE8);
+  color: var(--primary-color, #7B5CFA);
 }
 
 .item-desc {

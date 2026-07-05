@@ -2,7 +2,7 @@
 
 /* ========== CSS鍙橀噺涓庡叧閿抚 ========== */
 page {
-  --primary-color: #5B6FE8;
+  --primary-color: #7B5CFA;
   --primary-dark: #4A5CD1;
   --primary-light: #A78BFA;
   --primary-gradient: linear-gradient(135deg, #5B6FE8, #A78BFA);

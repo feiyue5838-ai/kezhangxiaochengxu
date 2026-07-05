@@ -113,7 +113,7 @@ page { background: #F8F7FC; }
 .faq-q-left { display: flex; align-items: flex-start; gap: 16rpx; flex: 1; }
 .faq-q-tag {
   font-size: 20rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
   background: #EEF2FF;
   padding: 4rpx 12rpx;
   border-radius: 8rpx;

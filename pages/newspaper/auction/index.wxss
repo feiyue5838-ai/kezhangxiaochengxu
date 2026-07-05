@@ -47,7 +47,7 @@ page { background: #F8F7FC; }
 .card-top::before {
   content: ''; position: absolute; left: -20rpx; top: -20rpx;
   width: 160rpx; height: 160rpx; border-radius: 50%;
-  background: var(--card-color, #5B6FE8); opacity: 0.10; filter: blur(24rpx);
+  background: var(--card-color, #7B5CFA); opacity: 0.10; filter: blur(24rpx);
 }
 .card-dot { width: 20rpx; height: 20rpx; border-radius: 50%; position: relative; z-index: 1; box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12); }
 .card-count { font-size: 21rpx; color: #fff; padding: 4rpx 18rpx; border-radius: 20rpx; font-weight: 700; position: relative; z-index: 1; box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18); }
@@ -103,7 +103,7 @@ page { background: #F8F7FC; }
 }
 .doc-grid-item:active { transform: scale(0.97); }
 .doc-grid-color {
-  background: var(--cat-color, #5B6FE8);
+  background: var(--cat-color, #7B5CFA);
   position: absolute;
   left: 0; right: 0; top: 0;
   height: 8rpx;

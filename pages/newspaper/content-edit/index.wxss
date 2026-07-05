@@ -92,7 +92,7 @@
 
 .action-btn {
   font-size: 26rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
 }
 
 .action-divider {
@@ -303,7 +303,7 @@
 
 .preview-meta-label {
   font-size: 24rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
   font-weight: 500;
 }
 

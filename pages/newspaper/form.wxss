@@ -99,7 +99,7 @@
 
 .preview-edit {
   font-size: 26rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
 }
 
 .preview-content {
@@ -132,7 +132,7 @@
 
 .idcard-text {
   font-size: 24rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
 }
 
 .meta-item {
@@ -199,7 +199,7 @@
 
 .paper-card.selected {
   background: #EBF3FF;
-  border-color: #5B6FE8;
+  border-color: #7B5CFA;
 }
 
 .paper-check {
@@ -208,7 +208,7 @@
   right: 0;
   width: 40rpx;
   height: 40rpx;
-  background: #5B6FE8;
+  background: #7B5CFA;
   border-radius: 0 16rpx;
   display: flex;
   justify-content: center;
@@ -258,7 +258,7 @@
 }
 
 .paper-tag.hot {
-  background: #5B6FE8;
+  background: #7B5CFA;
 }
 
 .paper-tag.value {
@@ -266,7 +266,7 @@
 }
 
 .paper-tag.authority {
-  background: #5B6FE8;
+  background: #7B5CFA;
 }
 
 .paper-tag.local {
@@ -299,7 +299,7 @@
 
 .paper-price {
   font-size: 28rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
   font-weight: bold;
 }
 
@@ -354,7 +354,7 @@
 }
 
 .picker-btn.plus {
-  background: #5B6FE8;
+  background: #7B5CFA;
   color: #fff;
 }
 
@@ -391,7 +391,7 @@
 }
 
 .required {
-  color: #5B6FE8;
+  color: #7B5CFA;
   margin-right: 4rpx;
 }
 
@@ -488,7 +488,7 @@
 
 .invoice-option.active {
   background: #EBF3FF;
-  border-color: #5B6FE8;
+  border-color: #7B5CFA;
 }
 
 .option-text {
@@ -500,7 +500,7 @@
   width: 36rpx;
   height: 36rpx;
   border-radius: 50%;
-  background: #5B6FE8;
+  background: #7B5CFA;
   color: #fff;
   font-size: 24rpx;
   display: flex;
@@ -550,7 +550,7 @@
 
 .price-row.total .price-value {
   font-size: 40rpx;
-  color: #5B6FE8;
+  color: #7B5CFA;
   font-weight: bold;
 }
 
@@ -582,11 +582,11 @@
 .total-price {
   font-size: 42rpx;
   font-weight: bold;
-  color: #5B6FE8;
+  color: #7B5CFA;
 }
 
 .pay-btn {
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
+  background: linear-gradient(135deg, #7B5CFA, #A78BFA);
   color: white;
   font-size: 30rpx;
   font-weight: bold;

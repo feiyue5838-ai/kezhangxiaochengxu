@@ -20,12 +20,12 @@
 .info-row { display: flex; justify-content: space-between; padding: 16rpx 0; }
 .info-label { font-size: 28rpx; color: #8C97A6; }
 .info-value { font-size: 28rpx; color: #1A2332; }
-.info-value.price { color: #5B6FE8; font-weight: bold; }
+.info-value.price { color: #7B5CFA; font-weight: bold; }
 .content-text { font-size: 28rpx; color: #1A2332; line-height: 1.8; }
 
 .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; padding: 20rpx 30rpx; padding-bottom: calc(20rpx + env(safe-area-inset-bottom)); gap: 24rpx; box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.1); z-index: 99; 
   transition: all 0.3s ease;
 }
 .cancel-btn { flex: 1; background: white; color: #8C97A6; font-size: 30rpx; border: 2rpx solid #D5DDE8; border-radius: 20rpx; padding: 20rpx 0; text-align: center; }
-.pay-btn { flex: 1; background: #5B6FE8; color: white; font-size: 30rpx; font-weight: bold; border: none; border-radius: 20rpx; padding: 20rpx 0; text-align: center; }
+.pay-btn { flex: 1; background: #7B5CFA; color: white; font-size: 30rpx; font-weight: bold; border: none; border-radius: 20rpx; padding: 20rpx 0; text-align: center; }
 .pay-btn::after { border: none; }

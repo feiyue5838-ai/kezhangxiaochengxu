@@ -195,7 +195,7 @@
   position: absolute;
   left: -20rpx; top: -20rpx;
   width: 160rpx; height: 160rpx;
-  background: var(--cat-color, #5B6FE8);
+  background: var(--cat-color, #7B5CFA);
   opacity: 0.10;
   border-radius: 50%;
   filter: blur(24rpx);
@@ -384,7 +384,7 @@
 }
 
 .doc-grid-color {
-  background: var(--cat-color, #5B6FE8);
+  background: var(--cat-color, #7B5CFA);
 
   position: absolute;
   left: 0; right: 0; top: 0;

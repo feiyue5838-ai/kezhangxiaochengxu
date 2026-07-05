@@ -111,7 +111,7 @@ page {
 .stat-value {
   font-size: 40rpx;
   font-weight: bold;
-  color: #5B6FE8;
+  color: #7B5CFA;
   line-height: 1;
   margin-bottom: 8rpx;
 }
@@ -216,7 +216,7 @@ page {
   height: 80rpx;
   line-height: 80rpx;
   background: #fff;
-  color: #5B6FE8;
+  color: #7B5CFA;
   font-size: 30rpx;
   font-weight: 600;
   border-radius: 20rpx;
