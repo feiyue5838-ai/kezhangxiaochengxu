@@ -1,4 +1,4 @@
-﻿/* pages/newspaper/idcard-page.wxss */
+/* pages/newspaper/idcard-page.wxss */
 page {
   background: #F8F7FC;
   min-height: 100vh;

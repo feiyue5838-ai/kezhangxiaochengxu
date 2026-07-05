@@ -1,4 +1,4 @@
-﻿/* pages/profile/index.wxss */
+/* pages/profile/index.wxss */
 page {
   background: #F8F7FC;
   min-height: 100vh;

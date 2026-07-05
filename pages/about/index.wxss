@@ -1,4 +1,4 @@
-﻿/* pages/about/index.wxss */
+/* pages/about/index.wxss */
 page { background: #F8F7FC; }
 
 .nav-back {

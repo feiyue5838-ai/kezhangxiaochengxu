@@ -1,4 +1,4 @@
-﻿/* pages/newspaper/court/index.wxss - 涓庝紒涓氳瘉浠堕〉闈㈠畬鍏ㄥ锟? */
+/* pages/newspaper/court/index.wxss - 涓庝紒涓氳瘉浠堕〉闈㈠畬鍏ㄥ锟? */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 

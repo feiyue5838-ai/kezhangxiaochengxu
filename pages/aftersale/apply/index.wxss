@@ -1,4 +1,4 @@
-﻿/* pages/aftersale/apply/index.wxss */
+/* pages/aftersale/apply/index.wxss */
 
 .page { min-height: 100vh; background: #F8F7FC; }
 

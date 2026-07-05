@@ -1,4 +1,4 @@
-﻿/* pages/newspaper/publicity/index.wxss - 涓庣幆璇勫叕绀洪〉闈㈠畬鍏ㄥ绛?*/
+/* pages/newspaper/publicity/index.wxss - 涓庣幆璇勫叕绀洪〉闈㈠畬鍏ㄥ绛?*/
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 

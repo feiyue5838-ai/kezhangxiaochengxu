@@ -1,4 +1,4 @@
-﻿/* pages/newspaper/env-assessment/index.wxss - 涓庢斂搴滈€佽揪椤甸潰瀹屽叏瀵圭瓑 */
+/* pages/newspaper/env-assessment/index.wxss - 涓庢斂搴滈€佽揪椤甸潰瀹屽叏瀵圭瓑 */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 

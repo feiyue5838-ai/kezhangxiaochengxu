@@ -1,4 +1,4 @@
-﻿/* pages/newspaper/auction/index.wxss */
+/* pages/newspaper/auction/index.wxss */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 

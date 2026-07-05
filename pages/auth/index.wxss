@@ -1,4 +1,4 @@
-﻿/* pages/auth/index.wxss */
+/* pages/auth/index.wxss */
 
 .page {
   min-height: 100vh;
