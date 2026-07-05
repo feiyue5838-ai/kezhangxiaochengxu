@@ -214,5 +214,49 @@ Page({
     } catch (e) {
       wx.showToast({ title: '操作失败', icon: 'none' });
     }
+  },
+
+  // 删除订单
+  onDeleteOrder(e) {
+    const id = e.currentTarget.dataset.id;
+    const module = e.currentTarget.dataset.module;
+    wx.showModal({
+      title: '删除订单',
+      content: '确定删除此订单？删除后不可恢复',
+      confirmColor: '#FF4D4F',
+      success: (res) => {
+        if (res.confirm) {
+          this.deleteOrder(id, module);
+        }
+      }
+    });
+  },
+
+  // 从本地存储删除订单
+  deleteOrder(id, module) {
+    try {
+      const key = module === 'seal' ? 'seal_orders' : 'newspaper_orders';
+      const orders = wx.getStorageSync(key) || [];
+      const filtered = orders.filter(o => o.id !== id);
+      wx.setStorageSync(key, filtered);
+      this.loadOrders();
+      wx.showToast({ title: '已删除', icon: 'success' });
+    } catch (e) {
+      wx.showToast({ title: '删除失败', icon: 'none' });
+    }
+  },
+
+  // 申请售后（跳转到售后申请页）
+  onApplyAftersale(e) {
+    const id = e.currentTarget.dataset.id;
+    const module = e.currentTarget.dataset.module;
+    // 取出完整订单信息存入临时 storage，供申请页读取
+    const key = module === 'seal' ? 'seal_orders' : 'newspaper_orders';
+    const orders = wx.getStorageSync(key) || [];
+    const order = orders.find(o => o.id === id);
+    if (order) {
+      wx.setStorageSync('aftersaleCurrent', order);
+    }
+    wx.navigateTo({ url: '/pages/aftersale/apply/index?orderId=' + id });
   }
 });

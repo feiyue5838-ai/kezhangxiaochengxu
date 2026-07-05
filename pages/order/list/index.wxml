@@ -48,6 +48,15 @@
         <block wx:elif="{{item.status === 'processing'}}">
           <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onCompleteOrder">确认完成</view>
         </block>
+        <!-- 已完成：删除 + 申请售后 -->
+        <block wx:elif="{{item.status === 'completed'}}">
+          <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
+          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除订单</view>
+        </block>
+        <!-- 已取消/退款：删除 -->
+        <block wx:elif="{{item.status === 'cancelled' || item.status === 'refunded'}}">
+          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除订单</view>
+        </block>
       </view>
     </view>
   </view>

@@ -72,6 +72,11 @@ Page({
     wx.navigateTo({ url: '/pages/order/list/index' });
   },
 
+  // 售后记录
+  goToAftersale() {
+    wx.navigateTo({ url: '/pages/aftersale/list/index' });
+  },
+
   // 关于我们
   goToAbout() {
     wx.navigateTo({ url: '/pages/about/index' });

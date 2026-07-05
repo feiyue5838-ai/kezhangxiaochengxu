@@ -103,3 +103,31 @@
 }
 
 .pay-btn::after, .complete-btn::after { border: none; }
+
+.aftersale-btn {
+  flex: 1;
+  background: #fff;
+  color: #7B5CFA;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: 2rpx solid #7B5CFA;
+  border-radius: 20rpx;
+  padding: 20rpx 0;
+  text-align: center;
+}
+
+.aftersale-btn::after { border: none; }
+
+.delete-btn {
+  flex: 1;
+  background: #fff;
+  color: #FF4D4F;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: 2rpx solid #FF4D4F;
+  border-radius: 20rpx;
+  padding: 20rpx 0;
+  text-align: center;
+}
+
+.delete-btn::after { border: none; }

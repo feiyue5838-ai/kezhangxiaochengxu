@@ -72,5 +72,12 @@
     <view class="bottom-bar" wx:elif="{{order.status === 'processing'}}">
       <button class="complete-btn" bindtap="completeOrder">确认完成</button>
     </view>
+    <view class="bottom-bar" wx:elif="{{order.status === 'completed'}}">
+      <button class="aftersale-btn" bindtap="onApplyAftersale">申请售后</button>
+      <button class="delete-btn" bindtap="onDeleteOrder">删除订单</button>
+    </view>
+    <view class="bottom-bar" wx:elif="{{order.status === 'cancelled' || order.status === 'refunded'}}">
+      <button class="delete-btn" bindtap="onDeleteOrder">删除订单</button>
+    </view>
   </block>
 </view>

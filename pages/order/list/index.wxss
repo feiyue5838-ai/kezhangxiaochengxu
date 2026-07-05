@@ -150,6 +150,11 @@
   border: 2rpx solid #D5DDE8;
 }
 
+.action-btn.delete {
+  color: #FF4D4F;
+  border: 2rpx solid #FF4D4F;
+}
+
 /* 空状态 */
 .empty-wrap {
   display: flex;

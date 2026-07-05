@@ -131,5 +131,37 @@ Page({
     } catch (e) {
       // 更新失败静默处理
     }
+  },
+
+  // 申请售后
+  onApplyAftersale: function() {
+    var order = this.data.order;
+    if (order) {
+      wx.setStorageSync('aftersaleCurrent', order);
+    }
+    wx.navigateTo({ url: '/pages/aftersale/apply/index?orderId=' + order.id });
+  },
+
+  // 删除订单
+  onDeleteOrder: function() {
+    var that = this;
+    wx.showModal({
+      title: '删除订单',
+      content: '确定删除此订单？删除后不可恢复',
+      confirmColor: '#FF4D4F',
+      success: function(res) {
+        if (res.confirm) {
+          try {
+            var orders = wx.getStorageSync('newspaper_orders') || [];
+            var filtered = orders.filter(function(o) { return o.id !== that.data.order.id; });
+            wx.setStorageSync('newspaper_orders', filtered);
+            wx.showToast({ title: '已删除', icon: 'success' });
+            setTimeout(function() { wx.navigateBack(); }, 1500);
+          } catch (e) {
+            wx.showToast({ title: '删除失败', icon: 'none' });
+          }
+        }
+      }
+    });
   }
 });

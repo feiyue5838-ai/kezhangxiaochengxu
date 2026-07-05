@@ -72,6 +72,13 @@
 
   <!-- 菜单列表 -->
   <view class="menu-list">
+    <view class="menu-item" bindtap="goToAftersale">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon-img" src="/assets/icons/icon-b64-16.svg" mode="aspectFit" />
+      </view>
+      <text class="menu-name">售后记录</text>
+      <text class="menu-arrow">›</text>
+    </view>
     <view class="menu-item" bindtap="onViewPrivacy">
       <view class="menu-icon-wrap">
         <image class="menu-icon-img" src="/assets/icons/icon-b64-22.svg" mode="aspectFit" />
