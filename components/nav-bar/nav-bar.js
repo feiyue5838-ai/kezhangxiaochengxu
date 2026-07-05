@@ -89,15 +89,16 @@
 
     // showBack 判断在 ready 时执行，避免与初始化阶段冲突
     ready() {
-      // 用户若手动传了 showBack，以传入值为准；否则自动判断
-      const showBackProp = this.data.showBack;
-      if (typeof showBackProp === 'boolean' && !this.properties.showBack) {
-        // 用户显式传了 false，不覆盖
-        return;
-      }
+      // 自动判断是否需要返回键（页面栈 > 1 时显示）
       const pages = getCurrentPages();
-      const showBack = pages.length > 1;
-      this.setData({ showBack });
+      const autoShowBack = pages.length > 1;
+      
+      // 如果用户显式传了 showBack，以传入值为准；否则用自动判断
+      const hasExplicitShowBack = this.properties.hasOwnProperty('showBack') && 
+                                   typeof this.properties.showBack === 'boolean';
+      const finalShowBack = hasExplicitShowBack ? this.properties.showBack : autoShowBack;
+      
+      this.setData({ showBack: finalShowBack });
     }
   },
 

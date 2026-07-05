@@ -34,9 +34,15 @@
 
 /* 系统胶囊按钮覆盖层（透明，点击触发返回） */
 .nav-capsule {
-  position: relative;
+  position: absolute;
   z-index: 10;
   background: transparent;
+}
+
+/* 左侧占位（与右侧对称，保证标题居中） */
+.nav-left {
+  flex: 0 0 60rpx;
+  height: 100%;
 }
 
 /* 中间区域（标题或插槽） */
@@ -65,6 +71,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+/* 无返回键时左侧也占60rpx，保持标题居中 */
+.nav-left:empty,
+.nav-capsule:empty {
+  display: none;
 }
 
 /* 占位元素 */
