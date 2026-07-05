@@ -13,15 +13,18 @@
   position: sticky;
   top: 0;
   z-index: 99;
+  overflow-x: auto;
 }
 
 .tab-item {
   flex: 1;
+  min-width: 150rpx;
   text-align: center;
   padding: 24rpx 0;
   font-size: 28rpx;
   color: #666;
   position: relative;
+  white-space: nowrap;
 }
 
 .tab-item.active {
