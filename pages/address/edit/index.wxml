@@ -1,13 +1,8 @@
 <view class="page">
   <!-- 导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content" style="height: {{navHeight - statusBarHeight}}px; padding-right: {{menuRight + 8}}px;">
-      <view class="nav-back" bindtap="onBack">‹</view>
-      <text class="nav-title">填写邮寄地址</text>
-    </view>
-  </view>
+  <nav-bar title="填写邮寄地址" bind:back="onBack" />
 
-  <view class="container" style="padding-top: {{navHeight}}px;">
+  <view class="container">
   <view class="form-section">
     <!-- 收件人 -->
     <view class="form-item">

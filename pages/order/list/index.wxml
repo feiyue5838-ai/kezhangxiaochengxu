@@ -1,14 +1,9 @@
 <view class="page">
   <!-- 自定义导航栏（与胶囊对齐） -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-back" style="top: {{capsuleTop - statusBarHeight}}px; height: {{capsuleHeight}}px;" bindtap="goBack">‹</view>
-      <text class="nav-title" style="top: {{capsuleTop - statusBarHeight}}px; height: {{capsuleHeight}}px; line-height: {{capsuleHeight}}px;">我的订单</text>
-    </view>
-  </view>
+  <nav-bar title="我的订单" bind:back="goBack" />
 
   <!-- 状态Tab -->
-  <view class="tab-bar" style="top: {{navHeight}}px;">
+  <view class="tab-bar">
     <view
       class="tab-item {{activeTab === index ? 'active' : ''}}"
       wx:for="{{tabs}}"

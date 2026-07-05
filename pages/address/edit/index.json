@@ -1,6 +1,6 @@
 {
   "navigationStyle": "custom",
-  "navigationBarTitleText": "填写邮寄地址",
-  "navigationBarBackgroundColor": "#5B6FE8",
-  "navigationBarTextStyle": "white"
+  "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar"
+  }
 }

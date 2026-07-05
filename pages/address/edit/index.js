@@ -3,11 +3,6 @@ const REGIONS = require('../../../utils/region-data.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
-    menuTop: 0,
-    menuHeight: 0,
-    menuRight: 0,
     name: '',
     phone: '',
     province: '',
@@ -20,19 +15,6 @@ Page({
   },
 
   onLoad(options) {
-    // 导航栏安全区（与胶囊按钮对齐）
-    const sysInfo = wx.getSystemInfoSync();
-    const menuRect = wx.getMenuButtonBoundingClientRect();
-    const statusBarHeight = sysInfo.statusBarHeight || 20;
-    const navContentHeight = (menuRect.top - statusBarHeight) * 2 + menuRect.height;
-    this.setData({
-      statusBarHeight,
-      navHeight: statusBarHeight + navContentHeight,
-      menuTop: menuRect.top,
-      menuHeight: menuRect.height,
-      menuRight: sysInfo.windowWidth - menuRect.right
-    });
-
     // 初始化省市区三列数据
     const provinces = Object.keys(REGIONS);
     const firstProvince = provinces[0];

@@ -4,8 +4,6 @@ const companyDocsConfig = require('../../../utils/company-docs.js');
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     categoryId: 0,
     categoryName: '',
     docs: [],

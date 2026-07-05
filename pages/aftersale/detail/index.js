@@ -2,8 +2,6 @@ const common = require('../../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
     record: {},
     statusText: {
       pending: '待处理',
@@ -30,8 +28,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
     const record = wx.getStorageSync('aftersaleCurrent') || {};
     // 计算nextIndex：找到第一个没有时间的条目
     const nextIndex = (record.timeline || []).findIndex(t => !t.time);

@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
     "stamp-promo-banner": "/components/stamp-promo-banner/index",
     "stamp-apply-form": "/components/stamp-apply-form/index",
     "user-comment-block": "/components/user-comment-block/index",

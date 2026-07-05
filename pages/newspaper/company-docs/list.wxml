@@ -1,13 +1,7 @@
 <!-- pages/newspaper/company-docs/list.wxml -->
-<view class="page" style="padding-top: {{navHeight}}px; --nav-h: {{navHeight}}px;">
+<view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">
-      <text class="back-icon">‹</text>
-    </view>
-    <text class="nav-title">{{categoryName}}</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="{{categoryName}}" bind:back="goBack" />
 
   <!-- 搜索栏 -->
   <view class="search-wrap">

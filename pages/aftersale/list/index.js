@@ -2,8 +2,6 @@ const common = require('../../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
     records: [],
     statusText: {
       pending: '待处理',
@@ -22,8 +20,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
   },
 
   onShow() {

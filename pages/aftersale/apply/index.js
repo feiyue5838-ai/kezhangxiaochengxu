@@ -2,8 +2,6 @@ const common = require('../../../utils/common.js');
 
 Page({
   data: {
-    statusBarHeight: 0,
-    navHeight: 0,
     order: null,
     categories: [
       { value: 'quality',    name: '质量问题',    icon: '⚠️' },
@@ -21,8 +19,6 @@ Page({
   },
 
   onLoad(opt) {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
     // 从 Storage 或 URL 参数读取订单
     const storageOrder = wx.getStorageSync('aftersale_order');
     if (storageOrder) {
