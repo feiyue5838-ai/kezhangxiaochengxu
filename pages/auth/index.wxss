@@ -1,4 +1,4 @@
-/* pages/auth/index.wxss */
+﻿/* pages/auth/index.wxss */
 
 .page {
   min-height: 100vh;
@@ -10,12 +10,12 @@
   overflow: hidden;
 }
 
-/* 背景装饰 */
+/* 鑳屾櫙瑁呴グ */
 .bg-top {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 480rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 0 0 48% 48%;
 }
 
@@ -27,7 +27,7 @@
 .c1 { width: 300rpx; height: 300rpx; top: 340rpx; right: -60rpx; }
 .c2 { width: 200rpx; height: 200rpx; top: 580rpx; left: -40rpx; }
 
-/* ========== Logo区 ========== */
+/* ========== Logo鍖?========== */
 .logo-section {
   position: relative;
   z-index: 10;
@@ -64,7 +64,7 @@
   display: block;
 }
 
-/* ========== 登录卡片 ========== */
+/* ========== 鐧诲綍鍗＄墖 ========== */
 .login-card {
   position: relative;
   z-index: 10;
@@ -91,11 +91,11 @@
   margin-bottom: 48rpx;
 }
 
-/* 微信登录按钮 */
+/* 寰俊鐧诲綍鎸夐挳 */
 .wechat-btn {
   width: 100%;
   height: 96rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 48rpx;
   display: flex;
   align-items: center;
@@ -127,7 +127,7 @@
   color: #fff;
 }
 
-/* 分隔线 */
+/* 鍒嗛殧绾?*/
 .divider-row {
   display: flex;
   align-items: center;
@@ -145,7 +145,7 @@
   flex-shrink: 0;
 }
 
-/* 其他登录 */
+/* 鍏朵粬鐧诲綍 */
 .alt-login {
   display: flex;
   justify-content: center;
@@ -174,7 +174,7 @@
   color: #B0BBC8;
 }
 
-/* ========== 协议 ========== */
+/* ========== 鍗忚 ========== */
 .agreement-row {
   position: relative;
   z-index: 10;

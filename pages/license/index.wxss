@@ -1,6 +1,6 @@
-/* pages/license/index.wxss */
+﻿/* pages/license/index.wxss */
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 
 .nav-content {
   display: flex;
@@ -46,7 +46,7 @@ page {
 .banner {
   padding: 48rpx 40rpx 40rpx;
   text-align: center;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
 }
 
 .banner-subtitle {
@@ -81,7 +81,7 @@ page {
   vertical-align: middle;
 }
 
-/* ========== 服务列表 ========== */
+/* ========== 鏈嶅姟鍒楄〃 ========== */
 .service-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -101,13 +101,13 @@ page {
   transition: all 0.3s ease;
 }
 
-/* SVG 图标 */
+/* SVG 鍥炬爣 */
 .service-icon-img {
   width: 48rpx;
   height: 48rpx;
 }
 
-/* 图标背景容器 */
+/* 鍥炬爣鑳屾櫙瀹瑰櫒 */
 .svc-icon-wrap {
   width: 88rpx;
   height: 88rpx;
@@ -116,7 +116,7 @@ page {
   align-items: center;
   justify-content: center;
   margin-bottom: 16rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
 }
 
 .service-name {
@@ -134,7 +134,7 @@ page {
   color: #C0C8D4;
 }
 
-/* 底部安全区 */
+/* 搴曢儴瀹夊叏鍖?*/
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;

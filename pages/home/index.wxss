@@ -1,11 +1,11 @@
-/* pages/home/index.wxss */
+﻿/* pages/home/index.wxss */
 
-/* ========== CSS变量与关键帧 ========== */
+/* ========== CSS鍙橀噺涓庡叧閿抚 ========== */
 page {
   --primary-color: #5B6FE8;
   --primary-dark: #4A5CD1;
-  --primary-light: #7B8FF7;
-  --primary-gradient: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  --primary-light: #A78BFA;
+  --primary-gradient: linear-gradient(135deg, #5B6FE8, #A78BFA);
   --bg-color: #F5F6FA;
   --bg-white: #ffffff;
   --border-color: #E8EDF2;
@@ -17,7 +17,7 @@ page {
   min-height: 100vh;
 }
 
-/* 呼吸渐变动画 */
+/* 鍛煎惛娓愬彉鍔ㄧ敾 */
 @keyframes gradientBreathe {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -31,7 +31,7 @@ page {
   min-height: 100vh;
 }
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 
 .nav-content {
   display: flex;
@@ -78,9 +78,9 @@ page {
   overflow: hidden;
 }
 
-/* 装饰圆 — 右下角半透明大气元素 */
+/* 瑁呴グ鍦?鈥?鍙充笅瑙掑崐閫忔槑澶ф皵鍏冪礌 */
 .hero::before {
-  display: none; /* WeChat 不支持伪元素，改用真实元素 */
+  display: none; /* WeChat 涓嶆敮鎸佷吉鍏冪礌锛屾敼鐢ㄧ湡瀹炲厓绱?*/
 }
 
 .hero-deco {
@@ -105,7 +105,7 @@ page {
   pointer-events: none;
 }
 
-/* 底部弧形装饰 */
+/* 搴曢儴寮у舰瑁呴グ */
 .hero-arc {
   position: absolute;
   bottom: -2rpx;
@@ -141,7 +141,7 @@ page {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========== 核心服务卡片 ========== */
+/* ========== 鏍稿績鏈嶅姟鍗＄墖 ========== */
 .services {
   display: flex;
   justify-content: space-between;
@@ -169,7 +169,7 @@ page {
   transform: translateY(24rpx);
 }
 
-/* 渐进入场 + 顶部颜色渗入卡片 */
+/* 娓愯繘鍏ュ満 + 椤堕儴棰滆壊娓楀叆鍗＄墖 */
 .svc-col:nth-child(1) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.3s forwards;
   background: linear-gradient(180deg, #FCFCFF 0%, #FFFFFF 100%);
@@ -187,9 +187,9 @@ page {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 顶部颜色渗入效果通过卡片背景渐变实现 */
+/* 椤堕儴棰滆壊娓楀叆鏁堟灉閫氳繃鍗＄墖鑳屾櫙娓愬彉瀹炵幇 */
 
-/* 卡片悬浮效果 - 轻触下沉+阴影加深 */
+/* 鍗＄墖鎮诞鏁堟灉 - 杞昏Е涓嬫矇+闃村奖鍔犳繁 */
 .svc-tap {
   transform: scale(0.96);
   transition: transform 0.25s cubic-bezier(0.25,1,0.5,1),
@@ -226,7 +226,7 @@ page {
   letter-spacing: 2rpx;
 }
 
-/* ========== 区块通用 ========== */
+/* ========== 鍖哄潡閫氱敤 ========== */
 .section {
   background: var(--bg-white);
   margin: 28rpx 32rpx;
@@ -254,7 +254,7 @@ page {
   display: none;
 }
 
-/* 标题左侧装饰条 */
+/* 鏍囬宸︿晶瑁呴グ鏉?*/
 .section-title-bar {
   position: absolute;
   left: 0;
@@ -277,7 +277,7 @@ page {
   background: var(--bg-color);
 }
 
-/* ========== 订单加载骨架 ========== */
+/* ========== 璁㈠崟鍔犺浇楠ㄦ灦 ========== */
 .skeleton-order {
   display: flex;
   align-items: center;
@@ -321,7 +321,7 @@ page {
   50% { opacity: 0.4; }
 }
 
-/* ========== 订单列表 ========== */
+/* ========== 璁㈠崟鍒楄〃 ========== */
 .order {
   display: flex;
   align-items: center;
@@ -401,7 +401,7 @@ page {
   color: var(--text-secondary);
 }
 
-/* ========== 保障徽章 ========== */
+/* ========== 淇濋殰寰界珷 ========== */
 .badges {
   display: flex;
   justify-content: space-between;
@@ -444,7 +444,7 @@ page {
   white-space: nowrap;
 }
 
-/* 底部安全区 */
+/* 搴曢儴瀹夊叏鍖?*/
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;

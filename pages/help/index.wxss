@@ -1,7 +1,7 @@
-/* pages/help/index.wxss */
+﻿/* pages/help/index.wxss */
 page { background: #F8F7FC; }
 
-/* ========== 导航栏（与胶囊对齐） ========== */
+/* ========== 瀵艰埅鏍忥紙涓庤兌鍥婂榻愶級 ========== */
 .nav-content {
   position: relative;
   height: 100%;
@@ -27,14 +27,14 @@ page { background: #F8F7FC; }
   white-space: nowrap;
 }
 
-/* ========== 内容区 ========== */
+/* ========== 鍐呭鍖?========== */
 .help-wrap {
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .help-hotline {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   margin: 24rpx 20rpx 0;
   border-radius: 20rpx;
   padding: 36rpx 32rpx;
@@ -60,7 +60,7 @@ page { background: #F8F7FC; }
 .hotline-btn text { font-size: 26rpx; color: #fff; font-weight: 600; }
 .hotline-btn image { width: 28rpx; height: 28rpx; }
 
-/* 分类区 */
+/* 鍒嗙被鍖?*/
 .help-cats { margin: 24rpx 20rpx 0; }
 
 .help-cat-title {
@@ -93,7 +93,7 @@ page { background: #F8F7FC; }
 .help-cat-icon { width: 64rpx; height: 64rpx; }
 .help-cat-name { font-size: 24rpx; color: #1A2332; text-align: center; font-weight: 500; }
 
-/* FAQ 列表 */
+/* FAQ 鍒楄〃 */
 .faq-list { margin: 24rpx 20rpx 0; }
 
 .faq-item {

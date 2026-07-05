@@ -1,10 +1,10 @@
-/* pages/newspaper/idcard-page.wxss */
+﻿/* pages/newspaper/idcard-page.wxss */
 page {
   background: #F8F7FC;
   min-height: 100vh;
 }
 
-/* ========== 导航�?========== */
+/* ========== 瀵艰埅锟?========== */
 
 .nav-back {
   width: 60rpx;
@@ -33,7 +33,7 @@ page {
 }
 /* ========== Banner ========== */
 .banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx;
   border-radius: 0 0 40rpx 40rpx;
   text-align: center;
@@ -41,7 +41,7 @@ page {
   overflow: hidden;
 }
 
-/* 装饰�? */
+/* 瑁呴グ锟? */
 .banner-deco-circle { 
   position: absolute;
   width: 160rpx;
@@ -105,7 +105,7 @@ page {
   margin-right: 6rpx;
 }
 
-/* ========== 模板选择区域 ========== */
+/* ========== 妯℃澘閫夋嫨鍖哄煙 ========== */
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
@@ -128,7 +128,7 @@ page {
   margin-right: 10rpx;
 }
 
-/* ========== 模板卡片网格 ========== */
+/* ========== 妯℃澘鍗＄墖缃戞牸 ========== */
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -157,7 +157,7 @@ page {
   box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
 }
 
-/* 卡片顶部 */
+/* 鍗＄墖椤堕儴 */
 .card-top {
   height: 80rpx;
   display: flex;
@@ -213,7 +213,7 @@ page {
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
 
-/* 卡片底部 */
+/* 鍗＄墖搴曢儴 */
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
@@ -241,7 +241,7 @@ page {
   white-space: nowrap;
 }
 
-/* 选中角标 */
+/* 閫変腑瑙掓爣 */
 .card-check {
   position: absolute;
   top: 0;
@@ -261,7 +261,7 @@ page {
   height: 26rpx;
 }
 
-/* 底部色线 */
+/* 搴曢儴鑹茬嚎 */
 .template-card::after {
   content: '';
   position: absolute;
@@ -270,6 +270,6 @@ page {
   bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }

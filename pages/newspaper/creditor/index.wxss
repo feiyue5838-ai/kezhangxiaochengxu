@@ -1,8 +1,8 @@
-/* pages/newspaper/court/index.wxss - 与企业证件页面完全对�? */
+﻿/* pages/newspaper/court/index.wxss - 涓庝紒涓氳瘉浠堕〉闈㈠畬鍏ㄥ锟? */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
-/* ========== 导航栏（紫色渐变背景�?========== */
+/* ========== 瀵艰埅鏍忥紙绱壊娓愬彉鑳屾櫙锟?========== */
 
 .nav-back {
   width: 60rpx;
@@ -28,7 +28,7 @@ page { background: #F8F7FC; }
 }
 /* ========== Banner ========== */
 .banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx;
   border-radius: 0 0 40rpx 40rpx;
   text-align: center;
@@ -77,14 +77,14 @@ page { background: #F8F7FC; }
 
 .tag-icon { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 
-/* ========== 分类选择区域 ========== */
+/* ========== 鍒嗙被閫夋嫨鍖哄煙 ========== */
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
   position: relative; z-index: 10;
 }
 
-/* ========== 分类卡片网格 ========== */
+/* ========== 鍒嗙被鍗＄墖缃戞牸 ========== */
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -112,7 +112,7 @@ page { background: #F8F7FC; }
   box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
 }
 
-/* 卡片顶部 */
+/* 鍗＄墖椤堕儴 */
 .card-top {
   height: 80rpx;
   display: flex; align-items: center;
@@ -147,7 +147,7 @@ page { background: #F8F7FC; }
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
 
-/* 卡片底部 */
+/* 鍗＄墖搴曢儴 */
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
@@ -167,7 +167,7 @@ page { background: #F8F7FC; }
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* 选中角标 */
+/* 閫変腑瑙掓爣 */
 .card-check {
   position: absolute; top: 0; right: 0;
   width: 48rpx; height: 48rpx;
@@ -177,17 +177,17 @@ page { background: #F8F7FC; }
 
 .check-icon { width: 28rpx; height: 28rpx; }
 
-/* 底部色线 */
+/* 搴曢儴鑹茬嚎 */
 .template-card::after {
   content: '';
   position: absolute;
   left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx; border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
 
-/* ========== 弹窗遮罩 ========== */
+/* ========== 寮圭獥閬僵 ========== */
 .doc-mask {
   position: fixed; inset: 0; z-index: 200;
   background: rgb(0 0 0 / 0.45);
@@ -196,7 +196,7 @@ page { background: #F8F7FC; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ========== 模板选择弹窗 ========== */
+/* ========== 妯℃澘閫夋嫨寮圭獥 ========== */
 .doc-picker {
   position: fixed; left: 0; right: 0; bottom: 0;
   padding-bottom: env(safe-area-inset-bottom);
@@ -243,9 +243,9 @@ page { background: #F8F7FC; }
   background: #F0F2F5; border-radius: 50%; font-size: 28rpx; color: #8C97A6;
 }
 
-/* ========== 搜索�?========== */
+/* ========== 鎼滅储锟?========== */
 
-/* ========== 弹窗列表 ========== */
+/* ========== 寮圭獥鍒楄〃 ========== */
 .doc-picker-body {
   max-height: 52vh; padding: 0 32rpx 48rpx;
   min-height: 0; overflow-y: auto;
@@ -293,11 +293,11 @@ page { background: #F8F7FC; }
   font-size: 26rpx; color: #8C97A6;
 }
 
-/* ========== 浮动客服 ========== */
+/* ========== 娴姩瀹㈡湇 ========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.40);
 }

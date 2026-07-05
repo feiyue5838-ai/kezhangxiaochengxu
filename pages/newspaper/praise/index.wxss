@@ -1,8 +1,8 @@
-/* pages/newspaper/praise/index.wxss - 与环评公示页面完全对等 */
+﻿/* pages/newspaper/praise/index.wxss - 涓庣幆璇勫叕绀洪〉闈㈠畬鍏ㄥ绛?*/
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
-/* ========== 导航栏（蓝色渐变背景） ========== */
+/* ========== 瀵艰埅鏍忥紙钃濊壊娓愬彉鑳屾櫙锛?========== */
 
 .nav-back {
   width: 60rpx;
@@ -26,7 +26,7 @@ page { background: #F8F7FC; }
 
 /* ========== Banner ========== */
 .banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx;
   border-radius: 0 0 40rpx 40rpx;
   text-align: center;
@@ -75,14 +75,14 @@ page { background: #F8F7FC; }
 
 .tag-icon { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 
-/* ========== 分类选择区域 ========== */
+/* ========== 鍒嗙被閫夋嫨鍖哄煙 ========== */
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
   position: relative; z-index: 10;
 }
 
-/* ========== 分类卡片网格 ========== */
+/* ========== 鍒嗙被鍗＄墖缃戞牸 ========== */
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -105,7 +105,7 @@ page { background: #F8F7FC; }
   box-shadow: 0 2rpx 10rpx rgb(91 111 232 / 0.12), 0 1rpx 2rpx rgb(12 26 46 / 0.03);
 }
 
-/* 卡片顶部 */
+/* 鍗＄墖椤堕儴 */
 .card-top {
   height: 80rpx;
   display: flex; align-items: center;
@@ -140,7 +140,7 @@ page { background: #F8F7FC; }
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
 
-/* 卡片底部 */
+/* 鍗＄墖搴曢儴 */
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
@@ -160,17 +160,17 @@ page { background: #F8F7FC; }
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* 底部色线 */
+/* 搴曢儴鑹茬嚎 */
 .template-card::after {
   content: '';
   position: absolute;
   left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx; border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
 
-/* ========== 证件弹窗（底部半屏） ========== */
+/* ========== 璇佷欢寮圭獥锛堝簳閮ㄥ崐灞忥級 ========== */
 .doc-mask {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgb(0 0 0 / 0.45);
@@ -304,11 +304,11 @@ page { background: #F8F7FC; }
   word-break: break-all;
 }
 
-/* ========== 浮动客服按钮 ========== */
+/* ========== 娴姩瀹㈡湇鎸夐挳 ========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06);

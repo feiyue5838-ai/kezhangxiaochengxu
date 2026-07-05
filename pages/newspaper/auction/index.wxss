@@ -1,15 +1,15 @@
-/* pages/newspaper/auction/index.wxss */
+﻿/* pages/newspaper/auction/index.wxss */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
-/* 导航栏 */
+/* 瀵艰埅鏍?*/
 .nav-back { width: 60rpx; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 40rpx; color: #fff; font-weight: 300; }
 .nav-title { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 34rpx; font-weight: 600; color: #fff; }
 .nav-placeholder { width: 60rpx; }
 
 /* Banner */
 .banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx; border-radius: 0 0 40rpx 40rpx;
   text-align: center; position: relative; overflow: hidden;
 }
@@ -29,7 +29,7 @@ page { background: #F8F7FC; }
 .banner-tag { display: flex; align-items: center; font-size: 22rpx; color: rgb(255 255 255 / 0.9); background: rgb(255 255 255 / 0.2); padding: 8rpx 20rpx; border-radius: 20rpx; }
 .tag-icon { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 
-/* 分类区域 */
+/* 鍒嗙被鍖哄煙 */
 .template-section { padding: 24rpx; margin-top: -30rpx; position: relative; z-index: 10; }
 .template-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20rpx; }
 .template-card {
@@ -57,11 +57,11 @@ page { background: #F8F7FC; }
 .template-card::after {
   content: ''; position: absolute; left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx; border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
 
-/* 弹窗 */
+/* 寮圭獥 */
 .doc-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgb(0 0 0 / 0.45); z-index: 200; }
 .doc-picker {
   position: fixed; left: 0; right: 0; bottom: 0;
@@ -114,11 +114,11 @@ page { background: #F8F7FC; }
 .doc-grid-name { font-size: 25rpx; color: #1A2332; font-weight: 500; line-height: 1.4; flex: 1;
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
 
-/* 浮动按钮 */
+/* 娴姩鎸夐挳 */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06);
   animation: float-breathe 3s ease-in-out infinite;

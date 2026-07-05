@@ -1,13 +1,13 @@
-/* pages/newspaper/company-docs/index.wxss */
+﻿/* pages/newspaper/company-docs/index.wxss */
 
-/* 濞戞挸姘﹂棅鈺傜閸婄喓妲堥柣褏绮慨銈嗐亜閻㈠憡妗ㄩ悗鐟拌嫰閸欏繒鈧潧缍婄紞?*/
+/* 婵炴垶鎸稿锕傛閳哄倻顩烽柛濠勫枔濡插牓鏌ｈ缁垱鎱ㄩ妶鍡愪簻闁汇垹鎲″銊╂倵閻熸媽瀚伴柛娆忕箳閳ь剟娼х紞濠勭礊?*/
 
 .page {
   background: #F8F7FC;
   min-height: 100vh;
 }
 
-/* ========== 閻庝絻澹堥崺鍛村冀韫囥儳绀勭紒槌栧亯婢瑰﹤銆掗幇顒€缍侀柤鍐叉湰濞呮瑩鏁?========== */
+/* ========== 闁诲簼绲绘竟鍫ュ春閸涙潙鍐€闊洢鍎崇粈鍕磼妲屾牕浜鐟帮工閵嗘帡骞囬鈧紞渚€鏌ら崘鍙夋拱婵炲懏鐟╅弫?========== */
 
 .nav-back {
   width: 60rpx;
@@ -33,7 +33,7 @@
 }
 /* ========== Banner ========== */
 .banner {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx;
   border-radius: 0 0 40rpx 40rpx;
   text-align: center;
@@ -82,14 +82,14 @@
 
 .tag-icon { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 
-/* ========== 闁告帒妫涚悮顐︽焻婢跺顏ラ柛鏍ф惈閻?========== */
+/* ========== 闂佸憡甯掑Λ娑氭偖椤愶附鐒诲璺侯儏椤忋儵鏌涢弽褎鎯堥柣?========== */
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
   position: relative; z-index: 10;
 }
 
-/* ========== 闁告帒妫涚悮顐﹀础閿涘嫬顣荤紓鍐╁灦閻?========== */
+/* ========== 闂佸憡甯掑Λ娑氭偖椤愶箑纭€闁挎稑瀚。鑽ょ磽閸愨晛鐏﹂柣?========== */
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -117,7 +117,7 @@
   box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
 }
 
-/* 闁告绱曟晶鏍ㄣ亜閸洖鍔?*/
+/* 闂佸憡顨愮槐鏇熸櫠閺嶃劊浜滈柛顐ｆ礀閸?*/
 .card-top {
   height: 80rpx;
   display: flex; align-items: center;
@@ -152,7 +152,7 @@
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
 
-/* 闁告绱曟晶鏍ㄦ償閺囥垹鍔?*/
+/* 闂佸憡顨愮槐鏇熸櫠閺嶃劍鍎熼柡鍥ュ灩閸?*/
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
@@ -172,7 +172,7 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* 闂侇偄顦懙鎴犳喆閹烘挾鍨?*/
+/* 闂備緡鍋勯ˇ顕€鎳欓幋鐘冲枂闁圭儤鎸鹃崹?*/
 .card-check {
   position: absolute; top: 0; right: 0;
   width: 48rpx; height: 48rpx;
@@ -182,17 +182,17 @@
 
 .check-icon { width: 28rpx; height: 28rpx; }
 
-/* 閹煎瓨娲熼崕鎾嚌閼碱剙娈?*/
+/* 闁圭厧鐡ㄥú鐔煎磿閹绢喗鍤岄柤纰卞墮濞?*/
 .template-card::after {
   content: '';
   position: absolute;
   left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx; border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
 
-/* ========== 閻犲洣妞掑▎銏狀嚕閸︻厾宕堕柨娑樼墕缁ㄦ娊鏌堥妸銉ョ９閻忕偛楠忕槐?========== */
+/* ========== 闁荤姴娲ｅ鎺戔枎閵忕媭鍤曢柛锔诲幘瀹曞爼鏌ㄥ☉妯煎缂併劍濞婇弻鍫ュΩ閵夈儳锛欓柣蹇曞仜妤犲繒妲?========== */
 .doc-mask {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgb(0 0 0 / 0.45);
@@ -326,11 +326,11 @@
   word-break: break-all;
 }
 
-/* ========== 婵炴惌鍠栨慨鈺冣偓骞垮灪濠€鍥箰婢舵劖灏?========== */
+/* ========== 濠电偞鎯岄崰鏍ㄦ叏閳哄啠鍋撻獮鍨仾婵犫偓閸ヮ剙绠板鑸靛姈鐏?========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06);

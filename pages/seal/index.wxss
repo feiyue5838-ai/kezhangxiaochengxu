@@ -1,6 +1,6 @@
-/* pages/seal/index.wxss */
+﻿/* pages/seal/index.wxss */
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 
 .nav-content {
   display: flex;
@@ -38,7 +38,7 @@ page { background: #F8F7FC; min-height: 100vh; }
 .hero {
   position: relative;
   padding: 44rpx 36rpx 50rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   overflow: hidden;
 }
 
@@ -96,7 +96,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   z-index: 1;
 }
 
-/* 统计条 */
+/* 缁熻鏉?*/
 .hero-stats {
   display: flex;
   align-items: center;
@@ -132,7 +132,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   background: rgb(255 255 255 / 0.18);
 }
 
-/* 徽章 */
+/* 寰界珷 */
 .hero-badges {
   display: flex;
   gap: 24rpx;
@@ -153,7 +153,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   font-weight: 500;
 }
 
-/* ========== 分类区域 ========== */
+/* ========== 鍒嗙被鍖哄煙 ========== */
 .section {
   padding: 28rpx 24rpx 12rpx;
   margin-top: -24rpx;
@@ -169,10 +169,10 @@ page { background: #F8F7FC; min-height: 100vh; }
   gap: 24rpx;
 }
 
-/* ===== 主卡片：企业刻章（跨两列） ===== */
+/* ===== 涓诲崱鐗囷細浼佷笟鍒荤珷锛堣法涓ゅ垪锛?===== */
 .cat-card--featured {
   grid-column: span 2;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 20rpx;
   overflow: hidden;
   position: relative;
@@ -192,14 +192,14 @@ page { background: #F8F7FC; min-height: 100vh; }
   z-index: 1;
 }
 
-/* 光感条纹 */
+/* 鍏夋劅鏉＄汗 */
 .card-shine {
   position: absolute;
   top: 0;
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   pointer-events: none;
 }
 
@@ -261,7 +261,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   line-height: 1;
 }
 
-/* ===== 副卡片通用样式 ===== */
+/* ===== 鍓崱鐗囬€氱敤鏍峰紡 ===== */
 .cat-card--small {
   background: #fff;
   border-radius: 20rpx;
@@ -275,7 +275,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -300,7 +300,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   color: #5B6FE8;
 }
 
-/* SVG 图标尺寸 */
+/* SVG 鍥炬爣灏哄 */
 .cat-icon-img {
   width: 44rpx;
   height: 44rpx;
@@ -337,7 +337,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   line-height: 1;
 }
 
-/* ========== 底部信任栏 ========== */
+/* ========== 搴曢儴淇′换鏍?========== */
 .trust-bar {
   display: flex;
   align-items: center;
@@ -358,7 +358,7 @@ page { background: #F8F7FC; min-height: 100vh; }
   letter-spacing: 0.5rpx;
 }
 
-/* 底部安全区 */
+/* 搴曢儴瀹夊叏鍖?*/
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;

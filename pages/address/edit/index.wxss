@@ -1,9 +1,9 @@
-page {
+﻿page {
   background: var(--bg-color);
   padding-bottom: 60rpx;
 }
 
-/* ========== 导航栏（与 realname 对齐）========== */
+/* ========== 瀵艰埅鏍忥紙涓?realname 瀵归綈锛?========= */
 .nav-content {
   display: flex;
   align-items: center;
@@ -125,7 +125,7 @@ page {
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   color: #fff;
   font-size: 32rpx;
   font-weight: 600;

@@ -1,6 +1,6 @@
-/* content-edit.wxss - 填写登报内容页面 */
+﻿/* content-edit.wxss - 濉啓鐧绘姤鍐呭椤甸潰 */
 
-/* ========== 页面整体 ========== */
+/* ========== 椤甸潰鏁翠綋 ========== */
 .page {
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   background: #F8F7FC;
 }
 
-/* ========== 导航栏（固定顶部） ========== */
+/* ========== 瀵艰埅鏍忥紙鍥哄畾椤堕儴锛?========== */
 
 .nav-back {
   width: 60rpx;
@@ -36,14 +36,14 @@
 .nav-placeholder { width: 60rpx; height: 100%; }
 .nav-right { width: 60rpx; height: 100%; }
 
-/* ========== 可滚动内容区 ========== */
+/* ========== 鍙粴鍔ㄥ唴瀹瑰尯 ========== */
 .content-scroll {
   flex: 1;
   height: 0;
   padding-top: 0;
 }
 
-/* ========== 信息回显模块 ========== */
+/* ========== 淇℃伅鍥炴樉妯″潡 ========== */
 .info-display {
   background: #fff;
   margin: 20rpx;
@@ -63,7 +63,7 @@
 .info-label { font-size: 28rpx; color: #8C97A6; }
 .info-value { font-size: 28rpx; color: #1A2332; font-weight: 500; }
 
-/* ========== 登报内容编辑模块 ========== */
+/* ========== 鐧绘姤鍐呭缂栬緫妯″潡 ========== */
 .content-editor {
   background: #fff;
   margin: 20rpx;
@@ -100,7 +100,7 @@
   font-size: 26rpx;
 }
 
-/* 富文本编辑器（原生 editor 组件）*/
+/* 瀵屾枃鏈紪杈戝櫒锛堝師鐢?editor 缁勪欢锛?/
 .content-editor-rich {
   width: 100%;
   min-height: 400rpx;
@@ -142,7 +142,7 @@
   color: #8C97A6;
 }
 
-/* 便捷替换按钮 */
+/* 渚挎嵎鏇挎崲鎸夐挳 */
 .replace-actions {
   margin-top: 20rpx;
   display: flex;
@@ -153,7 +153,7 @@
   display: flex;
   align-items: center;
   gap: 8rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 16rpx 32rpx;
   border-radius: 40rpx;
 }
@@ -175,7 +175,7 @@
   line-height: 1.5;
 }
 
-/* ========== 信息填写说明模块 ========== */
+/* ========== 淇℃伅濉啓璇存槑妯″潡 ========== */
 .note-section {
   background: #fff;
   margin: 20rpx;
@@ -202,7 +202,7 @@
   margin-top: 8rpx;
 }
 
-/* ========== 底部操作按钮区 ========== */
+/* ========== 搴曢儴鎿嶄綔鎸夐挳鍖?========== */
 .bottom-actions {
   flex-shrink: 0;
   display: flex;
@@ -230,7 +230,7 @@
 }
 
 .action-button.submit {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   color: #fff;
 }
 
@@ -245,7 +245,7 @@
   font-weight: 600;
 }
 
-/* ========== 预览弹窗 ========== */
+/* ========== 棰勮寮圭獥 ========== */
 .preview-mask {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -352,6 +352,6 @@
 }
 
 .preview-btn-primary {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   color: #fff;
 }

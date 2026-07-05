@@ -1,7 +1,7 @@
-/* pages/notification/index.wxss */
+﻿/* pages/notification/index.wxss */
 page { background: #F8F7FC; }
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 .nav-content {
   display: flex;
   align-items: center;
@@ -27,7 +27,7 @@ page { background: #F8F7FC; }
 }
 .nav-title { font-size: 34rpx; font-weight: 600; color: #fff; text-align: center; }
 
-/* ========== 内容区 ========== */
+/* ========== 鍐呭鍖?========== */
 .notif-wrap {
   padding: calc(88rpx + constant(safe-area-inset-top)) 0 120rpx;
   padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
@@ -110,14 +110,14 @@ page { background: #F8F7FC; }
   color: #B0BBC8;
 }
 
-/* 浮动客服按钮 */
+/* 娴姩瀹㈡湇鎸夐挳 */
 .float-service {
   position: fixed;
   right: 32rpx;
   bottom: calc(120rpx + env(safe-area-inset-bottom));
   width: 96rpx;
   height: 96rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 50%;
   display: flex;
   align-items: center;

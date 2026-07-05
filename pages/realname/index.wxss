@@ -1,8 +1,8 @@
-/* pages/realname/index.wxss */
+﻿/* pages/realname/index.wxss */
 
 page { background: #F8F7FC; }
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 .nav-content {
   display: flex;
   align-items: center;
@@ -28,7 +28,7 @@ page { background: #F8F7FC; }
 }
 .nav-title { font-size: 34rpx; font-weight: 600; color: #fff; text-align: center; }
 
-/* ========== 内容 ========== */
+/* ========== 鍐呭 ========== */
 .verify-wrap {
   padding: 0 32rpx 80rpx;
 }
@@ -157,12 +157,12 @@ page { background: #F8F7FC; }
 .idcard-add text { font-size: 48rpx; color: #B0BBC8; }
 .idcard-add .idcard-add-label { font-size: 24rpx; color: #B0BBC8; }
 
-/* ========== 提交按钮 ========== */
+/* ========== 鎻愪氦鎸夐挳 ========== */
 .submit-btn {
   width: 100%;
   height: 88rpx;
   line-height: 88rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   color: #fff;
   font-size: 32rpx;
   font-weight: 600;
@@ -181,6 +181,6 @@ page { background: #F8F7FC; }
 }
 
 .submit-btn--success {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   box-shadow: 0 8rpx 24rpx rgb(82 196 26 / 0.35);
 }

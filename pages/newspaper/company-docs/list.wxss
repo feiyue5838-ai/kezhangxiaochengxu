@@ -1,8 +1,8 @@
-/* pages/newspaper/company-docs/list.wxss */
+﻿/* pages/newspaper/company-docs/list.wxss */
 
 .page { background: #F8F7FC; min-height: 100vh; }
 
-/* ========== 鑷畾涔夊鑸�?- 娓愬彉澶撮儴椋庢�?========== */
+/* ========== 閼奉亜鐣炬稊澶婎嚤閼割亝锟?- 濞撴劕褰夋径鎾劥妞嬪孩锟?========== */
 .nav-back {
   width: 60rpx;
   height: 100%;
@@ -24,9 +24,9 @@
 }
 .nav-placeholder { width: 60rpx; }
 
-/* ========== 鎼滅储鏍?- 鐧借壊鑳屾櫙椋庢牸 ========== */
+/* ========== 閹兼粎鍌ㄩ弽?- 閻у€熷閼冲本娅欐搴㈢壐 ========== */
 .search-wrap {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 0 32rpx 24rpx;
 }
 
@@ -41,10 +41,10 @@
 .search-placeholder { color: #8C97A6; font-size: 27rpx; }
 .search-clear { margin-left: 12rpx; width: 40rpx; height: 40rpx; padding: 10rpx; display: flex; align-items: center; justify-content: center; }
 
-/* ========== 婊氬姩鍖哄煙 ========== */
+/* ========== 濠婃艾濮╅崠鍝勭厵 ========== */
 .doc-scroll { height: calc(100vh - var(--nav-h, 64px) - 46px); }
 
-/* ========== 鍙屽垪缃戞牸 ========== */
+/* ========== 閸欏苯鍨純鎴炵壐 ========== */
 .doc-grid { display: flex; flex-wrap: wrap; padding: 16rpx 24rpx; }
 
 .doc-card {
@@ -65,20 +65,20 @@
   background: #F8F7FC;
 }
 
-/* 宸︿晶褰╄壊绔栨潯瑁呴グ */
+/* 瀹革缚鏅惰ぐ鈺勫缁旀牗娼憗鍛淬偘 */
 .doc-card::before {
   content: '';
   position: absolute; left: 0; top: 0; bottom: 0;
   width: 4rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 20rpx;
 }
 
-/* 鍥炬爣瀹瑰�? */
+/* 閸ョ偓鐖ｇ€圭懓锟? */
 .doc-icon-wrap {
   width: 56rpx; height: 56rpx;
   border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);18, var(--cat-color, #5B6FE8)0C);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);18, var(--cat-color, #5B6FE8)0C);
   display: flex; align-items: center; justify-content: center;
   margin-right: 16rpx; flex-shrink: 0;
 }
@@ -93,7 +93,7 @@
 }
 .doc-arrow { font-size: 34rpx; color: #D5DDE8; flex-shrink: 0; margin-left: 8rpx; }
 
-/* ========== 绌虹姸鎬?========== */
+/* ========== 缁岃櫣濮搁幀?========== */
 .empty-state { display: flex; flex-direction: column; align-items: center; padding: 120rpx 0; }
 .empty-icon-img { width: 80rpx; height: 80rpx; margin-bottom: 24rpx; opacity: 0.4; }
 .empty-text { font-size: 28rpx; color: #8C97A6; }

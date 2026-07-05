@@ -1,8 +1,8 @@
-/* pages/newspaper/confession/index.wxss */
+﻿/* pages/newspaper/confession/index.wxss */
 
-/* 与发票收据页面完全对�? */
+/* 涓庡彂绁ㄦ敹鎹〉闈㈠畬鍏ㄥ锟? */
 
-/* ========== 页面基础 ========== */
+/* ========== 椤甸潰鍩虹 ========== */
 .page {
   background: #F8F7FC;
   min-height: 100vh;
@@ -10,7 +10,7 @@
   flex-direction: column;
 }
 
-/* ========== 自定义导航栏 ========== */
+/* ========== 鑷畾涔夊鑸爮 ========== */
 
 .nav-back {
   width: 60rpx;
@@ -48,9 +48,9 @@
   height: 100%;
 }
 
-/* ========== 头部区域 ========== */
+/* ========== 澶撮儴鍖哄煙 ========== */
 .header {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 48rpx 40rpx 80rpx;
   position: relative;
   overflow: hidden;
@@ -114,13 +114,13 @@
   display: block;
 }
 
-/* ========== 主滚动区 ========== */
+/* ========== 涓绘粴鍔ㄥ尯 ========== */
 .main-scroll {
   flex: 1;
   min-height: 0;
 }
 
-/* ========== 分类2列网�?========== */
+/* ========== 鍒嗙被2鍒楃綉锟?========== */
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -232,7 +232,7 @@
   left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx;
   border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
 
@@ -256,7 +256,7 @@
   white-space: nowrap;
 }
 
-/* ========== 底部弹窗 ========== */
+/* ========== 搴曢儴寮圭獥 ========== */
 .doc-mask {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -358,7 +358,7 @@
   color: #8C97A6;
 }
 
-/* ========== 模板网格 ========== */
+/* ========== 妯℃澘缃戞牸 ========== */
 .doc-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

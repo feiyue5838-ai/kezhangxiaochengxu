@@ -1,11 +1,11 @@
-/* pages/profile/index.wxss */
+﻿/* pages/profile/index.wxss */
 page {
   background: #F8F7FC;
   min-height: 100vh;
   padding-bottom: 120rpx;
 }
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 
 .nav-content {
   display: flex;
@@ -36,9 +36,9 @@ page {
   width: 60rpx;
   height: 100%;
 }
-/* ========== 头部区域 ========== */
+/* ========== 澶撮儴鍖哄煙 ========== */
 .header {
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 48rpx 40rpx 40rpx;
 }
 
@@ -69,7 +69,7 @@ page {
   color: rgb(255 255 255 / 0.8);
 }
 
-/* ========== 统计行 ========== */
+/* ========== 缁熻琛?========== */
 .stats-row {
   display: flex;
   align-items: center;
@@ -121,7 +121,7 @@ page {
   color: #555;
 }
 
-/* ========== 功能网格 ========== */
+/* ========== 鍔熻兘缃戞牸 ========== */
 .func-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -150,7 +150,7 @@ page {
   align-items: center;
   justify-content: center;
   margin-bottom: 12rpx;
-  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
 }
 
 .func-icon-img {
@@ -165,7 +165,7 @@ page {
   line-height: 1.3;
 }
 
-/* ========== 菜单列表 ========== */
+/* ========== 鑿滃崟鍒楄〃 ========== */
 .menu-list {
   margin: 20rpx;
   background: #fff;
@@ -209,7 +209,7 @@ page {
   color: #C0C8D4;
 }
 
-/* ========== 登录按钮 ========== */
+/* ========== 鐧诲綍鎸夐挳 ========== */
 .login-btn {
   margin-top: 24rpx;
   width: 60%;
@@ -227,7 +227,7 @@ page {
 
 .login-btn::after { border: none; }
 
-/* ========== 底部协议 ========== */
+/* ========== 搴曢儴鍗忚 ========== */
 .footer-agreement {
   text-align: center;
   padding: 40rpx 0 80rpx;
@@ -238,12 +238,12 @@ page {
   color: #999;
 }
 
-/* 联系客服功能项高亮 */
+/* 鑱旂郴瀹㈡湇鍔熻兘椤归珮浜?*/
 .func-item--contact .func-icon-wrap {
   background: #FFF0F0 !important;
 }
 
-/* 底部安全区 */
+/* 搴曢儴瀹夊叏鍖?*/
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;
