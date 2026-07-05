@@ -1,14 +1,10 @@
-<!-- pages/newspaper/announcement/index.wxml -->
+<!--pages/newspaper/announcement/index.wxml-->
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">公告声明</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="公告声明" bind:back="goBack"></nav-bar>
 
   <!-- Banner -->
-  <view class="banner" style="margin-top: {{navHeight}}px;">
+  <view class="banner">
     <view class="banner-deco-circle"></view>
     <view class="banner-deco-circle2"></view>
     <text class="banner-title">公告声明登报</text>
@@ -75,4 +71,3 @@
     </scroll-view>
   </view>
 </view>
-

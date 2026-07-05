@@ -13,8 +13,6 @@ const categories = announcementConfig.categories.map(cat => ({
 
 Page({
   data: {
-    statusBarHeight: 20,
-    navHeight: 64,
     selectedCategory: '',
     categories,
     pickedIndex: -1,
@@ -24,8 +22,6 @@ Page({
   },
 
   onLoad() {
-    const { statusBarHeight, navHeight } = common.getNavigationHeight();
-    this.setData({ statusBarHeight, navHeight });
   },
 
   goBack() {

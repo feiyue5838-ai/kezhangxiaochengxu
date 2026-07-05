@@ -1,13 +1,9 @@
 <view class="page">
   <!-- 自定义导航栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
-    <view class="nav-back" bindtap="goBack">‹</view>
-    <text class="nav-title">债权债务</text>
-    <view class="nav-placeholder"></view>
-  </view>
+  <nav-bar title="债权债务" bind:back="goBack"></nav-bar>
 
   <!-- Banner -->
-  <view class="banner" style="margin-top: {{navHeight}}px;">
+  <view class="banner">
     <view class="banner-deco-circle"></view>
     <view class="banner-deco-circle2"></view>
     <text class="banner-title">债权债务登报</text>
@@ -37,7 +33,6 @@
           <text class="card-desc">{{item.desc}}</text>
         </view>
         <view class="card-check" wx:if="{{item.id === selectedCategory}}" style="background: {{item.color || '#5B6FE8'}};">
-          
         </view>
       </view>
     </view>
@@ -74,4 +69,3 @@
     </scroll-view>
   </view>
 </view>
-
