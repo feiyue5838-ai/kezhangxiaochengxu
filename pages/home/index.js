@@ -108,7 +108,7 @@ Page({
     if (type === '登报') {
       wx.navigateTo({ url: `/pages/newspaper/order-detail?id=${id}` });
     } else if (type === '刻章') {
-      wx.showToast({ title: '刻章订单详情开发中', icon: 'none' });
+      wx.navigateTo({ url: `/pages/seal/order-detail/index?id=${id}` });
     } else if (type === '调档') {
       wx.showToast({ title: '调档订单详情开发中', icon: 'none' });
     }
