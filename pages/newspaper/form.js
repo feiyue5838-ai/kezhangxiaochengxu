@@ -322,7 +322,7 @@ Page({
             wx.showToast({ title: '提交成功', icon: 'success' });
             that.setData({ isSubmitting: false });
             setTimeout(function() {
-              wx.navigateTo({ url: '/pages/newspaper/order' });
+              wx.redirectTo({ url: '/pages/order/list/index' });
             }, 1500);
           }, 1000);
         } else {
