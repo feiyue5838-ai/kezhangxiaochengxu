@@ -57,7 +57,7 @@ Page({
       { name: '待支付', status: 'pending' },
       { name: '进行中', status: 'processing' },
       { name: '已完成', status: 'completed' },
-      { name: '已取消', status: 'cancelled' }
+      { name: '已取消/退款', status: 'cancelled' }  // 包含 cancelled + refunded
     ],
     currentTab: 0,
     list: [],      // 当前显示的列表
@@ -122,6 +122,11 @@ Page({
 
     if (status === 'all') {
       this.setData({ list: allList });
+    } else if (status === 'cancelled') {
+      // 已取消 Tab 同时匹配 cancelled 和 refunded
+      this.setData({
+        list: allList.filter(o => o.status === 'cancelled' || o.status === 'refunded')
+      });
     } else {
       this.setData({
         list: allList.filter(o => o.status === status)

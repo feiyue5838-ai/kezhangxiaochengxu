@@ -39,6 +39,11 @@ Page({
     const collect = (orders) => {
       if (!Array.isArray(orders)) return;
       orders.forEach(o => {
+        // 退款订单 (refunded) 计入 “退款/售后” 分类
+        if (o.status === 'refunded') {
+          counts[3]++;
+          return;
+        }
         const idx = statusIdx[o.status];
         if (idx !== undefined) counts[idx]++;
       });
