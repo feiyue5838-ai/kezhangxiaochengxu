@@ -1,12 +1,11 @@
 // pages/newspaper/order-detail.js
-// 订单详情页 - 从本地存储读取订单详情
 var common = require('../../../utils/common.js');
 
 Page({
   data: {
     order: null,
-    isSubmitting: false,
-
+    isSubmitting: false
+  },
 
   onLoad: function(options) {
     if (options.id) {
@@ -23,11 +22,13 @@ Page({
       var orders = wx.getStorageSync('newspaper_orders') || [];
       var found = orders.find(function(o) { return o.id === id; });
       if (found) {
-        found.statusIconSvg = found.statusClass === 'completed'
-          ? '/assets/icons/icon-order-check.svg'
-          : found.statusClass === 'processing'
-            ? '/assets/icons/icon-order-hourglass.svg'
-            : '/assets/icons/icon-order-doc.svg';
+        if (found.statusClass === 'completed') {
+          found.statusIconSvg = '/assets/icons/icon-order-check.svg';
+        } else if (found.statusClass === 'processing') {
+          found.statusIconSvg = '/assets/icons/icon-order-hourglass.svg';
+        } else {
+          found.statusIconSvg = '/assets/icons/icon-order-doc.svg';
+        }
         this.setData({ order: found });
       } else {
         wx.showToast({ title: '订单不存在', icon: 'none' });
@@ -92,7 +93,14 @@ Page({
   updateOrderStatus: function(status, statusText, statusClass) {
     try {
       var orders = wx.getStorageSync('newspaper_orders') || [];
-      var index = orders.findIndex(function(o) { return o.id === this.data.order.id; }.bind(this));
+      var orderId = this.data.order.id;
+      var index = -1;
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].id === orderId) {
+          index = i;
+          break;
+        }
+      }
       if (index > -1) {
         orders[index].status = status;
         orders[index].statusText = statusText;
