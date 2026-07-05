@@ -57,7 +57,7 @@ Page({
   // 点击订单统计 → 跳转到订单列表并筛选对应状态
   goToOrderList(e) {
     const type = e.currentTarget.dataset.type;
-    const statusMap = { pending: 1, processing: 2, completed: 3, refund: 5 };
+    const statusMap = { pending: 1, processing: 2, completed: 3, refund: 4 };
     const status = statusMap[type];
     wx.navigateTo({ url: '/pages/order/list/index?status=' + status });
   },
