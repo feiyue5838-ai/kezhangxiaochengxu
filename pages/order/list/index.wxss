@@ -5,41 +5,6 @@
   background: #F8F7FC;
 }
 
-/* 导航栏（与胶囊对齐） */
-
-.nav-content {
-  position: relative;
-  height: 100%;
-  padding: 0 32rpx;
-}
-
-.nav-back {
-  position: absolute;
-  left: 24rpx;
-  top: 0;
-  height: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 44rpx;
-  color: #fff;
-  font-weight: 300;
-  z-index: 10;
-}
-
-.nav-title {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  height: 64rpx;
-  transform: translateX(-50%);
-  font-size: 34rpx;
-  font-weight: 600;
-  color: #fff;
-  display: flex;
-  align-items: center;
-}
-
 /* Tab栏 */
 .tab-bar {
   position: fixed;
@@ -62,7 +27,7 @@
 }
 
 .tab-item.active {
-  color: #5B6FE8;
+  color: #7B5CFA;
   font-weight: 600;
 }
 
@@ -74,7 +39,7 @@
   transform: translateX(-50%);
   width: 48rpx;
   height: 4rpx;
-  background: #5B6FE8;
+  background: #7B5CFA;
   border-radius: 2rpx;
 }
 
@@ -168,8 +133,8 @@
 
 .review-btn {
   font-size: 24rpx;
-  color: #5B6FE8;
-  border: 1rpx solid #5B6FE8;
+  color: #7B5CFA;
+  border: 1rpx solid #7B5CFA;
   padding: 8rpx 20rpx;
   border-radius: 24rpx;
 }
@@ -210,7 +175,7 @@
 }
 
 .empty-btn {
-  background: #5B6FE8;
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   color: #fff;
   font-size: 30rpx;
   padding: 24rpx 64rpx;
