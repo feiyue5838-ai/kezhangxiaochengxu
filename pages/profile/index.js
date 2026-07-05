@@ -85,17 +85,35 @@ Page({
     wx.navigateTo({ url: item.url });
   },
 
-  onLoginTap() {
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success: (res) => {
-        const userInfo = res.userInfo;
-        wx.setStorageSync('userInfo', userInfo);
-        this.setData({ userInfo });
-        wx.showToast({ title: '登录成功', icon: 'success' });
-      },
-      fail: () => { wx.showToast({ title: '已取消登录', icon: 'none' }); }
-    });
+  // 选择头像回调
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail;
+    const userInfo = { ...this.data.userInfo, avatarUrl };
+    this.setData({ userInfo });
+  },
+
+  // 昵称输入失焦
+  onNicknameBlur(e) {
+    const nickName = e.detail.value.trim();
+    if (!nickName) return;
+    const userInfo = { ...this.data.userInfo, nickName };
+    this.setData({ userInfo });
+  },
+
+  // 确认登录（头像+昵称都有了，点完成）
+  onConfirmLogin() {
+    const { avatarUrl, nickName } = this.data.userInfo;
+    if (!avatarUrl || !nickName) {
+      wx.showToast({ title: '请完善头像和昵称', icon: 'none' });
+      return;
+    }
+    const userInfo = {
+      ...this.data.userInfo,
+      loginTime: Date.now()
+    };
+    wx.setStorageSync('userInfo', userInfo);
+    this.setData({ userInfo });
+    wx.showToast({ title: '登录成功', icon: 'success' });
   },
 
   callService() {
