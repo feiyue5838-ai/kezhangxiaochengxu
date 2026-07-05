@@ -24,7 +24,7 @@
     >
       <!-- 订单头 -->
       <view class="order-header">
-        <text class="order-type">{{item.type}}</text>
+        <text class="order-type">{{item.type || '登报服务'}}</text>
         <text class="order-status {{item.statusClass}}">{{item.statusText}}</text>
       </view>
 

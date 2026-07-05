@@ -108,6 +108,8 @@ Page({
       });
 
       this.setData({ allList: all });
+      // 调试：输出每条订单的 type 字段值到控制台
+      console.log('[order/list] normalized types:', all.map(o => ({ id: o.id, type: o.type, statusText: o.statusText })));
       this.filterList();
     } catch (e) {
       wx.showToast({ title: '加载失败', icon: 'none' });
