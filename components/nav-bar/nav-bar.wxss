@@ -1,0 +1,82 @@
+/* components/nav-bar/nav-bar.wxss */
+
+.nav-bar {
+  width: 100%;
+  z-index: 1000;
+}
+
+/* 固定定位 */
+.nav-bar--fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* 状态栏占位 */
+.nav-status-bar {
+  width: 100%;
+}
+
+/* 导航内容区 */
+.nav-content {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+}
+
+/* 左侧区域 */
+.nav-left {
+  flex: 0 0 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 返回键 */
+.nav-back {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 0;
+}
+
+.nav-back-text {
+  font-size: 44rpx;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* 中间区域（标题或插槽） */
+.nav-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 标题 */
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 右侧区域 */
+.nav-right {
+  flex: 0 0 60rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 占位元素 */
+.nav-bar-placeholder {
+  width: 100%;
+}
