@@ -4,9 +4,10 @@ Page({
   data: {
     userInfo: { nickName: '', phone: '' },
     orderTypes: [
-      { id: 'pending',    name: '待支付', iconSvg: '/assets/icons/icon-b64-13.svg', bgColor: '#FFF7E6', color: '#FAAD14', count: 0 },
-      { id: 'processing', name: '进行中', iconSvg: '/assets/icons/icon-b64-14.svg', bgColor: '#F0EBFF', color: '#7B5CFA', count: 0 },
-      { id: 'completed',  name: '已完成', iconSvg: '/assets/icons/icon-b64-15.svg', bgColor: '#F0FFF0', color: '#52C41A', count: 0 }
+      { id: 'pending',    name: '待支付',   iconSvg: '/assets/icons/icon-b64-13.svg', bgColor: '#FFF7E6', color: '#FAAD14', count: 0 },
+      { id: 'processing', name: '进行中',   iconSvg: '/assets/icons/icon-b64-14.svg', bgColor: '#F0EBFF', color: '#7B5CFA', count: 0 },
+      { id: 'completed',  name: '已完成',   iconSvg: '/assets/icons/icon-b64-15.svg', bgColor: '#F0FFF0', color: '#52C41A', count: 0 },
+      { id: 'refund',     name: '退款/售后', iconSvg: '/assets/icons/icon-b64-16.svg', bgColor: '#FFF0E6', color: '#FA8C16', count: 0 }
     ],
     functions: [
       { id: 2, iconSvg: '/assets/icons/icon-b64-18.svg', name: '发票管理', bgColor: '#E8F0FF' },
@@ -56,7 +57,7 @@ Page({
   // 点击订单统计 → 跳转到订单列表并筛选对应状态
   goToOrderList(e) {
     const type = e.currentTarget.dataset.type;
-    const statusMap = { pending: 1, processing: 2, completed: 3, refund: 4 };
+    const statusMap = { pending: 1, processing: 2, completed: 3, refund: 5 };
     const status = statusMap[type];
     wx.navigateTo({ url: '/pages/order/list/index?status=' + status });
   },
