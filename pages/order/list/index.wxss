@@ -67,7 +67,7 @@
 
 .order-type {
   flex: 1;
-  min-width: 0;
+  min-width: 120rpx;   /* 保证标题至少占一定宽度，status 不挤到最左 */
   font-size: 30rpx;
   font-weight: 600;
   color: #1A2332;

@@ -44,7 +44,7 @@ Page({
 
     if (templateData.content) {
       this.setData({
-        businessType: '身份证登报',
+        businessType: templateData.businessType || '身份证登报',
         content: templateData.content,
         charCount: templateData.content.length,
         templateId: templateData.id || '',

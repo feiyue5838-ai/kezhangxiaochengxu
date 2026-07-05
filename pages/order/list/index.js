@@ -21,7 +21,7 @@ const normalize = (orders, module) => {
       return {
         id: o.id,
         module: 'newspaper',
-        type: o.type || '登报',
+        type: (o.type && o.type.trim()) ? o.type : '登报服务',
         desc: o.desc || o.productName || '',
         date: o.date || o.createTime || '',
         status: o.status || 'pending',
