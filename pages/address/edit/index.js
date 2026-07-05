@@ -8,6 +8,7 @@ Page({
     province: '',
     city: '',
     district: '',
+    detail: '',              // P1: 补上 detail 字段声明
     regionText: '请选择省市区',
     regionIndex: [0, 0, 0],
     regionColumns: [[], [], []],
@@ -19,20 +20,20 @@ Page({
     this.loadSavedAddress();
   },
 
-  // 初始化省市区三列（省→市→区 三级结构）
+  // 初始化省市区三列（一致三级结构：省→市→区）
   initRegionData() {
     const provinces = REGIONS.provinces;
     const firstProv = provinces[0];
-    const cities = REGIONS.cities[firstProv] || [];
+    const cities = REGIONS.provinceToCities[firstProv] || [];
     const firstCity = cities[0] || '';
-    const districts = REGIONS.districts[firstCity] || [];
+    const districts = REGIONS.cityToDistricts[firstCity] || [];
 
     this.setData({
       regionColumns: [provinces, cities, districts]
     });
   },
 
-  // 读取已保存的地址
+  // 读取已保存的地址（P1: 回填 detail 字段）
   loadSavedAddress() {
     const address = wx.getStorageSync('deliveryAddress');
     if (!address || !address.province) return;
@@ -41,11 +42,11 @@ Page({
     const pIdx = provinces.indexOf(address.province);
     if (pIdx < 0) return;
 
-    const cities = REGIONS.cities[address.province] || [];
+    const cities = REGIONS.provinceToCities[address.province] || [];
     const cIdx = cities.indexOf(address.city);
-    const cName = cIdx >= 0 ? address.city : cities[0] || '';
+    const cName = cIdx >= 0 ? address.city : (cities[0] || '');
 
-    const districts = REGIONS.districts[cName] || [];
+    const districts = REGIONS.cityToDistricts[cName] || [];
     const dIdx = districts.indexOf(address.district);
 
     this.setData({
@@ -54,6 +55,7 @@ Page({
       province: address.province,
       city: cName,
       district: dIdx >= 0 ? address.district : (districts[0] || ''),
+      detail: address.detail || '',           // P1: 回填详细地址
       regionText: `${address.province} ${cName} ${dIdx >= 0 ? address.district : districts[0] || ''}`.trim(),
       regionIndex: [pIdx, cIdx >= 0 ? cIdx : 0, dIdx >= 0 ? dIdx : 0],
       regionColumns: [provinces, cities, districts],
@@ -61,41 +63,47 @@ Page({
     });
   },
 
-  // 滚动某列（联动）
+  // 滚动某列（联动）—— P2: 不再直接修改 regionColumns[2]
   onRegionColumnChange(e) {
     const { column, value } = e.detail;
-    let { regionColumns, regionIndex } = this.data;
-    regionIndex = [...regionIndex];
+    const regionIndex = [...this.data.regionIndex];
     regionIndex[column] = value;
 
     if (column === 0) {
       // 省变化 → 重置市和区
-      const province = regionColumns[0][value];
-      const cities = REGIONS.cities[province] || [];
-      const districts = REGIONS.districts[cities[0]] || [];
+      const province = this.data.regionColumns[0][value];
+      const cities = REGIONS.provinceToCities[province] || [];
+      const districts = REGIONS.cityToDistricts[cities[0]] || [];
 
-      regionColumns = [regionColumns[0], cities, districts];
-      regionIndex[1] = 0;
-      regionIndex[2] = 0;
+      this.setData({
+        regionColumns: [this.data.regionColumns[0], cities, districts],
+        regionIndex: [value, 0, 0]
+      });
     } else if (column === 1) {
-      // 市变化 → 重置区
-      const cityName = regionColumns[1][value];
-      const districts = REGIONS.districts[cityName] || [];
+      // 市变化 → 重置区（P2: 用新数组替换，不原地修改）
+      const cityName = this.data.regionColumns[1][value];
+      const districts = REGIONS.cityToDistricts[cityName] || [];
 
-      regionColumns[2] = districts;
-      regionIndex[2] = 0;
+      this.setData({
+        'regionColumns[2]': districts,
+        'regionIndex[1]': value,
+        'regionIndex[2]': 0
+      });
+    } else {
+      // 第2列（区）滚动，只更新 index
+      this.setData({
+        'regionIndex[2]': value
+      });
     }
-
-    this.setData({ regionColumns, regionIndex });
   },
 
   // 确认选择
   onRegionChange(e) {
     const [pIdx, cIdx, dIdx] = e.detail.value;
     const province = this.data.regionColumns[0][pIdx];
-    const cities = REGIONS.cities[province] || [];
+    const cities = REGIONS.provinceToCities[province] || [];
     const city = cities[cIdx] || '';
-    const districts = REGIONS.districts[city] || [];
+    const districts = REGIONS.cityToDistricts[city] || [];
     const district = districts[dIdx] || '';
 
     this.setData({
@@ -128,7 +136,7 @@ Page({
   },
 
   onSave() {
-    const { name, phone, province, city, district, detail } = this.data;
+    const { name, phone, province, city, district, detail, isDefault } = this.data;
 
     if (!name.trim()) {
       wx.showToast({ title: '请输入收件人姓名', icon: 'none' });
@@ -157,7 +165,7 @@ Page({
       city,
       district,
       detail: detail.trim(),
-      isDefault: this.data.isDefault
+      isDefault
     };
 
     wx.setStorageSync('deliveryAddress', address);
