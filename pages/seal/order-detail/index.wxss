@@ -37,7 +37,14 @@
 .status-card.processing { background: linear-gradient(135deg, #5B6FE8, #A78BFA); }
 .status-card.completed { background: linear-gradient(135deg, #52C41A, #73D13D); }
 .status-card.cancelled { background: linear-gradient(135deg, #999, #bbb); }
-.status-icon { width: 48rpx; height: 48rpx; margin-bottom: 12rpx; }
+.status-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 12rpx;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .status-text { font-size: 32rpx; font-weight: bold; color: #fff; }
 
 /* 信息卡 */

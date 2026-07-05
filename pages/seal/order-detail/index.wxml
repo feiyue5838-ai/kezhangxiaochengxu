@@ -16,7 +16,7 @@
   <block wx:else>
     <!-- 订单状态 -->
     <view class="status-card {{order.statusClass}}">
-      <image class="status-icon" src="{{order.statusIconSvg}}" mode="aspectFit" />
+      <view class="status-icon" style="background-image: url({{order.statusIconSvg}});"></view>
       <text class="status-text">{{order.statusText}}</text>
     </view>
 
