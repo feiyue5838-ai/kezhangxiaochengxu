@@ -1,40 +1,6 @@
 /* pages/seal/form/index.wxss */
 
-/* ========== 导航�?========== */
-
-.nav-back {
-  position: absolute;
-  left: 32rpx;
-  transform: translateY(-50%);
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48rpx;
-  color: #fff;
-  font-weight: 300;
-  line-height: 1;
-  z-index: 2;
-}
-
-.nav-title {
-  position: absolute;
-  left: 50%;
-  top: 50%; transform: translate(-50%, -50%);
-  font-size: 34rpx;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.nav-placeholder {
-  width: 60rpx;
-  height: 100%;
-}
-
-/* 妞ょ敻娼伴崘鍛啇閸? */
+/* 页面背景 */
 .page {
   background: var(--bg-color);
   min-height: 100vh;
@@ -362,3 +328,4 @@
   font-size: 28rpx;
   color: #333;
 }
+

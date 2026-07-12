@@ -9,7 +9,7 @@ module.exports = {
 
   // 使用最新省市区数据
   provinces: regionData.provinces,
-  cities: regionData.cities,
+  cities: regionData.provinceToCities,
 
   // 报纸类型分类
   types: ['全部', '综合', '经济', '科技', '法制', '都市'],
@@ -241,19 +241,16 @@ module.exports = {
     return this.types;
   },
 
-  // 根据省份、城市、类型筛选报纸
-  filterPapers(province, city, type) {
+  // 根据省份、城市筛选报纸（type 参数已废弃）
+  filterPapers(province, city) {
     return this.papers.filter(p => {
       // 省份匹配
       const provinceMatch = p.province === province || p.province === '全国性';
-      
+
       // 城市匹配（直辖市的"直辖市"匹配该省所有报纸）
       const cityMatch = city === '直辖市' || !p.city || p.city === city;
-      
-      // 类型匹配
-      const typeMatch = type === '全部' || !p.type || p.type === type;
-      
-      return provinceMatch && cityMatch && typeMatch;
+
+      return provinceMatch && cityMatch;
     });
   },
 

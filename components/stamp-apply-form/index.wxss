@@ -37,6 +37,14 @@
   padding: 20rpx 24rpx;
   font-size: 30rpx;
   color: #333;
+  transition: all 0.2s ease;
+}
+
+/* 输入高亮效果 */
+.form-input.input-active {
+  background: #e8e0ff;
+  border: 2rpx solid #7B5CFA;
+  transform: scale(1.02);
 }
 
 /* 地区选择弹窗 */

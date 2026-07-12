@@ -101,6 +101,9 @@ Page({
     textareaFocus: false,
     keyboardHeight: 0
   },
+  goBack() {
+    wx.navigateBack({ delta: 1 });
+  },
   onLoad(options) {
     const isPersonal = options.isPersonal === 'true';
     this.setData({ isPersonal });

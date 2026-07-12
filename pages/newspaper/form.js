@@ -28,8 +28,6 @@ Page({
     regionArray: [paperConfig.provinces, paperConfig.getCitiesByProvince(paperConfig.provinces[0])],
     regionValue: [0, 0],
     regionText: paperConfig.provinces[0] + ' · ' + paperConfig.getCitiesByProvince(paperConfig.provinces[0])[0],
-    types: paperConfig.types,
-    typeIndex: 0,
     filteredPapers: paperConfig.papers,
     publishFee: 0,
     totalPrice: 0
@@ -44,7 +42,7 @@ Page({
 
     if (templateData.content) {
       this.setData({
-        businessType: templateData.businessType || '身份证登报',
+        businessType: '身份证登报',
         content: templateData.content,
         charCount: templateData.content.length,
         templateId: templateData.id || '',
@@ -91,30 +89,14 @@ Page({
     const province = paperConfig.provinces[value[0]];
     const cities = paperConfig.getCitiesByProvince(province);
     const city = cities[value[1]];
-    const type = this.data.types[this.data.typeIndex];
-    
-    // 显示文本：省份 + 城市（去掉"全部"选项后直接显示）
+
+    // 显示文本：省份 + 城市
     let regionText = province + (city ? ' · ' + city : '');
-    
+
     this.setData({
       regionValue: value,
       regionText: regionText,
-      filteredPapers: paperConfig.filterPapers(province, city, type)
-    });
-  },
-
-  // 筛选器：类型选择
-  onTypeChange(e) {
-    const typeIndex = parseInt(e.detail.value);
-    const value = this.data.regionValue;
-    const province = paperConfig.provinces[value[0]];
-    const cities = paperConfig.getCitiesByProvince(province);
-    const city = cities[value[1]];
-    const type = this.data.types[typeIndex];
-    
-    this.setData({
-      typeIndex,
-      filteredPapers: paperConfig.filterPapers(province, city, type)
+      filteredPapers: paperConfig.filterPapers(province, city)
     });
   },
 
@@ -322,7 +304,7 @@ Page({
             wx.showToast({ title: '提交成功', icon: 'success' });
             that.setData({ isSubmitting: false });
             setTimeout(function() {
-              wx.redirectTo({ url: '/pages/order/list/index' });
+              wx.navigateTo({ url: '/pages/newspaper/order' });
             }, 1500);
           }, 1000);
         } else {

@@ -474,6 +474,11 @@ Page({
     wx.navigateBack({ delta: 1 });
   },
 
+  // 阻止地区选择面板内的事件冒泡
+  preventBubble() {
+    // 空函数，仅用于阻止事件冒泡
+  },
+
   // 地区选择器
   onOpenRegion() {
     const p = P[0], cities = Object.keys(D[p] || {}), c = cities[0] || '', districts = D[p]?.[c] || [];

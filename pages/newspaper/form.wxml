@@ -1,6 +1,6 @@
 <view class="page">
   <!-- 自定义导航栏 -->
-  <nav-bar title="选择报纸" bind:back="goBack" />
+  <nav-bar title="选择报纸" showBack="{{false}}" />
 
   <!-- 登报内容预览 -->
   <view class="content-preview" wx:if="{{content}}">
@@ -23,17 +23,11 @@
     </view>
   </view>
 
-  <!-- 筛选栏 - 省市区合并选择器 + 类型 -->
+  <!-- 筛选栏 - 省市区选择器 -->
   <view class="filter-bar">
     <picker class="filter-picker" mode="multiSelector" bindchange="onRegionChange" bindcolumnchange="onRegionColumnChange" value="{{regionValue}}" range="{{regionArray}}">
       <view class="filter-item">
         <text class="filter-text">{{regionText}}</text>
-        <text class="filter-arrow">▼</text>
-      </view>
-    </picker>
-    <picker class="filter-picker" bindchange="onTypeChange" value="{{typeIndex}}" range="{{types}}">
-      <view class="filter-item">
-        <text class="filter-text">{{types[typeIndex]}}</text>
         <text class="filter-arrow">▼</text>
       </view>
     </picker>

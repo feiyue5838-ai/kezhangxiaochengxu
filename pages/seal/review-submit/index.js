@@ -1,13 +1,22 @@
 // pages/seal/review-submit/index.js
-const api = require('../../utils/api.js');
-const { request } = require('../../utils/auth.js');
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
+    orderId: '', // 订单ID
     serviceScore: 0,
     qualityScore: 0,
     reviewText: '',
     submitting: false
+  },
+
+  onLoad(options) {
+    if (options.orderId) {
+      this.setData({ orderId: options.orderId });
+    } else {
+      wx.showToast({ title: '订单参数错误', icon: 'none' });
+      setTimeout(() => wx.navigateBack(), 1500);
+    }
   },
 
   onServiceStarTap(e) {
@@ -27,10 +36,17 @@ Page({
   },
 
   onSubmit() {
-    if (this.data.submitting) return;
-    const { serviceScore, qualityScore, reviewText } = this.data;
+    if (this.data.submitting) {
+      wx.showToast({ title: '正在提交，请勿重复点击', icon: 'none' });
+      return;
+    }
+    const { orderId, serviceScore, qualityScore, reviewText } = this.data;
     const trimmed = reviewText.trim();
 
+    if (!orderId) {
+      wx.showToast({ title: '订单信息错误', icon: 'none' });
+      return;
+    }
     if (serviceScore === 0) {
       wx.showToast({ title: '请为服务态度评分', icon: 'none' });
       return;
@@ -39,33 +55,20 @@ Page({
       wx.showToast({ title: '请为刻章质量评分', icon: 'none' });
       return;
     }
+    if (trimmed.length > 0 && trimmed.length < 5) {
+      wx.showToast({ title: '评价内容至少5个字', icon: 'none' });
+      return;
+    }
 
     this.setData({ submitting: true });
 
-    // 调用后端评价接口（api.js 已配置）
-    request({
-      url: api.getApi('SEAL.REVIEW'),
-      method: 'POST',
-      data: {
-        serviceScore,
-        qualityScore,
-        content: trimmed
-      },
-      success: (res) => {
-        this.setData({ submitting: false });
-        if (res.code === 0) {
-          wx.showToast({ title: '评价提交成功！', icon: 'success' });
-          setTimeout(() => {
-            wx.navigateBack();
-          }, 1500);
-        } else {
-          wx.showToast({ title: res.msg || '提交失败', icon: 'none' });
-        }
-      },
-      fail: () => {
-        this.setData({ submitting: false });
-        wx.showToast({ title: '网络异常', icon: 'none' });
-      }
-    });
+    // 测试模式：模拟提交成功
+    setTimeout(() => {
+      this.setData({ submitting: false });
+      wx.showToast({ title: '评价提交成功！', icon: 'success' });
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 1500);
+    }, 1000);
   }
 });

@@ -1,6 +1,6 @@
-/* form.wxss - 鐧绘姤琛ㄥ崟 */
+/* form.wxss - 登报表单 */
 
-/* 绛涢€夋爮 */
+/* 筛选栏 */
 .filter-bar {
   display: flex;
   gap: 20rpx;
@@ -36,6 +36,19 @@
   margin-left: 8rpx;
 }
 
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
+}
+
 .nav-back {
   width: 60rpx;
   height: 100%;
@@ -58,6 +71,8 @@
   color: #fff;
 }
 
+
+
 .nav-placeholder {
   width: 60rpx;
   height: 100%;
@@ -76,7 +91,7 @@
   padding-bottom: 200rpx;
 }
 
-/* 闂備礁鎲￠崝鏇㈠箠鎼搭煈鏁婇柟閭﹀弿缁憋綁鏌涢弴銊ユ珮婵? */
+/* 闂佸憡鍔曢幊搴敊閹邦叏绱ｉ柛鏇ㄥ櫘濞? */
 .content-preview {
   background: white;
   margin: 20rpx;
@@ -99,7 +114,7 @@
 
 .preview-edit {
   font-size: 26rpx;
-  color: #7B5CFA;
+  color: #5B6FE8;
 }
 
 .preview-content {
@@ -132,7 +147,7 @@
 
 .idcard-text {
   font-size: 24rpx;
-  color: #7B5CFA;
+  color: #5B6FE8;
 }
 
 .meta-item {
@@ -199,7 +214,7 @@
 
 .paper-card.selected {
   background: #EBF3FF;
-  border-color: #7B5CFA;
+  border-color: #5B6FE8;
 }
 
 .paper-check {
@@ -208,7 +223,7 @@
   right: 0;
   width: 40rpx;
   height: 40rpx;
-  background: #7B5CFA;
+  background: #5B6FE8;
   border-radius: 0 16rpx;
   display: flex;
   justify-content: center;
@@ -224,7 +239,7 @@
   width: 80rpx;
   height: 80rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -258,7 +273,7 @@
 }
 
 .paper-tag.hot {
-  background: #7B5CFA;
+  background: #5B6FE8;
 }
 
 .paper-tag.value {
@@ -266,7 +281,7 @@
 }
 
 .paper-tag.authority {
-  background: #7B5CFA;
+  background: #5B6FE8;
 }
 
 .paper-tag.local {
@@ -299,7 +314,7 @@
 
 .paper-price {
   font-size: 28rpx;
-  color: #7B5CFA;
+  color: #5B6FE8;
   font-weight: bold;
 }
 
@@ -354,7 +369,7 @@
 }
 
 .picker-btn.plus {
-  background: #7B5CFA;
+  background: #5B6FE8;
   color: #fff;
 }
 
@@ -391,7 +406,7 @@
 }
 
 .required {
-  color: #7B5CFA;
+  color: #5B6FE8;
   margin-right: 4rpx;
 }
 
@@ -488,7 +503,7 @@
 
 .invoice-option.active {
   background: #EBF3FF;
-  border-color: #7B5CFA;
+  border-color: #5B6FE8;
 }
 
 .option-text {
@@ -500,7 +515,7 @@
   width: 36rpx;
   height: 36rpx;
   border-radius: 50%;
-  background: #7B5CFA;
+  background: #5B6FE8;
   color: #fff;
   font-size: 24rpx;
   display: flex;
@@ -550,7 +565,7 @@
 
 .price-row.total .price-value {
   font-size: 40rpx;
-  color: #7B5CFA;
+  color: #5B6FE8;
   font-weight: bold;
 }
 
@@ -582,11 +597,11 @@
 .total-price {
   font-size: 42rpx;
   font-weight: bold;
-  color: #7B5CFA;
+  color: #5B6FE8;
 }
 
 .pay-btn {
-  background: linear-gradient(135deg, #7B5CFA, #A78BFA);
+  background: linear-gradient(135deg, #5B6FE8, #7B8FF7);
   color: white;
   font-size: 30rpx;
   font-weight: bold;
@@ -599,7 +614,7 @@
   border: none;
 }
 
-/* ========== 闂備礁鎲￠悷锕傚垂瑜版帒围闁靛濡囬埞宥夋煃閳轰礁鏆曠紒杈ㄧ墵閺屻劌鈽夊Ο鐓庮杸闂佸搫鑻敃顏勵嚕閽樺鏆嬮柟娈垮枤椤㈠懘姊?========== */
+/* ========== 闂佸憡鐟﹂崹褰掑Χ閵婏妇鈹嶉柍鈺佸暕缁辨牠鏌ㄥ☉妯煎闁哄苯锕钘夌暋閹殿喚顢呴梺?========== */
 .section-arrow {
   font-size: 32rpx;
   color: #8C97A6;
@@ -631,7 +646,7 @@
 .placeholder {
   font-size: 28rpx;
   color: #A8B4C5;
-}/* 鐧绘姤鍐呭缂栬緫 */
+}/* 登报内容编辑 */
 .content-edit {
   background: white;
   margin: 20rpx;
@@ -675,3 +690,5 @@
   flex-wrap: wrap;
   margin-top: 12rpx;
 }
+
+

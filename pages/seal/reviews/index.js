@@ -6,8 +6,12 @@ Page({
   onLoad() {
     this.loadReviews();
   },
-  goWriteReview() {
-    wx.navigateTo({ url: '/pages/seal/review-submit/index' });
+  onShow() {
+    // 每次显示页面时刷新可评价订单列表
+    this.loadReviewableOrders();
+  },
+  goBack() {
+    wx.navigateBack({ delta: 1 });
   },
   loadReviews() {
     // 模拟数据，后续可对接后端API
@@ -20,5 +24,19 @@ Page({
         { id: 5, maskedPhone: '133****7712', date: '2026-05-10', serviceScore: 5, qualityScore: 5, text: '第二次在这里刻章了，一如既往的好，会继续支持！' }
       ]
     });
+  },
+  loadReviewableOrders() {
+    // 获取已完成的订单（未评价）
+    try {
+      const orders = wx.getStorageSync('seal_orders') || [];
+      const reviewableOrders = orders.filter(o => o.status === 'completed');
+      this.setData({ reviewableOrders });
+    } catch (e) {
+      this.setData({ reviewableOrders: [] });
+    }
+  },
+  goWriteReview() {
+    // 测试模式：直接跳转，使用固定测试订单ID
+    wx.navigateTo({ url: '/pages/seal/review-submit/index?orderId=TEST001' });
   }
 });

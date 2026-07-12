@@ -35,12 +35,16 @@
 .stars-row {
   display: flex;
   flex-direction: row;
-  gap: 8rpx;
 }
 
 .star {
   font-size: 44rpx;
   color: var(--border-color);
+  margin-left: 8rpx;
+}
+
+.star:first-child {
+  margin-left: 0;
 }
 
 .star.active {

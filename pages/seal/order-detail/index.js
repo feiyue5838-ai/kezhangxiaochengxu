@@ -169,5 +169,15 @@ Page({
         }
       }
     });
+  },
+
+  // 写评价
+  goWriteReview: function() {
+    var orderId = this.data.order.id;
+    if (!orderId) {
+      wx.showToast({ title: '订单信息错误', icon: 'none' });
+      return;
+    }
+    wx.navigateTo({ url: '/pages/seal/review-submit/index?orderId=' + orderId });
   }
 });

@@ -13,9 +13,9 @@
           <text class="comment-date">{{item.date}}</text>
         </view>
         <view class="comment-stars">
-          <image class="star" wx:for="{{item.serviceStars}}" wx:for-item="starSrc" wx:for-index="si" src="{{starSrc}}" mode="aspectFit" />
+          <text class="star {{s.type === 'gold' ? 'star-gold' : 'star-gray'}}" wx:for="{{item.serviceStars}}" wx:for-item="s" wx:key="*this">{{s.char}}</text>
           <text class="star-label">服务态度</text>
-          <image class="star" wx:for="{{item.qualityStars}}" wx:for-item="starSrc" wx:for-index="qi" src="{{starSrc}}" mode="aspectFit" />
+          <text class="star {{s.type === 'gold' ? 'star-gold' : 'star-gray'}}" wx:for="{{item.qualityStars}}" wx:for-item="s" wx:key="*this">{{s.char}}</text>
           <text class="star-label">刻章质量</text>
         </view>
         <text class="comment-text">{{item.text}}</text>

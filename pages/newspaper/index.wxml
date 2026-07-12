@@ -12,7 +12,7 @@ module.exports = {
 <!-- pages/newspaper/index.wxml -->
 <view class="page">
   <!-- 自定义导航栏 -->
-  <nav-bar title="在线登报" />
+  <nav-bar title="在线登报" showBack="{{false}}" />
 
   <!-- Hero 区域 -->
   <view class="hero">

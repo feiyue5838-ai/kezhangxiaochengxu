@@ -3,6 +3,7 @@
   background: var(--bg-color);
   min-height: 100vh;
   padding: 20rpx;
+  padding-top: calc(88rpx + env(safe-area-inset-top) + 20rpx);
 }
 
 .qa-header {
@@ -125,7 +126,7 @@
 }
 
 .bottom-placeholder {
-  height: 140rpx;
+  height: calc(120rpx + env(safe-area-inset-bottom));
 }
 
 /* 提问弹窗 */

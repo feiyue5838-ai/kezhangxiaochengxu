@@ -1,6 +1,17 @@
 /* pages/seal/index.wxss */
 
-/* ========== 瀵艰埅鏍?========== */
+/* ========== 页面背景 ========== */
+page {
+  background: linear-gradient(180deg, #F8F7FC 0%, #EEF0F8 100%);
+  min-height: 100vh;
+}
+
+.page {
+  background: transparent;
+  min-height: 100vh;
+}
+
+/* ========== 导航栏 ========== */
 
 .nav-content {
   display: flex;
@@ -31,8 +42,7 @@
   width: 60rpx;
   height: 100%;
 }
-page { background: #F8F7FC; min-height: 100vh; }
-.page { background: #F8F7FC; min-height: 100vh; }
+
 
 /* ========== Hero ========== */
 .hero {
@@ -153,188 +163,148 @@ page { background: #F8F7FC; min-height: 100vh; }
   font-weight: 500;
 }
 
-/* ========== 鍒嗙被鍖哄煙 ========== */
+/* ========== 鍒嗙被鍖哄煢 ========== */
 .section {
-  padding: 28rpx 24rpx 12rpx;
-  margin-top: -24rpx;
+  padding: 32rpx 28rpx 16rpx;
+  margin-top: -32rpx;
   position: relative;
   z-index: 2;
-  border-radius: 20rpx 32rpx 0 0;
-  background: #F8F7FC;
+  border-radius: 32rpx 32rpx 0 0;
+  background: transparent;
 }
 
 .category-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24rpx;
+  gap: 28rpx;
 }
 
-/* ===== 涓诲崱鐗囷細浼佷笟鍒荤珷锛堣法涓ゅ垪锛?===== */
-.cat-card--featured {
-  grid-column: span 2;
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
-  border-radius: 20rpx;
+/* ===== 鍥涗釜鍗¤兒鏈夎厚鎰燂紙鍗＄瑧锛?===== */
+.cat-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
   overflow: hidden;
+  box-shadow: 
+    0 4rpx 16rpx rgb(91 111 232 / 0.08),
+    0 1rpx 4rpx rgb(0 0 0 / 0.04);
   position: relative;
-  box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.18);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.cat-card--featured:active {
-  transform: scale(0.98);
-  box-shadow: 0 10rpx 36rpx rgb(91 111 232 / 0.28);
+/* 铏氭槑松杈广€傚厜鏅曟晥鏋?*/
+.cat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 24rpx;
+  padding: 2rpx;
+  background: linear-gradient(135deg, rgb(91 111 232 / 0.15), rgb(167 139 250 / 0.08), transparent);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cat-card:active {
+  transform: scale(0.96);
+  box-shadow: 
+    0 8rpx 32rpx rgb(91 111 232 / 0.15),
+    0 2rpx 8rpx rgb(0 0 0 / 0.06);
+}
+
+.cat-card:active::before {
+  opacity: 1;
 }
 
 .card-inner {
   display: flex;
-  align-items: center;
-  padding: 28rpx;
+  flex-direction: column;
+  padding: 32rpx 28rpx 24rpx;
   position: relative;
-  z-index: 1;
 }
 
-/* 鍏夋劅鏉＄汗 */
-.card-shine {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
-  pointer-events: none;
-}
-
-.cat-card--featured:active .card-shine {
-  animation: shine 0.5s ease forwards;
-}
-
-@keyframes shine {
-  to { left: 200%; }
-}
-
-.icon-wrap--dark {
-  width: 88rpx;
-  height: 88rpx;
-  border-radius: 20rpx;
-  background: rgb(255 255 255 / 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20rpx;
-  flex-shrink: 0;
-  border: 1rpx solid rgb(255 255 255 / 0.15);
-  color: #fff;
-}
-
-.card-info {
-  flex: 1;
-}
-
-.cat-card--featured .cat-name {
-  font-size: 32rpx;
-  color: #fff;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 6rpx;
-}
-
-.cat-card--featured .cat-desc {
-  font-size: 24rpx;
-  color: rgb(255 255 255 / 0.7);
-  display: block;
-}
-
-.card-arrow-circle {
-  width: 52rpx;
-  height: 52rpx;
+/* 鍥惧爞鍖烘湰锛氭紨鍙樻部褰紙鍦嗗舰锛?*/
+.icon-wrap {
+  width: 96rpx;
+  height: 96rpx;
   border-radius: 50%;
-  background: rgb(255 255 255 / 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border: 1rpx solid rgb(255 255 255 / 0.12);
-}
-
-.card-arrow-circle .card-arrow {
-  font-size: 34rpx;
-  color: rgb(255 255 255 / 0.7);
-  line-height: 1;
-}
-
-/* ===== 鍓崱鐗囬€氱敤鏍峰紡 ===== */
-.cat-card--small {
-  background: #fff;
-  border-radius: 20rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 10rpx rgb(91 111 232 / 0.06);
+  margin-bottom: 20rpx;
   position: relative;
+  box-shadow: 0 4rpx 12rpx rgb(0 0 0 / 0.08);
 }
 
-.cat-card--small::before {
+/* 鍥惧爞鍖虹殑鍏夋樉鏁堟灉 */
+.icon-wrap::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3rpx;
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.cat-card--small:active::before { opacity: 1; }
-.cat-card--small:active { transform: scale(0.97); }
-
-.cat-card--small .card-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 22rpx 20rpx 18rpx;
-}
-
-.icon-wrap--light {
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: 20rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14rpx;
-  color: #7B5CFA;
+  top: -4rpx; left: -4rpx; right: -4rpx; bottom: -4rpx;
+  border-radius: 50%;
+  background: inherit;
+  filter: blur(8px);
+  opacity: 0.3;
+  z-index: -1;
 }
 
 /* SVG 鍥炬爣灏哄 */
 .cat-icon-img {
-  width: 44rpx;
-  height: 44rpx;
+  width: 48rpx;
+  height: 48rpx;
 }
 
-.cat-icon-img--sm {
-  width: 36rpx;
-  height: 36rpx;
-}
-
-.cat-card--small .cat-icon {
-  font-size: 38rpx;
-}
-
-.cat-name--sm {
-  font-size: 27rpx;
+.cat-name {
+  font-size: 30rpx;
   color: #1A202C;
-  font-weight: 600;
-  margin-bottom: 4rpx !important;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+  letter-spacing: 0.5rpx;
 }
 
-.cat-desc--sm {
-  font-size: 21rpx;
-  color: #8E99AB;
-  line-height: 1.4;
-  margin-bottom: 8rpx;
+.cat-desc {
+  font-size: 23rpx;
+  color: #6B7B8D;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
   display: block;
 }
 
-.card-arrow--sub {
-  font-size: 28rpx;
-  color: #C0C8D4;
+.card-arrow {
+  font-size: 32rpx;
+  color: #B0B8C4;
   align-self: flex-end;
   line-height: 1;
+  transition: transform 0.2s;
+}
+
+.cat-card:active .card-arrow {
+  transform: translateX(4rpx);
+}
+
+/* 搴曢儴淇℃垒鏍峰紡浼樺寲 */
+.trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20rpx;
+  padding: 32rpx 40rpx 56rpx;
+}
+
+.trust-line {
+  width: 40rpx;
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent, #D5DDE8, transparent);
+}
+
+.trust-text {
+  font-size: 23rpx;
+  color: #A8B4C5;
+  letter-spacing: 1rpx;
 }
 
 /* ========== 搴曢儴淇′换鏍?========== */

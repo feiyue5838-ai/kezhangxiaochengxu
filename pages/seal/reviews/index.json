@@ -1,6 +1,6 @@
 {
-  "navigationBarTitleText": "用户评价",
-  "navigationBarBackgroundColor": "#5B6FE8",
-  "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar"
+  }
 }

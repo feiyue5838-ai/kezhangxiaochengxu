@@ -118,6 +118,20 @@
 
 .aftersale-btn::after { border: none; }
 
+.review-btn {
+  flex: 1;
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: bold;
+  border: none;
+  border-radius: 20rpx;
+  padding: 20rpx 0;
+  text-align: center;
+}
+
+.review-btn::after { border: none; }
+
 .delete-btn {
   flex: 1;
   background: #fff;

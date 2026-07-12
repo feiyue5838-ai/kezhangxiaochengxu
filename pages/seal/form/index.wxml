@@ -62,11 +62,11 @@
   <stamp-promo-banner wx:if="{{!isPersonal && !isElectronic}}" />
 
   <!-- 2. 表单填写区（仅企业显示） -->
-  <stamp-apply-form id="stampForm" wx:if="{{!isPersonal && !isElectronic}}" isPersonal="{{isPersonal}}" bind:formchange="onFormChange" bind:openregion="onOpenRegion" />
+  <stamp-apply-form id="stampForm" wx:if="{{!isPersonal && !isElectronic}}" bind:formchange="onFormChange" bind:openregion="onOpenRegion" />
 
   <!-- 地区选择弹窗（页面级，稳定性更好） -->
   <view class="region-mask" wx:if="{{showRegion}}" bindtap="closeRegion"></view>
-  <view class="region-panel" wx:if="{{showRegion}}">
+  <view class="region-panel" wx:if="{{showRegion}}" catchtap="preventBubble">
     <view class="region-header">
       <text class="region-btn cancel" bindtap="closeRegion">取消</text>
       <text class="region-title">选择地区</text>
@@ -100,7 +100,7 @@
     </view>
   </view>
 
-  <!-- 4. 个人印章选择区（2格卡片） -->
+  <!-- 3. 个人印章选择区（2格卡片） -->
   <view class="seal-select-section" wx:if="{{isPersonal}}">
     <view class="seal-select-title">选择印章类型</view>
     <view class="seal-grid">

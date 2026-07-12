@@ -19,9 +19,7 @@ Component({
       { id: 2, maskedPhone: '177****8902', date: '2026-06-02', serviceScore: 5, qualityScore: 5, text: '律师章刻好了，很正规，值得信赖。' },
       { id: 3, maskedPhone: '135****4578', date: '2026-05-28', serviceScore: 5, qualityScore: 4, text: '执业药师章很清晰，速度也快。' }
     ],
-    commentList: [],
-    goldStarSvg: '/assets/icons/icon-b64-1.svg',
-    grayStarSvg: '/assets/icons/icon-b64-2.svg'
+    commentList: []
   },
   lifetimes: {
     attached() {
@@ -31,11 +29,16 @@ Component({
   methods: {
     updateCommentList(isPersonal) {
       const source = isPersonal ? this.data.personalCommentList : this.data.bizCommentList;
-      const { goldStarSvg, grayStarSvg } = this.data;
       const list = source.map(item => ({
         ...item,
-        serviceStars: Array(5).fill(0).map((_, i) => i < item.serviceScore ? goldStarSvg : grayStarSvg),
-        qualityStars: Array(5).fill(0).map((_, i) => i < item.qualityScore ? goldStarSvg : grayStarSvg)
+        serviceStars: Array(5).fill(0).map((_, i) => ({
+          type: i < item.serviceScore ? 'gold' : 'gray',
+          char: '★'
+        })),
+        qualityStars: Array(5).fill(0).map((_, i) => ({
+          type: i < item.qualityScore ? 'gold' : 'gray',
+          char: '★'
+        }))
       }));
       this.setData({ commentList: list });
     },

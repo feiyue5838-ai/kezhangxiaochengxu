@@ -1,5 +1,7 @@
 <!--pages/seal/reviews/index.wxml-->
 <view class="page">
+  <nav-bar title="用户评价" bind:back="goBack" />
+
   <view class="review-header">
     <text class="review-total">共 {{reviewList.length}} 条评价</text>
   </view>
@@ -12,11 +14,11 @@
       </view>
       <view class="review-stars">
         <text class="star-label">服务态度</text>
-        <text class="star {{item.serviceScore > s ? 'active' : ''}}" wx:for="{{5}}" wx:for-item="s"><text style="font-size:24rpx;">⭐</text></text>
+        <text class="star {{index < item.serviceScore ? 'active' : ''}}" wx:for="{{5}}" wx:for-index="index" wx:key="*this"><text style="font-size:24rpx;">⭐</text></text>
       </view>
       <view class="review-stars">
         <text class="star-label">刻章质量</text>
-        <text class="star {{item.qualityScore > s ? 'active' : ''}}" wx:for="{{5}}" wx:for-item="s"><text style="font-size:24rpx;">⭐</text></text>
+        <text class="star {{index < item.qualityScore ? 'active' : ''}}" wx:for="{{5}}" wx:for-index="index" wx:key="*this"><text style="font-size:24rpx;">⭐</text></text>
       </view>
       <text class="review-text">{{item.text}}</text>
     </view>
@@ -28,7 +30,7 @@
 
   <!-- 底部写评价按钮 -->
   <view class="bottom-bar">
-    <view class="write-btn" bindtap="goWriteReview">评论</view>
+    <view class="write-btn" bindtap="goWriteReview">写评价</view>
   </view>
   <view class="bottom-placeholder"></view>
 </view>

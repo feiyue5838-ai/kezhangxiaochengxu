@@ -46,8 +46,7 @@
     "pages/about/index",
     "pages/aftersale/list/index",
     "pages/aftersale/apply/index",
-    "pages/aftersale/detail/index",
-    "pages/payment/success/index"
+    "pages/aftersale/detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
