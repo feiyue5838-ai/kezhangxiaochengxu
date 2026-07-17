@@ -1,0 +1,35 @@
+<view class="page">
+  <nav-bar title="{{mode === 'select' ? '选择收货地址' : '我的地址'}}" bind:back="goBack" />
+
+  <view class="addr-list" wx:if="{{addresses.length > 0}}">
+    <view
+      class="addr-item {{item.isDefault ? 'default' : ''}}"
+      wx:for="{{addresses}}"
+      wx:key="id"
+      bindtap="onSelect"
+      data-id="{{item.id}}"
+    >
+      <view class="addr-main">
+        <view class="addr-line1">
+          <text class="addr-name">{{item.contact}}</text>
+          <text class="addr-phone">{{item.phone}}</text>
+          <text class="addr-tag" wx:if="{{item.isDefault}}">默认</text>
+        </view>
+        <view class="addr-line2">{{item.province}}{{item.city}}{{item.district}} {{item.detail}}</view>
+      </view>
+      <view class="addr-actions">
+        <text class="act-edit" catchtap="onEdit" data-id="{{item.id}}">编辑</text>
+        <text class="act-del" catchtap="onDelete" data-id="{{item.id}}">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:elif="{{!loading}}">
+    <text class="empty-text">还没有收货地址</text>
+    <text class="empty-sub">点击下方按钮新增地址</text>
+  </view>
+
+  <view class="bottom-bar">
+    <button class="add-btn" bindtap="onAdd">+ 新增收货地址</button>
+  </view>
+</view>

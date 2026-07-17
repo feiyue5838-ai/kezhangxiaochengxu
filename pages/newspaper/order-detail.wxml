@@ -24,12 +24,24 @@
     <view class="info-card">
       <view class="info-title">订单信息</view>
       <view class="info-row">
+        <text class="info-label">订单编号</text>
+        <text class="info-value">{{order.orderNo}}</text>
+      </view>
+      <view class="info-row">
         <text class="info-label">登报类型</text>
         <text class="info-value">{{order.type}}</text>
       </view>
       <view class="info-row">
         <text class="info-label">选择报纸</text>
         <text class="info-value">{{order.paper}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.issueCount}}">
+        <text class="info-label">刊登期数</text>
+        <text class="info-value">{{order.issueCount}}期</text>
+      </view>
+      <view class="info-row" wx:if="{{order.copyCount}}">
+        <text class="info-label">报纸份数</text>
+        <text class="info-value">{{order.copyCount}}份</text>
       </view>
       <view class="info-row">
         <text class="info-label">提交时间</text>
@@ -38,6 +50,19 @@
       <view class="info-row">
         <text class="info-label">订单金额</text>
         <text class="info-value price">¥{{order.price}}</text>
+      </view>
+    </view>
+
+    <!-- 收货信息 -->
+    <view class="info-card" wx:if="{{order.address}}">
+      <view class="info-title">收货信息</view>
+      <view class="info-row" wx:if="{{order.address.contact}}">
+        <text class="info-label">收件人</text>
+        <text class="info-value">{{order.address.contact}} {{order.address.phone}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.address.province}}">
+        <text class="info-label">收货地址</text>
+        <text class="info-value">{{order.address.province}}{{order.address.city}}{{order.address.district}} {{order.address.detail}}</text>
       </view>
     </view>
 
@@ -58,26 +83,36 @@
       </view>
     </view>
 
+    <!-- 上传证件 -->
+    <view class="info-card" wx:if="{{order.images.length > 0}}">
+      <view class="info-title">上传证件</view>
+      <view class="cert-list">
+        <image wx:for="{{order.images}}" wx:key="*this" class="cert-img" src="{{item}}" mode="aspectFill" bindtap="onPreviewImage" data-url="{{item}}" data-urls="{{order.images}}"></image>
+      </view>
+    </view>
+
     <!-- 登报内容 -->
     <view class="info-card">
       <view class="info-title">登报内容</view>
       <text class="content-text">{{order.desc}}</text>
     </view>
 
+    <!-- 备注 -->
+    <view class="info-card" wx:if="{{order.remark}}">
+      <view class="info-title">备注</view>
+      <text class="content-text">{{order.remark}}</text>
+    </view>
+
     <!-- 底部操作 -->
-    <view class="bottom-bar" wx:if="{{order.status === 'pending'}}">
+    <view class="bottom-bar" wx:if="{{order.status === 1}}">
       <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>
       <button class="pay-btn" bindtap="payOrder">立即支付</button>
     </view>
-    <view class="bottom-bar" wx:elif="{{order.status === 'processing'}}">
-      <button class="complete-btn" bindtap="completeOrder">确认完成</button>
+    <view class="bottom-bar" wx:elif="{{order.status === 2}}">
+      <button class="cancel-btn" bindtap="cancelOrder">申请退款</button>
     </view>
-    <view class="bottom-bar" wx:elif="{{order.status === 'completed'}}">
-      <button class="aftersale-btn" bindtap="onApplyAftersale">申请售后</button>
-      <button class="delete-btn" bindtap="onDeleteOrder">删除订单</button>
-    </view>
-    <view class="bottom-bar" wx:elif="{{order.status === 'cancelled' || order.status === 'refunded'}}">
-      <button class="delete-btn" bindtap="onDeleteOrder">删除订单</button>
+    <view class="bottom-tip" wx:else>
+      <text class="tip-text">订单状态由平台处理，如有疑问请联系客服</text>
     </view>
   </block>
 </view>

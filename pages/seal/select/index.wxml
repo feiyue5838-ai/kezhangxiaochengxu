@@ -5,33 +5,38 @@
 
   <!-- 内容区域 -->
   <view class="content">
-  <!-- 标题 -->
-  <view class="section-title">
-    <text class="title-text">自选刻章</text>
-  </view>
+    <!-- 标题 -->
+    <view class="section-title">
+      <text class="title-text">自选刻章</text>
+    </view>
 
-  <!-- 8个选项 2列网格 -->
-  <view class="category-grid">
-    <view
-      class="cat-card {{selectedId === item.id ? 'cat-card-selected' : ''}}"
-      wx:for="{{categories}}"
-      wx:key="id"
-      bindtap="onSelect"
-      data-id="{{item.id}}"
-    >
-      <text class="cat-name">{{item.name}}</text>
-      <view wx:if="{{selectedId === item.id}}" class="selected-badge">
-        <text class="selected-icon">✓</text>
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="loading-wrap">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- 场景网格（从 API 加载） -->
+    <view wx:else class="category-grid">
+      <view
+        class="cat-card {{selectedId === item.id ? 'cat-card-selected' : ''}}"
+        wx:for="{{scenes}}"
+        wx:key="id"
+        bindtap="onSelect"
+        data-id="{{item.id}}"
+      >
+        <text class="cat-name">{{item.name}}</text>
+        <view wx:if="{{selectedId === item.id}}" class="selected-badge">
+          <text class="selected-icon">✓</text>
+        </view>
       </view>
     </view>
-  </view>
 
-  <!-- 半屏弹出层：选择印章类型 -->
-  <half-screen-popup
-    id="sealPopup"
-    title="{{popupTitle}}"
-    source-title="{{pageTitle}}"
-    bind:confirm="onSealConfirm"
-  />
+    <!-- 半屏弹出层：选择印章类型 -->
+    <half-screen-popup
+      id="sealPopup"
+      title="{{popupTitle}}"
+      source-title="{{pageTitle}}"
+      bind:confirm="onSealConfirm"
+    />
   </view>
 </view>

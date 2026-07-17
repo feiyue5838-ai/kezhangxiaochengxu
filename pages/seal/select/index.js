@@ -1,29 +1,39 @@
 // pages/seal/select/index.js
-const common = require('../../../utils/common.js');
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
     selectedId: null,
     popupTitle: '',
     pageTitle: '自选刻章',
-    categories: [
-      { id: 1, name: '个体户' },
-      { id: 2, name: '公司' },
-      { id: 3, name: '新成立开户必备章' },
-      { id: 4, name: '单位名称变更必备章' },
-      { id: 5, name: '单位法人变更必备章' },
-      { id: 6, name: '政府事业单位' },
-      { id: 7, name: '钢印章' },
-      { id: 8, name: '其他章名' }
-    ]
+    scenes: [],        // 业务场景列表（从 API 加载）
+    loading: true,
   },
 
   onLoad(options) {
     if (options.type) {
       this.setData({ selectedId: Number(options.type) });
     }
-
     this.setData({ pageTitle: '自选刻章' });
+    this._loadScenes();
+  },
+
+  // 从 API 加载业务场景列表
+  _loadScenes() {
+    wx.showLoading({ title: '加载中...', mask: true });
+    api.getSealScenes().then(res => {
+      wx.hideLoading();
+      if (Array.isArray(res) && res.length > 0) {
+        this.setData({ scenes: res, loading: false });
+      } else {
+        this.setData({ loading: false });
+        wx.showToast({ title: '加载失败', icon: 'none' });
+      }
+    }).catch(() => {
+      wx.hideLoading();
+      this.setData({ loading: false });
+      wx.showToast({ title: '加载失败', icon: 'none' });
+    });
   },
 
   // 返回上一页
@@ -31,81 +41,60 @@ Page({
     wx.navigateBack({ delta: 1 });
   },
 
+  // 用户点击场景卡片
   onSelect(e) {
-    const id = Number(e.currentTarget.dataset.id);
-    this.setData({ selectedId: id });
-    const cat = this.data.categories.find(c => c.id === id);
-    const categoryName = cat ? cat.name : '';
+    const sceneId = e.currentTarget.dataset.id;
+    const scene = this.data.scenes.find(s => s.id === sceneId);
+    if (!scene) return;
 
-    // 个体户：使用筛选弹窗
-    if (id === 1) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(1);
-      return;
-    }
+    this.setData({
+      selectedId: sceneId,
+      popupTitle: scene.name,
+      // 暂存当前场景数据（用于 onSealConfirm 构建 items）
+      _currentScene: scene,
+    });
 
-    // 公司：使用筛选弹窗（全部）
-    if (id === 2) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(2);
-      return;
-    }
-
-    // 新成立开户必备章：使用筛选弹窗
-    if (id === 3) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(3);
-      return;
-    }
-
-    // 单位名称变更必备章：使用筛选弹窗
-    if (id === 4) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(4);
-      return;
-    }
-
-    // 单位法人变更必备章：使用筛选弹窗
-    if (id === 5) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(5);
-      return;
-    }
-
-    // 政府事业单位：使用筛选弹窗
-    if (id === 6) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(6);
-      return;
-    }
-
-    // 钢印章：使用筛选弹窗
-    if (id === 7) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(7);
-      return;
-    }
-
-    // 其他章名：使用筛选弹窗
-    if (id === 8) {
-      this.setData({ popupTitle: cat.name });
-      this.selectComponent('#sealPopup').openWithCategory(8);
-      return;
-    }
+    // 调用 half-screen-popup 从 API 加载印章和套餐
+    this.selectComponent('#sealPopup').openWithScene(sceneId);
   },
 
+  // half-screen-popup 确认回调
   onSealConfirm(e) {
-    const { ids, names, seals, count } = e.detail;
-    const selectedCat = this.data.categories.find(c => c.id === this.data.selectedId);
-    const categoryName = selectedCat ? selectedCat.name : '';
+    const { ids, names } = e.detail;
+    const scene = this.data._currentScene;
 
-    // 存入 Storage，避免 URL 参数过长或编码问题
+    // 从 half-screen-popup 内部数据构建 items（带真实 UUID 和价格）
+    const popup = this.selectComponent('#sealPopup');
+    const singleSeals = popup.data.singleSeals || [];
+    const packages = popup.data.packages || [];
+    const allItems = [...singleSeals, ...packages];
+
+    const items = ids.map(id => {
+      const item = allItems.find(x => x.id === id);
+      if (!item) return null;
+      return {
+        itemType: packages.find(p => p.id === id) ? 'package' : 'seal',
+        sealId: singleSeals.find(s => s.id === id) ? id : null,
+        packageId: packages.find(p => p.id === id) ? id : null,
+        name: item.name,
+        price: item.price || 0,
+        quantity: 1,
+      };
+    }).filter(Boolean);
+
+    // 计算总价（取套餐价格 OR 印章单价）
+    const totalPrice = items.reduce((sum, item) => {
+      return sum + (item.price || 0) * (item.quantity || 1);
+    }, 0);
+
+    // 存入 Storage，供 order-confirm 页面使用
     wx.setStorageSync('selectedSealsData', {
       ids: ids || [],
       names: names || [],
-      seals: seals || '',
-      categoryName: categoryName,
-      _timestamp: Date.now()
+      categoryName: scene ? scene.name : '',
+      _timestamp: Date.now(),
+      items,          // 带真实 UUID + 价格，order-confirm 直接使用
+      totalPrice,     // 预计算总价
     });
 
     wx.navigateTo({

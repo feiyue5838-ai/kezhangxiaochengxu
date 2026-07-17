@@ -1,6 +1,5 @@
 // pages/newspaper/order.js
-const common = require('../../utils/common.js');
-const STORAGE_KEY = 'newspaper_orders';
+const api = require('../../utils/api.js');
 
 Page({
   data: {
@@ -8,10 +7,7 @@ Page({
     tabs: ['全部', '待支付', '进行中', '已完成'],
     orders: [],
     filteredOrders: [],
-    emptyText: '暂无订单',
-  },
-
-  onLoad() {
+    loading: false
   },
 
   onShow() {
@@ -22,14 +18,47 @@ Page({
     wx.navigateBack();
   },
 
-  loadOrders() {
+  async loadOrders() {
+    this.setData({ loading: true });
     try {
-      const orders = wx.getStorageSync(STORAGE_KEY) || [];
-      this.setData({ orders });
+      const res = await api.getNewspaperOrderList({ page: 1, pageSize: 50 });
+      const raw = (res && res.list) || [];
+      const orders = raw.map(o => this._mapOrder(o));
+      this.setData({ orders, loading: false });
       this.filterOrders(this.data.currentTab);
     } catch (e) {
-      this.setData({ orders: [], filteredOrders: [] });
+      this.setData({ orders: [], filteredOrders: [], loading: false });
     }
+  },
+
+  _mapOrder(o) {
+    const item = (o.orderItems && o.orderItems[0]) || {};
+    const name = item.name || o.type || '登报订单';
+    const desc = o.newspaperContent || name;
+    return {
+      id: o.id,
+      orderNo: o.orderNo,
+      title: name,
+      desc: desc,
+      date: this._formatDate(o.createdAt),
+      status: o.status,
+      statusText: o.statusText || this._statusText(o.status),
+      totalPrice: o.totalPrice,
+      issueCount: o.newspaperIssueCount || 0
+    };
+  },
+
+  _statusText(s) {
+    const map = { 1: '待支付', 2: '已支付', 3: '制作中', 4: '已发货', 5: '已完成', 6: '已取消', 7: '退款中', 8: '已退款' };
+    return map[s] || '待支付';
+  },
+
+  _formatDate(ts) {
+    if (!ts) return '';
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return '';
+    const p = n => (n < 10 ? '0' + n : '' + n);
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
   },
 
   switchTab(e) {
@@ -43,9 +72,10 @@ Page({
     let filtered = [];
     switch (tabIndex) {
       case 0: filtered = all; break;
-      case 1: filtered = all.filter(o => o.status === 'pending'); break;
-      case 2: filtered = all.filter(o => o.status === 'processing'); break;
-      case 3: filtered = all.filter(o => o.status === 'completed'); break;
+      case 1: filtered = all.filter(o => o.status === 1); break;
+      case 2: filtered = all.filter(o => [2, 3, 4].includes(o.status)); break;
+      case 3: filtered = all.filter(o => o.status >= 5); break;
+      default: filtered = all;
     }
     this.setData({ filteredOrders: filtered });
   },

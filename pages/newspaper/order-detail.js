@@ -1,4 +1,6 @@
 // pages/newspaper/order-detail.js
+const api = require('../../utils/api.js');
+
 Page({
   data: {
     order: null,
@@ -6,7 +8,7 @@ Page({
     isSubmitting: false
   },
 
-  onLoad: function(options) {
+  onLoad(options) {
     if (options.id) {
       this.loadOrder(options.id);
     } else {
@@ -15,153 +17,155 @@ Page({
     }
   },
 
-  goBack: function() {
+  goBack() {
     wx.navigateBack({ delta: 1 });
   },
 
-  loadOrder: function(id) {
+  onPreviewImage(e) {
+    const { url, urls } = e.currentTarget.dataset;
+    wx.previewImage({ current: url, urls: urls || [url] });
+  },
+
+  async loadOrder(id) {
     try {
-      var orders = wx.getStorageSync('newspaper_orders') || [];
-      var found = null;
-      for (var i = 0; i < orders.length; i++) {
-        if (orders[i].id === id) {
-          found = orders[i];
-          break;
-        }
-      }
-      if (found) {
-        // 设置状态图标
-        if (found.statusClass === 'completed') {
-          found.statusIconSvg = '/assets/icons/icon-order-check.svg';
-        } else if (found.statusClass === 'processing') {
-          found.statusIconSvg = '/assets/icons/icon-order-hourglass.svg';
-        } else if (found.statusClass === 'cancelled' || found.statusClass === 'refunded') {
-          found.statusIconSvg = '/assets/icons/icon-order-cancelled.svg';
-          if (found.statusClass === 'refunded') {
-            found.statusClass = 'refund';
-            found.statusText = '已退款';
-          }
-        } else {
-          found.statusIconSvg = '/assets/icons/icon-order-doc.svg';
-        }
-        this.setData({ order: found, loading: false });
-      } else {
-        this.setData({ loading: false });
-        wx.showToast({ title: '订单不存在', icon: 'none' });
-      }
+      const o = await api.getNewspaperOrderDetail(id);
+      this.setData({ order: this._mapOrder(o), loading: false });
     } catch (e) {
-      this.setData({ loading: false });
-      wx.showToast({ title: '读取失败', icon: 'none' });
+      this.setData({ loading: false, order: null });
     }
   },
 
-  cancelOrder: function() {
-    var that = this;
-    wx.showModal({
-      title: '提示',
-      content: '确定取消此订单吗？',
-      success: function(res) {
-        if (res.confirm) {
-          that.updateOrderStatus('cancelled', '已取消', 'cancelled');
-          wx.showToast({ title: '已取消', icon: 'success' });
-          setTimeout(function() { wx.navigateBack(); }, 1500);
-        }
-      }
-    });
+  _mapOrder(o) {
+    if (!o) return null;
+    const item = (o.orderItems && o.orderItems[0]) || {};
+    const newspaperName = item.name || o.type || '登报订单';
+    const invoice = this._parse(o.invoiceJson, null);
+    const address = this._parse(o.addressJson, null);
+    const statusClassMap = { 1: 'pending', 2: 'processing', 3: 'processing', 4: 'processing', 5: 'completed', 6: 'cancelled', 7: 'cancelled', 8: 'cancelled' };
+    const statusIconMap = {
+      1: '/assets/icons/icon-order-doc.svg',
+      2: '/assets/icons/icon-order-hourglass.svg',
+      3: '/assets/icons/icon-order-hourglass.svg',
+      4: '/assets/icons/icon-order-hourglass.svg',
+      5: '/assets/icons/icon-order-check.svg',
+      6: '/assets/icons/icon-order-cancelled.svg',
+      7: '/assets/icons/icon-order-cancelled.svg',
+      8: '/assets/icons/icon-order-cancelled.svg'
+    };
+    return {
+      id: o.id,
+      orderNo: o.orderNo,
+      status: o.status,
+      statusText: o.statusText || this._statusText(o.status),
+      statusClass: statusClassMap[o.status] || 'pending',
+      statusIconSvg: statusIconMap[o.status] || '/assets/icons/icon-order-doc.svg',
+      type: o.type,
+      paper: newspaperName,
+      newspaperName,
+      issueCount: o.newspaperIssueCount || 0,
+      copyCount: o.newspaperCopyCount || 0,
+      images: this._parseArray(o.newspaperImages),
+      date: this._formatDate(o.createdAt),
+      price: o.totalPrice,
+      desc: o.newspaperContent || '',
+      content: o.newspaperContent || '',
+      remark: o.remark || '',
+      address: address,
+      invoice: invoice,
+      module: o.module
+    };
   },
 
-  payOrder: function() {
+  _parse(str, fallback) {
+    if (!str) return fallback;
+    try { return JSON.parse(str); } catch (e) { return fallback; }
+  },
+
+  _parseArray(str) {
+    if (!str) return [];
+    try { const a = JSON.parse(str); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+  },
+
+  _statusText(s) {
+    const map = { 1: '待支付', 2: '已支付', 3: '制作中', 4: '已发货', 5: '已完成', 6: '已取消', 7: '退款中', 8: '已退款' };
+    return map[s] || '待支付';
+  },
+
+  _formatDate(ts) {
+    if (!ts) return '';
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return '';
+    const p = n => (n < 10 ? '0' + n : '' + n);
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  },
+
+  // 立即支付（对齐表单下单流程）
+  payOrder() {
     if (this.data.isSubmitting) {
       wx.showToast({ title: '请求处理中，请稍候', icon: 'none' });
       return;
     }
     this.setData({ isSubmitting: true });
-    var that = this;
-    wx.showModal({
-      title: '模拟支付',
-      content: '这是模拟支付（实际需接入微信支付）',
-      success: function(res) {
-        if (res.confirm) {
-          that.updateOrderStatus('processing', '进行中', 'processing');
-          wx.showToast({ title: '支付成功', icon: 'success' });
-          that.setData({ isSubmitting: false });
-        } else {
-          that.setData({ isSubmitting: false });
-        }
-      }
-    });
-  },
-
-  completeOrder: function() {
-    var that = this;
-    wx.showModal({
-      title: '确认完成',
-      content: '确认订单已完成？',
-      success: function(res) {
-        if (res.confirm) {
-          that.updateOrderStatus('completed', '已完成', 'completed');
-          wx.showToast({ title: '订单已完成', icon: 'success' });
-        }
-      }
-    });
-  },
-
-  updateOrderStatus: function(status, statusText, statusClass) {
-    try {
-      var orders = wx.getStorageSync('newspaper_orders') || [];
-      var orderId = this.data.order.id;
-      var found = false;
-      for (var i = 0; i < orders.length; i++) {
-        if (orders[i].id === orderId) {
-          orders[i].status = status;
-          orders[i].statusText = statusText;
-          orders[i].statusClass = statusClass;
-          found = true;
-          break;
-        }
-      }
-      if (found) {
-        wx.setStorageSync('newspaper_orders', orders);
-        this.setData({
-          'order.status': status,
-          'order.statusText': statusText,
-          'order.statusClass': statusClass
-        });
-      }
-    } catch (e) {
-      // 更新失败静默处理
-    }
-  },
-
-  // 申请售后
-  onApplyAftersale: function() {
-    var order = this.data.order;
-    if (order) {
-      wx.setStorageSync('aftersaleCurrent', order);
-    }
-    wx.navigateTo({ url: '/pages/aftersale/apply/index?orderId=' + order.id });
-  },
-
-  // 删除订单
-  onDeleteOrder: function() {
-    var that = this;
-    wx.showModal({
-      title: '删除订单',
-      content: '确定删除此订单？删除后不可恢复',
-      confirmColor: '#FF4D4F',
-      success: function(res) {
-        if (res.confirm) {
-          try {
-            var orders = wx.getStorageSync('newspaper_orders') || [];
-            var filtered = orders.filter(function(o) { return o.id !== that.data.order.id; });
-            wx.setStorageSync('newspaper_orders', filtered);
-            wx.showToast({ title: '已删除', icon: 'success' });
-            setTimeout(function() { wx.navigateBack(); }, 1500);
-          } catch (e) {
-            wx.showToast({ title: '删除失败', icon: 'none' });
+    const that = this;
+    const id = this.data.order.id;
+    const app = getApp();
+    const openid = (app && app.globalData && app.globalData.openid) || '';
+    wx.showLoading({ title: '发起支付' });
+    api.getNewspaperPayParams(id, openid).then((data) => {
+      const pay = data || {};
+      if (pay.type === 'wechat' && pay.payment) {
+        wx.hideLoading();
+        wx.requestPayment({
+          ...pay.payment,
+          success() { that._afterPay(id); },
+          fail(err) {
+            that.setData({ isSubmitting: false });
+            if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+              wx.showToast({ title: '已取消支付', icon: 'none' });
+            } else {
+              wx.showToast({ title: '支付失败', icon: 'none' });
+            }
           }
+        });
+      } else if (pay.type === 'dev') {
+        api.devConfirmPay(id).then(() => that._afterPay(id)).catch(() => { wx.hideLoading(); that.setData({ isSubmitting: false }); });
+      } else {
+        that._afterPay(id);
+      }
+    }).catch(() => {
+      wx.hideLoading();
+      that.setData({ isSubmitting: false });
+      wx.showToast({ title: '获取支付参数失败', icon: 'none' });
+    });
+  },
+
+  // 取消订单 / 申请退款
+  cancelOrder() {
+    const that = this;
+    const id = this.data.order.id;
+    const isPaid = this.data.order.status === 2;
+    wx.showModal({
+      title: isPaid ? '申请退款' : '取消订单',
+      content: isPaid ? '确认申请退款？款项将由平台处理。' : '确认取消该订单？',
+      async success(res) {
+        if (!res.confirm) return;
+        wx.showLoading({ title: '处理中' });
+        try {
+          await api.cancelNewspaperOrder(id);
+          wx.hideLoading();
+          wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
+          that.loadOrder(id);
+        } catch (e) {
+          wx.hideLoading();
+          wx.showToast({ title: '操作失败', icon: 'none' });
         }
       }
     });
+  },
+
+  _afterPay(id) {
+    this.setData({ isSubmitting: false });
+    wx.showToast({ title: '支付成功', icon: 'success' });
+    this.loadOrder(id);
   }
 });

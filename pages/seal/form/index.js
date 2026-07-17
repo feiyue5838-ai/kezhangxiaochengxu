@@ -1,5 +1,6 @@
 // pages/seal/form/index.js
 const common = require('../../../utils/common.js');
+const api = require('../../../utils/api.js');
 const P = ['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏','浙江','安徽','福建','江西','山东','河南','湖北','湖南','广东','广西','海南','重庆','四川','贵州','云南','西藏','陕西','甘肃','青海','宁夏','新疆','台湾','香港','澳门'];
 
 const D = {
@@ -419,16 +420,17 @@ Page({
     pageTitle: '印章申请',
     currentProvince: { name: '四川省', url: 'https://yzcx.sczwfw.gov.cn:18511/', cities: [{ name: '成都市', url: 'https://yzcx.sczwfw.gov.cn:18511/' }] },
     currentCity: '成都市',
-    cityPickerOpen: false,
+    provinceIndex: 0,
+    provinces: [],  // 备案查询：34个省份数据（从API加载）
     _provinceOrig: { name: '四川省', url: 'https://yzcx.sczwfw.gov.cn:18511/', cities: [{ name: '成都市', url: 'https://yzcx.sczwfw.gov.cn:18511/' }] },
-    personalSeals: [{ id: 's26', name: '个人签名章' },{ id: 's27', name: '拆迁、买房使用' },{ id: 's28', name: '公证使用' },{ id: 's29', name: '企业员工使用' }],
-    selectedCategory: 9,
+    personalSeals: [],
+    selectedCategory: '3c8f3af2-501a-4411-84c3-fbe0f0be8e58',
     selectedSeal: '',
     selectedSealName: '',
     isElectronic: false,
     selectedElectronicSeal: '',
     selectedElectronicSealName: '',
-    electronicSeals: [{ id: 'e1', name: '财务章', categoryId: 11 },{ id: 'e2', name: '公章', categoryId: 12 },{ id: 'e3', name: '合同章', categoryId: 13 },{ id: 'e4', name: '法人章', categoryId: 14 },{ id: 'e5', name: '发票章', categoryId: 15 },{ id: 'e6', name: '个人签名章', categoryId: 16 },{ id: 'e7', name: '其他印章', categoryId: 17 }],
+    electronicSeals: [{ id: 'e1', name: '财务章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e2', name: '公章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e3', name: '合同章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e4', name: '法人章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e5', name: '发票章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e6', name: '个人签名章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e7', name: '其他印章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' }],
     selectedElectronicCategory: '',
     popupTitle: '',
     // 地区选择器
@@ -466,6 +468,48 @@ Page({
       currentProvince: this.data.currentProvince,
       currentCity: this.data.currentCity,
       pageTitle: titles[type] || '企业刻章'
+    });
+
+    // 刻章备案查询模式：从 API 加载34个省份数据
+    if (isQuery) {
+      this._loadProvinces();
+    }
+  },
+
+  // 从 API 加载备案查询省份数据（34个省份）
+  _loadProvinces() {
+    const QUERY_SCENE_ID = '9837519a-9dbf-4e52-b19e-60eea192eef6';
+    api.getSealSceneProducts(QUERY_SCENE_ID).then(res => {
+      if (res && res.seals) {
+        // 解析省份数据：name=省份名, description=平台名+换行+网址
+        const provinces = res.seals.map(s => {
+          const lines = (s.description || '').split('\n');
+          const platformName = lines[0] || '';
+          const url = lines[1] || '';
+          return {
+            name: s.name,
+            url: url,
+            platformName: platformName,
+            id: s.id
+          };
+        });
+                // 找到四川在列表中的索引（默认选中）
+        const sichuanIdx = provinces.findIndex(p => p.name === '四川省');
+        const defaultIdx = sichuanIdx >= 0 ? sichuanIdx : 0;
+        const defaultProvince = provinces[defaultIdx];
+        this.setData({
+          provinces: provinces,
+          provinceIndex: defaultIdx,
+          currentProvince: {
+            name: defaultProvince.name,
+            url: defaultProvince.url,
+            platformName: defaultProvince.platformName
+          },
+          currentCity: ''
+        });
+      }
+    }).catch(err => {
+      console.error('加载省份数据失败:', err);
     });
   },
 
@@ -517,13 +561,13 @@ Page({
 
   // half-screen-popup 弹窗(个人印章选择)
   onOpenPersonalSeals() {
-    this.setData({ selectedCategory: 9 });
-    this.selectComponent('#sealPopup').openWithCategory(9);
+    this.setData({ selectedCategory: '3c8f3af2-501a-4411-84c3-fbe0f0be8e58' });
+    this.selectComponent('#sealPopup').openWithCategory('3c8f3af2-501a-4411-84c3-fbe0f0be8e58');
   },
 
   onOpenProfessionalSeals() {
-    this.setData({ selectedCategory: 10 });
-    this.selectComponent('#sealPopup').openWithCategory(10);
+    this.setData({ selectedCategory: '3c8f3af2-501a-4411-84c3-fbe0f0be8e58' });
+    this.selectComponent('#sealPopup').openWithCategory('3c8f3af2-501a-4411-84c3-fbe0f0be8e58');
   },
 
   // 弹窗确认(个人/电子印章直接跳转,无需再点下一步)
@@ -567,7 +611,7 @@ Page({
   _doPersonalSubmit() {
     const ids = this.data.selectedSeal.split(',').filter(Boolean);
     const names = this.data.selectedSealName.split('、').filter(Boolean);
-    const categoryName = this.data.selectedCategory === 10 ? '个人职业章' : '个人印章';
+    const categoryName = '个人印章';
     wx.setStorageSync('selectedSealsData', {
       ids: ids,
       names: names,
@@ -602,17 +646,20 @@ Page({
 
   // ========== 备案查询模式 ==========
 
-  onOpenCityPicker() {
-    this.setData({ cityPickerOpen: !this.data.cityPickerOpen });
-  },
-  onCitySelect(e) {
-    const index = e.currentTarget.dataset.index;
-    const province = this.data.currentProvince;
-    const city = province.cities[index];
+  // 省份 picker 选择
+  onProvinceChange(e) {
+    const index = e.detail.value;
+    const provinces = this.data.provinces || [];
+    const province = provinces[index];
+    if (!province) return;
     this.setData({
-      currentCity: city.name,
-      currentProvince: { ...province, url: city.url },
-      cityPickerOpen: false
+      provinceIndex: index,
+      currentProvince: {
+        name: province.name,
+        url: province.url,
+        platformName: province.platformName
+      },
+      currentCity: '',
     });
   },
 

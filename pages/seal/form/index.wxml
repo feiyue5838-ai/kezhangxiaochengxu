@@ -7,28 +7,20 @@
   <view class="content">
   <!-- ========== 刻章备案查询模式 ========== -->
   <block wx:if="{{isQuery}}">
-    <!-- 1. 顶部地区选择 -->
-    <view class="query-location-bar" bindtap="onOpenCityPicker">
-      <text style="margin-right:4rpx;vertical-align:middle;">📍</text>
-      <text class="query-location-city">{{currentCity}}</text>
-      <text class="query-location-arrow {{cityPickerOpen ? 'open' : ''}}">▼</text>
-    </view>
-    <!-- 城市下拉列表 -->
-    <view class="query-city-dropdown" wx:if="{{cityPickerOpen}}">
-      <view
-        class="query-city-item {{currentCity === city.name ? 'active' : ''}}"
-        wx:for="{{currentProvince.cities}}"
-        wx:key="index"
-        bindtap="onCitySelect"
-        data-index="{{index}}"
-      >{{currentProvince.name}} · {{city.name}}</view>
-    </view>
+    <!-- 1. 顶部地区选择（picker 形式） -->
+    <picker mode="selector" range="{{provinces}}" range-key="name" value="{{provinceIndex}}" bindchange="onProvinceChange">
+      <view class="query-location-bar">
+        <icon type="location" size="18" color="#7B5CFA" style="margin-right:8rpx;vertical-align:middle;"></icon>
+        <text class="query-location-city">{{currentProvince.name}}</text>
+        <text class="query-location-arrow">▼</text>
+      </view>
+    </picker>
 
     <!-- 3. 平台信息卡片 -->
     <view class="query-platform-card">
       <view class="query-platform-header">
         <text style="margin-right:4rpx;vertical-align:middle;">🔄</text>
-        <text class="query-platform-title">{{currentProvince.name}}印章查询平台</text>
+        <text class="query-platform-title">{{currentProvince.platformName || currentProvince.name + '印章查询平台'}}</text>
       </view>
       <view class="query-platform-url">
         <text class="query-platform-link">{{currentProvince.url}}</text>

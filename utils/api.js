@@ -20,9 +20,10 @@ const request = (options) => {
         ...options.header
       },
       success: (res) => {
-        if (res.statusCode === 200) {
-          if (res.data.code === 0) {
-            resolve(res.data.data);
+        if (res.statusCode === 200 || res.statusCode === 201) {
+          // 兼容：无 code 字段时直接返回 data（如后端直接返回对象）；有 code 时验证为 0
+          if (res.data.code === 0 || res.data.code === undefined) {
+            resolve(res.data.data !== undefined ? res.data.data : res.data);
           } else {
             const errorMsg = res.data.message || '请求失败';
             wx.showToast({ title: errorMsg, icon: 'none', duration: 2000 });
@@ -85,12 +86,20 @@ module.exports = {
   getSealList: (params) => request({ url: '/api/seals', data: params }),
   // 印章套餐 → GET /api/seals/packages
   getSealPackages: (params) => request({ url: '/api/seals/packages', data: params }),
+  // 印章业务场景（统一走 categories 接口） → GET /api/seals/categories
+  getSealScenes: () => request({ url: '/api/seals/categories' }),
+  // 分类下的印章+套餐 → GET /api/seals/categories/:id
+  getSealSceneProducts: (sceneId) => request({ url: `/api/seals/categories/${sceneId}` }),
   // 创建刻章订单 → POST /api/orders/seal
   createSealOrder: (data) => request({ url: '/api/orders/seal', method: 'POST', data: data }),
   // 刻章订单列表 → GET /api/orders/seal
   getSealOrderList: (params) => request({ url: '/api/orders/seal', data: params }),
-  // 刻章订单详情 → GET /api/orders/seal/:id
-  getSealOrderDetail: (id) => request({ url: `/api/orders/seal/${id}` }),
+  // 刻章订单详情 → GET /api/orders/:id
+  getSealOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
+  // 获取刻章订单微信支付参数 → POST /api/orders/:id/pay
+  getSealPayParams: (id, openid) => request({ url: `/api/orders/${id}/pay`, method: 'POST', data: { openid: openid || '' } }),
+  // 开发环境模拟微信支付回调（生产环境该接口返回 403）→ POST /api/orders/:id/dev-paid
+  devConfirmPay: (id) => request({ url: `/api/orders/${id}/dev-paid`, method: 'POST' }),
 
   // ==================== 登报服务 ====================
   // 报纸分类 → GET /api/newspapers/categories
@@ -103,10 +112,24 @@ module.exports = {
   getNewspaperPrice: (data) => request({ url: '/api/newspapers/price', data }),
   // 创建登报订单 → POST /api/orders/newspaper
   createNewspaperOrder: (data) => request({ url: '/api/orders/newspaper', method: 'POST', data: data }),
-  // 登报订单列表 → GET /api/orders/newspaper
-  getNewspaperOrderList: (params) => request({ url: '/api/orders/newspaper', data: params }),
-  // 登报订单详情 → GET /api/orders/newspaper/:id
-  getNewspaperOrderDetail: (id) => request({ url: `/api/orders/newspaper/${id}` }),
+  // 登报订单列表 → GET /api/orders?module=newspaper
+  getNewspaperOrderList: (params) => request({ url: '/api/orders', data: { ...params, module: 'newspaper' } }),
+  // 登报订单详情 → GET /api/orders/:id
+  getNewspaperOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
+  // 登报订单微信支付参数 → POST /api/orders/:id/pay
+  getNewspaperPayParams: (id, openid) => request({ url: `/api/orders/${id}/pay`, method: 'POST', data: { openid: openid || '' } }),
+  // 用户取消订单 / 申请退款 → POST /api/orders/:id/cancel
+  cancelNewspaperOrder: (id) => request({ url: `/api/orders/${id}/cancel`, method: 'POST' }),
+
+  // ==================== 收货地址 ====================
+  // 地址列表 → GET /api/users/addresses
+  getAddressList: () => request({ url: '/api/users/addresses' }),
+  // 新增地址 → POST /api/users/addresses
+  addAddress: (data) => request({ url: '/api/users/addresses', method: 'POST', data: data }),
+  // 更新地址 → PUT /api/users/addresses/:id
+  updateAddress: (id, data) => request({ url: `/api/users/addresses/${id}`, method: 'PUT', data: data }),
+  // 删除地址 → DELETE /api/users/addresses/:id
+  deleteAddress: (id) => request({ url: `/api/users/addresses/${id}`, method: 'DELETE' }),
 
   // ==================== 门店端 ====================
   // 门店订单列表 → GET /api/stores/me/orders
@@ -121,12 +144,13 @@ module.exports = {
   uploadReceipt: (data) => request({ url: '/api/stores/me/receipts', method: 'POST', data }),
 
   // ==================== 通用 ====================
-  // 文件上传 → POST /api/upload/image
+  // 文件上传（用户侧）→ POST /api/upload/user-image
+  // 后端直返 { url }，兼容可能的 { code:0, data } 包装
   uploadFile: (filePath) => {
     return new Promise((resolve, reject) => {
       const token = wx.getStorageSync('token');
       wx.uploadFile({
-        url: API_BASE + '/api/upload/image',
+        url: API_BASE + '/api/upload/user-image',
         filePath: filePath,
         name: 'file',
         timeout: 30000,
@@ -134,12 +158,17 @@ module.exports = {
           'Authorization': token ? `Bearer ${token}` : ''
         },
         success: (res) => {
-          const data = JSON.parse(res.data);
-          if (data.code === 0) {
-            resolve(data.data);
+          let data;
+          try { data = JSON.parse(res.data); } catch (e) { reject(new Error('上传返回解析失败')); return; }
+          // 后端直返 { url }；兼容 { code:0, data:url } 包装
+          const url = (data && typeof data.url === 'string') ? data.url
+            : (data && data.code === 0 ? data.data : null);
+          if (url) {
+            resolve(url);
           } else {
-            wx.showToast({ title: data.message || '上传失败', icon: 'none', duration: 2000 });
-            reject(new Error(data.message));
+            const msg = (data && data.message) || '上传失败';
+            wx.showToast({ title: msg, icon: 'none', duration: 2000 });
+            reject(new Error(msg));
           }
         },
         fail: (err) => {

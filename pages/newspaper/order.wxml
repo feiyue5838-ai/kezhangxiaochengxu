@@ -20,11 +20,12 @@
   <view class="order-list" wx:if="{{filteredOrders.length > 0}}">
     <view class="order-item" wx:for="{{filteredOrders}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.id}}">
       <view class="order-info">
-        <text class="order-title">{{item.type}}</text>
+        <text class="order-title">{{item.title}}</text>
         <text class="order-desc">{{item.desc}}</text>
         <text class="order-date">{{item.date}}</text>
+        <text class="order-price">¥{{item.totalPrice}} · {{item.issueCount}}期</text>
       </view>
-      <view class="order-status {{item.statusClass || item.status}}">{{item.statusText || item.status}}</view>
+      <view class="order-status status-{{item.status}}">{{item.statusText}}</view>
     </view>
   </view>
 

@@ -141,6 +141,16 @@
   background: #F8F7FC;
 }
 
+/* 后端状态（status 数字）配色 */
+.order-status.status-1 { color: #FA8C16; background: #FFF7E6; }   /* 待支付 */
+.order-status.status-2 { color: #7B5CFA; background: #E6F4FF; }   /* 已支付 */
+.order-status.status-3,
+.order-status.status-4 { color: #7B5CFA; background: #E6F4FF; }   /* 制作中/已发货 */
+.order-status.status-5 { color: #52C41A; background: #F6FFED; }   /* 已完成 */
+.order-status.status-6,
+.order-status.status-7,
+.order-status.status-8 { color: #8C97A6; background: #F8F7FC; }   /* 取消/退款中/已退款 */
+
 /* ========== 缂佸矁娅ｆ慨鎼佸箑?========== */
 .empty-order {
   text-align: center;

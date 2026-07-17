@@ -157,18 +157,19 @@ Page({
       return;
     }
 
-    const { ids, names, seals, categoryName, isPersonal, isElectronic } = data;
+    const { ids, names, categoryName, isPersonal, isElectronic, items, totalPrice: dataTotalPrice } = data;
 
-    // 性能优化：构建 Map 进行 O(1) 查找
-    const allSeals = this.data.singleSeals.concat(this.data.packages);
-    const sealMap = new Map(allSeals.map(s => [s.id, s]));
-
-    // 计算总价
-    let totalPrice = 0;
-    ids.forEach(id => {
-      const item = sealMap.get(id);
-      if (item) totalPrice += (item.price || 0);
-    });
+    // 优先使用 select 页面传入的 items（带真实价格），否则从静态 sealMap 回退
+    let totalPrice = dataTotalPrice || 0;
+    if ((!items || items.length === 0) && ids && ids.length > 0) {
+      const allSeals = this.data.singleSeals.concat(this.data.packages);
+      const sealMap = new Map(allSeals.map(s => [s.id, s]));
+      totalPrice = 0;
+      ids.forEach(id => {
+        const item = sealMap.get(id);
+        if (item) totalPrice += (item.price || 0);
+      });
+    }
 
     // 显示名称
     const displayNames = names && names.length > 0 ? names : ids.map(id => {
@@ -478,9 +479,36 @@ Page({
       additional: (this.data.materials.additional.length > 0 ? this.data.materials.additional : materialInfo.additional) || []
     };
 
+    // 构建 items 数组（后端根据 items 计算 orderItems 明细表）
+    // 优先使用 select 页面传入的 items（带真实价格和 UUID）
+    const selectedData = wx.getStorageSync('selectedSealsData') || {};
+    let items = (selectedData.items || []).filter(Boolean);
+    const selectedIds = selectedData.ids || [];
+
+    // 如果 items 为空（form 页面等旧流程），从静态 sealMap 回退
+    if (items.length === 0 && selectedIds.length > 0) {
+      const allSeals = [
+        ...this.data.singleSeals || [],
+        ...(this.data.businessSeals || []),
+        ...(this.data.personalSeals || []),
+        ...(this.data.professionalSeals || []),
+      ];
+      const sealMap = new Map(allSeals.map(s => [s.id, s]));
+      items = selectedIds.map(id => {
+        const s = sealMap.get(id);
+        return s ? { itemType: 'seal', name: s.name, price: s.price, quantity: 1 } : null;
+      }).filter(Boolean);
+    }
+
     // 收集订单数据
     const orderData = {
-      sealIds: (wx.getStorageSync('selectedSealsData') || {}).ids || [],
+      // type：后端根据此字段设置订单类型标签（personal/electronic/company）
+      type: this.data.isPersonal ? 'personal' : this.data.isElectronic ? 'electronic' : 'company',
+      // sealIds 兼容新旧格式：新 items 有 sealId/packageId，旧流程用 selectedIds
+      sealIds: items.length > 0
+        ? items.map(i => i.sealId || i.packageId).filter(Boolean)
+        : (selectedIds || []),
+      items,  // 后端 orderItems 明细表
       categoryName: this.data.categoryName,
       isPersonal: this.data.isPersonal,
       isElectronic: this.data.isElectronic,
@@ -488,8 +516,9 @@ Page({
       contactPhone: this.data.contactPhone,
       licenseRegion: this.data.licenseRegion,
       sealReason: this.data.sealReason,
-      totalPrice: this.data.totalPrice,
-      address: this.data.address,
+      totalPrice: selectedData.totalPrice || this.data.totalPrice,
+      // addressJson：后端通过 JSON.parse(addressJson) 获取地址用于自动分配门店
+      addressJson: JSON.stringify(this.data.address || {}),
       invoice: this.data.invoice,
       remark: this.data.remark,
       materials: submitMaterials
@@ -497,30 +526,60 @@ Page({
 
     api.createSealOrder(orderData).then((res) => {
       wx.hideLoading();
-      // 后端返回微信支付参数，调起支付
-      const payParams = res.payParams || res;
-      wx.requestPayment({
-        timeStamp: payParams.timeStamp,
-        nonceStr: payParams.nonceStr,
-        package: payParams.package,
-        signType: payParams.signType || 'RSA',
-        paySign: payParams.paySign,
-        success: () => {
-          wx.showToast({ title: '支付成功', icon: 'success' });
-          this._clearOrderCache();
-          setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1500);
-        },
-        fail: (err) => {
-          if (err.errMsg.includes('cancel')) {
-            wx.showToast({ title: '已取消支付', icon: 'none' });
-          } else {
-            wx.showToast({ title: '支付失败，请重试', icon: 'none' });
-          }
-          this.setData({ isSubmitting: false });
+      // 后端返回新建订单（此时状态必为『待支付』，绝不会由前端预置已付）
+      const orderId = res.id || res.orderNo;
+      if (!orderId) {
+        wx.showToast({ title: '订单创建失败', icon: 'none' });
+        this.setData({ isSubmitting: false });
+        return;
+      }
+
+      // 第二步：向后端获取支付参数（真实统一下单 / 免费 / 开发模拟）
+      api.getSealPayParams(orderId, wx.getStorageSync('openid') || '').then((payRes) => {
+        const type = payRes.type;        // 'wechat' | 'free' | 'dev'
+        const payment = payRes.payment;
+
+        if (type === 'wechat' && payment) {
+          // 正式支付：调起微信支付；成功后由后端异步回调置『已支付+分配』
+          wx.requestPayment({
+            timeStamp: payment.timeStamp,
+            nonceStr: payment.nonceStr,
+            package: payment.package,
+            signType: payment.signType || 'RSA',
+            paySign: payment.paySign,
+            success: () => this._pollPaid(orderId),
+            fail: (err) => {
+              if (String(err.errMsg || '').indexOf('cancel') > -1) {
+                wx.showToast({ title: '已取消支付', icon: 'none' });
+              } else {
+                wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+              }
+              this.setData({ isSubmitting: false });
+            }
+          });
+          return;
         }
+
+        if (type === 'dev') {
+          // 开发环境：服务端模拟微信回调完成支付+分配（生产环境该接口返回 403）
+          api.devConfirmPay(orderId).then(() => this._finishPaid()).catch((e) => {
+            console.error('devConfirmPay error:', e);
+            wx.showToast({ title: '支付处理失败', icon: 'none' });
+            this.setData({ isSubmitting: false });
+          });
+          return;
+        }
+
+        // free（价格为 0）或兜底：后端已在 createPayOrder 内完成支付+分配
+        this._finishPaid();
+      }).catch((payErr) => {
+        console.error('getSealPayParams error:', payErr);
+        wx.showToast({ title: '获取支付参数失败', icon: 'none' });
+        this.setData({ isSubmitting: false });
       });
     }).catch((err) => {
-      // 后端未开发时的本地模拟下单
+      // 后端未接通：本地演示兜底（不预置已付，仅本地展示）
+      console.error('createSealOrder error:', err);
       wx.hideLoading();
       wx.showModal({
         title: '模拟下单',
@@ -533,6 +592,33 @@ Page({
         }
       });
     });
+  },
+
+  // 支付成功收尾：清缓存 + 提示 + 跳转（dev/free 场景服务端已同步完成支付+分配）
+  _finishPaid() {
+    wx.showToast({ title: '支付成功', icon: 'success' });
+    this._clearOrderCache();
+    setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1200);
+  },
+
+  // 正式微信支付后：轮询后端确认『已支付+已分配』（回调异步到达）
+  // 微信支付结果以后端异步回调 completePayment 为准，此处仅做友好等待
+  _pollPaid(orderId) {
+    let tries = 0;
+    const poll = () => {
+      api.getSealOrderDetail(orderId).then((detail) => {
+        if (detail && detail.status >= 2) return this._finishPaid();
+        throw new Error('pending');
+      }).catch(() => {
+        if (tries++ < 4) {
+          setTimeout(poll, 800);
+        } else {
+          // 回调可能略有延迟（款项已收），仍视为成功跳转到订单
+          this._finishPaid();
+        }
+      });
+    };
+    poll();
   },
 
   // 返回上一页
@@ -576,7 +662,12 @@ Page({
     const selectedData = wx.getStorageSync('selectedSealsData') || {};
     const ids = selectedData.ids || [];
     // 获取印章名称
-    const allSeals = [...this.data.singleSeals, ...this.data.businessSeals, ...this.data.personalSeals, ...this.data.professionalSeals];
+    const allSeals = [
+      ...(this.data.singleSeals || []),
+      ...(this.data.businessSeals || []),
+      ...(this.data.personalSeals || []),
+      ...(this.data.professionalSeals || []),
+    ];
     const sealMap = new Map(allSeals.map(s => [s.id, s]));
     const sealNames = ids.map(id => sealMap.get(id)?.name || id).join('、');
     const order = {

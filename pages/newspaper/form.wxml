@@ -55,10 +55,10 @@
         <view class="paper-tag {{item.tag ? '' : 'empty'}}" style="{{item.tag ? 'background: ' + item.logoColor + '22; color: ' + item.logoColor + ';' : ''}}">{{item.tag || ''}}</view>
         <!-- 报纸名称 -->
         <text class="paper-name">{{item.name}}</text>
-        <!-- 价格 -->
+        <!-- 价格（最低参考价） -->
         <view class="paper-price-row">
-          <text class="paper-price">¥{{item.price}}</text>
-          <text class="paper-unit">/份</text>
+          <text class="paper-price">¥{{item.minPrice}}</text>
+          <text class="paper-unit">/期起</text>
         </view>
       </view>
     </view>
@@ -94,19 +94,18 @@
     <view class="section-header">
       <text class="section-title">收件信息</text>
     </view>
-    <view class="receiver-form">
-      <view class="form-row">
-        <text class="form-label"><text class="required">*</text>收件人</text>
-        <input class="form-input" placeholder="请输入收件人姓名" value="{{receiver.name}}" bindinput="onReceiverInput" data-field="name" />
+    <view class="address-card" bindtap="goSelectAddress">
+      <view class="address-left" wx:if="{{selectedAddress}}">
+        <view class="address-top">
+          <text class="address-name">{{selectedAddress.contact}}</text>
+          <text class="address-phone">{{selectedAddress.phone}}</text>
+        </view>
+        <text class="address-detail">{{selectedAddress.province}}{{selectedAddress.city}}{{selectedAddress.district}} {{selectedAddress.detail}}</text>
       </view>
-      <view class="form-row">
-        <text class="form-label"><text class="required">*</text>手机号</text>
-        <input class="form-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{receiver.phone}}" bindinput="onReceiverInput" data-field="phone" />
+      <view class="address-empty" wx:else>
+        <text class="address-empty-text">请选择收货地址</text>
       </view>
-      <view class="form-row">
-        <text class="form-label"><text class="required">*</text>收件地址</text>
-        <input class="form-input" placeholder="请输入详细地址" value="{{receiver.address}}" bindinput="onReceiverInput" data-field="address" />
-      </view>
+      <text class="address-arrow">›</text>
     </view>
   </view>
 

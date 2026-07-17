@@ -691,4 +691,58 @@
   margin-top: 12rpx;
 }
 
+/* 收货地址卡片 */
+.address-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-top: 16rpx;
+}
+
+.address-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.address-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A2332;
+  margin-right: 16rpx;
+}
+
+.address-phone {
+  font-size: 26rpx;
+  color: #8C97A6;
+}
+
+.address-detail {
+  font-size: 26rpx;
+  color: #5A6573;
+  line-height: 1.5;
+}
+
+.address-empty {
+  flex: 1;
+}
+
+.address-empty-text {
+  font-size: 28rpx;
+  color: #A8B4C5;
+}
+
+.address-arrow {
+  font-size: 40rpx;
+  color: #C0C8D4;
+  margin-left: 16rpx;
+}
+
 

@@ -1,5 +1,6 @@
 // pages/address/edit/index.js
 const REGIONS = require('../../../utils/region-data.js');
+const api = require('../../utils/api.js');
 
 Page({
   data: {
@@ -12,12 +13,41 @@ Page({
     regionText: '请选择省市区',
     regionIndex: [0, 0, 0],
     regionColumns: [[], [], []],
-    isDefault: false
+    isDefault: false,
+    id: ''                  // 编辑模式：地址 ID（新增时为空）
   },
 
-  onLoad() {
+  onLoad(options) {
     this.initRegionData();
-    this.loadSavedAddress();
+    if (options && options.id) {
+      // 编辑模式：从地址列表页带入的地址快照
+      this.setData({ id: options.id });
+      const editing = wx.getStorageSync('editingAddress');
+      if (editing) {
+        const province = editing.province || '';
+        const city = editing.city || '';
+        const district = editing.district || '';
+        const pIdx = REGIONS.provinces.indexOf(province);
+        const cities = pIdx >= 0 ? (REGIONS.provinceToCities[province] || []) : [];
+        const cIdx = cities.indexOf(city);
+        const districts = cIdx >= 0 ? (REGIONS.cityToDistricts[city] || []) : [];
+        const dIdx = districts.indexOf(district);
+        this.setData({
+          name: editing.contact || editing.name || '',
+          phone: editing.phone || '',
+          province,
+          city,
+          district,
+          detail: editing.detail || '',
+          regionText: `${province} ${city} ${district}`.trim() || '请选择省市区',
+          regionIndex: [pIdx >= 0 ? pIdx : 0, cIdx >= 0 ? cIdx : 0, dIdx >= 0 ? dIdx : 0],
+          regionColumns: [REGIONS.provinces, cities, districts],
+          isDefault: !!editing.isDefault
+        });
+      }
+    } else {
+      this.loadSavedAddress();
+    }
   },
 
   // 初始化省市区三列（一致三级结构：省→市→区）
@@ -158,21 +188,39 @@ Page({
       return;
     }
 
-    const address = {
-      name: name.trim(),
+    const payload = {
+      contact: name.trim(),
       phone: phone.trim(),
       province,
       city,
       district,
       detail: detail.trim(),
-      isDefault
+      isDefault: !!isDefault
     };
 
-    wx.setStorageSync('deliveryAddress', address);
-    wx.showToast({ title: '保存成功', icon: 'success' });
+    wx.showLoading({ title: '保存中' });
+    const save = this.data.id
+      ? api.updateAddress(this.data.id, payload)
+      : api.addAddress(payload);
 
-    setTimeout(() => {
-      wx.navigateBack();
-    }, 1000);
+    save.then((res) => {
+      wx.hideLoading();
+      const saved = res || { id: this.data.id, ...payload };
+      // 同步给刻章模块（本地 storage，字段名保持 name）
+      wx.setStorageSync('deliveryAddress', {
+        id: saved.id,
+        name: saved.contact,
+        phone: saved.phone,
+        province: saved.province,
+        city: saved.city,
+        district: saved.district,
+        detail: saved.detail,
+        isDefault: saved.isDefault
+      });
+      wx.showToast({ title: '保存成功', icon: 'success' });
+      setTimeout(() => { wx.navigateBack(); }, 800);
+    }).catch(() => {
+      wx.hideLoading();
+    });
   }
 });
