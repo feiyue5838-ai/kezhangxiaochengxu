@@ -1,0 +1,25 @@
+<!-- pages/bookkeeping/index.wxml -->
+<view class="page">
+  <nav-bar title="代理记账" showBack="{{false}}" />
+  <view class="banner">
+    <text class="banner-title">专业代理记账</text>
+    <text class="banner-subtitle">省心 · 专业 · 合规</text>
+    <view class="banner-tags">
+      <text class="banner-tag">专业会计</text>
+      <text class="banner-tag">智能报税</text>
+      <text class="banner-tag">风险预警</text>
+    </view>
+  </view>
+  <view class="service-list">
+    <view class="service-item" wx:for="{{services}}" wx:key="id" bindtap="selectService" data-id="{{item.id}}">
+      <view class="svc-icon-wrap" style="background: {{item.bgColor}};">
+        <image class="service-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+      </view>
+      <view class="service-info">
+        <text class="service-name">{{item.name}}</text>
+        <text class="service-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="safe-bottom"></view>

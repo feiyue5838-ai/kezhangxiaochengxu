@@ -35,7 +35,7 @@
     "pages/newspaper/content-edit/index",
     "pages/newspaper/form",
     "pages/seal/order-detail/index",
-    "pages/license/index",
+    "pages/bookkeeping/index",
     "pages/profile/index",
     "pages/webview/index",
     "pages/order/list/index",
@@ -84,10 +84,10 @@
         "selectedIconPath": "assets/icons/tab-home-active.png"
       },
       {
-        "pagePath": "pages/license/index",
-        "text": "商标",
-        "iconPath": "assets/icons/tab-trademark.png",
-        "selectedIconPath": "assets/icons/tab-trademark-active.png"
+        "pagePath": "pages/bookkeeping/index",
+        "text": "代理记账",
+        "iconPath": "assets/icons/tab-bookkeeping.png",
+        "selectedIconPath": "assets/icons/tab-bookkeeping-active.png"
       },
       {
         "pagePath": "pages/profile/index",

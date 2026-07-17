@@ -12,7 +12,7 @@
       <view class="hero-deco"></view>
       <view class="hero-deco-2"></view>
       <text class="hero-title">企业服务 一站通达</text>
-      <text class="hero-sub">公安备案 · 省级报刊 · 商标注册</text>
+      <text class="hero-sub">公安备案 · 省级报刊 · 代理记账</text>
       <view class="hero-arc"></view>
     </view>
 
@@ -34,11 +34,11 @@
         <text class="svc-desc">省级报刊</text>
       </view>
 
-      <view class="svc-col" bindtap="goToPage" data-page="license" hover-class="svc-tap">
+      <view class="svc-col" bindtap="goToPage" data-page="bookkeeping" hover-class="svc-tap">
         <view class="svc-icon">
-          <image class="svc-svg" src="{{iconTrademarkBg}}" mode="aspectFit" />
+          <image class="svc-svg" src="{{iconBookkeepingBg}}" mode="aspectFit" />
         </view>
-        <text class="svc-name">商标注册</text>
+        <text class="svc-name">代理记账</text>
         <text class="svc-desc">专业服务</text>
       </view>
     </view>

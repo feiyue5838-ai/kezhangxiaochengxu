@@ -183,4 +183,38 @@ draw_file(gray, 'tab-file.png')
 draw_file_active(blue, 'tab-file-active.png')
 draw_me(gray, 'tab-me.png')
 draw_me_active(blue, 'tab-me-active.png')
+def draw_bookkeeping(color, path):
+    """代理记账 - 账本/算盘风格"""
+    img = Image.new('RGBA', (SIZE, SIZE), (255, 255, 255, 0))
+    d = ImageDraw.Draw(img)
+    lw = 3
+    # 账本封面
+    d.rounded_rectangle([8, 10, 72, 70], radius=5, outline=color, width=lw)
+    # 书脊
+    d.line([(8, 10), (8, 70)], fill=color, width=lw)
+    # 标题横线
+    d.line([(20, 24), (62, 24)], fill=color, width=2)
+    # 内容横线
+    for y in [34, 44, 54]:
+        d.line([(20, y), (62, y)], fill=color, width=2)
+    img.save(path)
+
+def draw_bookkeeping_active(color, path):
+    """代理记账选中"""
+    img = Image.new('RGBA', (SIZE, SIZE), (255, 255, 255, 0))
+    d = ImageDraw.Draw(img)
+    # 封面填充
+    d.rounded_rectangle([8, 10, 72, 70], radius=5, fill=color)
+    # 书脊
+    d.line([(8, 10), (8, 70)], fill='white', width=3)
+    # 标题横线
+    d.line([(20, 24), (62, 24)], fill='white', width=3)
+    # 内容横线
+    for y in [34, 44, 54]:
+        d.line([(20, y), (62, y)], fill='white', width=3)
+    img.save(path)
+
+# 生成所有图标
+draw_bookkeeping(gray, 'tab-bookkeeping.png')
+draw_bookkeeping_active(blue, 'tab-bookkeeping-active.png')
 print('All icons generated!')
