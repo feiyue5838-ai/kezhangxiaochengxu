@@ -51,28 +51,20 @@ Page({
   },
 
   // 真实后端登录（已接入 api.js）
+  // ⚠️ 必须用「不带登录守卫」的 api.wxLogin（raw request）。
+  //    不能用 auth.request —— 它未登录时直接拦截、永不发请求，会导致登录死循环。
   _doLogin(code, phoneDetail) {
-    const { request } = require('../../utils/auth.js');
-    request({
-      url: api.getApi('AUTH.LOGIN'),
-      method: 'POST',
-      data: {
-        code,
-        encryptedData: phoneDetail.encryptedData,
-        iv: phoneDetail.iv,
-      },
-      success: (res) => {
-        this.setData({ loading: false });
-        if (res.code === 0) {
-          this._saveAndRedirect(res.data);
-        } else {
-          wx.showToast({ title: res.msg || '登录失败', icon: 'none' });
-        }
-      },
-      fail: () => {
-        this.setData({ loading: false });
-        wx.showToast({ title: '网络异常', icon: 'none' });
+    api.wxLogin(code).then((res) => {
+      this.setData({ loading: false });
+      if (res && res.token) {
+        // 后端返回 { token, user }，统一映射为 _saveAndRedirect 期望的 { token, userInfo }
+        this._saveAndRedirect({ token: res.token, userInfo: res.user });
+      } else {
+        wx.showToast({ title: '登录失败', icon: 'none' });
       }
+    }).catch(() => {
+      this.setData({ loading: false });
+      wx.showToast({ title: '网络异常', icon: 'none' });
     });
   },
 
