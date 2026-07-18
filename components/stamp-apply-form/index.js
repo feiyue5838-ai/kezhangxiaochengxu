@@ -24,26 +24,18 @@ Component({
     onContact(e) { 
       this.setData({ contactPhone: e.detail.value }); 
       this.triggerEvent('formchange', this.getData()); 
-      if (e.detail.value) this._vibrate(); 
+      if (e.detail.value) wx.vibrateShort({ type: 'light' });
     },
     onCompany(e) { this.setData({ companyName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
     onLegal(e) { 
       this.setData({ legalPhone: e.detail.value }); 
       this.triggerEvent('formchange', this.getData()); 
-      if (e.detail.value) this._vibrate(); 
+      if (e.detail.value) wx.vibrateShort({ type: 'light' });
     },
     onName(e) { this.setData({ personName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
     getData() {
       const b = { region: this.data.region, reason: this.data.reason, contactPhone: this.data.contactPhone };
       return this.data.isPersonal ? { ...b, personName: this.data.personName } : { ...b, companyName: this.data.companyName, legalPhone: this.data.legalPhone };
-    },
-    _vibrate() {
-      const now = Date.now();
-      if (this._lastVibrateTime && now - this._lastVibrateTime < 300) {
-        return;
-      }
-      this._lastVibrateTime = now;
-      wx.vibrateLong();
     },
     validate() {
       const d = this.data;
