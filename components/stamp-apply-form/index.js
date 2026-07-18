@@ -42,6 +42,7 @@ Component({
       if (this._lastVibrate && now - this._lastVibrate < 100) return;
       this._lastVibrate = now;
       wx.vibrateLong();
+      setTimeout(() => wx.vibrateShort(), 80);
     },
 
     validate() {
