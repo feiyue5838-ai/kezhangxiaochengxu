@@ -188,6 +188,11 @@ module.exports = {
         }
       });
     });
-  }
+  },
+
+  // ==================== 系统配置 ====================
+  // 获取单个配置（公开接口，无需登录）: GET /api/config?key=xxx
+  // 后端直接返回配置值（如数组/字符串），request 封装会自动 resolve 为值本身
+  getConfig: (key) => request({ url: '/api/config', data: { key } }),
 };
 

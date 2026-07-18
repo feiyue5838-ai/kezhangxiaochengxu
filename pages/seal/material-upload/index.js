@@ -1,4 +1,5 @@
 const common = require('../../../utils/common.js');
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
@@ -45,7 +46,7 @@ Page({
     canSubmit: false,
   },
 
-  onLoad(options) {
+  async onLoad(options) {
     this.setData({ pageTitle: '上传材料' });
 
     // 清理过期的 Storage 数据
@@ -87,12 +88,20 @@ Page({
       idCardTitle = isIndividual ? '经营者身份证' : '法人身份证';
     }
 
-    // 哪些区域需要上传法人/经营者照片（使用公共函数）
     // 法人白底自拍照：企业和个体户模式全部地区显示
     const needLegalPhoto = (isCompany || (isIndividual));
-    // 法人手持身份证：仅上海、山东、新疆、贵阳地区企业必填
-    const HANDHELD_CITIES = ['上海', '山东', '新疆', '贵阳'];
-    const needHandheldId = isCompany && HANDHELD_CITIES.some(city => (region || '').includes(city));
+
+    // 法人手持身份证：所需地区改由后台配置（SystemConfig.handheldIdCities）下发，
+    // 默认上海/山东/新疆/贵阳；接口异常时沿用兜底列表，保证功能不中断。
+    const HANDHELD_FALLBACK = ['上海', '山东', '新疆', '贵阳'];
+    let handheldCities = HANDHELD_FALLBACK;
+    try {
+      const cfg = await api.getConfig('handheldIdCities');
+      if (Array.isArray(cfg) && cfg.length > 0) handheldCities = cfg;
+    } catch (e) {
+      // 接口异常（如网络不通）时沿用兜底列表
+    }
+    const needHandheldId = isCompany && handheldCities.some(city => (region || '').includes(city));
 
     // 动态计算照片标题和提示
     let photoTitle = '';
