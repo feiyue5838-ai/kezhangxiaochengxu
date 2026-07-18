@@ -455,8 +455,62 @@ cityToDistricts['澳门特别行政区'] = ['花地玛堂区', '圣安多尼堂�
 provinceToCities['台湾省'] = ['台湾省'];
 cityToDistricts['台湾省'] = ['台北市', '新北市', '桃园市', '台中市', '台南市', '高雄市', '基隆市', '新竹市', '嘉义市', '新竹县', '苗栗县', '彰化县', '南投县', '云林县', '嘉义县', '屏东县', '宜兰县', '花莲县', '台东县', '澎湖县', '金门县', '连江县'];
 
+// ============ 短名适配（兼容 form 页的短名格式）============
+
+/** 省份全称 → 短名 */
+const provinceShortMap = {
+  '北京市': '北京', '天津市': '天津', '河北省': '河北', '山西省': '山西',
+  '内蒙古自治区': '内蒙古', '辽宁省': '辽宁', '吉林省': '吉林',
+  '黑龙江省': '黑龙江', '上海市': '上海', '江苏省': '江苏',
+  '浙江省': '浙江', '安徽省': '安徽', '福建省': '福建',
+  '江西省': '江西', '山东省': '山东', '河南省': '河南',
+  '湖北省': '湖北', '湖南省': '湖南', '广东省': '广东',
+  '广西壮族自治区': '广西', '海南省': '海南', '重庆市': '重庆',
+  '四川省': '四川', '贵州省': '贵州', '云南省': '云南',
+  '西藏自治区': '西藏', '陕西省': '陕西', '甘肃省': '甘肃',
+  '青海省': '青海', '宁夏回族自治区': '宁夏', '新疆维吾尔自治区': '新疆',
+  '香港特别行政区': '香港', '澳门特别行政区': '澳门', '台湾省': '台湾',
+};
+
+/** 城市全称 → 短名（去后缀：优先匹配最长后缀，避免'区'误匹配港澳） */
+function shortCityName(fullName) {
+  // 按长度降序排列，确保 '特别行政区' 优先于 '行政区'，'行政区' 优先于 '区'
+  const suffixes = ['特别行政区', '行政区', '自治州', '自治县', '市辖区', '盟', '旗', '县', '区', '市'];
+  for (const s of suffixes) {
+    if (fullName.endsWith(s) && fullName !== s) {
+      return fullName.slice(0, -s.length);
+    }
+  }
+  return fullName;
+}
+
+/** 生成短名省份数组（兼容 form 页 P 变量） */
+const provincesShort = Object.values(provinceShortMap);
+
+/** 生成短名省→市→区数据（兼容 form 页 D 变量） */
+const districtsShort = {};
+for (const [provinceFull, citiesFull] of Object.entries(provinceToCities)) {
+  const provShort = provinceShortMap[provinceFull];
+  if (!provShort) continue;
+  districtsShort[provShort] = {};
+  for (const cityFull of citiesFull) {
+    const cityShort = shortCityName(cityFull);
+    // 直辖市（如上海）：cityFull='上海市', provinceFull='上海市', 两者相等
+    // 港澳（特别行政区）：cityFull='香港特别行政区', provinceFull='香港特别行政区', 两者也相等
+    // 非直辖：cityFull='石家庄市', provinceFull='河北省', 不等
+    if (cityFull === provinceFull) {
+      // 直辖市/港澳：区数据在 cityToDistricts[provinceFull]
+      districtsShort[provShort][cityShort] = cityToDistricts[provinceFull] || [];
+    } else {
+      // 非直辖：区数据在 cityToDistricts[cityFull]
+      districtsShort[provShort][cityShort] = cityToDistricts[cityFull] || [];
+    }
+  }
+}
+
 // ============ 导出 ============
 module.exports = {
+  // 原始全名数据
   provinces: [
     '北京市', '天津市', '河北省', '山西省', '内蒙古自治区',
     '辽宁省', '吉林省', '黑龙江省', '上海市', '江苏省', '浙江省',
@@ -467,5 +521,8 @@ module.exports = {
     '澳门特别行政区', '台湾省'
   ],
   provinceToCities,
-  cityToDistricts
+  cityToDistricts,
+  // 短名适配数据（供 seal/form 页使用）
+  provincesShort,      // ['北京', '天津', '河北', ...]
+  districtsShort,      // { '北京': { '北京': ['东城区', ...] }, '四川': { '成都': ['武侯区', ...] } }
 };
