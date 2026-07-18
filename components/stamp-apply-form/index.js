@@ -24,13 +24,13 @@ Component({
     onContact(e) { 
       this.setData({ contactPhone: e.detail.value }); 
       this.triggerEvent('formchange', this.getData()); 
-      if (e.detail.value) wx.vibrateShort({ type: 'light' });
+      if (e.detail.value) wx.vibrateShort();
     },
     onCompany(e) { this.setData({ companyName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
     onLegal(e) { 
       this.setData({ legalPhone: e.detail.value }); 
       this.triggerEvent('formchange', this.getData()); 
-      if (e.detail.value) wx.vibrateShort({ type: 'light' });
+      if (e.detail.value) wx.vibrateShort();
     },
     onName(e) { this.setData({ personName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
     getData() {
