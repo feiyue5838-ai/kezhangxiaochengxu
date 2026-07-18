@@ -242,12 +242,8 @@ Page({
     const { isPersonal, isCompany, isElectronic, license, legalPhoto, idCardFront, idCardBack, professionalCert, signature, needProfessionalCert, needSignature } = this.data;
 
     if (isCompany || isElectronic) {
-      // 企业/电子印章模式：营业执照 + 法人身份证正反面
+      // 企业/电子印章模式：营业执照 + 法人身份证正反面（法人白底自拍照已改为选填）
       let canSubmit = !!(license && idCardFront && idCardBack);
-      // 电子印章或特定区域需要法人/经营者白底自拍照
-      if (isElectronic || this.data.needLegalPhoto) {
-        canSubmit = canSubmit && !!legalPhoto;
-      }
       // 上海/山东/新疆/贵阳地区需要法人手持身份证
       if (this.data.needHandheldId) {
         canSubmit = canSubmit && !!this.data.handheldIdPhoto;

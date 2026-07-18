@@ -62,10 +62,11 @@
     </view>
   </view>
 
-  <!-- ========== 模块3：法人白底自拍照【全局必填 *】（特定区域） ========== -->
+  <!-- ========== 模块3：法人白底自拍照【选填】 ========== -->
   <view class="module" wx:if="{{needLegalPhoto || isElectronic}}">
     <view class="title-row">
       <text class="module-title">{{photoTitle}}</text>
+      <text class="title-note title-note-gray">选填</text>
       <text wx:if="{{photoNote}}" class="title-note photo-note-red">{{photoNote}}</text>
     </view>
     <view class="upload-single">
@@ -76,12 +77,12 @@
       </block>
       <view wx:else class="upload-placeholder-lg" bindtap="onLegalPhotoTap">
           <text class="placeholder-emoji-lg">🤳</text>
-          <text class="placeholder-label">点击上传 {{photoTitle}}<text class="star">*</text></text>
+          <text class="placeholder-label">点击上传 {{photoTitle}}</text>
       </view>
     </view>
     <!-- 规范提示 -->
     <view class="spec-tip spec-tip-warn">
-      <text class="spec-tip-text spec-warn">⚠️ 硬性要求：纯白墙面背景，现场实时拍摄，人像露出双肩，禁止证件照/PS修图/AI生成，审核将直接驳回</text>
+      <text class="spec-tip-text spec-warn">⚠️ 拍摄规范：纯白墙面背景，现场实时拍摄，人像露出双肩，禁止证件照/PS修图/AI生成（部分区域审核要求提供）</text>
     </view>
   </view>
 
