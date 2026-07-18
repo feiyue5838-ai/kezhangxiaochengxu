@@ -136,6 +136,15 @@ Page({
       photoNote
     });
 
+    // 预载已上传材料：重新进入上传页时回显，避免 onSubmit 整体覆盖导致之前上传的材料丢失
+    const savedM = wx.getStorageSync('materialInfo') || {};
+    const restore = {};
+    ['idCardFront', 'idCardBack', 'license', 'legalPhoto', 'professionalCert', 'signature', 'handheldIdPhoto'].forEach((k) => {
+      if (savedM[k]) restore[k] = savedM[k];
+    });
+    if (Array.isArray(savedM.additional) && savedM.additional.length) restore.additional = savedM.additional;
+    if (Object.keys(restore).length) this.setData(restore);
+
     // 初始化提交按钮状态
     this.checkSubmitStatus();
   },
@@ -261,8 +270,13 @@ Page({
     const { isPersonal, isCompany, isElectronic, license, legalPhoto, idCardFront, idCardBack, professionalCert, signature, needProfessionalCert, needSignature } = this.data;
 
     if (isCompany || isElectronic) {
-      // 企业/电子印章模式：营业执照 + 法人身份证正反面（法人白底自拍照已改为选填）
+      // 企业/电子印章模式：营业执照 + 法人身份证正反面
       let canSubmit = !!(license && idCardFront && idCardBack);
+      // 法人白底自拍照：电子印章必传；公司/个体户仅在后台白名单地区必传（与 order-confirm 对齐）
+      const photoRequired = isElectronic || this.data.needLegalPhoto;
+      if (photoRequired) {
+        canSubmit = canSubmit && !!this.data.legalPhoto;
+      }
       // 上海/山东/新疆/贵阳地区需要法人手持身份证
       if (this.data.needHandheldId) {
         canSubmit = canSubmit && !!this.data.handheldIdPhoto;
@@ -291,7 +305,10 @@ Page({
   onSubmit() {
     if (!this.data.canSubmit) return;
 
+    // 与已保存材料合并，避免重新进入时整体覆盖掉之前上传的文件
+    const savedM = wx.getStorageSync('materialInfo') || {};
     const material = {
+      ...savedM,
       // 身份证材料（个人/公司/电子印章共用）
       idCardFront: this.data.idCardFront,
       idCardBack: this.data.idCardBack,

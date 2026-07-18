@@ -66,7 +66,7 @@
   <view class="module" wx:if="{{needLegalPhoto || isElectronic}}">
     <view class="title-row">
       <text class="module-title">{{photoTitle}}</text>
-      <text class="title-note title-note-gray">选填</text>
+      <text class="title-note {{needLegalPhoto || isElectronic ? 'title-note-red' : 'title-note-gray'}}">{{needLegalPhoto || isElectronic ? '必填' : '选填'}}</text>
       <text wx:if="{{photoNote}}" class="title-note photo-note-red">{{photoNote}}</text>
     </view>
     <view class="upload-single">

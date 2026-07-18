@@ -117,6 +117,8 @@ Page({
     isPersonal: false,
 
     // 提交状态
+    needLegalPhoto: false,      // 法人白底自拍照是否必填（按后台白名单地区判定）
+    needHandheldId: false,     // 法人手持身份证是否必填（按后台白名单地区判定）
     canSubmit: false,
     isSubmitting: false  // 防止重复提交
   },
@@ -190,11 +192,11 @@ Page({
 
     this.setData({
       'materialRules.license.regionNote': this.getLicenseNote(licenseRegion),
-      'materialRules.photo.regionNote': this.getPhotoNote(licenseRegion),
-      'needLegalPhoto': this._needLegalPhoto(licenseRegion)
+      'materialRules.photo.regionNote': this.getPhotoNote(licenseRegion)
     });
 
-    this.checkSubmitStatus();
+    // 异步拉取后台材料规则（法人照片/手持身份证按地区白名单），与 material-upload 保持一致
+    this._loadMaterialRules(licenseRegion, this.data.isPersonal, this.data.isElectronic);
   },
 
   // 每次显示页面时刷新数据（从子页返回时）
@@ -265,21 +267,46 @@ Page({
     const { address, materials, isPersonal, isElectronic } = this.data;
     const hasAddress = address && address.detail;
 
-    // 使用公共函数检查材料完整性
-    const needPhoto = this._needLegalPhoto(this.data.licenseRegion);
-    const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto });
+    // 与 material-upload 对齐：法人照片/手持身份证按后台白名单地区判定必填
+    const needPhoto = this.data.needLegalPhoto;
+    const needHandheldId = this.data.needHandheldId;
+    const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto, needHandheldId });
 
     this.setData({ canSubmit: hasAddress && materialsComplete });
   },
 
-  // 判断区域是否需要法人照片
-  // 注：刻章备案各地规则不同，默认需要法人照片，此处可根据实际业务细化
-  _needLegalPhoto(region) {
-    if (!region) return false;
-    // 个别区域豁免法人照片的例外列表可加在这里
-    // const noPhotoRegions = ['XX省', 'XX市'];
-    // if (noPhotoRegions.some(r => region.includes(r))) return false;
-    return true;
+  // 拉取后台材料规则，使 order-confirm 的材料必填判定与 material-upload 完全一致：
+  // - 法人白底自拍照：仅后台 legalPhotoCities 白名单地区（公司/个体户）或电子印章需上传
+  // - 法人手持身份证：仅后台 handheldIdCities 白名单地区需上传
+  // 不再无条件要求法人照片（修复非白名单地区订单永远无法提交的问题）
+  async _loadMaterialRules(region, isPersonal, isElectronic) {
+    const FALLBACK = ['上海', '山东', '新疆', '贵阳'];
+    const isCompanyOrIndividual = !isPersonal && !isElectronic;
+    const inList = (cities) => cities.some(c => (region || '').includes(c));
+
+    // 先用兜底白名单同步给出初始判定，避免异步等待期间短暂错位
+    this.setData({
+      needLegalPhoto: isElectronic || (isCompanyOrIndividual && inList(FALLBACK)),
+      needHandheldId: isCompanyOrIndividual && inList(FALLBACK)
+    });
+    this.checkSubmitStatus();
+
+    let legalCities = FALLBACK;
+    let handheldCities = FALLBACK;
+    try {
+      const cfg = await api.getConfig('legalPhotoCities');
+      if (Array.isArray(cfg)) legalCities = cfg;
+    } catch (e) { /* 接口异常时沿用兜底白名单 */ }
+    try {
+      const cfg = await api.getConfig('handheldIdCities');
+      if (Array.isArray(cfg)) handheldCities = cfg;
+    } catch (e) { /* 接口异常时沿用兜底白名单 */ }
+
+    this.setData({
+      needLegalPhoto: isElectronic || (isCompanyOrIndividual && inList(legalCities)),
+      needHandheldId: isCompanyOrIndividual && inList(handheldCities)
+    });
+    this.checkSubmitStatus();
   },
 
   // 填写邮寄地址
@@ -485,8 +512,9 @@ Page({
       // 精确提示缺什么
       const { address, materials, isPersonal, isElectronic } = this.data;
       const hasAddress = address && address.detail;
-      const needPhoto = this._needLegalPhoto(this.data.licenseRegion);
-      const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto });
+      const needPhoto = this.data.needLegalPhoto;
+      const needHandheldId = this.data.needHandheldId;
+      const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto, needHandheldId });
       if (!hasAddress) {
         wx.showToast({ title: '请填写配送地址', icon: 'none' }); return;
       }

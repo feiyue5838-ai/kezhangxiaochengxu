@@ -256,21 +256,22 @@ function getNavigationHeight() {
  * @returns {boolean}
  */
 function checkMaterialsComplete(materials, options = {}) {
-  const { isPersonal, isElectronic, needPhoto } = options;
+  const { isPersonal, isElectronic, needPhoto, needHandheldId } = options;
 
   const hasLicense = !!materials.license;
   const hasIdCard = !!materials.idCardFront && !!materials.idCardBack;
   const hasPhoto = !!materials.photo;
+  const hasHandheld = !!materials.handheldIdPhoto;
 
   if (isElectronic) {
-    // 电子印章：需要营业执照 + 法人身份证 + 法人照片
+    // 电子印章：营业执照 + 法人身份证 + 法人照片
     return hasLicense && hasIdCard && hasPhoto;
   } else if (isPersonal) {
-    // 个人印章：只需身份证
+    // 个人印章：仅身份证
     return hasIdCard;
   } else {
-    // 公司/个体户：需营业执照 + 身份证 + 法人照片（特定区域）
-    return hasLicense && hasIdCard && (!needPhoto || hasPhoto);
+    // 公司/个体户：营业执照 + 身份证 +（白名单地区）法人照片 +（白名单地区）手持身份证
+    return hasLicense && hasIdCard && (!needPhoto || hasPhoto) && (!needHandheldId || hasHandheld);
   }
 }
 
