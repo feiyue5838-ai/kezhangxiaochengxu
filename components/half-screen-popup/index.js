@@ -3,7 +3,7 @@ const api = require('../../utils/api.js');
 const common = require('../../utils/common.js');
 
 // 4 分类 API 分类 ID（企业刻章作为 open() 默认值）
-const DEFAULT_CATEGORY_ID = 'f52fc2b0-6e99-41d1-9fff-043a30003347';
+const DEFAULT_CATEGORY_ID = 'afd862ed-208d-4a11-b3ff-ebee46f2ff37';
 
 Component({
   properties: {

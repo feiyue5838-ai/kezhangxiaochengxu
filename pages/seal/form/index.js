@@ -20,13 +20,13 @@ Page({
     provinces: [],  // 备案查询：34个省份数据（从API加载）
     _provinceOrig: { name: '四川省', url: 'https://yzcx.sczwfw.gov.cn:18511/', cities: [{ name: '成都市', url: 'https://yzcx.sczwfw.gov.cn:18511/' }] },
     personalSeals: [],
-    selectedCategory: '3c8f3af2-501a-4411-84c3-fbe0f0be8e58',
+    selectedCategory: '058ce9b9-ed91-4ee8-905e-1234327c653f',
     selectedSeal: '',
     selectedSealName: '',
     isElectronic: false,
     selectedElectronicSeal: '',
     selectedElectronicSealName: '',
-    electronicSeals: [{ id: 'e1', name: '财务章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e2', name: '公章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e3', name: '合同章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e4', name: '法人章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e5', name: '发票章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e6', name: '个人签名章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' },{ id: 'e7', name: '其他印章', categoryId: 'e9367d57-b3eb-4509-9c78-425edc6fa95b' }],
+    electronicSeals: [{ id: 'e1', name: '财务章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e2', name: '公章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e3', name: '合同章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e4', name: '法人章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e5', name: '发票章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e6', name: '个人签名章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e7', name: '其他印章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' }],
     selectedElectronicCategory: '',
     popupTitle: '',
     // 地区选择器
@@ -157,13 +157,13 @@ Page({
 
   // half-screen-popup 弹窗(个人印章选择)
   onOpenPersonalSeals() {
-    this.setData({ selectedCategory: '3c8f3af2-501a-4411-84c3-fbe0f0be8e58' });
-    this.selectComponent('#sealPopup').openWithCategory('3c8f3af2-501a-4411-84c3-fbe0f0be8e58');
+    this.setData({ selectedCategory: '058ce9b9-ed91-4ee8-905e-1234327c653f' });
+    this.selectComponent('#sealPopup').openWithCategory('058ce9b9-ed91-4ee8-905e-1234327c653f');
   },
 
   onOpenProfessionalSeals() {
-    this.setData({ selectedCategory: '3c8f3af2-501a-4411-84c3-fbe0f0be8e58' });
-    this.selectComponent('#sealPopup').openWithCategory('3c8f3af2-501a-4411-84c3-fbe0f0be8e58');
+    this.setData({ selectedCategory: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' });
+    this.selectComponent('#sealPopup').openWithCategory('1e3aaa8c-3318-4651-a141-924ab84aa2e0');
   },
 
   // 弹窗确认(个人/电子印章直接跳转,无需再点下一步)
