@@ -471,8 +471,9 @@ Page({
     const mi = wx.getStorageSync('materialInfo') || {};
     const uploadOne = (fp) => {
       if (!fp) return Promise.resolve('');
-      // 已是后端 URL（http(s) 或 /uploads 相对路径）则直接复用，避免重复上传
-      if (typeof fp === 'string' && (fp.indexOf('http') === 0 || fp.indexOf('/uploads') === 0)) {
+      // 仅当路径含 /uploads（后端 uploadUserMaterial 已落地的材料 URL，相对或绝对均含该段）才视为已上传，
+      // 直接复用避免重复上传；切勿用 http(s) 前缀判断，否则微信临时路径（如 http://tmp/...）会被误判为已上传而直接入库，导致链接失效
+      if (typeof fp === 'string' && fp.indexOf('/uploads') > -1) {
         return Promise.resolve(fp);
       }
       return api.uploadFile(fp, '/api/upload/user-material');
