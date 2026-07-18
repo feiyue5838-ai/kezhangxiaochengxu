@@ -33,6 +33,12 @@ const request = (options) => {
           wx.removeStorageSync('token');
           wx.removeStorageSync('userInfo');
           wx.showToast({ title: '登录已过期，请重新登录', icon: 'none' });
+          // 跳转登录页，避免用户被卡死（与 auth.request 行为对齐）
+          const pages = getCurrentPages();
+          const cur = pages[pages.length - 1];
+          if (!cur || cur.route !== 'pages/auth/index') {
+            wx.navigateTo({ url: '/pages/auth/index' });
+          }
           reject(new Error('未授权，请重新登录'));
         } else if (res.statusCode === 403) {
           wx.showToast({ title: '没有权限访问', icon: 'none', duration: 2000 });
