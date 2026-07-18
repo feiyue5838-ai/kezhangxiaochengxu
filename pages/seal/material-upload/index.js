@@ -88,16 +88,26 @@ Page({
       idCardTitle = isIndividual ? '经营者身份证' : '法人身份证';
     }
 
-    // 法人白底自拍照：企业和个体户模式全部地区显示
-    const needLegalPhoto = (isCompany || (isIndividual));
+    // 法人白底自拍照：企业和个体户模式下，仅后台配置的地区显示（SystemConfig.legalPhotoCities）
+    // 默认上海/山东/新疆/贵阳；接口异常/无记录时沿用兜底列表，保证功能不中断。
+    // 注意：显式配置空数组 [] 表示所有地区都不显示，需尊重（故仅异常时兜底）。
+    const LEGAL_PHOTO_FALLBACK = ['上海', '山东', '新疆', '贵阳'];
+    let legalPhotoCities = LEGAL_PHOTO_FALLBACK;
+    try {
+      const cfg = await api.getConfig('legalPhotoCities');
+      if (Array.isArray(cfg)) legalPhotoCities = cfg;
+    } catch (e) {
+      // 接口异常时沿用兜底列表
+    }
+    const needLegalPhoto = (isCompany || isIndividual) && legalPhotoCities.some(city => (region || '').includes(city));
 
     // 法人手持身份证：所需地区改由后台配置（SystemConfig.handheldIdCities）下发，
-    // 默认上海/山东/新疆/贵阳；接口异常时沿用兜底列表，保证功能不中断。
+    // 默认上海/山东/新疆/贵阳；接口异常/无记录时沿用兜底列表，保证功能不中断。
     const HANDHELD_FALLBACK = ['上海', '山东', '新疆', '贵阳'];
     let handheldCities = HANDHELD_FALLBACK;
     try {
       const cfg = await api.getConfig('handheldIdCities');
-      if (Array.isArray(cfg) && cfg.length > 0) handheldCities = cfg;
+      if (Array.isArray(cfg)) handheldCities = cfg;
     } catch (e) {
       // 接口异常（如网络不通）时沿用兜底列表
     }
