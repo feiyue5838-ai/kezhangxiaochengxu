@@ -24,19 +24,26 @@ Component({
     onContact(e) { 
       this.setData({ contactPhone: e.detail.value }); 
       this.triggerEvent('formchange', this.getData()); 
-      if (e.detail.value) wx.vibrateLong();
+      if (e.detail.value) this._throttleVibrate();
     },
     onCompany(e) { this.setData({ companyName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
     onLegal(e) { 
       this.setData({ legalPhone: e.detail.value }); 
       this.triggerEvent('formchange', this.getData()); 
-      if (e.detail.value) wx.vibrateLong();
+      if (e.detail.value) this._throttleVibrate();
     },
     onName(e) { this.setData({ personName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
     getData() {
       const b = { region: this.data.region, reason: this.data.reason, contactPhone: this.data.contactPhone };
       return this.data.isPersonal ? { ...b, personName: this.data.personName } : { ...b, companyName: this.data.companyName, legalPhone: this.data.legalPhone };
     },
+    _throttleVibrate() {
+      const now = Date.now();
+      if (this._lastVibrate && now - this._lastVibrate < 200) return;
+      this._lastVibrate = now;
+      wx.vibrateLong();
+    },
+
     validate() {
       const d = this.data;
       if (!d.region) return wx.showToast({ title: '请选择执照地区', icon: 'none' }), false;
