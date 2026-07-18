@@ -1,4 +1,18 @@
 // pages/seal/order-detail/index.js
+const api = require('../../../utils/api.js');
+
+// Prisma 数字 status → 字符串 status + 样式 class
+const statusMap = {
+  1: { status: 'pending',    statusText: '待支付', statusClass: 'pending' },
+  2: { status: 'processing', statusText: '已支付', statusClass: 'processing' },
+  3: { status: 'processing', statusText: '制作中', statusClass: 'processing' },
+  4: { status: 'completed',  statusText: '已发货', statusClass: 'completed' },
+  5: { status: 'completed',  statusText: '已完成', statusClass: 'completed' },
+  6: { status: 'cancelled',  statusText: '已取消', statusClass: 'cancelled' },
+  7: { status: 'cancelled',  statusText: '退款中', statusClass: 'cancelled' },
+  8: { status: 'cancelled',  statusText: '已退款', statusClass: 'cancelled' },
+};
+
 Page({
   data: {
     order: null,
@@ -20,14 +34,63 @@ Page({
   },
 
   loadOrder: function(id) {
+    var that = this;
+    this.setData({ loading: true });
+
+    // 优先从后端 API 拉取真实订单数据
+    api.getSealOrderDetail(id).then(function(order) {
+      if (!order) { that._showNotFound(); return; }
+
+      // 解析邮寄地址（后端存储为 JSON 字符串）
+      var address = null;
+      if (order.addressJson) {
+        try { address = typeof order.addressJson === 'string' ? JSON.parse(order.addressJson) : order.addressJson; } catch(e) {}
+      }
+
+      // 印章名称：从 orderItems 拼接；无则用 companyName
+      var desc = '';
+      if (order.orderItems && order.orderItems.length > 0) {
+        desc = order.orderItems
+          .map(function(item) { return (item.seal && item.seal.name) || (item.package && item.package.name) || ''; })
+          .filter(Boolean).join('、');
+      }
+      if (!desc) desc = order.companyName || '';
+
+      // 状态映射
+      var mapped = statusMap[order.status] || statusMap[1];
+
+      var normalized = {
+        id: order.id,
+        module: 'seal',
+        type: order.type === 'personal' ? '个人印章' : order.type === 'electronic' ? '电子印章' : '在线刻章',
+        desc: desc,
+        date: order.createdAt ? order.createdAt.split('T')[0] : '',
+        createTime: order.createdAt ? order.createdAt.replace('T', ' ').substring(0, 16) : '',
+        status: mapped.status,
+        statusText: order.statusText || mapped.statusText,
+        statusClass: mapped.statusClass,
+        price: Number(order.totalPrice) || 0,
+        url: '/pages/seal/order-confirm/index?id=' + order.id,
+        // 原始数据供其他方法使用
+        _raw: order,
+        _address: address
+      };
+
+      that.setData({ order: normalized, address: address, loading: false });
+    }).catch(function() {
+      // API 失败：从 Storage 兜底
+      that._loadFromStorage(id);
+    });
+  },
+
+  // Storage 兜底（历史本地单）
+  _loadFromStorage: function(id) {
+    var that = this;
     try {
       var orders = wx.getStorageSync('seal_orders') || [];
       var found = null;
       for (var i = 0; i < orders.length; i++) {
-        if (orders[i].id === id) {
-          found = orders[i];
-          break;
-        }
+        if (orders[i].id == id) { found = orders[i]; break; }
       }
       if (found) {
         // 设置状态图标
@@ -38,27 +101,26 @@ Page({
         } else if (found.statusClass === 'cancelled' || found.statusClass === 'refunded') {
           found.statusIconSvg = '/assets/icons/icon-order-cancelled.svg';
           if (found.statusClass === 'refunded') {
-            found.statusClass = 'refund';
+            found.statusClass = 'cancelled';
             found.statusText = '已退款';
           }
         } else {
           found.statusIconSvg = '/assets/icons/icon-order-doc.svg';
         }
-        this.setData({ order: found, loading: false });
-
-        // 读取邮寄地址
-        var address = wx.getStorageSync('deliveryAddress');
-        if (address && address.province) {
-          this.setData({ address: address });
-        }
+        var address = wx.getStorageSync('deliveryAddress') || null;
+        if (address && !address.province) address = null;
+        that.setData({ order: found, address: address, loading: false });
       } else {
-        this.setData({ loading: false });
-        wx.showToast({ title: '订单不存在', icon: 'none' });
+        that._showNotFound();
       }
     } catch (e) {
-      this.setData({ loading: false });
-      wx.showToast({ title: '读取失败', icon: 'none' });
+      that._showNotFound();
     }
+  },
+
+  _showNotFound: function() {
+    this.setData({ loading: false });
+    wx.showToast({ title: '订单不存在', icon: 'none' });
   },
 
   cancelOrder: function() {
