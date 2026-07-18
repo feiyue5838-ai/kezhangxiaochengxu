@@ -39,7 +39,7 @@ Component({
     },
     _throttleVibrate() {
       const now = Date.now();
-      if (this._lastVibrate && now - this._lastVibrate < 200) return;
+      if (this._lastVibrate && now - this._lastVibrate < 100) return;
       this._lastVibrate = now;
       wx.vibrateLong();
     },
