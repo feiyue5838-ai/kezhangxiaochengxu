@@ -98,8 +98,8 @@ module.exports = {
   getSealSceneProducts: (sceneId) => request({ url: `/api/seals/categories/${sceneId}` }),
   // 创建刻章订单 → POST /api/orders/seal
   createSealOrder: (data) => request({ url: '/api/orders/seal', method: 'POST', data: data }),
-  // 刻章订单列表 → GET /api/orders/seal
-  getSealOrderList: (params) => request({ url: '/api/orders/seal', data: params }),
+  // 刻章订单列表 → GET /api/orders?module=seal
+  getSealOrderList: (params) => request({ url: '/api/orders', data: { module: 'seal', ...params } }),
   // 刻章订单详情 → GET /api/orders/:id
   getSealOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
   // 获取刻章订单微信支付参数 → POST /api/orders/:id/pay

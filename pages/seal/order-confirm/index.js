@@ -612,7 +612,7 @@ Page({
             package: payment.package,
             signType: payment.signType || 'RSA',
             paySign: payment.paySign,
-            success: () => this._pollPaid(orderId),
+            success: () => this._pollPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、')),
             fail: (err) => {
               if (String(err.errMsg || '').indexOf('cancel') > -1) {
                 wx.showToast({ title: '已取消支付', icon: 'none' });
@@ -627,7 +627,7 @@ Page({
 
         if (type === 'dev') {
           // 开发环境：服务端模拟微信回调完成支付+分配（生产环境该接口返回 403）
-          api.devConfirmPay(orderId).then(() => this._finishPaid()).catch((e) => {
+          api.devConfirmPay(orderId).then(() => this._finishPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、'))).catch((e) => {
             console.error('devConfirmPay error:', e);
             wx.showToast({ title: '支付处理失败', icon: 'none' });
             this.setData({ isSubmitting: false });
@@ -636,7 +636,7 @@ Page({
         }
 
         // free（价格为 0）或兜底：后端已在 createPayOrder 内完成支付+分配
-        this._finishPaid();
+        this._finishPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、'));
       }).catch((payErr) => {
         console.error('getSealPayParams error:', payErr);
         wx.showToast({ title: '获取支付参数失败', icon: 'none' });
@@ -660,26 +660,26 @@ Page({
   },
 
   // 支付成功收尾：清缓存 + 提示 + 跳转（dev/free 场景服务端已同步完成支付+分配）
-  _finishPaid() {
+  _finishPaid(orderId, totalPrice, sealNames) {
     wx.showToast({ title: '支付成功', icon: 'success' });
     this._clearOrderCache();
     setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1200);
   },
 
-  // 正式微信支付后：轮询后端确认『已支付+已分配』（回调异步到达）
+  // 正式微信支付后：轮询后端确认『已支付+已分配』
   // 微信支付结果以后端异步回调 completePayment 为准，此处仅做友好等待
-  _pollPaid(orderId) {
+  _pollPaid(orderId, totalPrice, sealNames) {
     let tries = 0;
     const poll = () => {
       api.getSealOrderDetail(orderId).then((detail) => {
-        if (detail && detail.status >= 2) return this._finishPaid();
+        if (detail && detail.status >= 2) return this._finishPaid(orderId, totalPrice, sealNames);
         throw new Error('pending');
       }).catch(() => {
         if (tries++ < 4) {
           setTimeout(poll, 800);
         } else {
-          // 回调可能略有延迟（款项已收），仍视为成功跳转到订单
-          this._finishPaid();
+          // 回调可能略有延迟（款项已收），仍视为成功
+          this._finishPaid(orderId, totalPrice, sealNames);
         }
       });
     };
@@ -727,16 +727,8 @@ Page({
     const selectedData = wx.getStorageSync('selectedSealsData') || {};
     const ids = selectedData.ids || [];
     // 获取印章名称
-    const allSeals = [
-      ...(this.data.singleSeals || []),
-      ...(this.data.businessSeals || []),
-      ...(this.data.personalSeals || []),
-      ...(this.data.professionalSeals || []),
-    ];
-    const sealMap = new Map(allSeals.map(s => [s.id, s]));
-    const sealNames = ids.map(id => sealMap.get(id)?.name || id).join('、');
     const order = {
-      id: 'SEAL_' + Date.now().toString(36),
+      id: orderId,
       module: 'seal',
       type: '在线刻章',
       desc: sealNames || '电子印章',
@@ -745,14 +737,17 @@ Page({
       status: 'pending',
       statusText: '待支付',
       statusClass: 'pending',
-      price: orderData.totalPrice,
+      price: totalPrice,
       productName: sealNames,
-      url: '/pages/seal/order-confirm/index?id=' + 'SEAL_' + Date.now().toString(36)
+      url: '/pages/seal/order-confirm/index?id=' + orderId
     };
     try {
       const orders = wx.getStorageSync('seal_orders') || [];
-      orders.unshift(order);
-      wx.setStorageSync('seal_orders', orders);
+      // 不重复追加（devConfirmPay 已落库，API 已同步，避免刷新后出现双条）
+      if (!orders.find(o => o.id === orderId)) {
+        orders.unshift(order);
+        wx.setStorageSync('seal_orders', orders);
+      }
     } catch (e) {}
     wx.showToast({ title: '模拟下单成功', icon: 'success' });
     this._clearOrderCache();

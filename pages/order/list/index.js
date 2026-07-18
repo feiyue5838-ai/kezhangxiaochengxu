@@ -1,4 +1,17 @@
 const common = require('../../../utils/common.js');
+const api = require('../../../utils/api.js');
+
+// 刻章订单数字 status → 字符串 status（用于 Tab 过滤，与 localStorage 格式对齐）
+const sealStatusMap = {
+  1: 'pending',    // 待支付
+  2: 'processing', // 已支付（制作中）
+  3: 'processing', // 制作中
+  4: 'completed',  // 已发货 → 并入已完成
+  5: 'completed',  // 已完成
+  6: 'cancelled',  // 已取消
+  7: 'cancelled',  // 退款中 → 并入已取消
+  8: 'cancelled',  // 已退款 → 并入已取消
+};
 
 // 状态文本映射
 const statusText = (status) => {
@@ -88,31 +101,70 @@ Page({
     this.filterList();
   },
 
-  // 从本地存储加载所有订单
+  // 从本地存储加载登报订单（刻章走 API，Storage 仅兜底未支付的本地单）
   loadOrders: function () {
     this.setData({ loading: true });
-    try {
-      const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
-      const sealOrders = wx.getStorageSync('seal_orders') || [];
-
-      const all = [
-        ...normalize(newspaperOrders, 'newspaper'),
-        ...normalize(sealOrders, 'seal')
-      ];
-
-      // 按日期倒序
-      all.sort((a, b) => {
-        const da = a.date || '';
-        const db = b.date || '';
-        return db.localeCompare(da);
+    const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
+    const localSealOrders = wx.getStorageSync('seal_orders') || [];
+    // API 拉真实刻章订单列表（module=seal）
+    api.getSealOrderList({ pageSize: 200 })
+      .then(res => {
+        // 合并策略：API 数据为主；localStorage 中 id 以 SEAL_ 开头的是未支付本地单，保留兜底
+        const apiOrders = (res && res.list) ? res.list.map(o => {
+          const strStatus = sealStatusMap[o.status] || 'pending';
+          return {
+            id: o.id,
+            module: 'seal',
+            type: '在线刻章',
+            desc: o.orderItems && o.orderItems.length > 0
+              ? o.orderItems.map(i => i.seal ? i.seal.name : '').filter(Boolean).join('、')
+              : (o.companyName || ''),
+            date: o.createdAt ? o.createdAt.split('T')[0] : '',
+            createTime: o.createdAt ? o.createdAt.replace('T', ' ').substring(0, 16) : '',
+            status: strStatus,
+            statusText: o.statusText || statusText(strStatus),
+            statusClass: strStatus,
+            price: Number(o.totalPrice) || 0,
+            url: '/pages/seal/order-detail/index?id=' + o.id
+          };
+        }) : [];
+        // localStorage 中 id 含 SEAL_（本地创建未支付）保留兜底；其余以 API 为准
+        const localPendingSeal = localSealOrders.filter(o => String(o.id).startsWith('SEAL_'));
+        // API 有数据则覆盖同名 id（以防同一订单在 Storage 和 API 都有）
+        const seen = new Set(apiOrders.map(o => o.id));
+        const mergedSealOrders = [
+          ...localPendingSeal,
+          ...apiOrders,
+          ...localSealOrders.filter(o => !seen.has(o.id) && !String(o.id).startsWith('SEAL_'))
+        ];
+        const all = [
+          ...normalize(newspaperOrders, 'newspaper'),
+          ...mergedSealOrders
+        ];
+        all.sort((a, b) => {
+          const da = a.date || '';
+          const db = b.date || '';
+          return db.localeCompare(da);
+        });
+        this.setData({ allList: all });
+        this.filterList();
+        this.setData({ loading: false });
+      })
+      .catch(() => {
+        // API 失败时以本地存储为兜底（保留原有行为）
+        const all = [
+          ...normalize(newspaperOrders, 'newspaper'),
+          ...normalize(localSealOrders, 'seal')
+        ];
+        all.sort((a, b) => {
+          const da = a.date || '';
+          const db = b.date || '';
+          return db.localeCompare(da);
+        });
+        this.setData({ allList: all });
+        this.filterList();
+        this.setData({ loading: false });
       });
-
-      this.setData({ allList: all });
-      this.filterList();
-    } catch (e) {
-      wx.showToast({ title: '加载失败', icon: 'none' });
-    }
-    this.setData({ loading: false });
   },
 
   // 根据当前 Tab 过滤列表
