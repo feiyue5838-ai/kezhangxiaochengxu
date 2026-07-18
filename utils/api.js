@@ -146,11 +146,11 @@ module.exports = {
   // ==================== 通用 ====================
   // 文件上传（用户侧）→ POST /api/upload/user-image
   // 后端直返 { url }，兼容可能的 { code:0, data } 包装
-  uploadFile: (filePath) => {
+  uploadFile: (filePath, endpoint) => {
     return new Promise((resolve, reject) => {
       const token = wx.getStorageSync('token');
       wx.uploadFile({
-        url: API_BASE + '/api/upload/user-image',
+        url: API_BASE + (endpoint || '/api/upload/user-image'),
         filePath: filePath,
         name: 'file',
         timeout: 30000,

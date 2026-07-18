@@ -438,8 +438,44 @@ Page({
     });
   },
 
+  // 上传刻章材料：把本地临时路径逐个上传到后端，返回带 URL 的 materials 对象
+  async _uploadMaterials() {
+    const m = this.data.materials || {};
+    const mi = wx.getStorageSync('materialInfo') || {};
+    const uploadOne = (fp) => {
+      if (!fp) return Promise.resolve('');
+      // 已是后端 URL（http(s) 或 /uploads 相对路径）则直接复用，避免重复上传
+      if (typeof fp === 'string' && (fp.indexOf('http') === 0 || fp.indexOf('/uploads') === 0)) {
+        return Promise.resolve(fp);
+      }
+      return api.uploadFile(fp, '/api/upload/user-material');
+    };
+    const [license, idCardFront, idCardBack, legalPhoto, professionalCert, signature, handheldIdPhoto] = await Promise.all([
+      uploadOne(m.license),
+      uploadOne(m.idCardFront),
+      uploadOne(m.idCardBack),
+      uploadOne(m.photo),
+      uploadOne(m.professionalCert || mi.professionalCert),
+      uploadOne(m.signature || mi.signature),
+      uploadOne(m.handheldIdPhoto || mi.handheldIdPhoto),
+    ]);
+    const addRaw = (m.additional && m.additional.length > 0) ? m.additional : (mi.additional || []);
+    const addList = Array.isArray(addRaw) ? addRaw : [addRaw];
+    const additional = await Promise.all(addList.map(uploadOne));
+    return {
+      license,
+      idCardFront,
+      idCardBack,
+      legalPhoto,
+      professionalCert,
+      signature,
+      handheldIdPhoto,
+      additional: additional.filter(Boolean),
+    };
+  },
+
   // 付款
-  onPayTap() {
+  async onPayTap() {
     // 防止重复提交
     if (this.data.isSubmitting) {
       wx.showToast({ title: '订单提交中，请稍候', icon: 'none' });
@@ -466,18 +502,18 @@ Page({
     // 创建订单并调起微信支付
     wx.showLoading({ title: '创建订单...' });
 
-    // 读取完整的材料数据（含 material-upload 上传的全部字段）
-    const materialInfo = wx.getStorageSync('materialInfo') || {};
-    const submitMaterials = {
-      license: this.data.materials.license,
-      idCardFront: this.data.materials.idCardFront,
-      idCardBack: this.data.materials.idCardBack,
-      legalPhoto: this.data.materials.photo,
-      professionalCert: this.data.materials.professionalCert || materialInfo.professionalCert || '',
-      signature: this.data.materials.signature || materialInfo.signature || '',
-      handheldIdPhoto: this.data.materials.handheldIdPhoto || materialInfo.handheldIdPhoto || '',
-      additional: (this.data.materials.additional.length > 0 ? this.data.materials.additional : materialInfo.additional) || []
-    };
+    // 上传材料：本地临时路径 -> 后端 URL（/api/upload/user-material）
+    // 失败则中止下单，避免产生无材料的订单
+    let submitMaterials;
+    try {
+      submitMaterials = await this._uploadMaterials();
+    } catch (e) {
+      console.error('材料上传失败', e);
+      wx.hideLoading();
+      wx.showToast({ title: '材料上传失败，请重试', icon: 'none' });
+      this.setData({ isSubmitting: false });
+      return;
+    }
 
     // 构建 items 数组（后端根据 items 计算 orderItems 明细表）
     // 优先使用 select 页面传入的 items（带真实价格和 UUID）
