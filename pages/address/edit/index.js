@@ -1,6 +1,6 @@
 // pages/address/edit/index.js
 const REGIONS = require('../../../utils/region-data.js');
-const api = require('../../utils/api.js');
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
