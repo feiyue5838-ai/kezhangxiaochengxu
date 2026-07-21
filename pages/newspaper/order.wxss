@@ -25,6 +25,7 @@
 
 /* ========== Tab 闁?========== */
 .tab-bar {
+  top: 88rpx;  /* nav-bar height */
   position: fixed;
   left: 0;
   right: 0;
@@ -69,6 +70,7 @@
 
 /* ========== 閻犱降鍨瑰畷鐔煎礆濡ゅ嫨鈧?========== */
 .order-list {
+  padding-top: 188rpx;
   padding: 24rpx;
 }
 
@@ -153,6 +155,7 @@
 
 /* ========== 缂佸矁娅ｆ慨鎼佸箑?========== */
 .empty-order {
+  padding-top: 188rpx;
   text-align: center;
   padding: 120rpx 0 60rpx;
 }
