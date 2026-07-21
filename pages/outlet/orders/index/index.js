@@ -20,7 +20,7 @@ Page({
     const outletToken = wx.getStorageSync('outletToken')
     const outletInfo = wx.getStorageSync('outletInfo')
     if (!outletToken || !outletInfo) {
-      wx.redirectTo({ url: '/pages/outlet-binding/index/index' })
+      wx.redirectTo({ url: '/pages/outlet-binding/index' })
       return
     }
     await this.fetchOrders()
