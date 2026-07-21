@@ -71,7 +71,9 @@
 /* ========== 閻犱降鍨瑰畷鐔煎礆濡ゅ嫨鈧?========== */
 .order-list {
   padding-top: 188rpx;
-  padding: 24rpx;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+  padding-bottom: 24rpx;
 }
 
 .order-item {
@@ -155,9 +157,8 @@
 
 /* ========== 缂佸矁娅ｆ慨鎼佸箑?========== */
 .empty-order {
-  padding-top: 188rpx;
+  padding: 188rpx 0 60rpx;
   text-align: center;
-  padding: 120rpx 0 60rpx;
 }
 
 .empty-icon {
