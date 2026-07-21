@@ -1,0 +1,158 @@
+<!-- pages/outlet-binding/index.wxml -->
+<view class="container">
+  <!-- 顶部渐变背景 -->
+  <view class="header-bg">
+    <view class="header-icon">
+      <text class="icon-store">🏪</text>
+    </view>
+    <view class="header-title">网点通知绑定</view>
+    <view class="header-sub">绑定微信后，实时接收新订单推送</view>
+  </view>
+
+  <!-- 步骤进度 -->
+  <view class="step-bar">
+    <view class="step-item {{step >= 1 ? 'active' : ''}}">
+      <view class="step-circle">1</view>
+      <text class="step-label">登录网点账号</text>
+    </view>
+    <view class="step-line {{step >= 2 ? 'active' : ''}}"></view>
+    <view class="step-item {{step >= 2 ? 'active' : ''}}">
+      <view class="step-circle">2</view>
+      <text class="step-label">绑定微信</text>
+    </view>
+    <view class="step-line {{step >= 3 ? 'active' : ''}}"></view>
+    <view class="step-item {{step >= 3 ? 'active' : ''}}">
+      <view class="step-circle">3</view>
+      <text class="step-label">开启通知</text>
+    </view>
+  </view>
+
+  <!-- ========== Step 1: 登录 ========== -->
+  <view class="card {{step !== 1 ? 'hidden' : ''}}">
+    <view class="card-title">网点员工登录</view>
+    <view class="form-item">
+      <text class="form-label">手机号</text>
+      <input class="form-input" type="number" maxlength="11" placeholder="请输入网点绑定的手机号"
+        value="{{phone}}" bindinput="onPhoneInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">密码</text>
+      <input class="form-input" password type="text" placeholder="请输入登录密码"
+        value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+    <button class="btn-primary" bindtap="onLogin" loading="{{logging}}">
+      登录
+    </button>
+    <view class="tip-text">仅限网点管理员使用，请使用在系统登记的手机号和密码登录</view>
+  </view>
+
+  <!-- ========== Step 2: 绑定微信 ========== -->
+  <view class="card {{step !== 2 ? 'hidden' : ''}}">
+    <view class="card-title">绑定微信账号</view>
+
+    <!-- 网点信息 -->
+    <view class="outlet-info">
+      <view class="outlet-name">{{outlet.name}}</view>
+      <view class="outlet-addr">{{outlet.province}} {{outlet.city}} {{outlet.address}}</view>
+    </view>
+
+    <!-- 当前状态 -->
+    <view class="status-panel">
+      <view class="status-row">
+        <text class="status-label">微信绑定状态</text>
+        <view class="status-badge {{outlet.outletOpenid ? 'on' : 'off'}}">
+          {{outlet.outletOpenid ? '已绑定' : '未绑定'}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 未绑定时显示绑定按钮 -->
+    <view wx:if="{{!outlet.outletOpenid}}">
+      <view class="desc-text">点击下方按钮，授权获取您的微信身份，用于接收订单通知推送</view>
+      <button class="btn-primary" bindtap="onBindOpenid" loading="{{binding}}">
+        微信一键绑定
+      </button>
+    </view>
+
+    <!-- 已绑定时显示解绑按钮 -->
+    <view wx:if="{{outlet.outletOpenid}}">
+      <view class="desc-text on">您的微信已成功绑定到此网点</view>
+      <button class="btn-outline" bindtap="onUnbindOpenid" loading="{{binding}}">
+        解除绑定
+      </button>
+    </view>
+
+    <button class="btn-next" bindtap="goToStep3" wx:if="{{outlet.outletOpenid}}">
+      下一步 →
+    </button>
+    <button class="btn-ghost" bindtap="onLogout">切换账号</button>
+  </view>
+
+  <!-- ========== Step 3: 开启通知 ========== -->
+  <view class="card {{step !== 3 ? 'hidden' : ''}}">
+    <view class="card-title">开启微信通知</view>
+
+    <view class="notify-info">
+      <view class="notify-icon">🔔</view>
+      <view class="notify-desc">
+        <view class="notify-title">新订单订阅消息</view>
+        <view class="notify-content">当有新订单分配到您的网点时，系统将通过微信服务通知推送给您</view>
+      </view>
+    </view>
+
+    <view class="toggle-row">
+      <text class="toggle-label">接收订单推送</text>
+      <switch checked="{{subscribeEnabled}}" bindchange="onToggleSubscribe" color="#5B6FE8" />
+    </view>
+
+    <view class="toggle-desc">
+      <text wx:if="{{subscribeEnabled}}">✅ 通知已开启，订单支付后自动推送微信服务通知</text>
+      <text wx:else>⚠ 关闭后将无法收到微信推送，只能在小程序内查看</text>
+    </view>
+
+    <button class="btn-primary" bindtap="onEnableSubscribe" loading="{{subscribing}}" wx:if="{{!subscribeEnabled}}">
+      授权微信通知
+    </button>
+
+    <view class="success-panel" wx:if="{{subscribeEnabled}}">
+      <text class="success-icon">✅</text>
+      <text>订阅设置已保存！</text>
+    </view>
+
+    <button class="btn-ghost" bindtap="onLogout">切换账号</button>
+  </view>
+
+  <!-- ========== 完成页 ========== -->
+  <view class="card {{step !== 4 ? 'hidden' : ''}}">
+    <view class="success-banner">
+      <view class="success-emoji">🎉</view>
+      <view class="success-title">设置完成！</view>
+      <view class="success-sub">您已成功绑定微信并开启订单通知</view>
+    </view>
+
+    <view class="summary-list">
+      <view class="summary-item">
+        <text class="summary-label">网点</text>
+        <text class="summary-value">{{outlet.name}}</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-label">绑定状态</text>
+        <text class="summary-value on">已绑定</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-label">通知状态</text>
+        <text class="summary-value on">{{subscribeEnabled ? '已开启' : '未开启'}}</text>
+      </view>
+    </view>
+
+    <view class="tip-box">
+      <text class="tip-box-title">💡 提示</text>
+      <text class="tip-box-text">有新的订单分配到您的网点时，系统会自动推送微信通知到您的微信。请确保在微信中允许「服务通知」接收。</text>
+    </view>
+
+    <button class="btn-outline" bindtap="goToOrders">查看订单列表</button>
+    <button class="btn-primary" bindtap="onDone">返回首页</button>
+    <button class="btn-ghost" bindtap="onLogout">切换账号</button>
+  </view>
+
+</view>

@@ -6,7 +6,7 @@
 const categories = [
   {
     id: 1,
-    name: '工程、场地租赁招标',
+    name: '工程场地租赁招标',
     color: '#5B6FE8',
     desc: '工程项目、场地承租招标',
     hot: true,
@@ -17,7 +17,7 @@ const categories = [
   },
   {
     id: 2,
-    name: '采购、供应商招标',
+    name: '采购供应商招标',
     color: '#FA8C16',
     desc: '物资采购、供应商入围招标',
     hot: true,
@@ -28,7 +28,7 @@ const categories = [
   },
   {
     id: 3,
-    name: '招聘、通用招标',
+    name: '招聘通用招标',
     color: '#52C41A',
     desc: '社会招聘、通用服务招标',
     hot: false,

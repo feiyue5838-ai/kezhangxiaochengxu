@@ -6,10 +6,10 @@ module.exports = {
   // 中文字符串 -> ID 的快速映射
   nameToId: {
     '身份证挂失': 1, '个人证件': 2, '企业证件': 3, '发票收据': 4,
-    '真情告白': 5, '公告声明': 6, '法院公告': 7, '政府送达': 8,
+    '声明公告': 5, '公告声明': 6, '法院公告': 7, '政府送达': 8,
     '债权债务': 9, '解除劳动': 10, '环评公示': 11, '拍卖公告': 12,
     '登报道歉': 13, '表扬信': 14, '宣传稿': 15,
-    '招标公告': 17
+    '招标公告': 16
   },
 
   list: [
@@ -17,7 +17,7 @@ module.exports = {
     { id: 2,  name: '个人证件',   iconSvg: '/assets/icons/icon-cat-personal.svg', bgColor: '#FA8C16',  route: '/pages/newspaper/personal-docs/index' },
     { id: 3,  name: '企业证件',   iconSvg: '/assets/icons/icon-cat-company.svg', bgColor: '#52C41A', route: '/pages/newspaper/company-docs/index' },
     { id: 4,  name: '发票收据',   iconSvg: '/assets/icons/icon-cat-invoice.svg', bgColor: '#9BA8FF',  route: '/pages/newspaper/invoice-receipt/index' },
-    { id: 5,  name: '真情告白',    iconSvg: '/assets/icons/icon-cat-confession.svg', bgColor: '#EB2F96',  route: '/pages/newspaper/confession/index' },
+    { id: 5,  name: '声明公告',    iconSvg: '/assets/icons/icon-cat-announcement.svg', bgColor: '#F5222D',  route: '/pages/newspaper/announcement/index' },
     { id: 6,  name: '公告声明',    iconSvg: '/assets/icons/icon-cat-announcement.svg', bgColor: '#F5222D',  route: '/pages/newspaper/announcement/index' },
     { id: 7,  name: '法院公告',    iconSvg: '/assets/icons/icon-cat-court.svg', bgColor: '#F5222D',  route: '/pages/newspaper/court/index' },
     { id: 8,  name: '政府送达',    iconSvg: '/assets/icons/icon-cat-government.svg', bgColor: '#7B8FF7',  route: '/pages/newspaper/government/index' },
@@ -28,7 +28,7 @@ module.exports = {
     { id: 13, name: '登报道歉',    iconSvg: '/assets/icons/icon-cat-apology.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/apology/index' },
     { id: 14, name: '表扬信',      iconSvg: '/assets/icons/icon-cat-praise.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/praise/index' },
     { id: 15, name: '宣传稿',      iconSvg: '/assets/icons/icon-cat-press.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/publicity/index' },
-    { id: 17, name: '招标公告',  iconSvg: '/assets/icons/icon-cat-bidding.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/bidding/index' },
+    { id: 16, name: '招标公告',    iconSvg: '/assets/icons/icon-cat-bidding.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/bidding/index' },
   ],
 
   // 根据 ID 查找分类

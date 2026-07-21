@@ -27,7 +27,6 @@
     "pages/newspaper/invoice-receipt/index",
     "pages/newspaper/personal-docs/index",
     "pages/newspaper/company-docs/index",
-    "pages/newspaper/confession/index",
     "pages/newspaper/announcement/index",
     "pages/newspaper/court/index",
     "pages/newspaper/government/index",
@@ -42,12 +41,15 @@
     "pages/agreement/privacy/index",
     "pages/agreement/terms/index",
     "pages/realname/index",
+    "pages/outlet-binding/index",
     "pages/notification/index",
     "pages/help/index",
     "pages/about/index",
     "pages/aftersale/list/index",
     "pages/aftersale/apply/index",
-    "pages/aftersale/detail/index"
+    "pages/aftersale/detail/index",
+    "pages/outlet/orders/index/index",
+    "pages/outlet/order-detail/index/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

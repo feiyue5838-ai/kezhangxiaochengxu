@@ -58,6 +58,25 @@
       </view>
     </view>
 
+    <!-- 交付回执 -->
+    <view class="info-card" wx:if="{{receipts.length > 0}}">
+      <view class="info-title">交付回执</view>
+      <view class="receipts-grid">
+        <image
+          wx:for="{{receipts}}" wx:key="id"
+          class="receipt-img"
+          src="{{item.url}}"
+          mode="aspectFill"
+          bindtap="previewReceipt"
+          data-url="{{item.url}}"
+        />
+      </view>
+      <view wx:if="{{receipts[0].remark}}" class="receipt-remark">
+        <text class="info-label">备注：</text>
+        <text class="info-value">{{receipts[0].remark}}</text>
+      </view>
+    </view>
+
     <!-- 底部操作 -->
     <view class="bottom-bar" wx:if="{{order.status === 'pending'}}">
       <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>

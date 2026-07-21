@@ -1,20 +1,21 @@
 // pages/newspaper/creditor/index.js
 const common = require('../../../utils/common.js');
 const creditorConfig = require('../../../utils/creditor.js');
+const api = require('../../../utils/api.js');
 
-const categories = creditorConfig.categories.map(cat => ({
-  id: cat.id,
-  name: cat.name,
-  desc: cat.desc,
-  color: cat.color,
-  hot: cat.hot,
-  items: cat.docs
-}));
+let categoriesFromApi = null;
 
 Page({
   data: {
     selectedCategory: '',
-    categories,
+    categories: creditorConfig.categories.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      desc: cat.desc,
+      color: cat.color,
+      hot: cat.hot,
+      items: cat.docs
+    })),
     pickedIndex: -1,
     pickedItems: [],
     showDocPicker: false,
@@ -22,6 +23,28 @@ Page({
   },
 
   onLoad() {
+    this._floatTouch = null;
+    this._loadFromApi();
+  },
+
+  async _loadFromApi() {
+    try {
+      const res = await api.getCreditorTemplates();
+      if (Array.isArray(res) && res.length > 0) {
+        categoriesFromApi = res;
+        const mapped = res.map(cat => ({
+          id: cat.id,
+          name: cat.name,
+          desc: cat.name,
+          color: cat.color,
+          hot: cat.hot,
+          items: (cat.docs || []).map(d => ({ name: d.name, sub: cat.name })),
+        }));
+        this.setData({ categories: mapped });
+      }
+    } catch (e) {
+      console.warn('[creditor] API 调用失败，使用前端硬编码兜底', e);
+    }
   },
 
   goBack() {
@@ -63,7 +86,22 @@ Page({
     if (!name || !cat) return;
     const item = (cat.items || []).find(d => d.name === name);
     if (!item) return;
-    const content = creditorConfig.generateContent({ name: item.name });
+
+    // API 优先取 content，fallback 本地生成
+    let content = null;
+    if (categoriesFromApi) {
+      const apiCat = categoriesFromApi.find(c => c.id === cat.id);
+      if (apiCat) {
+        const apiDoc = (apiCat.docs || []).find(d => d.name === name);
+        if (apiDoc && apiDoc.content && apiDoc.content.trim()) {
+          content = apiDoc.content;
+        }
+      }
+    }
+    if (!content) {
+      content = creditorConfig.generateContent({ name: item.name });
+    }
+
     wx.setStorageSync('newspaperTemplate', {
       name: item.name,
       content,
@@ -78,7 +116,8 @@ Page({
       itemName: item.name,
       _timestamp: Date.now()
     });
-    this.setData({ showDocPicker: false }); wx.navigateTo({ url: "/pages/newspaper/content-edit/index" });
+    this.setData({ showDocPicker: false });
+    wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
   },
 
   contactService() {

@@ -1,6 +1,8 @@
 const api = require('../../utils/api.js');
 const regionData = require('../../utils/region-data.js');
-const provinceMap = require('../../utils/province-map.js');
+
+// 登报流程页面常量（避免硬编码路径散落多处）
+const PAGE_ORDER = '/pages/newspaper/order';
 
 Page({
   data: {
@@ -17,7 +19,7 @@ Page({
 
     // 报纸（API 驱动）
     papers: [],
-    selectedPaper: null,
+    selectedPaper: '',   // 统一存字符串 ID，规避 UUID vs int 类型比较隐患
 
     issueCount: 1,
     copyCount: 1,
@@ -32,6 +34,9 @@ Page({
     regionArray: [regionData.provinces, regionData.getCitiesByProvince(regionData.provinces[0])],
     regionValue: [0, 0],
     regionText: regionData.provinces[0] + ' · ' + regionData.getCitiesByProvince(regionData.provinces[0])[0],
+    // 当前选中的行政区划代码（用于精确匹配后端报纸）
+    selectedProvinceCode: regionData.getProvinceCode(regionData.provinces[0]),
+    selectedCityCode: '',
     filteredPapers: [],
     publishFee: 0,
     totalPrice: 0
@@ -84,7 +89,9 @@ Page({
       if (contentData.content) {
         this.setData({
           content: contentData.content,
-          charCount: contentData.charCount
+          charCount: contentData.charCount,
+          businessType: contentData.businessType || '个人声明',
+          templateName: contentData.templateName || ''
         });
         this.calculatePrice();
       }
@@ -104,8 +111,9 @@ Page({
     this._loadPapers();
   },
 
-  // 拉取默认/首选收货地址
+  // 拉取默认/首选收货地址（无 token 时跳过，避免 401 误报"登录过期"）
   async _loadDefaultAddress() {
+    if (!wx.getStorageSync('token')) return;
     try {
       const list = await api.getAddressList();
       if (list && list.length) {
@@ -124,9 +132,11 @@ Page({
       const papers = await api.getNewspaperList({ pageSize: 200 });
       // 注入展示字段：logoColor、logoText、tag、minPrice
       const processed = (papers || []).map(p => this._processPaper(p));
-      // 默认显示当前省份筛选结果
-      const provinceShort = provinceMap.toShort(regionData.provinces[0]);
-      const filtered = processed.filter(p => provinceMap.matchesProvince(p.province, provinceShort));
+      // 默认显示当前省份筛选结果（按行政区划代码精确匹配）
+      const defaultProvinceCode = regionData.getProvinceCode(regionData.provinces[0]);
+      const filtered = processed.filter(p => {
+        return p.provinceCode === defaultProvinceCode || p.provinceCode === '' || !p.provinceCode;
+      });
       this.setData({
         papers: processed,
         filteredPapers: filtered,
@@ -176,6 +186,8 @@ Page({
     return {
       ...paper,
       province,
+      provinceCode: paper.provinceCode || '',
+      cityCode: paper.cityCode || '',
       displayProvince,
       logoColor,
       logoColorEnd,
@@ -205,25 +217,27 @@ Page({
   onRegionChange(e) {
     const value = e.detail.value;
     const provinceFull = regionData.provinces[value[0]];
-    const provinceShort = provinceMap.toShort(provinceFull);
     const cities = regionData.getCitiesByProvince(provinceFull);
     const city = cities[value[1]] || cities[0];
 
+    // 获取行政区划代码（用于精确匹配后端报纸）
+    const provinceCode = regionData.getProvinceCode(provinceFull);
+    const cityCode = city && city !== '直辖市' ? regionData.getCityCode(city, provinceFull) : '';
+
     const regionText = provinceFull + (city && city !== '直辖市' ? ' · ' + city : '');
 
-    // 过滤出该省（含全国性）的报纸
+    // 过滤出该省（含全国性）的报纸（按代码精确匹配）
     const filtered = this.data.papers.filter(p => {
-      const matchProvince = p.province === provinceShort || p.province === '全国';
-      // 城市匹配：直辖市只显示直辖市报纸，其他显示该省报纸
-      if (city === '直辖市') {
-        return matchProvince && p.province === provinceShort;
-      }
-      return matchProvince;
+      const matchProvince = p.provinceCode === provinceCode;
+      const isNational = !p.provinceCode; // 无代码视为全国性报纸
+      return matchProvince || isNational;
     });
 
     this.setData({
       regionValue: value,
       regionText: regionText,
+      selectedProvinceCode: provinceCode,
+      selectedCityCode: cityCode,
       filteredPapers: filtered
     });
   },
@@ -252,7 +266,7 @@ Page({
     const id = e.currentTarget.dataset.id;
     // 切换报纸时清除旧的份数/期数/收件人（可选）
     this.setData({
-      selectedPaper: id,
+      selectedPaper: String(id),
       issueCount: 1,
       copyCount: 1
     });
@@ -325,23 +339,49 @@ Page({
     this.setData({ remark: e.detail.value });
   },
 
+  /**
+   * 计算价格：优先调用后端 calculatePrice 接口，口令/兜底时使用本地公式
+   * 公式：publishFee = 单价 × max(字数, 最低字数) × 期数 × 份数
+   */
   calculatePrice() {
-    const selectedPaperId = this.data.selectedPaper;
-    const paper = this.data.papers.find(p => p.id === selectedPaperId);
+    const selectedPaperId = String(this.data.selectedPaper || '');
+    const paper = this.data.papers.find(p => String(p.id) === selectedPaperId);
     if (!paper) {
       this.setData({ publishFee: 0, totalPrice: 0 });
       return;
     }
 
     const charCount = this.data.charCount || 20;
+    const issueCount = this.data.issueCount || 1;
+    const copyCount = this.data.copyCount || 1;
+
+    // 调用后端计价接口（传入全部参数，包含 copyCount）
+    api.getNewspaperPrice({
+      newspaperId: selectedPaperId,
+      contentLength: charCount,
+      issueCount,
+      copyCount
+    }).then(res => {
+      if (res && res.totalPrice != null) {
+        this.setData({
+          publishFee: res.totalPrice,
+          totalPrice: res.totalPrice
+        });
+      } else {
+        this._calcPriceLocally(paper, charCount, issueCount, copyCount);
+      }
+    }).catch(() => {
+      // 网络异常时兜底本地计算
+      this._calcPriceLocally(paper, charCount, issueCount, copyCount);
+    });
+  },
+
+  /** 本地兜底计价公式（publishFee = 单价 × max(字数,最低字数) × 期数 × 份数） */
+  _calcPriceLocally(paper, charCount, issueCount, copyCount) {
     const pricePerWord = paper.pricePerWord || 0;
     const minWords = paper.minWords || 50;
-
-    // 刊登费用 = pricePerWord × max(实际字数, 最低字数要求) × 期数
     const billableWords = Math.max(charCount, minWords);
-    let publishFee = pricePerWord * billableWords;
-    publishFee = publishFee * this.data.issueCount;
-
+    const publishFee = pricePerWord * billableWords * issueCount * copyCount;
     this.setData({
       publishFee: Math.round(publishFee * 100) / 100,
       totalPrice: Math.round(publishFee * 100) / 100
@@ -357,7 +397,7 @@ Page({
 
     const that = this;
 
-    if (!that.data.selectedPaper) {
+    if (!String(that.data.selectedPaper || '')) {
       that.setData({ isSubmitting: false });
       wx.showToast({ title: '请先选择报纸', icon: 'none' });
       return;
@@ -375,7 +415,7 @@ Page({
       return;
     }
 
-    const paper = that.data.papers.find(p => p.id === that.data.selectedPaper);
+    const paper = that.data.papers.find(p => String(p.id) === String(that.data.selectedPaper || ''));
     const address = that.data.selectedAddress;
 
     wx.showModal({
@@ -402,7 +442,7 @@ Page({
         const dto = {
           type: that.data.businessType,
           content: that.data.content,
-          newspaperId: that.data.selectedPaper,
+          newspaperId: String(that.data.selectedPaper || ''),
           newspaperName: paper.name,
           templateId: that.data.templateId || '',
           issueCount: that.data.issueCount,
@@ -460,7 +500,7 @@ Page({
     this.setData({ isSubmitting: false });
     wx.showToast({ title: '下单成功', icon: 'success' });
     setTimeout(() => {
-      wx.redirectTo({ url: '/pages/newspaper/order' });
+      wx.redirectTo({ url: PAGE_ORDER });
     }, 1200);
   }
 });

@@ -49,7 +49,7 @@ const categories = [
   },
   {
     id: 4,
-    name: '清洁生产与应急预案公示',
+    name: '清洁生产与环境预案公示',
     color: '#5B6FE8',
     desc: '清洁生产审核、突发环境事件预案',
     hot: false,

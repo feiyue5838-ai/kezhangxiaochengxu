@@ -5,7 +5,8 @@ Page({
   data: {
     order: null,
     loading: true,
-    isSubmitting: false
+    isSubmitting: false,
+    receipts: [],
   },
 
   onLoad(options) {
@@ -30,6 +31,7 @@ Page({
     try {
       const o = await api.getNewspaperOrderDetail(id);
       this.setData({ order: this._mapOrder(o), loading: false });
+      this.loadReceipts(id);
     } catch (e) {
       this.setData({ loading: false, order: null });
     }
@@ -167,5 +169,25 @@ Page({
     this.setData({ isSubmitting: false });
     wx.showToast({ title: '支付成功', icon: 'success' });
     this.loadOrder(id);
+  },
+
+  // 加载回执列表
+  async loadReceipts(orderId) {
+    try {
+      const res = await api.getOrderReceipts(orderId);
+      let receipts = [];
+      if (Array.isArray(res)) receipts = res;
+      else if (res && Array.isArray(res.list)) receipts = res.list;
+      else if (res && res.data && Array.isArray(res.data.list)) receipts = res.data.list;
+      this.setData({ receipts });
+    } catch (e) {
+      console.error('loadReceipts error', e);
+    }
+  },
+
+  // 预览回执图片
+  previewReceipt(e) {
+    const url = e.currentTarget.dataset.url;
+    wx.previewImage({ urls: [url], current: url });
   }
 });

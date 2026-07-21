@@ -1,20 +1,22 @@
 // pages/newspaper/court/index.js
 const common = require('../../../utils/common.js');
 const courtConfig = require('../../../utils/court.js');
+const api = require('../../../utils/api.js');
 
-const categories = courtConfig.categories.map(cat => ({
-  id: cat.id,
-  name: cat.name,
-  desc: cat.desc,
-  color: cat.color,
-  hot: cat.hot,
-  items: cat.docs
-}));
+// API 返回的模板按 templateType 分组；fallback 使用 court.js categories
+let categoriesFromApi = null;
 
 Page({
   data: {
     selectedCategory: '',
-    categories,
+    categories: courtConfig.categories.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      desc: cat.desc,
+      color: cat.color,
+      hot: cat.hot,
+      items: cat.docs
+    })),
     pickedIndex: -1,
     pickedItems: [],
     showDocPicker: false,
@@ -22,6 +24,36 @@ Page({
   },
 
   onLoad() {
+    this._floatDragStart = null;
+    this._floatMoved = false;
+    this._loadFromApi();
+  },
+
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 2 });
+    }
+  },
+
+  async _loadFromApi() {
+    try {
+      const res = await api.getCourtTemplates();
+      if (Array.isArray(res) && res.length > 0) {
+        categoriesFromApi = res;
+        // 将 API 数据结构映射为页面所需结构
+        const mapped = res.map((cat, idx) => ({
+          id: cat.id,
+          name: cat.name,
+          desc: cat.name, // API 无 desc，用 name 替代
+          color: cat.color,
+          hot: cat.hot,
+          items: (cat.docs || []).map(d => ({ name: d.name, sub: cat.name }))
+        }));
+        this.setData({ categories: mapped });
+      }
+    } catch (e) {
+      console.warn('[court] API 调用失败，使用前端硬编码兜底', e);
+    }
   },
 
   goBack() {
@@ -32,6 +64,7 @@ Page({
     const { id } = e.currentTarget.dataset;
     const idx = this.data.categories.findIndex(c => c.id === id);
     const cat = this.data.categories[idx];
+    if (idx === -1) return;
     this.setData({
       selectedCategory: id,
       pickedIndex: idx,
@@ -52,7 +85,9 @@ Page({
       this.setData({ searchKey: '', pickedItems: cat.items || [] });
       return;
     }
-    const filtered = (cat.items || []).filter(d => d.name.toLowerCase().includes(v));
+    const filtered = (cat.items || []).filter(d =>
+      d.name.toLowerCase().includes(v) || (d.sub || '').toLowerCase().includes(v)
+    );
     this.setData({ searchKey: e.detail.value, pickedItems: filtered });
   },
 
@@ -61,11 +96,25 @@ Page({
     const { pickedIndex, categories } = this.data;
     const cat = categories[pickedIndex];
     if (!name || !cat) return;
-    const item = (cat.items || []).find(d => d.name === name);
-    if (!item) return;
-    const content = courtConfig.generateContent({ name: item.name });
+
+    // API 优先：尝试从 API 数据中找 content
+    let content = null;
+    if (categoriesFromApi) {
+      const apiCat = categoriesFromApi.find(c => c.id === cat.id);
+      if (apiCat) {
+        const apiDoc = (apiCat.docs || []).find(d => d.name === name);
+        if (apiDoc && apiDoc.content && apiDoc.content.trim()) {
+          content = apiDoc.content;
+        }
+      }
+    }
+    // fallback：本地图形生成
+    if (!content) {
+      content = courtConfig.generateContent({ name });
+    }
+
     wx.setStorageSync('newspaperTemplate', {
-      name: item.name,
+      name,
       content,
       businessType: '法院公告',
       category: cat.name,
@@ -73,28 +122,33 @@ Page({
     });
     wx.setStorageSync('formPageNavData', {
       type: '法院公告',
-      docName: item.name,
+      docName: name,
       categoryName: cat.name,
-      itemName: item.name,
+      itemName: name,
       _timestamp: Date.now()
     });
-    this.setData({ showDocPicker: false }); wx.navigateTo({ url: "/pages/newspaper/content-edit/index" });
+    this.setData({ showDocPicker: false });
+    wx.navigateTo({ url: '/pages/newspaper/content-edit/index' });
   },
 
   contactService() {
-    wx.makePhoneCall({ phoneNumber: '400-888-8888' });
+    if (this._floatMoved) return;
+    wx.makePhoneCall({ phoneNumber: '4000049919' });
   },
 
   onFloatTouchStart(e) {
-    this._floatTouch = { startY: e.touches[0].clientY, curTop: this.data.floatBtnTop };
+    this._floatDragStart = { startY: e.touches[0].clientY, curTop: this.data.floatBtnTop };
+    this._floatMoved = false;
   },
   onFloatTouchMove(e) {
-    if (!this._floatTouch) return;
-    const dy = e.touches[0].clientY - this._floatTouch.startY;
-    const newTop = Math.max(100, Math.min(this._floatTouch.curTop + dy, wx.getSystemInfoSync().windowHeight - 80));
+    if (!this._floatDragStart) return;
+    const dy = e.touches[0].clientY - this._floatDragStart.startY;
+    const newTop = Math.max(100, Math.min(this._floatDragStart.curTop + dy,
+      wx.getSystemInfoSync().windowHeight - 80));
+    this._floatMoved = Math.abs(dy) > 5;
     this.setData({ floatBtnTop: newTop });
   },
   onFloatTouchEnd() {
-    this._floatTouch = null;
+    this._floatDragStart = null;
   }
 });

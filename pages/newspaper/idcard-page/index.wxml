@@ -18,7 +18,7 @@
   <!-- 模板选择区域 -->
   <view class="template-section">
     <view class="template-grid">
-      <view 
+      <view
         class="template-card {{item.id === selectedTemplate ? 'selected' : ''}}"
         wx:for="{{templates}}"
         wx:key="id"

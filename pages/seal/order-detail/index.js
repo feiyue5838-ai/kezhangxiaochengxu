@@ -18,7 +18,8 @@ Page({
     order: null,
     address: null,
     loading: true,
-    isSubmitting: false
+    isSubmitting: false,
+    receipts: [],
   },
 
   onLoad: function(options) {
@@ -77,6 +78,7 @@ Page({
       };
 
       that.setData({ order: normalized, address: address, loading: false });
+      that.loadReceipts(id);
     }).catch(function() {
       // API 失败：从 Storage 兜底
       that._loadFromStorage(id);
@@ -241,5 +243,25 @@ Page({
       return;
     }
     wx.navigateTo({ url: '/pages/seal/review-submit/index?orderId=' + orderId });
+  },
+
+  // 加载回执列表
+  loadReceipts: function(orderId) {
+    var that = this;
+    api.getOrderReceipts(orderId).then(function(res) {
+      var receipts = [];
+      if (Array.isArray(res)) receipts = res;
+      else if (res && Array.isArray(res.list)) receipts = res.list;
+      else if (res && res.data && Array.isArray(res.data.list)) receipts = res.data.list;
+      that.setData({ receipts: receipts });
+    }).catch(function(e) {
+      console.error('loadReceipts error', e);
+    });
+  },
+
+  // 预览回执图片
+  previewReceipt: function(e) {
+    var url = e.currentTarget.dataset.url;
+    wx.previewImage({ urls: [url], current: url });
   }
 });

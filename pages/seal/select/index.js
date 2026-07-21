@@ -24,7 +24,13 @@ Page({
     api.getSealScenes().then(res => {
       wx.hideLoading();
       if (Array.isArray(res) && res.length > 0) {
-        this.setData({ scenes: res, loading: false });
+        // 过滤掉不需要的场景
+        const filteredScenes = res.filter(item => 
+          item.name !== '刻章备案查询' && 
+          item.name !== '电子印章' && 
+          item.name !== '个人印章'
+        );
+        this.setData({ scenes: filteredScenes, loading: false });
       } else {
         this.setData({ loading: false });
         wx.showToast({ title: '加载失败', icon: 'none' });

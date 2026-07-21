@@ -1,6 +1,6 @@
 <view class="page">
   <!-- 自定义导航栏 -->
-  <nav-bar title="选择报纸" showBack="{{false}}" />
+  <nav-bar title="选择报纸" />
 
   <!-- 登报内容预览 -->
   <view class="content-preview" wx:if="{{content}}">

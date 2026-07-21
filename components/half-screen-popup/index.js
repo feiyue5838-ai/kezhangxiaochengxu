@@ -98,8 +98,8 @@ Component({
         const apiSeals = (res.seals || []).map(s => ({
           id: s.id,
           name: s.name,
-          // 统一印章图片（使用 seal-caiwuzhang 作为通用占位图，真实产品图后续替换）
-          img: s.image || '/assets/images/seal-gongzhang.svg',
+          // 印章图片：后端返回相对路径 /uploads/seals/xxx，需拼 API_BASE 才能在小程序加载
+          img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
           price: Number(s.price),
           description: s.description || '',
           categoryName: (s.category && s.category.name) || '',

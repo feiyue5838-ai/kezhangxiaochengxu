@@ -1,6 +1,6 @@
 /**
  * 政府送达 - 分类配置
- * 5大一级分类，generateContent 根据模板类型生成对应报纸内容
+ * 4大一级分类，与后端对齐
  */
 
 const categories = [
@@ -12,20 +12,7 @@ const categories = [
     ]
   },
   {
-    id: 2, name: '行政处罚送达催告', color: '#F5222D',
-    desc: '处罚告知、决定书、催告书全套送达', hot: true,
-    docs: [
-      { name: '行政处罚事先告知书送达公告' },
-      { name: '听证告知书送达公告' },
-      { name: '撤销行政许可听证告知书送达公告' },
-      { name: '行政处罚决定书送达公告' },
-      { name: '履行行政处罚决定催告书送达公告' },
-      { name: '行政处罚决定履行催告书送达公告' },
-      { name: '行政处罚罚款催告书送达公告' },
-    ]
-  },
-  {
-    id: 3, name: '劳动仲裁送达公告', color: '#5B6FE8',
+    id: 2, name: '劳动仲裁送达公告', color: '#5B6FE8',
     desc: '劳动仲裁、人事仲裁送达', hot: true,
     docs: [
       { name: '劳动仲裁公告' },
@@ -34,14 +21,14 @@ const categories = [
     ]
   },
   {
-    id: 4, name: '规划行政许可公示', color: '#0FCB7D',
+    id: 3, name: '规划行政许可公示', color: '#0FCB7D',
     desc: '规划设计条件变更公示', hot: false,
     docs: [
       { name: '规划设计条件变更公示' },
     ]
   },
   {
-    id: 5, name: '公证遗嘱类公告', color: '#FA8E17',
+    id: 4, name: '公证遗嘱类公告', color: '#FA8E17',
     desc: '遗嘱公告', hot: false,
     docs: [
       { name: '遗嘱公告' },

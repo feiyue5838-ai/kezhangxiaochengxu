@@ -1,12 +1,7 @@
 // pages/newspaper/invoice-receipt/index.js
 const common = require('../../../utils/common.js');
 const invoiceReceiptConfig = require('../../../utils/invoice-receipt.js');
-
-const colors = ['#5B6FE8', '#FA8C16', '#52C41A', '#9BA8FF', '#13C2C2', '#EB2F96'];
-const categories = invoiceReceiptConfig.categories.map((cat, index) => ({
-  ...cat,
-  color: colors[index % colors.length]
-}));
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
@@ -14,12 +9,46 @@ Page({
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
-    categoryList: categories
+    totalCount: 0,
+    categoryList: []
   },
 
   onLoad() {
     this._floatDragStart = null;
     this._floatMoved = false;
+    this._loadData();
+  },
+
+  // 从后端 API 加载发票收据模板，失败则用硬编码兜底
+  _loadData() {
+    wx.showLoading({ title: '加载中...', mask: true });
+    api.getInvoiceTemplates()
+      .then(data => {
+        wx.hideLoading();
+        if (Array.isArray(data) && data.length > 0) {
+          const totalCount = data.reduce((sum, cat) => sum + (cat.docs ? cat.docs.length : 0), 0);
+          this.setData({ categoryList: data, totalCount });
+        } else {
+          this._useFallback();
+        }
+      })
+      .catch(() => {
+        wx.hideLoading();
+        this._useFallback();
+      });
+  },
+
+  // 硬编码兜底（离线/接口异常时）
+  _useFallback() {
+    const fallback = invoiceReceiptConfig.categories.map((cat, index) => ({
+      ...cat,
+      color: ['#5B6FE8', '#FA8C16', '#52C41A', '#9BA8FF', '#13C2C2', '#EB2F96'][index % 6],
+      total: cat.docs.length,
+    }));
+    this.setData({
+      categoryList: fallback,
+      totalCount: invoiceReceiptConfig.getTotalCount()
+    });
   },
 
   goBack() {
@@ -32,7 +61,7 @@ Page({
     this.setData({
       showDocPicker: true,
       pickedIndex: idx,
-      pickedItems: cat.docs,
+      pickedItems: cat.docs || [],
       searchKey: ''
     });
   },
@@ -44,9 +73,10 @@ Page({
   onSearch(e) {
     const key = e.detail.value || '';
     const cat = this.data.categoryList[this.data.pickedIndex];
+    const docs = cat.docs || [];
     const filtered = key
-      ? cat.docs.filter(item => item.name.indexOf(key) !== -1)
-      : cat.docs;
+      ? docs.filter(item => item.name.indexOf(key) !== -1)
+      : docs;
     this.setData({ searchKey: key, pickedItems: filtered });
   },
 
@@ -56,20 +86,25 @@ Page({
     const cat = this.data.categoryList[this.data.pickedIndex];
     const item = (cat.docs || []).find(d => d.name === name);
     if (!item) return;
-    const itemName = item.name;
 
+    // 后端返回的 content 有值则直接用，否则用本地生成逻辑兜底
+    const content = item.content || invoiceReceiptConfig.generateContent(item.name);
+
+    // 保存模板数据到 Storage
     wx.setStorageSync('newspaperTemplate', {
-      name: itemName,
-      content: invoiceReceiptConfig.generateContent(itemName),
+      name: item.name,
+      content: content,
       businessType: '发票收据',
       category: cat.name,
       _timestamp: Date.now()
     });
+
+    // 保存分类信息用于 content-edit 页显示
     wx.setStorageSync('formPageNavData', {
       type: '发票收据',
-      docName: itemName,
+      docName: item.name,
       categoryName: cat.name,
-      itemName: itemName,
+      itemName: item.name,
       _timestamp: Date.now()
     });
 

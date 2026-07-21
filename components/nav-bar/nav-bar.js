@@ -53,50 +53,47 @@ Component({
    * 生命周期
    */
   lifetimes: {
-    // 设备信息在 attached 计算（异步，兼容新版废弃警告）
+    // 设备信息在 attached 计算（同步，避免 wx.getSystemInfo 废弃警告）
     attached() {
-      // 先获取系统信息（含状态栏高度）
-      wx.getSystemInfo({
-        success: (systemInfo) => {
-          const statusBarHeight = systemInfo.statusBarHeight || 20;
+      try {
+        const systemInfo = wx.getSystemInfoSync();
+        const statusBarHeight = systemInfo.statusBarHeight || 20;
 
-          // 再获取胶囊按钮信息
-          try {
-            const capsule = wx.getMenuButtonBoundingClientRect();
-            if (capsule) {
-              const navContentHeight = Math.max(
-                32,
-                Math.min(64, capsule.bottom - statusBarHeight)
-              );
-              this.setData({
-                statusBarHeight,
-                navContentHeight,
-                navHeight: statusBarHeight + navContentHeight,
-                capsuleLeft: capsule.left,
-                capsuleTop: capsule.top,
-                capsuleWidth: capsule.width,
-                capsuleHeight: capsule.height
-              });
-            } else {
-              this.setData({
-                statusBarHeight,
-                navHeight: statusBarHeight + 44
-              });
-            }
-          } catch (e) {
+        // 再获取胶囊按钮信息
+        try {
+          const capsule = wx.getMenuButtonBoundingClientRect();
+          if (capsule) {
+            const navContentHeight = Math.max(
+              32,
+              Math.min(64, capsule.bottom - statusBarHeight)
+            );
+            this.setData({
+              statusBarHeight,
+              navContentHeight,
+              navHeight: statusBarHeight + navContentHeight,
+              capsuleLeft: capsule.left,
+              capsuleTop: capsule.top,
+              capsuleWidth: capsule.width,
+              capsuleHeight: capsule.height
+            });
+          } else {
             this.setData({
               statusBarHeight,
               navHeight: statusBarHeight + 44
             });
           }
-        },
-        fail: () => {
+        } catch (e) {
           this.setData({
-            statusBarHeight: 20,
-            navHeight: 64
+            statusBarHeight,
+            navHeight: statusBarHeight + 44
           });
         }
-      });
+      } catch (e) {
+        this.setData({
+          statusBarHeight: 20,
+          navHeight: 64
+        });
+      }
     },
 
     // showBack 判断在 ready 时执行，避免与初始化阶段冲突
@@ -126,6 +123,10 @@ Component({
      */
     onBack() {
       this.triggerEvent('back');
+      const pages = getCurrentPages();
+      if (pages.length > 1) {
+        wx.navigateBack({ delta: 1 });
+      }
     }
   }
 });
