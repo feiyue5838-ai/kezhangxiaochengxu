@@ -380,6 +380,9 @@ module.exports = {
   // 门店订单列表 → GET /api/outlets/me/orders（网点 token）
   getStoreOrders: (params) => outletRequest({ url: '/api/outlets/me/orders', data: params }),
 
+  // 网点单条订单详情 → GET /api/outlets/me/orders/:id（网点 token）
+  getStoreOrderDetail: (id) => outletRequest({ url: '/api/outlets/me/orders/' + id }),
+
   // 接单 → PUT /api/outlets/me/orders/:id/accept（网点 token）
   acceptOrder: (id) => outletRequest({ url: `/api/outlets/me/orders/${id}/accept`, method: 'PUT' }),
 
