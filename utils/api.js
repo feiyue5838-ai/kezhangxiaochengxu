@@ -759,5 +759,21 @@ module.exports = {
 
   
 
-};
 
+  // ==================== 评价（小程序端） ====================
+  /** 已审核通过的评价列表 */
+  reviewList: (params) => request({ url: '/api/reviews/list', data: params }),
+  /** 提交评价（需登录） */
+  submitReview: (data) => request({ url: '/api/reviews', method: 'POST', data }),
+  /** 我的评价列表（需登录） */
+  myReviews: (params) => request({ url: '/api/reviews/my', data: params }),
+
+  // ==================== 问答（小程序端） ====================
+  /** 公开问答列表 */
+  qaList: (params) => request({ url: '/api/questions/list', data: params }),
+  /** 问答详情 */
+  qaDetail: (id) => request({ url: '/api/questions/' + id }),
+  /** 提交问题（需登录） */
+  submitQuestion: (data) => request({ url: '/api/questions', method: 'POST', data }),
+
+};
