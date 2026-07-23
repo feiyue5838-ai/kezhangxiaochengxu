@@ -16,7 +16,7 @@ page {
 /* ===== Hero ===== */
 .hero {
   position: relative;
-  padding: 44rpx 36rpx 80rpx;
+  padding: 88rpx 36rpx 96rpx;
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   overflow: hidden;
 }
@@ -44,46 +44,32 @@ page {
 }
 
 .hero-label {
-  font-size: 20rpx;
+  font-size: 22rpx;
   color: rgb(255 255 255 / 0.85);
   font-weight: 600;
   letter-spacing: 4rpx;
   display: block;
-  margin-bottom: 12rpx;
+  margin-bottom: 20rpx;
   position: relative;
   z-index: 1;
 }
 
 .hero-title {
-  font-size: 48rpx;
+  font-size: 52rpx;
   color: #fff;
   font-weight: 700;
   letter-spacing: 2rpx;
   line-height: 1.25;
-  margin-bottom: 10rpx;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-subtitle {
-  font-size: 24rpx;
-  color: rgb(255 255 255 / 0.8);
-  letter-spacing: 1rpx;
-  margin-bottom: 32rpx;
   display: block;
   position: relative;
   z-index: 1;
 }
 
-.hero-stats {
-  display: flex;
-  align-items: center;
-  background: rgb(255 255 255 / 0.15);
-  backdrop-filter: blur(8px);
-  border-radius: 20rpx;
-  padding: 28rpx 20rpx;
-  border: 1rpx solid rgb(255 255 255 / 0.2);
-  margin-bottom: 32rpx;
+.hero-divider {
+  width: 60rpx;
+  height: 2rpx;
+  background: rgb(255 255 255 / 0.6);
+  margin: 28rpx 0 32rpx;
   position: relative;
   z-index: 1;
 }
@@ -112,15 +98,15 @@ page {
 
 .hero-badges {
   display: flex;
-  gap: 24rpx;
+  gap: 20rpx;
   position: relative;
   z-index: 1;
 }
 
 .badge {
-  padding: 10rpx 22rpx;
+  padding: 8rpx 18rpx;
   background: rgb(255 255 255 / 0.18);
-  border-radius: 20rpx;
+  border-radius: 24rpx;
   border: 1rpx solid rgb(255 255 255 / 0.22);
 }
 
@@ -128,6 +114,7 @@ page {
   font-size: 22rpx;
   color: #fff;
   font-weight: 500;
+  letter-spacing: 1rpx;
 }
 
 /* ===== 表单卡片 ===== */

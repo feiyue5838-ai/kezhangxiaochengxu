@@ -9,6 +9,7 @@
 
     <text class="hero-label">TAX & ACCOUNTING SERVICE</text>
     <text class="hero-title">专业代理记账</text>
+    <view class="hero-divider"></view>
 
     <!-- 服务标签 -->
     <view class="hero-badges">
