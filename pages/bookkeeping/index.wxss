@@ -108,6 +108,41 @@ page {
   background: rgb(255 255 255 / 0.25);
 }
 
+.service-icons {
+  display: flex;
+  justify-content: center;
+  gap: 60rpx;
+  margin-bottom: 30rpx;
+  position: relative;
+  z-index: 1;
+}
+.service-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+}
+.service-icon-circle {
+  width: 72rpx;
+  height: 72rpx;
+  background: rgb(255 255 255 / 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid rgb(255 255 255 / 0.25);
+}
+.service-icon-img {
+  width: 38rpx;
+  height: 38rpx;
+  filter: brightness(0) invert(1);
+}
+.service-icon-label {
+  font-size: 22rpx;
+  color: rgb(255 255 255 / 0.9);
+  font-weight: 500;
+}
+
 .hero-badges {
   display: flex;
   gap: 24rpx;
