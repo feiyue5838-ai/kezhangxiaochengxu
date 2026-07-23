@@ -9,31 +9,12 @@
 
     <text class="hero-label">TAX & ACCOUNTING SERVICE</text>
     <text class="hero-title">专业代理记账</text>
-    <text class="hero-subtitle">智能做账 · 精准报税 · 合规保障</text>
 
     <!-- 服务标签 -->
     <view class="hero-badges">
       <view class="badge"><text>智能做账</text></view>
       <view class="badge"><text>税务申报</text></view>
       <view class="badge"><text>合规保障</text></view>
-    </view>
-
-    <!-- 底部数字 -->
-    <view class="hero-stats">
-      <view class="stat-item">
-        <text class="stat-num">5000+</text>
-        <text class="stat-label">服务企业</text>
-      </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <text class="stat-num">100+</text>
-        <text class="stat-label">资深会计</text>
-      </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <text class="stat-num">99.6%</text>
-        <text class="stat-label">客户好评</text>
-      </view>
     </view>
   </view>
 
