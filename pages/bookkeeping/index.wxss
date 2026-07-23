@@ -4,6 +4,7 @@
 page {
   background: linear-gradient(180deg, #F8F7FC 0%, #EEF0F8 100%);
   min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
 }
 
 .page {
@@ -52,7 +53,7 @@ page {
   margin-bottom: 18rpx;
   position: relative;
   z-index: 1;
-  font-family: 'Helvetica Neue', 'PingFang SC', sans-serif;
+  font-family: 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 .hero-title {
@@ -64,7 +65,7 @@ page {
   display: block;
   position: relative;
   z-index: 1;
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
 }
 
 .hero-divider {
