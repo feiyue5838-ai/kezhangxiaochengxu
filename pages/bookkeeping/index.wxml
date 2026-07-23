@@ -64,7 +64,7 @@
     <!-- 开票 -->
     <view class="form-section">
       <view class="section-label">开票</view>
-      <view class="option-row">
+      <view class="option-row cols-3">
         <view class="option-btn {{invoice === 'none' ? 'active' : ''}}" bindtap="onInvoiceSelect" data-invoice="none">
           <text class="option-text">不开票</text>
         </view>

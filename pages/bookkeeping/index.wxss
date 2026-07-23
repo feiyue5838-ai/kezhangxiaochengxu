@@ -189,6 +189,9 @@ page {
 }
 
 .option-row { display: flex; flex-wrap: wrap; gap: 20rpx; }
+.option-row.cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16rpx; }
+.option-row.cols-3 .option-btn { min-width: 0; padding: 20rpx 8rpx; }
+.option-row.cols-3 .option-text { font-size: 26rpx; }
 
 .option-btn {
   position: relative;
