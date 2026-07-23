@@ -782,7 +782,7 @@ module.exports = {
   // ==================== 代理记账 ====================
   /** 获取代理记账价格 */
   getBookkeepingPrice: (params) =>
-    request({ url: '/api/bookkeeping/price?' + new URLSearchParams(params).toString() }),
+    request({ url: '/api/bookkeeping/price?' + Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&') }),
   /** 创建代理记账订单 */
   createBookkeepingOrder: (data) => request({ url: '/api/bookkeeping/orders', method: 'POST', data }),
   /** 获取代理记账订单支付参数 */
