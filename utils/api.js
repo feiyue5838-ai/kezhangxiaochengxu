@@ -8,7 +8,10 @@
 
 
 
-const API_BASE = 'http://localhost:3001';
+// ⚠️ 发版前替换：需使用已备案 HTTPS 域名，并在微信后台配置 request 白名单
+const API_BASE = 'http://192.168.31.219:3001';
+
+// API_BASE 也在模块导出中，供组件拼接图片等静态资源使用
 
 
 
@@ -775,5 +778,8 @@ module.exports = {
   qaDetail: (id) => request({ url: '/api/questions/' + id }),
   /** 提交问题（需登录） */
   submitQuestion: (data) => request({ url: '/api/questions', method: 'POST', data }),
+
+  /** API 基础地址（用于拼接图片等静态资源） */
+  API_BASE: API_BASE,
 
 };

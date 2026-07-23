@@ -40,8 +40,6 @@ Page({
       success: (loginRes) => {
         // 调用后端登录接口（api.js 已配置）
         this._doLogin(loginRes.code, e.detail);
-        // 开发阶段模拟登录（生产环境删除此行）
-        // this._mockLogin(e.detail);
       },
       fail: () => {
         this.setData({ loading: false });
@@ -66,20 +64,6 @@ Page({
       this.setData({ loading: false });
       wx.showToast({ title: '网络异常', icon: 'none' });
     });
-  },
-
-  // 模拟登录（开发阶段用）
-  _mockLogin(phoneDetail) {
-    const mockUser = {
-      token: 'mock_token_' + Date.now(),
-      userInfo: {
-        phone: '138****8888',
-        openid: 'mock_openid',
-        nickname: '蓉城用户',
-        avatar: '',
-      }
-    };
-    this._saveAndRedirect(mockUser);
   },
 
   _saveAndRedirect(data) {

@@ -1,5 +1,5 @@
 // pages/outlet/orders/index.js
-const api = require('../../../utils/api')
+const api = require('../../../../utils/api')
 
 Page({
   data: {

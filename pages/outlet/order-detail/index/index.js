@@ -1,5 +1,5 @@
 // pages/outlet/order-detail/index.js
-const api = require('../../../utils/api')
+const api = require('../../../../utils/api')
 
 // 状态流转说明
 const STATUS_STEPS = [

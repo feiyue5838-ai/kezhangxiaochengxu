@@ -17,7 +17,7 @@ class NewspaperService {
    * 获取分类
    */
   async getCategory() {
-    return await api.getNewspaperCategory();
+    return await api.getNewspaperCategories();
   }
   
   /**

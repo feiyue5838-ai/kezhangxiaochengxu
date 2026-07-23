@@ -17,7 +17,9 @@ class SealService {
    * 获取刻章详情
    */
   async getDetail(id) {
-    return await api.getSealDetail(id);
+    // 当前无单印章详情 API，走列表客户端过滤
+    const all = await api.getSealList();
+    return all.find(s => s.id === id) || null;
   }
   
   /**

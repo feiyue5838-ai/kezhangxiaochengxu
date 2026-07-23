@@ -9,6 +9,7 @@
  *     2) 后端 .env 的 WECHAT_SUBSCRIBE_TEMPLATE_ID（后端真正下发推送时用）
  */
 module.exports = {
-  // ⚠️ 占位符：替换为真实模板 ID 后再上线
-  WECHAT_SUBSCRIBE_TEMPLATE_ID: 'WECHAT_SUBSCRIBE_TEMPLATE_ID',
+  // ⚠️ 发版前替换：微信公众平台 → 订阅消息 → 我的模板 → 申请模板 ID
+  // 替换后需与后端 .env 的 WECHAT_SUBSCRIBE_TEMPLATE_ID 保持一致
+  WECHAT_SUBSCRIBE_TEMPLATE_ID: '请替换为真实模板ID',
 };
