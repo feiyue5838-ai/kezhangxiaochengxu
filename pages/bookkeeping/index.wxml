@@ -168,13 +168,12 @@
 
 <!-- 底部悬浮结算栏 -->
 <view class="bottom-bar">
-  <view class="bottom-bar-inner">
-    <view class="total-info">
-      <text class="total-label">总计金额：</text>
-      <text class="total-price">¥{{price}}</text>
-    </view>
-    <view class="pay-btn {{payDisabled ? 'disabled' : ''}}" bindtap="onPay">
-      <text>立即付款</text>
-    </view>
+  <view class="total-info">
+    <text class="total-label">合计：</text>
+    <text class="total-price">¥</text>
+    <text class="total-price-big">{{price}}</text>
+  </view>
+  <view class="pay-btn {{payDisabled ? 'disabled' : ''}}" bindtap="onPay">
+    <text>立即付款</text>
   </view>
 </view>
