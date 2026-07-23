@@ -2,14 +2,36 @@
 <view class="page">
   <nav-bar title="代理记账" showBack="{{false}}" />
 
-  <!-- Banner 宣传区 -->
-  <view class="banner">
-    <text class="banner-title">专业代理记账</text>
-    <text class="banner-subtitle">省心 · 专业 · 合规</text>
-    <view class="banner-tags">
-      <text class="banner-tag">专业会计</text>
-      <text class="banner-tag">智能报税</text>
-      <text class="banner-tag">风险预警</text>
+  <!-- Hero 区域 -->
+  <view class="hero">
+    <view class="hero-glow-1"></view>
+    <view class="hero-glow-2"></view>
+
+    <text class="hero-label">BOOKKEEPING SERVICE</text>
+    <text class="hero-title">专业代理记账</text>
+    <text class="hero-subtitle">省心 · 专业 · 合规</text>
+
+    <view class="hero-stats">
+      <view class="stat-item">
+        <text class="stat-num">5000+</text>
+        <text class="stat-label">服务企业</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">99.6%</text>
+        <text class="stat-label">客户好评</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">24h</text>
+        <text class="stat-label">极速响应</text>
+      </view>
+    </view>
+
+    <view class="hero-badges">
+      <view class="badge"><text>专业会计</text></view>
+      <view class="badge"><text>智能报税</text></view>
+      <view class="badge"><text>风险预警</text></view>
     </view>
   </view>
 
