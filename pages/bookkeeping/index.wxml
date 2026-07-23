@@ -10,14 +10,17 @@
       <text class="banner-tag">风险预警</text>
     </view>
   </view>
-  <view class="service-list">
-    <view class="service-item" wx:for="{{services}}" wx:key="id" bindtap="selectService" data-id="{{item.id}}">
-      <view class="svc-icon-wrap" style="background: {{item.bgColor}};">
-        <image class="service-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
+  <view class="main-action">
+    <view class="action-card" bindtap="goForm">
+      <view class="action-icon-wrap">
+        <image class="action-icon" src="/assets/icons/icon-wallet.svg" mode="aspectFit" />
       </view>
-      <view class="service-info">
-        <text class="service-name">{{item.name}}</text>
-        <text class="service-desc">{{item.desc}}</text>
+      <view class="action-info">
+        <text class="action-name">代理记账</text>
+        <text class="action-desc">专业会计团队 · 智能做账报税 · 合规高效</text>
+      </view>
+      <view class="action-arrow">
+        <text class="arrow-icon">›</text>
       </view>
     </view>
   </view>
