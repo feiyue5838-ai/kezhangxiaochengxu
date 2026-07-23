@@ -237,6 +237,8 @@ page {
 .option-row.cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16rpx; }
 .option-row.cols-3 .option-btn { min-width: 0; padding: 20rpx 8rpx; }
 .option-row.cols-3 .option-text { font-size: 26rpx; }
+.option-row.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16rpx; }
+.option-row.cols-2 .option-btn { min-width: 0; padding: 22rpx 8rpx; }
 
 .option-btn {
   position: relative;
