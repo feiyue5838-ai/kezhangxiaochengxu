@@ -5,7 +5,7 @@ page { background: #f5f6fa; }
 .banner {
   margin: 24rpx 32rpx;
   padding: 48rpx 40rpx;
-  background: linear-gradient(135deg, #4A6FE8 0%, #6B8CF8 100%);
+  background: linear-gradient(135deg, #5B6FE8 0%, #A78BFA 100%);
   border-radius: 24rpx;
   position: relative;
   overflow: hidden;
@@ -13,11 +13,21 @@ page { background: #f5f6fa; }
 .banner::before {
   content: '';
   position: absolute;
-  right: -40rpx;
-  top: -40rpx;
-  width: 240rpx;
-  height: 240rpx;
-  background: rgba(255,255,255,0.08);
+  right: -60rpx;
+  top: -80rpx;
+  width: 280rpx;
+  height: 280rpx;
+  background: rgba(255,255,255,0.10);
+  border-radius: 50%;
+}
+.banner::after {
+  content: '';
+  position: absolute;
+  left: -40rpx;
+  bottom: -40rpx;
+  width: 180rpx;
+  height: 180rpx;
+  background: rgba(255,255,255,0.06);
   border-radius: 50%;
 }
 .banner-title {
@@ -48,7 +58,7 @@ page { background: #f5f6fa; }
   background: #fff;
   border-radius: 24rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(74,111,232,0.06);
+  box-shadow: 0 4rpx 20rpx rgba(91,111,232,0.06);
 }
 
 .form-section { padding: 28rpx 36rpx; }
@@ -81,29 +91,29 @@ page { background: #f5f6fa; }
 }
 .option-text { font-size: 28rpx; color: #4A4D5A; }
 .option-btn.active {
-  background: #EEF2FF;
-  border: 2rpx solid #4A6FE8;
+  background: linear-gradient(135deg, #EEF2FF 0%, #F3EDFF 100%);
+  border: 2rpx solid #5B6FE8;
 }
-.option-btn.active .option-text { color: #4A6FE8; font-weight: 600; }
+.option-btn.active .option-text { color: #5B6FE8; font-weight: 600; }
 .option-check {
   position: absolute;
-  top: -2rpx;
-  right: -2rpx;
-  width: 0;
-  height: 0;
-  border-top: 36rpx solid #4A6FE8;
-  border-left: 36rpx solid transparent;
-  border-radius: 0 12rpx 0 0;
+  top: -4rpx;
+  right: -4rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: #5B6FE8;
+  border-radius: 0 12rpx 0 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .option-check::after {
   content: '✓';
-  position: absolute;
-  top: -32rpx;
-  right: 2rpx;
-  font-size: 18rpx;
+  font-size: 22rpx;
   color: #fff;
   font-weight: bold;
   line-height: 1;
+  margin-top: -4rpx;
 }
 
 .phone-row { display: flex; align-items: center; gap: 16rpx; }
@@ -160,7 +170,7 @@ page { background: #f5f6fa; }
   justify-content: center;
   width: 260rpx;
   height: 88rpx;
-  background: #4A6FE8;
+  background: linear-gradient(135deg, #5B6FE8 0%, #A78BFA 100%);
   border-radius: 44rpx;
 }
 .pay-btn text { font-size: 30rpx; font-weight: 600; color: #fff; }
