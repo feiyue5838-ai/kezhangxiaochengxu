@@ -168,10 +168,42 @@ page {
   margin: -32rpx 28rpx 200rpx;
   padding: 8rpx 0 12rpx;
   background: #fff;
-  border-radius: 32rpx 32rpx 0 0;
+  border-radius: 32rpx;
   position: relative;
   z-index: 2;
-  box-shadow: 0 -4rpx 24rpx rgba(91,111,232,0.06);
+  overflow: hidden;
+  box-shadow:
+    0 4rpx 16rpx rgb(91 111 232 / 0.08),
+    0 1rpx 4rpx rgb(0 0 0 / 0.04);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 32rpx;
+  padding: 2rpx;
+  background: linear-gradient(135deg, rgb(91 111 232 / 0.18), rgb(167 139 250 / 0.10), transparent);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.form-card:active {
+  transform: scale(0.97);
+  box-shadow:
+    0 8rpx 32rpx rgb(91 111 232 / 0.14),
+    0 2rpx 8rpx rgb(0 0 0 / 0.06);
+}
+
+.form-card:active::before {
+  opacity: 1;
 }
 
 .form-section { padding: 28rpx 36rpx; }
@@ -201,13 +233,18 @@ page {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.option-text { font-size: 28rpx; color: #4A4D5A; }
+.option-text { font-size: 28rpx; color: #4A4D5A; transition: color 0.18s; }
 .option-btn.active {
   background: #EEF2FF;
   border: 2rpx solid #5B6FE8;
 }
 .option-btn.active .option-text { color: #5B6FE8; font-weight: 600; }
+.option-btn:active {
+  transform: scale(0.94);
+  opacity: 0.85;
+}
 
 .phone-row { display: flex; align-items: center; gap: 16rpx; }
 .phone-input {
