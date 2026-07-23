@@ -16,6 +16,11 @@ Page({
   },
   selectService(e) {
     const id = e.currentTarget.dataset.id;
-    wx.showToast({ title: '功能开发中', icon: 'none' });
+    if (id === 1) {
+      // 代理记账 - 跳转到下单页
+      wx.navigateTo({ url: '/pages/bookkeeping/form/index' });
+    } else {
+      wx.showToast({ title: '功能开发中', icon: 'none' });
+    }
   }
 });

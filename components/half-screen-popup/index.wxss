@@ -32,7 +32,7 @@
   transform: translateY(0);
 }
 
-/* 鎷栨嫿鏉?*/
+/* 拖拽条 */
 .drag-bar-wrap {
   display: flex;
   justify-content: center;
@@ -47,13 +47,13 @@
   background: var(--border-color);
 }
 
-/* close-icon 閫氱敤灏哄 */
+/* 关闭图标通用尺寸 */
 .close-icon {
   width: 32rpx;
   height: 32rpx;
 }
 
-/* ===== 绫诲瀷閫夋嫨鍖?===== */
+/* ===== 类型选择区 ===== */
 .popup-body {
   flex: 1;
   padding: 0 30rpx;
@@ -68,14 +68,14 @@
   font-weight: 500;
 }
 
-/* 2鍒楃綉鏍?*/
+/* 2列网格 */
 .seal-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
 }
 
-/* 鍗＄墖 */
+/* 卡片 */
 .seal-card {
   background: var(--bg-white);
   border-radius: 12rpx;
@@ -106,7 +106,7 @@
   font-weight: 600;
 }
 
-/* 鐗规儬瑙掓爣 */
+/* 特惠角标 */
 .badge {
   position: absolute;
   top: 0; right: 0;
@@ -117,7 +117,7 @@
   border-radius: 0 10rpx;
 }
 
-/* 閫変腑鍙充笂瑙掑嬀鏍?*/
+/* 选中右上角勾标 */
 .seal-badge {
   position: absolute;
   top: 0;
@@ -137,7 +137,7 @@
   line-height: 1;
 }
 
-/* 搴曢儴鎸夐挳 */
+/* 底部按钮 */
 .popup-footer {
   padding: 16rpx 30rpx;
   padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
@@ -163,22 +163,22 @@
   color: var(--text-secondary);
 }
 
-/* ===== 鍥哄畾瀵艰埅鏍忥紙濮嬬粓鍙锛?===== */
+/* ===== 固定导航栏（始终可见） ===== */
 .fixed-nav-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1002;
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   box-sizing: border-box;
-  /* height+padding-top 鐢?inline style 鍔ㄦ€佹彁渚?*/
+  /* height+padding-top 由 inline style 动态提供 */
 }
 
-/* 瀵艰埅鍐呭鍖?- 楂樺害鍜宲adding-top鍔ㄦ€佽绠楋紝涓庤兌鍥婃寜閽榻?*/
+/* 导航内容区 - 高度和padding-top动态计算，与胶囊按钮对齐 */
 .fixed-nav-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* height 鍜?padding-top 鐢?inline style 鍔ㄦ€佹彁渚?*/
+  /* height 和 padding-top 由 inline style 动态提供 */
   padding-left: 32rpx;
   padding-right: 32rpx;
   padding-bottom: 0;
@@ -213,13 +213,13 @@
   flex-shrink: 0;
 }
 
-/* ===== 涓婂崐灞忛瑙堟诞绐楋紙浠庡鑸爮涓嬫柟寮瑰嚭锛?===== */
+/* ===== 上半屏预览浮窗（从导航栏下方弹出） ===== */
 .top-preview {
   position: fixed;
   left: 0;
   right: 0;
   z-index: 1001;
-  /* top 鍜?height 鐢?inline style 鍔ㄦ€佽绠?*/
+  /* top 和 height 由 inline style 动态计算 */
   transform: translateY(-100%);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -243,7 +243,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  /* 纭繚椤堕儴娌℃湁闂撮殭 */
+  /* 确保顶部没有间隙 */
   margin-top: 0;
   padding-top: 0;
 }
@@ -298,7 +298,7 @@
   margin-top: 8rpx;
 }
 
-/* 鎸囩ず鐐?*/
+/* 指示点 */
 .swiper-dots {
   display: flex;
   justify-content: center;
@@ -317,7 +317,7 @@
   background: var(--primary-color);
 }
 
-/* ===== 涓嬪崐灞忓脊绐楁爣棰樻爮锛堝嵃绔犻€夋嫨 + 鍏抽棴锛?===== */
+/* ===== 下半屏弹窗标题栏（印章选择 + 关闭） ===== */
 .popup-header-row {
   display: flex;
   align-items: center;

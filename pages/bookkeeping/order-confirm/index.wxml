@@ -1,0 +1,80 @@
+<!-- pages/bookkeeping/order-confirm/index.wxml -->
+<view class="page">
+  <nav-bar title="确认订单" bind:back="goBack"></nav-bar>
+
+  <view class="content">
+    <!-- 订单信息卡片 -->
+    <view class="order-card">
+      <view class="card-title">订单信息</view>
+      <view class="info-row">
+        <text class="info-label">服务类型</text>
+        <text class="info-value">{{serviceName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">服务周期</text>
+        <text class="info-value">{{cycleName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">发票类型</text>
+        <text class="info-value">{{invoiceName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">社保缴纳</text>
+        <text class="info-value">{{socialName}}</text>
+      </view>
+      <view class="info-row" wx:if="{{taxpayerType === 'general'}}">
+        <text class="info-label">公积金</text>
+        <text class="info-value">{{fundName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">联系电话</text>
+        <text class="info-value">{{phone}}</text>
+      </view>
+    </view>
+
+    <!-- 价格明细卡片 -->
+    <view class="price-card">
+      <view class="card-title">费用明细</view>
+      <view class="price-row">
+        <text class="price-label">代理记账服务费</text>
+        <text class="price-value">¥{{price}}</text>
+      </view>
+      <view class="price-divider"></view>
+      <view class="price-total-row">
+        <text class="total-label">应付金额</text>
+        <text class="total-price">¥{{price}}</text>
+      </view>
+    </view>
+
+    <!-- 支付方式 -->
+    <view class="pay-card">
+      <view class="card-title">支付方式</view>
+      <view class="pay-way selected">
+        <image class="pay-icon" src="/assets/icons/icon-wxpay.svg" mode="aspectFit" />
+        <text class="pay-name">微信支付</text>
+        <view class="pay-check">✓</view>
+      </view>
+    </view>
+
+    <!-- 注意事项 -->
+    <view class="notice-card">
+      <view class="notice-title">注意事项</view>
+      <view class="notice-item">1. 付款成功后，客服将在24小时内与您联系</view>
+      <view class="notice-item">2. 请保持电话畅通，以便我们为您提供服务</view>
+      <view class="notice-item">3. 如需发票，请在付款后联系客服开具</view>
+    </view>
+  </view>
+
+  <!-- 底部支付栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-bar-inner">
+      <view class="total-info">
+        <text class="total-label">实付金额：</text>
+        <text class="total-price">¥{{price}}</text>
+      </view>
+      <view class="pay-btn" bindtap="onSubmitOrder">
+        <text>提交订单</text>
+      </view>
+    </view>
+  </view>
+</view>

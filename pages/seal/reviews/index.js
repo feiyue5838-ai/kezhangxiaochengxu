@@ -1,42 +1,63 @@
 // pages/seal/reviews/index.js
+const api = require('../../../utils/api.js');
+
 Page({
   data: {
-    reviewList: []
+    reviewList: [],
+    loading: true,
+    reviewableOrders: []
   },
+
   onLoad() {
     this.loadReviews();
   },
+
   onShow() {
-    // 每次显示页面时刷新可评价订单列表
     this.loadReviewableOrders();
   },
+
   goBack() {
     wx.navigateBack({ delta: 1 });
   },
-  loadReviews() {
-    // 模拟数据，后续可对接后端API
-    this.setData({
-      reviewList: [
-        { id: 1, maskedPhone: '138****6688', date: '2026-05-20', serviceScore: 5, qualityScore: 5, text: '刻章速度很快，当天就收到了，质量也很好，推荐！' },
-        { id: 2, maskedPhone: '159****2231', date: '2026-05-18', serviceScore: 5, qualityScore: 4, text: '客服态度很好，耐心解答了我的问题，刻章也很正规。' },
-        { id: 3, maskedPhone: '136****5512', date: '2026-05-15', serviceScore: 5, qualityScore: 5, text: '公司急需刻章，这里当天就办好了，非常满意！' },
-        { id: 4, maskedPhone: '186****3309', date: '2026-05-12', serviceScore: 4, qualityScore: 5, text: '印章质量不错，字迹清晰，价格也合理。' },
-        { id: 5, maskedPhone: '133****7712', date: '2026-05-10', serviceScore: 5, qualityScore: 5, text: '第二次在这里刻章了，一如既往的好，会继续支持！' }
-      ]
-    });
-  },
-  loadReviewableOrders() {
-    // 获取已完成的订单（未评价）
+
+  // 从 API 加载已审核通过的评价列表
+  async loadReviews() {
+    this.setData({ loading: true });
     try {
-      const orders = wx.getStorageSync('seal_orders') || [];
-      const reviewableOrders = orders.filter(o => o.status === 'completed');
-      this.setData({ reviewableOrders });
+      const res = await api.reviewList({ module: 'seal', limit: 50 });
+      // 适配后端返回格式
+      const list = Array.isArray(res) ? res : (res.items || res.list || []);
+      this.setData({
+        reviewList: list,
+        loading: false
+      });
     } catch (e) {
+      console.error('加载评价失败:', e);
+      this.setData({ loading: false });
+      wx.showToast({ title: '加载失败', icon: 'none' });
+    }
+  },
+
+  // 获取已完成订单（可评价）
+  async loadReviewableOrders() {
+    try {
+      const res = await api.getSealOrderList({ status: 5 }); // status=5 已完成
+      const orders = Array.isArray(res) ? res : (res.items || res.list || []);
+      // TODO: 过滤已评价的订单（需要后端返回 hasReviewed 字段）
+      this.setData({ reviewableOrders: orders });
+    } catch (e) {
+      console.error('加载订单失败:', e);
       this.setData({ reviewableOrders: [] });
     }
   },
-  goWriteReview() {
-    // 测试模式：直接跳转，使用固定测试订单ID
-    wx.navigateTo({ url: '/pages/seal/review-submit/index?orderId=TEST001' });
+
+  // 跳转到提交评价页面
+  goWriteReview(e) {
+    const orderId = e.currentTarget.dataset.id;
+    if (orderId) {
+      wx.navigateTo({ url: `/pages/seal/review-submit/index?orderId=${orderId}` });
+    } else {
+      wx.showToast({ title: '请选择订单', icon: 'none' });
+    }
   }
 });

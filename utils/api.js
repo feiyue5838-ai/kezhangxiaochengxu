@@ -779,6 +779,16 @@ module.exports = {
   /** 提交问题（需登录） */
   submitQuestion: (data) => request({ url: '/api/questions', method: 'POST', data }),
 
+  // ==================== 代理记账 ====================
+  /** 获取代理记账价格 */
+  getBookkeepingPrice: (params) =>
+    request({ url: '/api/bookkeeping/price?' + new URLSearchParams(params).toString() }),
+  /** 创建代理记账订单 */
+  createBookkeepingOrder: (data) => request({ url: '/api/bookkeeping/orders', method: 'POST', data }),
+  /** 获取代理记账订单支付参数 */
+  getBookkeepingPayParams: (orderId, data) =>
+    request({ url: '/api/bookkeeping/orders/' + orderId + '/pay-params', data }),
+
   /** API 基础地址（用于拼接图片等静态资源） */
   API_BASE: API_BASE,
 

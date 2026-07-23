@@ -35,6 +35,8 @@
     "pages/newspaper/form",
     "pages/seal/order-detail/index",
     "pages/bookkeeping/index",
+    "pages/bookkeeping/form/index",
+    "pages/bookkeeping/order-confirm/index",
     "pages/profile/index",
     "pages/webview/index",
     "pages/order/list/index",

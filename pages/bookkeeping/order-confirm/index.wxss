@@ -1,0 +1,201 @@
+/* pages/bookkeeping/order-confirm/index.wxss */
+
+.page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
+}
+
+.content {
+  padding: 20rpx 24rpx;
+}
+
+/* ===== 通用卡片 ===== */
+.order-card,
+.price-card,
+.pay-card,
+.notice-card {
+  background: var(--bg-white);
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 28rpx 30rpx 20rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+/* ===== 订单信息 ===== */
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 30rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: var(--text-regular);
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* ===== 价格明细 ===== */
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 30rpx;
+}
+
+.price-label {
+  font-size: 26rpx;
+  color: var(--text-regular);
+}
+
+.price-value {
+  font-size: 26rpx;
+  color: var(--text-primary);
+}
+
+.price-divider {
+  height: 1rpx;
+  background: var(--border-color);
+  margin: 0 30rpx;
+}
+
+.price-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 30rpx;
+}
+
+.total-label {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.total-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* ===== 支付方式 ===== */
+.pay-way {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 30rpx;
+  position: relative;
+}
+
+.pay-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 16rpx;
+}
+
+.pay-name {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.pay-check {
+  width: 36rpx;
+  height: 36rpx;
+  background: var(--primary-color);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== 注意事项 ===== */
+.notice-card {
+  padding: 0;
+}
+
+.notice-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 28rpx 30rpx 16rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.notice-item {
+  font-size: 24rpx;
+  color: var(--text-regular);
+  line-height: 1.8;
+  padding: 12rpx 30rpx;
+}
+
+/* ===== 底部支付栏 ===== */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-white);
+  box-shadow: 0 -2rpx 12rpx rgb(0 0 0 / 0.06);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+}
+
+.bottom-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+}
+
+.total-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.total-label {
+  font-size: 26rpx;
+  color: var(--text-regular);
+}
+
+.total-price {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240rpx;
+  height: 84rpx;
+  background: var(--primary-color);
+  border-radius: 42rpx;
+}
+
+.pay-btn text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #fff;
+}

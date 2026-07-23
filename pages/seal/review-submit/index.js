@@ -3,7 +3,8 @@ const api = require('../../../utils/api.js');
 
 Page({
   data: {
-    orderId: '', // 订单ID
+    orderId: '',
+    orderInfo: null,
     serviceScore: 0,
     qualityScore: 0,
     reviewText: '',
@@ -13,9 +14,20 @@ Page({
   onLoad(options) {
     if (options.orderId) {
       this.setData({ orderId: options.orderId });
+      this.loadOrderInfo(options.orderId);
     } else {
       wx.showToast({ title: '订单参数错误', icon: 'none' });
       setTimeout(() => wx.navigateBack(), 1500);
+    }
+  },
+
+  // 加载订单信息
+  async loadOrderInfo(orderId) {
+    try {
+      const order = await api.getSealOrderDetail(orderId);
+      this.setData({ orderInfo: order });
+    } catch (e) {
+      console.error('加载订单失败:', e);
     }
   },
 
@@ -35,11 +47,12 @@ Page({
     this.setData({ reviewText: e.detail.value });
   },
 
-  onSubmit() {
+  async onSubmit() {
     if (this.data.submitting) {
       wx.showToast({ title: '正在提交，请勿重复点击', icon: 'none' });
       return;
     }
+
     const { orderId, serviceScore, qualityScore, reviewText } = this.data;
     const trimmed = reviewText.trim();
 
@@ -62,13 +75,24 @@ Page({
 
     this.setData({ submitting: true });
 
-    // 测试模式：模拟提交成功
-    setTimeout(() => {
-      this.setData({ submitting: false });
+    try {
+      await api.submitReview({
+        orderId: orderId,
+        module: 'seal',
+        serviceScore: serviceScore,
+        qualityScore: qualityScore,
+        content: trimmed
+      });
+
       wx.showToast({ title: '评价提交成功！', icon: 'success' });
       setTimeout(() => {
         wx.navigateBack();
       }, 1500);
-    }, 1000);
+    } catch (e) {
+      console.error('提交评价失败:', e);
+      wx.showToast({ title: e.message || '提交失败', icon: 'none' });
+    } finally {
+      this.setData({ submitting: false });
+    }
   }
 });
