@@ -44,25 +44,27 @@ page {
 }
 
 .hero-label {
-  font-size: 22rpx;
-  color: rgb(255 255 255 / 0.85);
+  font-size: 24rpx;
+  color: rgb(255 255 255 / 0.9);
   font-weight: 600;
-  letter-spacing: 4rpx;
+  letter-spacing: 2rpx;
   display: block;
-  margin-bottom: 20rpx;
+  margin-bottom: 18rpx;
   position: relative;
   z-index: 1;
+  font-family: 'Helvetica Neue', 'PingFang SC', sans-serif;
 }
 
 .hero-title {
   font-size: 52rpx;
   color: #fff;
   font-weight: 700;
-  letter-spacing: 2rpx;
+  letter-spacing: 0rpx;
   line-height: 1.25;
   display: block;
   position: relative;
   z-index: 1;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 .hero-divider {
@@ -157,7 +159,7 @@ page {
 }
 
 .badge text {
-  font-size: 22rpx;
+  font-size: 24rpx;
   color: #fff;
   font-weight: 500;
   letter-spacing: 1rpx;
