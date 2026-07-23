@@ -91,29 +91,29 @@ page { background: #f5f6fa; }
 }
 .option-text { font-size: 28rpx; color: #4A4D5A; }
 .option-btn.active {
-  background: linear-gradient(135deg, #EEF2FF 0%, #F3EDFF 100%);
+  background: #EEF2FF;
   border: 2rpx solid #5B6FE8;
 }
 .option-btn.active .option-text { color: #5B6FE8; font-weight: 600; }
 .option-check {
   position: absolute;
-  top: -4rpx;
-  right: -4rpx;
-  width: 40rpx;
-  height: 40rpx;
+  top: 0;
+  right: 0;
+  width: 36rpx;
+  height: 36rpx;
   background: #5B6FE8;
-  border-radius: 0 12rpx 0 20rpx;
+  border-radius: 0 10rpx 0 12rpx;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .option-check::after {
-  content: '✓';
-  font-size: 22rpx;
-  color: #fff;
-  font-weight: bold;
-  line-height: 1;
-  margin-top: -4rpx;
+  content: '';
+  width: 14rpx;
+  height: 7rpx;
+  border-left: 4rpx solid #fff;
+  border-bottom: 4rpx solid #fff;
+  transform: rotate(-45deg) translate(2rpx, -2rpx);
 }
 
 .phone-row { display: flex; align-items: center; gap: 16rpx; }
