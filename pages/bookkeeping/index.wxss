@@ -281,12 +281,12 @@ page {
   right: 0;
   bottom: 0;
   background: #fff;
-  padding: 20rpx 36rpx;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid #EAEAF4;
+  padding: 16rpx 36rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 -4rpx 20rpx rgb(0 0 0 / 0.05);
   z-index: 100;
 }
 .total-info { display: flex; align-items: baseline; }
