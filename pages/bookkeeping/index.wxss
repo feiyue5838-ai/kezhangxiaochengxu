@@ -290,9 +290,7 @@ page {
   z-index: 100;
 }
 .total-info { display: flex; align-items: baseline; }
-.total-label { font-size: 28rpx; color: #1A202C; }
-.total-price { font-size: 28rpx; color: #5B6FE8; margin-left: 8rpx; font-weight: 700; }
-.total-price-big {
+.total-price {
   font-size: 48rpx;
   color: #5B6FE8;
   font-weight: 700;
