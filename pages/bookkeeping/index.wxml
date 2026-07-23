@@ -6,6 +6,10 @@
   <view class="hero">
     <view class="hero-glow-1"></view>
     <view class="hero-glow-2"></view>
+    <view class="hero-deco">
+      <view class="hero-deco-circle"></view>
+      <view class="hero-deco-lines"></view>
+    </view>
 
     <text class="hero-label">TAX & ACCOUNTING SERVICE</text>
     <text class="hero-title">专业代理记账</text>
@@ -136,6 +140,7 @@
 <!-- 底部悬浮结算栏 -->
 <view class="bottom-bar">
   <view class="total-info">
+    <text class="total-label">应付</text>
     <text class="total-price">¥{{price}}</text>
   </view>
   <view class="pay-btn {{payDisabled ? 'disabled' : ''}}" bindtap="onPay">
