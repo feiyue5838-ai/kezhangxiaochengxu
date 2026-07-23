@@ -4,11 +4,11 @@ const common = require('../../utils/common.js');
 
 Page({
   data: {
-    taxpayerType: 'small',
-    cycle: 'year',
-    invoice: 'none',
-    social: 'none',
-    fund: 'none',
+    taxpayerType: '',
+    cycle: '',
+    invoice: '',
+    social: '',
+    fund: '',
     phone: '',
     price: '--',
     payDisabled: true,
@@ -20,7 +20,6 @@ Page({
     if (userInfo && userInfo.phone) {
       this.setData({ phone: userInfo.phone });
     }
-    this.fetchPrice();
   },
 
   onShow() {
@@ -117,8 +116,13 @@ Page({
 
   onPay() {
     if (this.data.payDisabled) return;
+    const { taxpayerType, cycle, invoice, social, fund } = this.data;
+    if (!taxpayerType) { wx.showToast({ title: '请选择企业类型', icon: 'none' }); return; }
+    if (!cycle) { wx.showToast({ title: '请选择服务周期', icon: 'none' }); return; }
+    if (!invoice) { wx.showToast({ title: '请选择开票需求', icon: 'none' }); return; }
+    if (!social) { wx.showToast({ title: '请选择社保缴纳', icon: 'none' }); return; }
     if (!this.validatePhone()) return;
-    const { taxpayerType, cycle, invoice, social, fund, phone, price } = this.data;
+    const { phone, price } = this.data;
     wx.navigateTo({
       url: `/pages/bookkeeping/order-confirm/index?taxpayerType=${taxpayerType}&cycle=${cycle}&invoice=${invoice}&social=${social}&fund=${fund}&phone=${phone}&price=${price}`
     });
