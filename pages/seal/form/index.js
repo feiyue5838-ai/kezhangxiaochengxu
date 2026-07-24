@@ -26,7 +26,17 @@ Page({
     isElectronic: false,
     selectedElectronicSeal: '',
     selectedElectronicSealName: '',
-    electronicSeals: [{ id: 'e1', name: '财务章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e2', name: '公章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e3', name: '合同章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e4', name: '法人章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e5', name: '发票章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e6', name: '个人签名章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' },{ id: 'e7', name: '其他印章', categoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' }],
+    _allElectronicSeals: [],
+    _allElectronicPackages: [],
+    electronicSeals: [
+      { id: 'e1', name: '公章', subCategoryId: 'e4039545-cd0e-41a3-8596-19651a546690' },
+      { id: 'e2', name: '财务章', subCategoryId: '202cce9c-e291-47a5-a4fa-6cdd30f5e066' },
+      { id: 'e3', name: '合同章', subCategoryId: 'cd0ec952-66b0-4101-8c30-95f3a0b9e450' },
+      { id: 'e4', name: '法人章', subCategoryId: '815fc362-b3d2-4bd0-8405-5c965e540eac' },
+      { id: 'e5', name: '发票章', subCategoryId: '4c735b54-5e97-4b7f-9be3-ef8b5444e3a6' },
+      { id: 'e6', name: '个人签名章', subCategoryId: '045b2619-095b-4ea1-85cb-4d1820713992' },
+      { id: 'e7', name: '其他印章', subCategoryId: '34d0bb80-72bc-4132-be59-ef62592fe29d' }
+    ],
     selectedElectronicCategory: '',
     popupTitle: '',
     // 地区选择器
@@ -69,6 +79,11 @@ Page({
     // 刻章备案查询模式：从 API 加载34个省份数据
     if (isQuery) {
       this._loadProvinces();
+    }
+
+    // 电子印章模式：预加载全部电子印章数据
+    if (isElectronic) {
+      this._loadElectronicSeals();
     }
   },
 
@@ -240,6 +255,21 @@ Page({
     }
   },
 
+  // 电子印章模式：预加载全部电子印章数据
+  _loadElectronicSeals() {
+    const sceneId = '1e3aaa8c-3318-4651-a141-924ab84aa2e0';
+    api.getSealSceneProducts(sceneId).then(res => {
+      if (res && res.seals) {
+        this.setData({
+          _allElectronicSeals: res.seals,
+          _allElectronicPackages: res.packages || []
+        });
+      }
+    }).catch(err => {
+      console.error('加载电子印章失败:', err);
+    });
+  },
+
   // ========== 备案查询模式 ==========
 
   // 省份 picker 选择
@@ -259,17 +289,25 @@ Page({
     });
   },
 
-  // 电子印章:选择印章类型(改为弹窗选择)
+  // 电子印章:选择印章类型(预加载数据后按子分类过滤弹窗)
   onElectronicSealSelect(e) {
-    const { id, name, category } = e.currentTarget.dataset;
+    const { id, name, subcategoryid } = e.currentTarget.dataset;
+    const allSeals = this.data._allElectronicSeals;
+    if (!allSeals || allSeals.length === 0) {
+      wx.showToast({ title: '加载中，请稍候', icon: 'none' });
+      return;
+    }
     this.setData({
       selectedElectronicSeal: id,
       selectedElectronicSealName: name,
       selectedElectronicCategory: id,
       popupTitle: name
     });
-    // 打开半屏弹窗
-    this.selectComponent('#sealPopup').openWithCategory(category);
+    // 按子分类过滤印章（subCategoryId=null => 无分类的印章）
+    const filtered = allSeals.filter(s =>
+      subcategoryid ? s.categoryId === subcategoryid : !s.categoryId
+    );
+    this.selectComponent('#sealPopup').openWithData(filtered, this.data._allElectronicPackages);
   },
 
   // 电子印章:提交并跳转

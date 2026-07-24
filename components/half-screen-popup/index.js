@@ -151,6 +151,47 @@ Component({
       this._loadAndOpen(catId, '');
     },
 
+    // 打开弹窗并使用预加载数据（form 页面电子印章用，避免二次 API 调用）
+    openWithData(seals, packages) {
+      wx.hideLoading();
+      const mapSeal = s => ({
+        id: s.id,
+        name: s.name,
+        img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
+        price: Number(s.price),
+        description: s.description || '',
+        categoryName: (s.category && s.category.name) || '',
+      });
+      const mapPackage = p => ({
+        id: p.id,
+        name: p.name,
+        badge: p.badge || '',
+        price: Number(p.price),
+        seals: (p.seals || []).map(s => s.id),
+        sealNames: (p.seals || []).map(s => s.name).join('、'),
+        categoryName: (p.category && p.category.name) || '',
+      });
+
+      const apiSeals = (seals || []).map(mapSeal);
+      const apiPackages = (packages || []).map(mapPackage);
+
+      this.setData({
+        singleSeals: apiSeals,
+        packages: apiPackages,
+        filteredSingleSeals: apiSeals.map(s => ({ ...s, selected: false })),
+        filteredPackages: apiPackages.map(p => ({ ...p, selected: false })),
+        selectedIds: [],
+        selectedSealImg: '',
+        selectedSealName: '',
+        selectedSealDesc: '',
+        previewSeals: [],
+        previewCurrent: 0,
+        currentCategoryId: '1e3aaa8c-3318-4651-a141-924ab84aa2e0',
+        visible: true,
+      });
+      setTimeout(() => { this.setData({ show: true }); }, 30);
+    },
+
     // 打开弹窗并从 API 加载业务场景下的印章和套餐（select 页面用）
     openWithScene(sceneId) {
       this._loadAndOpen(sceneId, '');

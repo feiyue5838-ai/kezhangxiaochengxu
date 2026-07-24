@@ -82,7 +82,7 @@
         bindtap="onElectronicSealSelect"
         data-id="{{item.id}}"
         data-name="{{item.name}}"
-        data-category="{{item.categoryId}}"
+        data-subcategoryid="{{item.subCategoryId}}"
       >
         <text class="seal-grid-item-text">{{item.name}}</text>
         <view class="seal-check" wx:if="{{selectedElectronicCategory === item.id}}">
