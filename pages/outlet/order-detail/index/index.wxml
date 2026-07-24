@@ -58,7 +58,7 @@
 
     <!-- 操作按钮（根据状态显示） -->
     <view class="actions">
-      <!-- 待接单：status=2 -->
+      <!-- 已支付待接单：sealOrder.status=2 -->
       <button
         wx:if="{{order.status === 2}}"
         class="btn-primary"
