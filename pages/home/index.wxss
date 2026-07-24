@@ -161,7 +161,7 @@ page {
   padding: 40rpx 0 28rpx;
   width: 30%;
   box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.06),
-              0 8rpx 32rpx rgb(91 111 232 / 0.08);
+              0 8rpx 32rpx rgb(167 139 250 / 0.10);
   position: relative;
   transition: transform 0.35s var(--ease-out-quart),
               box-shadow 0.35s var(--ease-out-quart);
@@ -194,8 +194,8 @@ page {
   transform: scale(0.96);
   transition: transform 0.25s cubic-bezier(0.25,1,0.5,1),
               box-shadow 0.25s cubic-bezier(0.25,1,0.5,1);
-  box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.1),
-              0 12rpx 40rpx rgb(91 111 232 / 0.18);
+  box-shadow: 0 2rpx 8rpx rgb(91 111 232 / 0.10),
+              0 12rpx 40rpx rgb(167 139 250 / 0.18);
 }
 
 .svc-icon {
@@ -232,7 +232,8 @@ page {
   margin: 28rpx 32rpx;
   border-radius: 28rpx;
   padding: 36rpx;
-  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.06);
+  box-shadow: 0 4rpx 16rpx rgb(91 111 232 / 0.06),
+              0 2rpx 8rpx rgb(167 139 250 / 0.08);
 }
 
 .section-hd {
@@ -421,7 +422,8 @@ page {
   background: var(--bg-white);
   border-radius: 20rpx;
   padding: 24rpx 12rpx;
-  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.05);
+  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.05),
+              0 1rpx 6rpx rgb(167 139 250 / 0.06);
   transition: transform 0.25s var(--ease-out-quart),
               box-shadow 0.25s var(--ease-out-quart);
 }

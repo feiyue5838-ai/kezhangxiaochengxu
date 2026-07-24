@@ -37,6 +37,7 @@
     "pages/bookkeeping/index",
     "pages/bookkeeping/form/index",
     "pages/bookkeeping/order-confirm/index",
+    "pages/bookkeeping/order-detail/index",
     "pages/profile/index",
     "pages/webview/index",
     "pages/order/list/index",

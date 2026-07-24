@@ -785,9 +785,15 @@ module.exports = {
     request({ url: '/api/bookkeeping/price?' + Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&') }),
   /** 创建代理记账订单 */
   createBookkeepingOrder: (data) => request({ url: '/api/bookkeeping/orders', method: 'POST', data }),
-  /** 获取代理记账订单支付参数 */
-  getBookkeepingPayParams: (orderId, data) =>
-    request({ url: '/api/bookkeeping/orders/' + orderId + '/pay-params', data }),
+  /** 代理记账订单列表 */
+  getBookkeepingOrderList: (params) => request({ url: '/api/orders', data: { module: 'bookkeeping', ...params } }),
+  /** 代理记账订单详情 */
+  getBookkeepingOrderDetail: (id) => request({ url: '/api/orders/' + id }),
+  /** 取消代理记账订单 */
+  cancelBookkeepingOrder: (id) => request({ url: '/api/orders/' + id + '/cancel', method: 'POST' }),
+  /** 获取代理记账订单支付参数（POST） */
+  getBookkeepingPayParams: (orderId, openid) =>
+    request({ url: '/api/bookkeeping/orders/' + orderId + '/pay-params', method: 'POST', data: { openid: openid || '' } }),
 
   /** API 基础地址（用于拼接图片等静态资源） */
   API_BASE: API_BASE,

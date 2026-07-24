@@ -1,4 +1,5 @@
 const common = require('../../utils/common.js');
+const api = require('../../utils/api.js');
 
 Page({
   data: {
@@ -32,10 +33,11 @@ Page({
     this.refreshOrderCounts();
   },
 
-  // 从Storage统计各状态订单数
+  // 从Storage统计各状态订单数（含后端代理记账订单）
   refreshOrderCounts() {
     const statusIdx = { pending: 0, processing: 1, completed: 2, refund: 3 };
     const counts = [0, 0, 0, 0];
+    const bkStatusMap = { 1: 'pending', 2: 'processing', 3: 'processing', 4: 'completed', 5: 'completed', 6: 'cancelled', 7: 'refund', 8: 'refund' };
     const collect = (orders) => {
       if (!Array.isArray(orders)) return;
       orders.forEach(o => {
@@ -57,6 +59,22 @@ Page({
       'orderTypes[2].count': counts[2],
       'orderTypes[3].count': counts[3]
     });
+    // 补充代理记账订单统计（后端）
+    api.getBookkeepingOrderList({ pageSize: 200 }).then(res => {
+      const list = (res && res.list) || [];
+      const c = [0, 0, 0, 0];
+      list.forEach(o => {
+        const s = bkStatusMap[o.status] || 'pending';
+        if (s === 'refund') c[3]++;
+        else { const idx = statusIdx[s]; if (idx !== undefined) c[idx]++; }
+      });
+      this.setData({
+        'orderTypes[0].count': counts[0] + c[0],
+        'orderTypes[1].count': counts[1] + c[1],
+        'orderTypes[2].count': counts[2] + c[2],
+        'orderTypes[3].count': counts[3] + c[3]
+      });
+    }).catch(() => {});
   },
 
   // 点击订单统计 → 跳转到订单列表并筛选对应状态

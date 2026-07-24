@@ -10,7 +10,6 @@ page {
 .page {
   background: transparent;
   min-height: 100vh;
-  padding-bottom: 160rpx;
   box-sizing: border-box;
 }
 
@@ -207,7 +206,7 @@ page {
   pointer-events: none;
 }
 
-.form-section { padding: 32rpx 36rpx; }
+.form-section { padding: 28rpx 36rpx; display: block; clear: both; }
 
 .section-label {
   font-size: 30rpx;
@@ -231,15 +230,15 @@ page {
 .section-divider {
   height: 1rpx;
   background: linear-gradient(90deg, transparent, #EAEAF4 30%, #EAEAF4 70%, transparent);
-  margin: 4rpx -36rpx 0;
+  margin: 24rpx 0 0;
 }
 
 .option-row { display: flex; flex-wrap: wrap; gap: 20rpx; }
 .option-row.cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16rpx; }
 .option-row.cols-3 .option-btn { min-width: 0; padding: 20rpx 8rpx; }
 .option-row.cols-3 .option-text { font-size: 26rpx; }
-.option-row.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16rpx; }
-.option-row.cols-2 .option-btn { min-width: 0; padding: 22rpx 8rpx; }
+.option-row.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16rpx; justify-items: stretch; }
+.option-row.cols-2 .option-btn { min-width: 0; padding: 22rpx 8rpx; width: 100%; box-sizing: border-box; }
 
 .option-btn {
   position: relative;
@@ -255,9 +254,9 @@ page {
 }
 .option-text { font-size: 28rpx; color: #4A4D5A; transition: all 0.2s; }
 .option-btn.active {
-  background: linear-gradient(135deg, #5B6FE8, #7B6CE8);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-color: transparent;
-  box-shadow: 0 6rpx 20rpx rgb(91 111 232 / 0.35);
+  box-shadow: 0 6rpx 20rpx rgb(167 139 250 / 0.40);
 }
 .option-btn.active .option-text { color: #fff; font-weight: 600; }
 .option-btn::before {
@@ -282,10 +281,12 @@ page {
   transform: scale(0.94);
 }
 
-.phone-row { display: flex; align-items: center; gap: 16rpx; }
+.phone-row { display: flex; align-items: center; gap: 16rpx; margin-top: 28rpx; min-height: 80rpx; width: 100%; box-sizing: border-box; }
 .phone-input {
   flex: 1;
-  height: 80rpx;
+  height: 88rpx;
+  min-height: 88rpx;
+  line-height: 88rpx;
   padding: 0 24rpx;
   background: #F5F6FA;
   border: 2rpx solid #E8E9EE;
@@ -293,6 +294,7 @@ page {
   font-size: 28rpx;
   color: #1A1D26;
   box-sizing: border-box;
+  display: block;
 }
 .contact-btn {
   width: 80rpx;
@@ -315,20 +317,20 @@ page {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -8rpx;
   background: rgba(255 255 255 / 0.96);
   backdrop-filter: blur(20rpx);
   -webkit-backdrop-filter: blur(20rpx);
   border-top: 1rpx solid rgba(234 234 244 / 0.8);
-  padding: 20rpx 36rpx;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  padding: 18rpx 36rpx;
+  padding-bottom: calc(18rpx + env(safe-area-inset-bottom));
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   z-index: 100;
   box-shadow: 0 -8rpx 32rpx rgb(91 111 232 / 0.06);
 }
-.total-info { display: flex; align-items: baseline; }
+.total-info { display: flex; align-items: flex-end; }
 .total-label {
   font-size: 24rpx;
   color: #8A8D9A;
@@ -345,7 +347,7 @@ page {
   color: transparent;
 }
 .pay-btn {
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B6CE8 100%);
+  background: linear-gradient(135deg, #5B6FE8 0%, #A78BFA 100%);
   color: #fff;
   font-size: 30rpx;
   font-weight: 500;
@@ -353,7 +355,7 @@ page {
   border-radius: 40rpx;
   border: none;
   line-height: 1;
-  box-shadow: 0 6rpx 20rpx rgb(91 111 232 / 0.35);
+  box-shadow: 0 6rpx 20rpx rgb(167 139 250 / 0.40);
   transition: all 0.2s;
 }
 .pay-btn text { font-size: 30rpx; font-weight: 500; color: #fff; }

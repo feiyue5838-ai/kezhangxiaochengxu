@@ -77,7 +77,9 @@ Page({
       const orderId = order.id || order.orderId;
 
       // 2. 获取支付参数
-      const payRes = await api.getBookkeepingPayParams(orderId);
+      const app = getApp();
+      const openid = (app && app.globalData && app.globalData.openid) || '';
+      const payRes = await api.getBookkeepingPayParams(orderId, openid);
 
       // 3. 发起微信支付
       await this._wxPay(payRes);

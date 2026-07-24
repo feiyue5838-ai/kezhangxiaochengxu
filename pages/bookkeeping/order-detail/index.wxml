@@ -1,0 +1,73 @@
+<view class="page">
+  <nav-bar title="订单详情" bind:back="goBack" />
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 订单不存在 -->
+  <view class="empty-wrap" wx:elif="{{!order}}">
+    <text class="empty-text">订单不存在或已被删除</text>
+    <button class="back-btn" bindtap="goBack">返回</button>
+  </view>
+
+  <!-- 订单详情 -->
+  <block wx:else>
+    <view class="status-card {{order.statusClass}}">
+      <image class="status-icon" src="{{order.statusIconSvg}}" mode="aspectFit" />
+      <text class="status-text">{{order.statusText}}</text>
+    </view>
+
+    <view class="info-card">
+      <view class="info-title">订单信息</view>
+      <view class="info-row">
+        <text class="info-label">订单编号</text>
+        <text class="info-value">{{order.orderNo}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">服务类型</text>
+        <text class="info-value">{{order.taxpayerType}}代理记账</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">服务周期</text>
+        <text class="info-value">{{order.cycle}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">开票需求</text>
+        <text class="info-value">{{order.invoice}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">社保服务</text>
+        <text class="info-value">{{order.social}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.fund !== '—'}}">
+        <text class="info-label">公积金</text>
+        <text class="info-value">{{order.fund}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.phone}}">
+        <text class="info-label">联系电话</text>
+        <text class="info-value">{{order.phone}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">提交时间</text>
+        <text class="info-value">{{order.date}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">订单金额</text>
+        <text class="info-value price">¥{{order.price}}</text>
+      </view>
+    </view>
+
+    <view class="bottom-bar" wx:if="{{order.status === 1}}">
+      <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>
+      <button class="pay-btn" bindtap="payOrder">立即支付</button>
+    </view>
+    <view class="bottom-bar" wx:elif="{{order.status === 2}}">
+      <button class="cancel-btn" bindtap="cancelOrder">申请退款</button>
+    </view>
+    <view class="bottom-tip" wx:else>
+      <text class="tip-text">订单状态由平台处理，如有疑问请联系客服</text>
+    </view>
+  </block>
+</view>

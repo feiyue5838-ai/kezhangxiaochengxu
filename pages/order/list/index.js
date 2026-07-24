@@ -101,70 +101,80 @@ Page({
     this.filterList();
   },
 
-  // 从本地存储加载登报订单（刻章走 API，Storage 仅兜底未支付的本地单）
-  loadOrders: function () {
+  // 加载订单：本地登报/刻章兜底 + 后端真实订单（含代理记账）
+  loadOrders: async function () {
     this.setData({ loading: true });
     const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
     const localSealOrders = wx.getStorageSync('seal_orders') || [];
-    // API 拉真实刻章订单列表（module=seal）
-    api.getSealOrderList({ pageSize: 200 })
-      .then(res => {
-        // 合并策略：API 数据为主；localStorage 中 id 以 SEAL_ 开头的是未支付本地单，保留兜底
-        const apiOrders = (res && res.list) ? res.list.map(o => {
-          const strStatus = sealStatusMap[o.status] || 'pending';
-          return {
-            id: o.id,
-            module: 'seal',
-            type: '在线刻章',
-            desc: o.orderItems && o.orderItems.length > 0
-              ? o.orderItems.map(i => i.seal ? i.seal.name : '').filter(Boolean).join('、')
-              : (o.companyName || ''),
-            date: o.createdAt ? o.createdAt.split('T')[0] : '',
-            createTime: o.createdAt ? o.createdAt.replace('T', ' ').substring(0, 16) : '',
-            status: strStatus,
-            statusText: o.statusText || statusText(strStatus),
-            statusClass: strStatus,
-            price: Number(o.totalPrice) || 0,
-            url: '/pages/seal/order-detail/index?id=' + o.id
-          };
-        }) : [];
-        // localStorage 中 id 含 SEAL_（本地创建未支付）保留兜底；其余以 API 为准
-        const localPendingSeal = localSealOrders.filter(o => String(o.id).startsWith('SEAL_'));
-        // API 有数据则覆盖同名 id（以防同一订单在 Storage 和 API 都有）
-        const seen = new Set(apiOrders.map(o => o.id));
-        const mergedSealOrders = [
-          ...localPendingSeal,
-          ...apiOrders,
-          ...localSealOrders.filter(o => !seen.has(o.id) && !String(o.id).startsWith('SEAL_'))
-        ];
-        const all = [
-          ...normalize(newspaperOrders, 'newspaper'),
-          ...mergedSealOrders
-        ];
-        all.sort((a, b) => {
-          const da = a.date || '';
-          const db = b.date || '';
-          return db.localeCompare(da);
-        });
-        this.setData({ allList: all });
-        this.filterList();
-        this.setData({ loading: false });
-      })
-      .catch(() => {
-        // API 失败时以本地存储为兜底（保留原有行为）
-        const all = [
-          ...normalize(newspaperOrders, 'newspaper'),
-          ...normalize(localSealOrders, 'seal')
-        ];
-        all.sort((a, b) => {
-          const da = a.date || '';
-          const db = b.date || '';
-          return db.localeCompare(da);
-        });
-        this.setData({ allList: all });
-        this.filterList();
-        this.setData({ loading: false });
-      });
+    let all = [];
+    try {
+      const res = await api.getSealOrderList({ pageSize: 200 });
+      const apiOrders = (res && res.list) ? res.list.map(o => {
+        const strStatus = sealStatusMap[o.status] || 'pending';
+        return {
+          id: o.id,
+          module: 'seal',
+          type: '在线刻章',
+          desc: o.orderItems && o.orderItems.length > 0
+            ? o.orderItems.map(i => i.seal ? i.seal.name : '').filter(Boolean).join('、')
+            : (o.companyName || ''),
+          date: o.createdAt ? o.createdAt.split('T')[0] : '',
+          createTime: o.createdAt ? o.createdAt.replace('T', ' ').substring(0, 16) : '',
+          status: strStatus,
+          statusText: o.statusText || statusText(strStatus),
+          statusClass: strStatus,
+          price: Number(o.totalPrice) || 0,
+          url: '/pages/seal/order-detail/index?id=' + o.id
+        };
+      }) : [];
+      const localPendingSeal = localSealOrders.filter(o => String(o.id).startsWith('SEAL_'));
+      const seen = new Set(apiOrders.map(o => o.id));
+      const mergedSealOrders = [
+        ...localPendingSeal,
+        ...apiOrders,
+        ...localSealOrders.filter(o => !seen.has(o.id) && !String(o.id).startsWith('SEAL_'))
+      ];
+      all = [
+        ...normalize(newspaperOrders, 'newspaper'),
+        ...mergedSealOrders
+      ];
+    } catch (e) {
+      all = [
+        ...normalize(newspaperOrders, 'newspaper'),
+        ...normalize(localSealOrders, 'seal')
+      ];
+    }
+    // 拉取代理记账订单（后端，module=bookkeeping）
+    try {
+      const bkRes = await api.getBookkeepingOrderList({ pageSize: 200 });
+      const bkOrders = (bkRes && bkRes.list) ? bkRes.list.map(o => {
+        const strStatus = sealStatusMap[o.status] || 'pending';
+        return {
+          id: o.id,
+          module: 'bookkeeping',
+          type: '代理记账',
+          desc: '专业财税服务',
+          date: o.createdAt ? o.createdAt.split('T')[0] : '',
+          createTime: o.createdAt ? o.createdAt.replace('T', ' ').substring(0, 16) : '',
+          status: strStatus,
+          statusText: o.statusText || statusText(strStatus),
+          statusClass: strStatus,
+          price: Number(o.totalPrice) || 0,
+          url: '/pages/bookkeeping/order-detail/index?id=' + o.id
+        };
+      }) : [];
+      all.push(...bkOrders);
+    } catch (e) {
+      console.error('loadBookkeepingOrders error', e);
+    }
+    all.sort((a, b) => {
+      const da = a.date || '';
+      const db = b.date || '';
+      return db.localeCompare(da);
+    });
+    this.setData({ allList: all });
+    this.filterList();
+    this.setData({ loading: false });
   },
 
   // 根据当前 Tab 过滤列表
@@ -192,6 +202,8 @@ Page({
     const module = e.currentTarget.dataset.module || 'newspaper';
     if (module === 'seal') {
       wx.navigateTo({ url: '/pages/seal/order-detail/index?id=' + id });
+    } else if (module === 'bookkeeping') {
+      wx.navigateTo({ url: '/pages/bookkeeping/order-detail/index?id=' + id });
     } else {
       wx.navigateTo({ url: '/pages/newspaper/order-detail?id=' + id });
     }
