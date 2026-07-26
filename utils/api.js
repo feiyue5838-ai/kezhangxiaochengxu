@@ -218,7 +218,7 @@ module.exports = {
 
   // 印章分类 ?GET /api/seals/categories
 
-  getSealCategories: () => request({ url: '/api/seals/categories' }),
+  getSealCategories: (region) => request({ url: '/api/seals/categories', data: region ? { region } : {} }),
 
   // 印章列表 ?GET /api/seals
 
@@ -226,15 +226,18 @@ module.exports = {
 
   // 印章套餐 ?GET /api/seals/packages
 
-  getSealPackages: (params) => request({ url: '/api/seals/packages', data: params }),
+  getSealPackages: (region) => request({ url: '/api/seals/packages', data: region ? { region } : {} }),
 
   // 印章业务场景（统一?categories 接口??GET /api/seals/categories
 
-  getSealScenes: () => request({ url: '/api/seals/categories' }),
+  getSealScenes: () => request({ url: '/api/seals/scenes' }),
 
-  // 分类下的印章+套餐 ?GET /api/seals/categories/:id
+  // 业务场景下的印章+套餐 GET /api/seals/scenes/:id
 
-  getSealSceneProducts: (sceneId) => request({ url: `/api/seals/categories/${sceneId}` }),
+  getSealSceneProducts: (sceneId, region) => {
+    const url = `/api/seals/scenes/${sceneId}` + (region ? '?region=' + encodeURIComponent(region) : '');
+    return request({ url, data: {} });
+  },
 
   // 创建刻章订单 ?POST /api/orders/seal
 

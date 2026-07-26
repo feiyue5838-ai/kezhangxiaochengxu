@@ -559,10 +559,13 @@ Page({
         ...(this.data.professionalSeals || []),
       ];
       const sealMap = new Map(allSeals.map(s => [s.id, s]));
-      items = selectedIds.map(id => {
+      const names = selectedData.names || [];
+      items = selectedIds.map((id, idx) => {
         const s = sealMap.get(id);
-        return s ? { itemType: 'seal', name: s.name, price: s.price, quantity: 1 } : null;
-      }).filter(Boolean);
+        if (s) return { itemType: 'seal', sealId: id, name: s.name, price: s.price, quantity: 1 };
+        // sealMap 无数据时（如个人印章从 form 页跳转），用 names 回退
+        return { itemType: 'seal', sealId: id, name: names[idx] || id, price: 0, quantity: 1 };
+      });
     }
 
     // 收集订单数据

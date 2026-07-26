@@ -8,13 +8,17 @@ Page({
     pageTitle: '自选刻章',
     scenes: [],        // 业务场景列表（从 API 加载）
     loading: true,
+    licenseRegion: '',
   },
 
   onLoad(options) {
     if (options.type) {
       this.setData({ selectedId: Number(options.type) });
     }
-    this.setData({ pageTitle: '自选刻章' });
+    // 从 Storage 读取 form 页面透传的签发地（省份+城市）
+    const formData = wx.getStorageSync('sealFormData') || {};
+    const region = [formData.province || '', formData.city || ''].filter(Boolean).join('');
+    this.setData({ pageTitle: '自选刻章', licenseRegion: region });
     this._loadScenes();
   },
 
@@ -83,14 +87,14 @@ Page({
         sealId: singleSeals.find(s => s.id === id) ? id : null,
         packageId: packages.find(p => p.id === id) ? id : null,
         name: item.name,
-        price: item.price || 0,
+        price: item.displayPrice ?? item.price || 0,
         quantity: 1,
       };
     }).filter(Boolean);
 
-    // 计算总价（取套餐价格 OR 印章单价）
+    // 计算总价（优先用 displayPrice，否则用 price）
     const totalPrice = items.reduce((sum, item) => {
-      return sum + (item.price || 0) * (item.quantity || 1);
+      return sum + (item.displayPrice ?? item.price || 0) * (item.quantity || 1);
     }, 0);
 
     // 存入 Storage，供 order-confirm 页面使用

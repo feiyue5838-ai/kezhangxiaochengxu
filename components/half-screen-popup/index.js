@@ -9,7 +9,19 @@ Component({
   properties: {
     title: { type: String, value: '个体户' },
     // 来源页面导航栏标题，用于弹窗顶部导航显示（如"个人印章"）
-    sourceTitle: { type: String, value: '印章预览' }
+    sourceTitle: { type: String, value: '印章预览' },
+    // 许可证签发地省份/城市，用于按城市 tier 显示差异价格（displayPrice）
+    licenseRegion: {
+      type: String,
+      value: '',
+      observer(newVal) {
+        this.setData({ _licenseRegion: newVal });
+        // 如果弹窗已打开，自动重载数据以刷新 displayPrice
+        if (this.data.visible) {
+          this._loadAndOpen(this.data.currentCategoryId, '');
+        }
+      }
+    }
   },
 
   data: {
@@ -37,6 +49,9 @@ Component({
 
     // 当前业务类型ID，0=全部
     currentCategoryId: 0,
+
+    // 许可证签发地（透给 API 用于 tier 价格计算）
+    _licenseRegion: '',
   },
 
   lifetimes: {
@@ -88,21 +103,22 @@ Component({
     // 从 API 加载印章和套餐，并更新组件内部数据
     _loadAndOpen(categoryId, sceneName) {
       wx.showLoading({ title: '加载中...', mask: true });
-      api.getSealSceneProducts(categoryId).then(res => {
+      api.getSealSceneProducts(categoryId, this.data._licenseRegion).then(res => {
         wx.hideLoading();
         if (!res || (!res.seals && !res.packages)) {
           wx.showToast({ title: '加载失败', icon: 'none' });
           return;
         }
-        // 映射印章数据
+        // 映射印章数据（displayPrice 由后端按 licenseRegion tier 计算）
         const apiSeals = (res.seals || []).map(s => ({
           id: s.id,
           name: s.name,
           // 印章图片：后端返回相对路径 /uploads/seals/xxx，需拼 API_BASE 才能在小程序加载
           img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
           price: Number(s.price),
+          displayPrice: Number(s.displayPrice),
           description: s.description || '',
-          categoryName: (s.category && s.category.name) || '',
+          categoryName: (s.seal_categories && s.seal_categories.name) || '',
         }));
         // 映射套餐数据
         const apiPackages = (res.packages || []).map(p => ({
@@ -110,14 +126,21 @@ Component({
           name: p.name,
           badge: p.badge || '',
           price: Number(p.price),
+          displayPrice: Number(p.displayPrice),
           // 套餐内印章预览：存 UUID 列表（供 _updatePreview 查找名称/图片）
           seals: (p.seals || []).map(s => s.id),
           sealNames: (p.seals || []).map(s => s.name).join('、'),
-          categoryName: (p.category && p.category.name) || '',
+          categoryName: (p.seal_categories && p.seal_categories.name) || '',
         }));
 
-        const allSeals = apiSeals;
-        const allPackages = apiPackages;
+        // 如果传了 filterSealId，只保留匹配的印章，清空套餐
+        let allSeals = apiSeals;
+        let allPackages = apiPackages;
+        if (this._filterSealId) {
+          allSeals = apiSeals.filter(s => s.id === this._filterSealId);
+          allPackages = [];
+          this._filterSealId = null;
+        }
 
         this.setData({
           singleSeals: allSeals,
@@ -147,7 +170,10 @@ Component({
     },
 
     // 打开弹窗并指定分类（API 方式，form 页面用）
-    openWithCategory(catId) {
+    // @param {string} catId - 场景 ID
+    // @param {string} [filterSealId] - 按印章子分类 ID 过滤（个人印章签名章/执业资格章）
+    openWithCategory(catId, filterSealId) {
+      this._filterSealId = filterSealId || null;
       this._loadAndOpen(catId, '');
     },
 
@@ -159,17 +185,19 @@ Component({
         name: s.name,
         img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
         price: Number(s.price),
+        displayPrice: Number(s.displayPrice || s.price),
         description: s.description || '',
-        categoryName: (s.category && s.category.name) || '',
+        categoryName: (s.seal_categories && s.seal_categories.name) || (s.category && s.category.name) || '',
       });
       const mapPackage = p => ({
         id: p.id,
         name: p.name,
         badge: p.badge || '',
         price: Number(p.price),
+        displayPrice: Number(p.displayPrice || p.price),
         seals: (p.seals || []).map(s => s.id),
         sealNames: (p.seals || []).map(s => s.name).join('、'),
-        categoryName: (p.category && p.category.name) || '',
+        categoryName: (p.seal_categories && p.seal_categories.name) || (p.category && p.category.name) || '',
       });
 
       const apiSeals = (seals || []).map(mapSeal);
@@ -245,7 +273,15 @@ Component({
           return s ? { name: s.name, img: s.img } : null;
         }).filter(Boolean);
         const desc = chosen[0].description || '';
-        this.setData({ selectedSealImg: '', selectedSealName: chosen[0].name, selectedSealDesc: desc, previewSeals: seals, previewCurrent: 0 });
+        // 如果 singleSeals 为空找不到印章图片，显示默认图+套餐内含印章名称
+        const noImages = seals.length === 0;
+        this.setData({
+          selectedSealImg: noImages ? '/assets/images/seal-gongzhang.svg' : '',
+          selectedSealName: chosen[0].name,
+          selectedSealDesc: noImages ? ('含：' + (chosen[0].sealNames || '')) : desc,
+          previewSeals: seals,
+          previewCurrent: 0
+        });
       } else {
         // 多选
         const imgs = chosen.map(c => c.img).filter(Boolean);

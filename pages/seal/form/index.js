@@ -172,20 +172,44 @@ Page({
 
   // half-screen-popup 弹窗(个人印章选择)
   onOpenPersonalSeals() {
-    this.setData({ selectedCategory: '058ce9b9-ed91-4ee8-905e-1234327c653f' });
-    this.selectComponent('#sealPopup').openWithCategory('058ce9b9-ed91-4ee8-905e-1234327c653f');
+    this.setData({ selectedCategory: 'b14f2347-9ea5-49ef-a056-cc104b13e4c5' });
+    this.selectComponent('#sealPopup').openWithCategory(
+      '058ce9b9-ed91-4ee8-905e-1234327c653f',
+      'b14f2347-9ea5-49ef-a056-cc104b13e4c5'
+    );
   },
 
   onOpenProfessionalSeals() {
-    this.setData({ selectedCategory: '1e3aaa8c-3318-4651-a141-924ab84aa2e0' });
-    this.selectComponent('#sealPopup').openWithCategory('1e3aaa8c-3318-4651-a141-924ab84aa2e0');
+    this.setData({ selectedCategory: 'c0000001-0000-0000-0000-000000000002' });
+    this.selectComponent('#sealPopup').openWithCategory(
+      '058ce9b9-ed91-4ee8-905e-1234327c653f',
+      'c0000001-0000-0000-0000-000000000002'
+    );
   },
 
   // 弹窗确认(个人/电子印章直接跳转,无需再点下一步)
   onSealConfirm(e) {
     const { ids, names } = e.detail;
     this.setData({ selectedSeal: ids.join(','), selectedSealName: names.join('、') });
-    this.setData({ formValid: ids.length > 0 }, () => {
+
+    // 从 popup 内部数据获取选中项的 displayPrice（tier 价格）
+    const popup = this.selectComponent('#sealPopup');
+    const allItems = [...(popup.data.singleSeals || []), ...(popup.data.packages || [])];
+    const items = ids.map(id => {
+      const item = allItems.find(x => x.id === id);
+      if (!item) return null;
+      return {
+        itemType: (popup.data.packages || []).find(p => p.id === id) ? 'package' : 'seal',
+        sealId: (popup.data.singleSeals || []).find(s => s.id === id) ? id : null,
+        packageId: (popup.data.packages || []).find(p => p.id === id) ? id : null,
+        name: item.name,
+        price: item.displayPrice ?? item.price || 0,
+        quantity: 1,
+      };
+    }).filter(Boolean);
+    const totalPrice = items.reduce((sum, item) => sum + (item.price || 0), 0);
+
+    this.setData({ _selectedSealItems: items, _selectedSealTotalPrice: totalPrice, formValid: ids.length > 0 }, () => {
       // 个人模式:弹窗确认后直接提交跳转
       if (this.data.isPersonal && this.data.formValid) {
         this._doPersonalSubmit();
@@ -229,7 +253,9 @@ Page({
       seals: this.data.selectedSeal,
       categoryName: categoryName,
       isPersonal: true,
-      _timestamp: Date.now()
+      _timestamp: Date.now(),
+      items: this.data._selectedSealItems || [],
+      totalPrice: this.data._selectedSealTotalPrice || 0,
     });
     wx.navigateTo({
       url: '/pages/seal/order-confirm/index'
@@ -251,6 +277,10 @@ Page({
     } else {
       // 企业:将表单数据存入 Storage,跳选择页
       wx.setStorageSync('sealOrderForm', this.data.formData);
+      wx.setStorageSync('sealFormData', {
+        province: this.data.currentProvince.name,
+        city: this.data.currentCity,
+      });
       wx.navigateTo({ url: '/pages/seal/select/index?type=' + this.data.stampType });
     }
   },
@@ -321,7 +351,9 @@ Page({
       categoryName: '电子印章 - ' + this.data.selectedElectronicSealName,
       isPersonal: false,
       isElectronic: true,
-      _timestamp: Date.now()
+      _timestamp: Date.now(),
+      items: this.data._selectedSealItems || [],
+      totalPrice: this.data._selectedSealTotalPrice || 0,
     });
     wx.navigateTo({ url: '/pages/seal/order-confirm/index' });
   },
