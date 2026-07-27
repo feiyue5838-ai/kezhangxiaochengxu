@@ -20,15 +20,15 @@
     <view class="top-preview-card">
       <image wx:if="{{selectedSealImg}}" class="top-preview-img" src="{{selectedSealImg}}" mode="aspectFit" />
       <swiper wx:if="{{previewSeals.length}}" class="top-preview-swiper" current="{{previewCurrent}}" bindchange="onSwiperChange" key="{{previewSeals.length}}">
-        <swiper-item wx:for="{{previewSeals}}" wx:key="name">
+        <swiper-item wx:for="{{previewSeals}}" wx:key="img">
           <view class="preview-seal-item">
             <image class="preview-seal-img" src="{{item.img}}" mode="aspectFit" />
-            <text class="preview-seal-name">{{item.name}}</text>
+            <text wx:if="{{item.name}}" class="preview-seal-name">{{item.name}}</text>
           </view>
         </swiper-item>
       </swiper>
       <view wx:if="{{previewSeals.length > 1}}" class="swiper-dots">
-        <view class="swiper-dot {{previewCurrent === index ? 'swiper-dot-active' : ''}}" wx:for="{{previewSeals}}" wx:key="name"></view>
+        <view class="swiper-dot {{previewCurrent === index ? 'swiper-dot-active' : ''}}" wx:for="{{previewSeals}}" wx:key="img"></view>
       </view>
       <text class="top-preview-name">{{selectedSealName}}</text>
       <text wx:if="{{selectedSealDesc}}" class="top-preview-desc">{{selectedSealDesc}}</text>

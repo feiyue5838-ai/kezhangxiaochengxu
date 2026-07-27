@@ -89,6 +89,22 @@ Component({
 
   methods: {
 
+    // 解析 "省 市" 格式的地区字符串（与后端 resolveRegionPrice 保持一致）
+    _parseRegion(region) {
+      if (!region) return { province: '', city: '' };
+      const parts = region.split(' ');
+      return { province: parts[0] || '', city: parts[1] || '' };
+    },
+    // 计算地区价：openWithData 场景下单独特立计算（空 region 或无 region_prices 时回退 base displayPrice）
+    _calcDisplayPrice(item, region) {
+      if (!region || !item.region_prices) return Number(item.displayPrice ?? item.price ?? 0);
+      const { province, city } = this._parseRegion(region);
+      const rp = item.region_prices;
+      if (rp[city]) return Number(rp[city]);
+      if (rp[province]) return Number(rp[province]);
+      return Number(item.displayPrice ?? item.price ?? 0);
+    },
+
     // 重映射选中态（数据已在 _loadAndOpen 中按场景/分类限定，无需二次按分类过滤）
     _applyFilter(catId) {
       const selectedIds = this.data.selectedIds;
@@ -130,6 +146,8 @@ Component({
           // 套餐内印章预览：存 UUID 列表（供 _updatePreview 查找名称/图片）
           seals: (p.seals || []).map(s => s.id),
           sealNames: (p.seals || []).map(s => s.name).join('、'),
+          // 套餐自己上传的图片（管理后台维护），预览时优先展示
+          images: (p.images || []).map(u => api.API_BASE + u),
           categoryName: (p.seal_categories && p.seal_categories.name) || '',
         }));
 
@@ -178,14 +196,15 @@ Component({
     },
 
     // 打开弹窗并使用预加载数据（form 页面电子印章用，避免二次 API 调用）
-    openWithData(seals, packages) {
+    openWithData(seals, packages, region) {
       wx.hideLoading();
+      const r = region || this.data._licenseRegion || '';
       const mapSeal = s => ({
         id: s.id,
         name: s.name,
         img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
         price: Number(s.price),
-        displayPrice: Number(s.displayPrice || s.price),
+        displayPrice: this._calcDisplayPrice(s, r),
         description: s.description || '',
         categoryName: (s.seal_categories && s.seal_categories.name) || (s.category && s.category.name) || '',
       });
@@ -194,9 +213,11 @@ Component({
         name: p.name,
         badge: p.badge || '',
         price: Number(p.price),
-        displayPrice: Number(p.displayPrice || p.price),
+        displayPrice: this._calcDisplayPrice(p, r),
         seals: (p.seals || []).map(s => s.id),
         sealNames: (p.seals || []).map(s => s.name).join('、'),
+        // 套餐自己上传的图片（管理后台维护），预览时优先展示
+        images: (p.images || []).map(u => api.API_BASE + u),
         categoryName: (p.seal_categories && p.seal_categories.name) || (p.category && p.category.name) || '',
       });
 
@@ -267,11 +288,16 @@ Component({
         const desc = chosen[0].description || '';
         this.setData({ selectedSealImg: chosen[0].img, selectedSealName: chosen[0].name, selectedSealDesc: desc, previewSeals: [], previewCurrent: 0 });
       } else if (chosen.length === 1 && chosen[0].seals) {
-        // 套餐：从 singleSeals 中找印章图片
-        const seals = chosen[0].seals.map(sid => {
-          const s = this.data.singleSeals.find(x => x.id === sid);
-          return s ? { name: s.name, img: s.img } : null;
-        }).filter(Boolean);
+        // 套餐：优先用套餐自己上传的图片（管理后台维护）；没有时回退到印章各自图片
+        let seals;
+        if (chosen[0].images && chosen[0].images.length) {
+          seals = chosen[0].images.map(img => ({ name: '', img }));
+        } else {
+          seals = chosen[0].seals.map(sid => {
+            const s = this.data.singleSeals.find(x => x.id === sid);
+            return s ? { name: s.name, img: s.img } : null;
+          }).filter(Boolean);
+        }
         const desc = chosen[0].description || '';
         // 如果 singleSeals 为空找不到印章图片，显示默认图+套餐内含印章名称
         const noImages = seals.length === 0;
@@ -318,12 +344,30 @@ Component({
         wx.showToast({ title: '请先选择印章', icon: 'none' });
         return;
       }
-      const all = this.data.singleSeals.concat(this.data.packages);
+      const singleSeals = this.data.singleSeals || [];
+      const packages = this.data.packages || [];
+      const all = singleSeals.concat(packages);
       const chosen = this.data.selectedIds.map(sid => all.find(s => s.id === sid)).filter(Boolean);
+
+      // 构造 items 数组（snake_case 字段名，与后端 order.service.ts 解构对齐）
+      const items = chosen.map(c => {
+        const isPackage = packages.some(p => p.id === c.id);
+        return {
+          item_type: isPackage ? 'package' : 'seal',
+          seal_id: isPackage ? null : c.id,
+          package_id: isPackage ? c.id : null,
+          name: c.name,
+          price: Number(c.displayPrice ?? c.price ?? 0),
+          quantity: 1,
+          image: c.img || null,
+        };
+      });
+      const totalPrice = items.reduce((sum, i) => sum + (i.price || 0) * (i.quantity || 1), 0);
+
       const ids = chosen.map(c => c.id);
       const names = chosen.map(c => c.name);
       const seals = chosen.map(c => c.seals ? c.seals.join(',') : c.id).join(',');
-      this.triggerEvent('confirm', { ids, names, seals, count: chosen.length });
+      this.triggerEvent('confirm', { ids, names, seals, items, totalPrice, count: chosen.length });
       this.close();
     }
   }
