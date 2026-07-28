@@ -1,4 +1,4 @@
-// pages/newspaper/order.js
+// pages/newspaper/order/index.js
 const api = require('../../utils/api.js');
 
 Page({
@@ -82,6 +82,6 @@ Page({
 
   viewOrderDetail(e) {
     const id = e.currentTarget.dataset.id;
-    wx.navigateTo({ url: '/pages/newspaper/order-detail?id=' + id });
+    wx.navigateTo({ url: '/pages/newspaper/order-detail/index?id=' + id });
   }
 });

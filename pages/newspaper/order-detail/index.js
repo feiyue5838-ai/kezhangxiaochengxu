@@ -1,4 +1,4 @@
-// pages/newspaper/order-detail.js
+// pages/newspaper/order-detail/index.js
 const api = require('../../utils/api.js');
 
 Page({

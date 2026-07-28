@@ -2,7 +2,7 @@ const api = require('../../utils/api.js');
 const regionData = require('../../utils/region-data.js');
 
 // 登报流程页面常量（避免硬编码路径散落多处）
-const PAGE_ORDER = '/pages/newspaper/order';
+const PAGE_ORDER = '/pages/newspaper/order/index';
 
 Page({
   data: {

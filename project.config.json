@@ -21,13 +21,46 @@
     "disableUseStrict": false,
     "condition": false,
     "swc": false,
-    "disableSWC": true
+    "disableSWC": true,
+    "compressImage": true
   },
   "compileType": "miniprogram",
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
-    "include": []
+    "ignore": [
+      {
+        "type": "suffix",
+        "value": ".md"
+      },
+      {
+        "type": "suffix",
+        "value": ".py"
+      },
+      {
+        "type": "suffix",
+        "value": ".cs"
+      },
+      {
+        "type": "suffix",
+        "value": ".exe"
+      },
+      {
+        "type": "suffix",
+        "value": ".log"
+      },
+      {
+        "type": "dir",
+        "value": "docs"
+      },
+      {
+        "type": "dir",
+        "value": ".artifacts"
+      },
+      {
+        "type": "dir",
+        "value": "scripts"
+      }
+    ]
   },
   "appid": "wx68ab58ca4a6dd92a",
   "editorSetting": {},
