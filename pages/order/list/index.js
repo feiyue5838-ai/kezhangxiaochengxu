@@ -41,7 +41,7 @@ const normalize = (orders, module) => {
         statusText: o.statusText || statusText(o.status),
         statusClass: o.statusClass || o.status,
         price: o.price || 0,
-        url: '/pages/newspaper/order-detail?id=' + o.id
+        url: '/pages/newspaper/order-detail/index?id=' + o.id
       };
     }
     // 刻章订单
@@ -205,7 +205,7 @@ Page({
     } else if (module === 'bookkeeping') {
       wx.navigateTo({ url: '/pages/bookkeeping/order-detail/index?id=' + id });
     } else {
-      wx.navigateTo({ url: '/pages/newspaper/order-detail?id=' + id });
+      wx.navigateTo({ url: '/pages/newspaper/order-detail/index?id=' + id });
     }
   },
 

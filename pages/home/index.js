@@ -106,7 +106,7 @@ Page({
     const type = e.currentTarget.dataset.type;
     const id = e.currentTarget.dataset.id;
     if (type === '登报') {
-      wx.navigateTo({ url: `/pages/newspaper/order-detail?id=${id}` });
+      wx.navigateTo({ url: `/pages/newspaper/order-detail/index?id=${id}` });
     } else if (type === '刻章') {
       wx.navigateTo({ url: `/pages/seal/order-detail/index?id=${id}` });
     } else if (type === '调档') {

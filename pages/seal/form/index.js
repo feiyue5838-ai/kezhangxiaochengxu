@@ -5,6 +5,14 @@ const api = require('../../../utils/api.js');
 const regionData = require('../../../utils/region-data.js');
 const P = regionData.provincesShort;
 const D = regionData.districtsShort;
+// 三级联动用的查表：省简称 → 省全称；省全称 → 城市列表；城市全称 → 区县列表
+const PROVINCE_SHORT_TO_FULL = {};
+for (const shortName of P) {
+  const full = Object.keys(regionData.provinceToCities || {}).find((f) => f.startsWith(shortName));
+  PROVINCE_SHORT_TO_FULL[shortName] = full || shortName;
+}
+const PROVINCE_TO_CITIES = regionData.provinceToCities || {};
+const CITIES_TO_DISTRICTS = regionData.cityToDistricts || {};
 
 Page({
   data: {
@@ -35,7 +43,7 @@ Page({
       { id: 'e4', name: '法人章', subCategoryId: '815fc362-b3d2-4bd0-8405-5c965e540eac' },
       { id: 'e5', name: '发票章', subCategoryId: '4c735b54-5e97-4b7f-9be3-ef8b5444e3a6' },
       { id: 'e6', name: '个人签名章', subCategoryId: '045b2619-095b-4ea1-85cb-4d1820713992' },
-      { id: 'e7', name: '其他印章', subCategoryId: '34d0bb80-72bc-4132-be59-ef62592fe29d' }
+      { id: 'e7', name: '其他印章', subCategoryId: 'af215e4a-9dfb-4881-bd14-7dd3b5a80ada' }
     ],
     selectedElectronicCategory: '',
     popupTitle: '',
@@ -44,7 +52,8 @@ Page({
     ri: [0, 0, 0],
     ps: P,
     cs: [],
-    ds: []
+    ds: [],
+    currentRegion: ''
   },
 
   onLoad(options) {
@@ -136,31 +145,49 @@ Page({
 
   // 地区选择器
   onOpenRegion() {
-    const p = P[0], cities = Object.keys(D[p] || {}), c = cities[0] || '', districts = D[p]?.[c] || [];
+    // 三级选择器（省+市+区），根据省简称反查省全称，取该省下属市
+    const riOld = (this.data.ri && this.data.ri.length === 3) ? this.data.ri : [0, 0, 0];
+    const pvShort = P[riOld[0]] || P[0];
+    const pvFull = (PROVINCE_SHORT_TO_FULL && PROVINCE_SHORT_TO_FULL[pvShort]) || pvShort;
+    const cities = (PROVINCE_TO_CITIES[pvFull] || []).slice();
+    const di = Math.min(riOld[1], cities.length - 1);
+    const districts = (CITIES_TO_DISTRICTS[cities[di]] || []).slice();
+    const tri = [riOld[0], di, Math.min(riOld[2], Math.max(districts.length - 1, 0))];
     // 先重置再打开，确保 picker-view 重新渲染
     this.setData({ showRegion: false, ri: [-1, -1, -1], cs: [], ds: [] });
     setTimeout(() => {
-      this.setData({ showRegion: true, ri: [0, 0, 0], cs: cities, ds: districts });
+      this.setData({ showRegion: true, ri: tri, cs: cities, ds: districts });
     }, 50);
   },
   closeRegion() {
     this.setData({ showRegion: false });
   },
   onRegionChange(e) {
-    const v = e.detail.value, pv = P[v[0]], cities = Object.keys(D[pv] || {});
-    const ci = Math.min(v[1], cities.length - 1), cv = cities[ci] || '';
-    const districts = D[pv]?.[cv] || [];
-    const di = Math.min(v[2], districts.length - 1);
-    this.setData({ ri: [v[0], ci, di], cs: cities, ds: districts });
+    // 三级联动：v=[省idx, 市idx, 区idx]
+    const v = e.detail.value || [0, 0, 0];
+    const pi = Math.max(0, Number(v[0]) || 0);
+    const pvShort = P[pi] || P[0];
+    const pvFull = (PROVINCE_SHORT_TO_FULL && PROVINCE_SHORT_TO_FULL[pvShort]) || pvShort;
+    const cities = (PROVINCE_TO_CITIES[pvFull] || []).slice();
+    // 城市索引越界时回退 0
+    const ci = Math.min(Math.max(Number(v[1]) || 0, 0), Math.max(cities.length - 1, 0));
+    const cityFull = cities[ci] || '';
+    const districts = (CITIES_TO_DISTRICTS[cityFull] || []).slice();
+    const di = Math.min(Math.max(Number(v[2]) || 0, 0), Math.max(districts.length - 1, 0));
+    this.setData({ ri: [pi, ci, di], cs: cities, ds: districts });
   },
   confirmRegion() {
-    const { ri, cs, ds } = this.data;
+    const { ri, cs } = this.data;
     const province = P[ri[0]] || '';
     const city = cs[ri[1]] || '';
-    const district = ds[ri[2]] || '';
-    // 三联显示：省 市 区
-    const region = [province, city, district].filter(Boolean).join(' ');
-    this.setData({ showRegion: false });
+    // 两级显示：省 市
+    const region = [province, city].filter(Boolean).join(' ');
+    this.setData({
+      showRegion: false,
+      currentRegion: region,
+      currentCity: city,
+      currentProvince: { ...this.data.currentProvince, name: province },
+    });
     this.selectComponent('#stampForm').setRegion(region);
   },
 
@@ -198,12 +225,13 @@ Page({
     const items = ids.map(id => {
       const item = allItems.find(x => x.id === id);
       if (!item) return null;
+      const isPackage = (popup.data.packages || []).some(p => p.id === id);
       return {
-        itemType: (popup.data.packages || []).find(p => p.id === id) ? 'package' : 'seal',
-        sealId: (popup.data.singleSeals || []).find(s => s.id === id) ? id : null,
-        packageId: (popup.data.packages || []).find(p => p.id === id) ? id : null,
+        item_type: isPackage ? 'package' : 'seal',
+        seal_id: isPackage ? null : id,
+        package_id: isPackage ? id : null,
         name: item.name,
-        price: item.displayPrice ?? item.price || 0,
+        price: (item.displayPrice ?? item.price) || 0,
         quantity: 1,
       };
     }).filter(Boolean);
@@ -280,6 +308,7 @@ Page({
       wx.setStorageSync('sealFormData', {
         province: this.data.currentProvince.name,
         city: this.data.currentCity,
+        region: this.data.currentRegion,
       });
       wx.navigateTo({ url: '/pages/seal/select/index?type=' + this.data.stampType });
     }
@@ -337,7 +366,7 @@ Page({
     const filtered = allSeals.filter(s =>
       subcategoryid ? s.categoryId === subcategoryid : !s.categoryId
     );
-    this.selectComponent('#sealPopup').openWithData(filtered, this.data._allElectronicPackages);
+    this.selectComponent('#sealPopup').openWithData(filtered, this.data._allElectronicPackages, this.data.currentRegion);
   },
 
   // 电子印章:提交并跳转

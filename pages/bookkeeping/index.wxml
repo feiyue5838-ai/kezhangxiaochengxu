@@ -41,26 +41,16 @@
     <!-- 服务周期 -->
     <view class="form-section">
       <view class="section-label">服务周期</view>
-      <view class="option-row cols-2">
-        <block wx:if="{{taxpayerType === 'small'}}">
-          <view class="option-btn {{cycle === 'year' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="year">
-            <text class="option-text">全年</text>
-          </view>
-          <view class="option-btn {{cycle === 'half' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="half">
-            <text class="option-text">半年</text>
-          </view>
-        </block>
-        <block wx:if="{{taxpayerType === 'general'}}">
-          <view class="option-btn {{cycle === 'year' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="year">
-            <text class="option-text">全年</text>
-          </view>
-          <view class="option-btn {{cycle === 'half' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="half">
-            <text class="option-text">半年</text>
-          </view>
-          <view class="option-btn {{cycle === 'preorder' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="preorder">
-            <text class="option-text">9.9 预定</text>
-          </view>
-        </block>
+      <view class="option-row {{taxpayerType === 'general' ? 'cols-3' : 'cols-2'}}">
+        <view class="option-btn {{cycle === 'year' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="year">
+          <text class="option-text">全年</text>
+        </view>
+        <view class="option-btn {{cycle === 'half' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="half">
+          <text class="option-text">半年</text>
+        </view>
+        <view wx:if="{{taxpayerType === 'general'}}" class="option-btn {{cycle === 'preorder' ? 'active' : ''}}" bindtap="onCycleSelect" data-cycle="preorder">
+          <text class="option-text">9.9 预定</text>
+        </view>
       </view>
       <view class="section-divider"></view>
     </view>

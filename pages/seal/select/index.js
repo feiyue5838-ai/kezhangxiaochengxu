@@ -17,7 +17,7 @@ Page({
     }
     // 从 Storage 读取 form 页面透传的签发地（省份+城市）
     const formData = wx.getStorageSync('sealFormData') || {};
-    const region = [formData.province || '', formData.city || ''].filter(Boolean).join('');
+    const region = formData.region || formData.city || '';
     this.setData({ pageTitle: '自选刻章', licenseRegion: region });
     this._loadScenes();
   },
@@ -70,32 +70,8 @@ Page({
 
   // half-screen-popup 确认回调
   onSealConfirm(e) {
-    const { ids, names } = e.detail;
+    const { ids, names, items, totalPrice } = e.detail;
     const scene = this.data._currentScene;
-
-    // 从 half-screen-popup 内部数据构建 items（带真实 UUID 和价格）
-    const popup = this.selectComponent('#sealPopup');
-    const singleSeals = popup.data.singleSeals || [];
-    const packages = popup.data.packages || [];
-    const allItems = [...singleSeals, ...packages];
-
-    const items = ids.map(id => {
-      const item = allItems.find(x => x.id === id);
-      if (!item) return null;
-      return {
-        itemType: packages.find(p => p.id === id) ? 'package' : 'seal',
-        sealId: singleSeals.find(s => s.id === id) ? id : null,
-        packageId: packages.find(p => p.id === id) ? id : null,
-        name: item.name,
-        price: item.displayPrice ?? item.price || 0,
-        quantity: 1,
-      };
-    }).filter(Boolean);
-
-    // 计算总价（优先用 displayPrice，否则用 price）
-    const totalPrice = items.reduce((sum, item) => {
-      return sum + (item.displayPrice ?? item.price || 0) * (item.quantity || 1);
-    }, 0);
 
     // 存入 Storage，供 order-confirm 页面使用
     wx.setStorageSync('selectedSealsData', {

@@ -133,7 +133,7 @@ Page({
     const formData = wx.getStorageSync('sealOrderForm') || null;
     if (formData) {
       this.setData({
-        licenseRegion: formData.region || '成都',
+        licenseRegion: formData.region || '',
         sealReason: formData.reason || '',
         companyName: formData.companyName || '',
         contactPhone: formData.contactPhone || '',
@@ -169,7 +169,7 @@ Page({
       totalPrice = 0;
       ids.forEach(id => {
         const item = sealMap.get(id);
-        if (item) totalPrice += (item.price || 0);
+        if (item) totalPrice += (item.displayPrice ?? item.price ?? 0);
       });
     }
 
@@ -188,7 +188,7 @@ Page({
       'isElectronic': !!isElectronic
     });
 
-    const licenseRegion = this.data.licenseRegion || '成都';
+    const licenseRegion = this.data.licenseRegion || '';
 
     this.setData({
       'materialRules.license.regionNote': this.getLicenseNote(licenseRegion),
@@ -562,9 +562,9 @@ Page({
       const names = selectedData.names || [];
       items = selectedIds.map((id, idx) => {
         const s = sealMap.get(id);
-        if (s) return { itemType: 'seal', sealId: id, name: s.name, price: s.price, quantity: 1 };
+        if (s) return { item_type: 'seal', seal_id: id, name: s.name, price: s.price, quantity: 1 };
         // sealMap 无数据时（如个人印章从 form 页跳转），用 names 回退
-        return { itemType: 'seal', sealId: id, name: names[idx] || id, price: 0, quantity: 1 };
+        return { item_type: 'seal', seal_id: id, name: names[idx] || id, price: 0, quantity: 1 };
       });
     }
 
@@ -572,21 +572,21 @@ Page({
     const orderData = {
       // type：后端根据此字段设置订单类型标签（personal/electronic/company）
       type: this.data.isPersonal ? 'personal' : this.data.isElectronic ? 'electronic' : 'company',
-      // sealIds 兼容新旧格式：新 items 有 sealId/packageId，旧流程用 selectedIds
-      sealIds: items.length > 0
-        ? items.map(i => i.sealId || i.packageId).filter(Boolean)
+      // sealIds 兼容新旧格式：新 items 有 seal_id/package_id，旧流程用 selectedIds
+      seal_ids: items.length > 0
+        ? items.map(i => i.seal_id || i.package_id).filter(Boolean)
         : (selectedIds || []),
-      items,  // 后端 orderItems 明细表
-      categoryName: this.data.categoryName,
-      isPersonal: this.data.isPersonal,
-      isElectronic: this.data.isElectronic,
-      companyName: this.data.companyName,
-      contactPhone: this.data.contactPhone,
-      licenseRegion: this.data.licenseRegion,
-      sealReason: this.data.sealReason,
-      totalPrice: selectedData.totalPrice || this.data.totalPrice,
-      // addressJson：后端通过 JSON.parse(addressJson) 获取地址用于自动分配门店
-      addressJson: JSON.stringify(this.data.address || {}),
+      items,  // 后端 orderItems 明细表（snake_case 字段）
+      category_name: this.data.categoryName,
+      is_personal: this.data.isPersonal,
+      is_electronic: this.data.isElectronic,
+      company_name: this.data.companyName,
+      contact_phone: this.data.contactPhone,
+      license_region: this.data.licenseRegion,
+      seal_reason: this.data.sealReason,
+      total_price: selectedData.totalPrice || this.data.totalPrice,
+      // address_json：后端通过 JSON.parse(address_json) 获取地址用于自动分配门店
+      address_json: JSON.stringify(this.data.address || {}),
       invoice: this.data.invoice,
       remark: this.data.remark,
       materials: submitMaterials

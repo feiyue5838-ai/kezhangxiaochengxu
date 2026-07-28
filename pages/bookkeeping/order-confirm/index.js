@@ -75,6 +75,7 @@ Page({
       });
 
       const orderId = order.id || order.orderId;
+      this.setData({ orderId });
 
       // 2. 获取支付参数
       const app = getApp();
@@ -94,13 +95,19 @@ Page({
 
   _wxPay(payRes) {
     return new Promise((resolve, reject) => {
+      // 只提取微信支付需要的字段，避免展开多余字段
+      const { timeStamp, nonceStr, package: pkg, signType, paySign } = payRes || {};
       wx.requestPayment({
-        ...payRes,
+        timeStamp,
+        nonceStr,
+        'package': pkg,
+        signType,
+        paySign,
         success: () => {
           wx.showToast({ title: '支付成功', icon: 'success' });
-          // 跳转到订单列表
+          const orderId = this.data.orderId;
           setTimeout(() => {
-            wx.switchTab({ url: '/pages/profile/index' });
+            wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId });
           }, 1500);
           resolve();
         },

@@ -31,12 +31,11 @@ Page({
   onTaxpayerSelect(e) {
     const type = e.currentTarget.dataset.type;
     if (this.data.taxpayerType === type) return;
-    let resetData = { taxpayerType: type, cycle: 'year', fund: 'none' };
-    if (type === 'small' && this.data.cycle === 'preorder') {
-      resetData.cycle = 'year';
-    }
+    // 切换企业类型时，清空所有下游选项让用户完全重新选择
+    let resetData = { taxpayerType: type, cycle: '', invoice: '', social: '', fund: '' };
     this.setData(resetData);
-    this.fetchPrice();
+    // 清空价格，等待用户选择服务周期后再获取
+    this.setData({ price: '--', payDisabled: true });
   },
 
   onCycleSelect(e) {
@@ -95,7 +94,21 @@ Page({
     return true;
   },
 
+  // 判断必填项是否已全部选齐
+  _isAllSelected() {
+    const { taxpayerType, cycle, invoice, social, fund } = this.data;
+    if (!taxpayerType || !cycle || !invoice || !social) return false;
+    // 一般纳税人需额外选择公积金
+    if (taxpayerType === 'general' && !fund) return false;
+    return true;
+  },
+
   async fetchPrice() {
+    // 只有全部选项选齐才获取并显示价格
+    if (!this._isAllSelected()) {
+      this.setData({ price: '--', payDisabled: true });
+      return;
+    }
     this.setData({ price: '--', payDisabled: true });
     try {
       const res = await api.getBookkeepingPrice({

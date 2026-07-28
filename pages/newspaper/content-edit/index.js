@@ -185,7 +185,7 @@ Page({
       _timestamp: Date.now()
     });
     wx.navigateTo({
-      url: "/pages/newspaper/form"
+      url: "/pages/newspaper/form/index"
     });
   }
 });

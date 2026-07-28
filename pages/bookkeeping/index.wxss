@@ -11,6 +11,7 @@ page {
   background: transparent;
   min-height: 100vh;
   box-sizing: border-box;
+  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
 }
 
 /* ===== Hero ===== */
