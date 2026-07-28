@@ -8,8 +8,21 @@
 
 
 
-// ⚠️ 发版前替换：需使用已备案 HTTPS 域名，并在微信后台配置 request 白名单
-const API_BASE = 'http://192.168.31.219:3001';
+// ==================== 环境自适应 API_BASE ====================
+// 开发版（模拟器 / 真机调试 / 预览）走局域网 IP，体验版 / 正式版走 HTTPS 域名
+// ⚠️ 发版前：把 API_BASE_PROD 替换为已备案的 HTTPS 域名，并在微信公众平台
+//    开发管理 → 服务器域名 中把 request / uploadFile / downloadFile 都加上该域名
+const API_BASE_DEV = 'http://192.168.31.219:3001';
+const API_BASE_PROD = 'https://api.rongcheng.com'; // TODO: 替换为实际备案 HTTPS 域名
+
+let API_BASE;
+try {
+  const envVersion = wx.getAccountInfoSync().miniProgram.envVersion;
+  // 'develop' = 模拟器/真机调试/预览；'trial' = 体验版；'release' = 正式版
+  API_BASE = (envVersion === 'develop') ? API_BASE_DEV : API_BASE_PROD;
+} catch (e) {
+  API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
+}
 
 // API_BASE 也在模块导出中，供组件拼接图片等静态资源使用
 

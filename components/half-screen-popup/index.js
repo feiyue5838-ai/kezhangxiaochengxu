@@ -130,7 +130,7 @@ Component({
           id: s.id,
           name: s.name,
           // 印章图片：后端返回相对路径 /uploads/seals/xxx，需拼 API_BASE 才能在小程序加载
-          img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
+          img: s.image ? api.API_BASE + s.image : '/assets/images/seal-default.png',
           price: Number(s.price),
           displayPrice: Number(s.displayPrice),
           description: s.description || '',
@@ -202,7 +202,7 @@ Component({
       const mapSeal = s => ({
         id: s.id,
         name: s.name,
-        img: s.image ? api.API_BASE + s.image : '/assets/images/seal-gongzhang.svg',
+        img: s.image ? api.API_BASE + s.image : '/assets/images/seal-default.png',
         price: Number(s.price),
         displayPrice: this._calcDisplayPrice(s, r),
         description: s.description || '',
@@ -296,7 +296,7 @@ Component({
         const desc = chosen[0].description || '';
         const hasCarousel = seals && seals.length > 0;
         this.setData({
-          selectedSealImg: hasCarousel ? '' : '/assets/images/seal-gongzhang.svg',
+          selectedSealImg: hasCarousel ? '' : '/assets/images/seal-default.png',
           selectedSealName: chosen[0].name,
           selectedSealDesc: hasCarousel ? desc : ('含：' + (chosen[0].sealNames || '')),
           previewSeals: seals || [],
