@@ -2,6 +2,9 @@
 const auth = require('./utils/auth.js');
 
 App({
+  // Storage 过期时间（24小时）
+  STORAGE_EXPIRY_TIME: 24 * 60 * 60 * 1000,
+
   globalData: {
     userInfo: null,
     token: null,
@@ -11,9 +14,6 @@ App({
     // 导航栏高度（启动时计算一次，全局共享）
     navigationHeight: null
   },
-
-  // Storage 过期时间（24小时）
-  STORAGE_EXPIRY_TIME: 24 * 60 * 60 * 1000,
 
   onLaunch() {
     // 同步登录态到 globalData（热启动时刷新）
@@ -31,8 +31,8 @@ App({
       });
     }
 
-    // 清理过期的 Storage 数据
-    this._cleanExpiredStorage();
+    // 异步清理过期的 Storage 数据（不要阻塞启动期 JS 线程）
+    this._scheduleCleanExpiredStorage();
   },
 
   /**
@@ -53,72 +53,42 @@ App({
   },
 
   /**
-   * 清理过期的 Storage 数据
-   * 扫描所有 Storage key，清理带 _timestamp 且超过过期时间的数据
+   * 异步清理过期的 Storage 数据
+   * 注意：必须在 onLaunch 里用 setTimeout(setData 周期) 分批执行，
+   * 否则同步遍历会阻塞主线程触发 "timeout" SystemError（白屏）。
    */
-  _cleanExpiredStorage() {
+  _scheduleCleanExpiredStorage() {
+    let keys;
+    try {
+      keys = wx.getStorageInfoSync().keys || [];
+    } catch (e) {
+      return;
+    }
+    if (!keys.length) return;
+
     const now = Date.now();
     const expiryTime = this.STORAGE_EXPIRY_TIME;
+    let i = 0;
 
-    try {
-      const res = wx.getStorageInfoSync();
-      const keys = res.keys || [];
-
-      keys.forEach(key => {
+    const cleanBatch = () => {
+      const end = Math.min(i + 5, keys.length);
+      for (; i < end; i++) {
         try {
-          const data = wx.getStorageSync(key);
-          // 检查是否有 _timestamp 字段（带过期机制的数据）
+          const data = wx.getStorageSync(keys[i]);
           if (data && data._timestamp && (now - data._timestamp > expiryTime)) {
-            wx.removeStorageSync(key);
+            wx.removeStorageSync(keys[i]);
           }
         } catch (e) {
-          // 单个 key 读取失败，跳过
+          // 单个 key 跳过
         }
-      });
-
-    } catch (e) {
-      // 获取 Storage 信息失败
-    }
-  },
-
-  /**
-   * 带过期时间的 Storage 写入（工具方法，供页面调用）
-   * @param {string} key - Storage key
-   * @param {any} data - 要存储的数据
-   */
-  setStorageWithExpiry(key, data) {
-    const wrappedData = {
-      _timestamp: Date.now(),
-      _data: data
-    };
-    wx.setStorageSync(key, wrappedData);
-  },
-
-  /**
-   * 读取带过期时间的 Storage（工具方法，供页面调用）
-   * @param {string} key - Storage key
-   * @returns {any|null} 数据，过期或不存在返回 null
-   */
-  getStorageWithExpiry(key) {
-    try {
-      const wrappedData = wx.getStorageSync(key);
-      if (!wrappedData) return null;
-
-      // 新格式（带 _timestamp）
-      if (wrappedData._timestamp) {
-        const now = Date.now();
-        if (now - wrappedData._timestamp > this.STORAGE_EXPIRY_TIME) {
-          wx.removeStorageSync(key);
-          return null;
-        }
-        return wrappedData._data;
       }
+      if (i < keys.length) {
+        setTimeout(cleanBatch, 0); // 让出主线程
+      }
+    };
 
-      // 旧格式（兼容，直接返回）
-      return wrappedData;
-    } catch (e) {
-      return null;
-    }
+    // 延后首帧启动，避免和 onLoad 抢主线程
+    setTimeout(cleanBatch, 0);
   },
 
   /**
