@@ -39,8 +39,8 @@
   <!-- 遮罩层 -->
   <view class="mask {{show ? 'mask-visible' : ''}}" bindtap="onMaskTap"></view>
 
-  <!-- 底部弹窗 -->
-  <view class="popup {{show ? 'popup-visible' : ''}}" catchtap="preventClose">
+  <!-- 底部弹窗（从 top-preview 底部无缝衔接） -->
+  <view class="popup {{show ? 'popup-visible' : ''}}" style="top: {{navHeight + topPreviewHeight}}px;" catchtap="preventClose">
     <!-- 拖拽条 -->
     <view class="drag-bar-wrap" bindtap="onClose">
       <view class="drag-bar"></view>
@@ -67,6 +67,7 @@
           <view wx:if="{{item.selected}}" class="seal-badge">
             <text class="seal-badge-icon">✓</text>
           </view>
+          <image class="seal-card-img" src="{{item.img}}" mode="aspectFit" />
           <text class="seal-name">{{item.name}}</text>
         </view>
       </view>
@@ -84,6 +85,7 @@
           <view wx:if="{{item.selected}}" class="seal-badge">
             <text class="seal-badge-icon">✓</text>
           </view>
+          <image class="seal-card-img" src="{{item.images[0]}}" mode="aspectFit" />
           <text class="seal-name">{{item.name}}</text>
         </view>
       </view>
