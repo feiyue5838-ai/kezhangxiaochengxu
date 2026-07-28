@@ -18,7 +18,7 @@
   position: fixed;
   left: 0; right: 0;
   bottom: 0;
-  height: 70vh;
+  /* top 由 inline style 注入（top: navHeight + topPreviewHeight），与 top-preview 无缝衔接 */
   background: var(--bg-color);
   border-radius: 0;
   z-index: 1000;

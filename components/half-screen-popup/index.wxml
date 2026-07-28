@@ -40,7 +40,7 @@
   <view class="mask {{show ? 'mask-visible' : ''}}" bindtap="onMaskTap"></view>
 
   <!-- 底部弹窗 -->
-  <view class="popup {{show ? 'popup-visible' : ''}}" catchtap="preventClose">
+  <view class="popup {{show ? 'popup-visible' : ''}}" style="top: {{navHeight + topPreviewHeight}}px;" catchtap="preventClose">
     <!-- 拖拽条 -->
     <view class="drag-bar-wrap" bindtap="onClose">
       <view class="drag-bar"></view>
