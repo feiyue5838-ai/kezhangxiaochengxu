@@ -288,24 +288,18 @@ Component({
         const desc = chosen[0].description || '';
         this.setData({ selectedSealImg: chosen[0].img, selectedSealName: chosen[0].name, selectedSealDesc: desc, previewSeals: [], previewCurrent: 0 });
       } else if (chosen.length === 1 && chosen[0].seals) {
-        // 套餐：优先用套餐自己上传的图片（管理后台维护）；没有时回退到印章各自图片
+        // 套餐：优先用套餐自己上传的图片（管理后台维护）；没有自定义图片则显示默认章图
         let seals;
         if (chosen[0].images && chosen[0].images.length) {
           seals = chosen[0].images.map(img => ({ name: '', img }));
-        } else {
-          seals = chosen[0].seals.map(sid => {
-            const s = this.data.singleSeals.find(x => x.id === sid);
-            return s ? { name: s.name, img: s.img } : null;
-          }).filter(Boolean);
         }
         const desc = chosen[0].description || '';
-        // 如果 singleSeals 为空找不到印章图片，显示默认图+套餐内含印章名称
-        const noImages = seals.length === 0;
+        const hasCarousel = seals && seals.length > 0;
         this.setData({
-          selectedSealImg: noImages ? '/assets/images/seal-gongzhang.svg' : '',
+          selectedSealImg: hasCarousel ? '' : '/assets/images/seal-gongzhang.svg',
           selectedSealName: chosen[0].name,
-          selectedSealDesc: noImages ? ('含：' + (chosen[0].sealNames || '')) : desc,
-          previewSeals: seals,
+          selectedSealDesc: hasCarousel ? desc : ('含：' + (chosen[0].sealNames || '')),
+          previewSeals: seals || [],
           previewCurrent: 0
         });
       } else {
