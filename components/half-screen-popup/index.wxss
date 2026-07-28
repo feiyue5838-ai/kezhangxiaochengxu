@@ -18,10 +18,10 @@
   position: fixed;
   left: 0; right: 0;
   bottom: 0;
-  /* top 由 inline style 注入（top: navHeight + topPreviewHeight），与 top-preview 无缝衔接 */
+  height: 70vh;
   background: var(--bg-color);
   border-radius: 0;
-  z-index: 1001;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   transform: translateY(100%);
@@ -76,25 +76,18 @@
   width: 100%;
 }
 
-/* 卡片（纵向：图片+文字） */
+/* 卡片 */
 .seal-card {
   background: var(--bg-white);
   border-radius: 12rpx;
   border: 2rpx solid var(--primary-color);
-  padding: 20rpx 12rpx 16rpx;
+  padding: 28rpx 12rpx;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   position: relative;
   box-sizing: border-box;
-  min-height: 180rpx;
-}
-
-.seal-card-img {
-  width: 120rpx;
-  height: 120rpx;
-  flex-shrink: 0;
+  min-height: 80rpx;
 }
 
 .seal-name {
