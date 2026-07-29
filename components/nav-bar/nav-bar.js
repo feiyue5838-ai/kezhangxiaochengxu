@@ -45,18 +45,18 @@ Component({
     capsuleLeft: 0,
     capsuleTop: 0,
     capsuleWidth: 0,
-    capsuleHeight: 32,
-    showBack: true
+    capsuleHeight: 32
   },
 
   /**
    * 生命周期
    */
   lifetimes: {
-    // 设备信息在 attached 计算（同步，避免 wx.getSystemInfo 废弃警告）
+    // 设备信息在 attached 计算（优先使用新 API 避免 deprecated 警告）
     attached() {
       try {
-        const systemInfo = wx.getSystemInfoSync();
+        // 优先使用 wx.getWindowInfo（推荐）
+        const systemInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
         const statusBarHeight = systemInfo.statusBarHeight || 20;
 
         // 再获取胶囊按钮信息

@@ -26,6 +26,13 @@ Page({
   onLoad() {
     this._floatDragStart = null;
     this._floatMoved = false;
+    // 缓存窗口高度，避免拖拽时重复调用 API
+    try {
+      const sys = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
+      this._windowHeight = sys.windowHeight || 700;
+    } catch (e) {
+      this._windowHeight = 700;
+    }
     this._loadFromApi();
   },
 
@@ -144,7 +151,7 @@ Page({
     if (!this._floatDragStart) return;
     const dy = e.touches[0].clientY - this._floatDragStart.startY;
     const newTop = Math.max(100, Math.min(this._floatDragStart.curTop + dy,
-      wx.getSystemInfoSync().windowHeight - 80));
+      this._windowHeight - 80));
     this._floatMoved = Math.abs(dy) > 5;
     this.setData({ floatBtnTop: newTop });
   },

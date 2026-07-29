@@ -98,7 +98,8 @@ App({
     let statusBarHeight = 20;
     let navHeight = 84;  // 20 + 64
     try {
-      const sysInfo = wx.getDeviceInfo ? wx.getDeviceInfo() : wx.getSystemInfoSync();
+      // 优先使用新 API（避免 deprecated 警告）
+      const sysInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
       statusBarHeight = sysInfo.statusBarHeight || 20;
       navHeight = statusBarHeight + 64;  // 改成 64px 内容区
     } catch (e) {

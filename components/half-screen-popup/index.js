@@ -56,7 +56,8 @@ Component({
 
   lifetimes: {
     attached() {
-      const sys = wx.getSystemInfoSync();
+      // 优先使用新 API
+      const sys = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
       const statusBarHeight = sys.statusBarHeight || 20;
 
       let navContentHeight = 44;

@@ -29,38 +29,27 @@
   "packOptions": {
     "ignore": [
       {
-        "type": "suffix",
-        "value": ".md"
+        "value": ".md",
+        "type": "suffix"
       },
       {
-        "type": "suffix",
-        "value": ".py"
+        "value": ".py",
+        "type": "suffix"
       },
       {
-        "type": "suffix",
-        "value": ".cs"
+        "value": ".cs",
+        "type": "suffix"
       },
       {
-        "type": "suffix",
-        "value": ".exe"
+        "value": ".exe",
+        "type": "suffix"
       },
       {
-        "type": "suffix",
-        "value": ".log"
-      },
-      {
-        "type": "dir",
-        "value": "docs"
-      },
-      {
-        "type": "dir",
-        "value": ".artifacts"
-      },
-      {
-        "type": "dir",
-        "value": "scripts"
+        "value": ".log",
+        "type": "suffix"
       }
-    ]
+    ],
+    "include": []
   },
   "appid": "wx68ab58ca4a6dd92a",
   "editorSetting": {},
