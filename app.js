@@ -2,9 +2,6 @@
 const auth = require('./utils/auth.js');
 
 App({
-  // Storage 过期时间（24小时）
-  STORAGE_EXPIRY_TIME: 24 * 60 * 60 * 1000,
-
   globalData: {
     userInfo: null,
     token: null,
@@ -30,9 +27,6 @@ App({
         }
       });
     }
-
-    // 异步清理过期的 Storage 数据（不要阻塞启动期 JS 线程）
-    this._scheduleCleanExpiredStorage();
   },
 
   /**
@@ -50,45 +44,6 @@ App({
    */
   refreshAuthState() {
     this._syncAuthState();
-  },
-
-  /**
-   * 异步清理过期的 Storage 数据
-   * 注意：必须在 onLaunch 里用 setTimeout(setData 周期) 分批执行，
-   * 否则同步遍历会阻塞主线程触发 "timeout" SystemError（白屏）。
-   */
-  _scheduleCleanExpiredStorage() {
-    let keys;
-    try {
-      keys = wx.getStorageInfoSync().keys || [];
-    } catch (e) {
-      return;
-    }
-    if (!keys.length) return;
-
-    const now = Date.now();
-    const expiryTime = this.STORAGE_EXPIRY_TIME;
-    let i = 0;
-
-    const cleanBatch = () => {
-      const end = Math.min(i + 5, keys.length);
-      for (; i < end; i++) {
-        try {
-          const data = wx.getStorageSync(keys[i]);
-          if (data && data._timestamp && (now - data._timestamp > expiryTime)) {
-            wx.removeStorageSync(keys[i]);
-          }
-        } catch (e) {
-          // 单个 key 跳过
-        }
-      }
-      if (i < keys.length) {
-        setTimeout(cleanBatch, 0); // 让出主线程
-      }
-    };
-
-    // 延后首帧启动，避免和 onLoad 抢主线程
-    setTimeout(cleanBatch, 0);
   },
 
   /**
