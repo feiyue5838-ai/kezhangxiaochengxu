@@ -1,14 +1,7 @@
-/* pages/newspaper/announcement/index.wxss */
-
-/* 涓庤韩浠借瘉鐧绘姤椤甸潰瀹屽叏瀵归綈 */
-
 page {
   background: #F8F7FC;
   min-height: 100vh;
 }
-
-/* ========== 瀵艰埅鏍忥紙绱壊娓愬彉鑳屾櫙锟?========== */
-
 .nav-back {
   width: 60rpx;
   height: 100%;
@@ -20,7 +13,6 @@ page {
   font-weight: 300;
   line-height: 1;
 }
-
 .nav-title {
   position: absolute;
   left: 50%;
@@ -29,12 +21,10 @@ page {
   font-weight: 600;
   color: #fff;
 }
-
 .nav-placeholder {
   width: 60rpx;
   height: 100%;
 }
-/* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx;
@@ -43,7 +33,6 @@ page {
   position: relative;
   overflow: hidden;
 }
-
 .banner-deco-circle {
   position: absolute;
   width: 160rpx; height: 160rpx;
@@ -51,7 +40,6 @@ page {
   background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.14), transparent 70%);
   right: 20rpx; top: 10rpx;
 }
-
 .banner-deco-circle2 {
   position: absolute;
   width: 100rpx; height: 100rpx;
@@ -59,7 +47,6 @@ page {
   background: radial-gradient(circle at 70% 70%, rgb(255 255 255 / 0.10), transparent 70%);
   left: 120rpx; bottom: 20rpx;
 }
-
 .banner-title {
   font-size: 44rpx;
   font-weight: bold;
@@ -69,7 +56,6 @@ page {
   position: relative;
   z-index: 1;
 }
-
 .banner-subtitle {
   font-size: 26rpx;
   color: rgb(255 255 255 / 0.9);
@@ -78,7 +64,6 @@ page {
   position: relative;
   z-index: 1;
 }
-
 .banner-tags {
   display: flex;
   justify-content: center;
@@ -86,7 +71,6 @@ page {
   position: relative;
   z-index: 1;
 }
-
 .banner-tag {
   display: flex;
   align-items: center;
@@ -96,21 +80,17 @@ page {
   padding: 8rpx 20rpx;
   border-radius: 20rpx;
 }
-
 .tag-icon {
   width: 28rpx;
   height: 28rpx;
   margin-right: 6rpx;
 }
-
-/* ========== 鍒嗙被閫夋嫨鍖哄煙 ========== */
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
   position: relative;
   z-index: 10;
 }
-
 .section-title {
   font-size: 30rpx;
   font-weight: 600;
@@ -119,43 +99,42 @@ page {
   display: flex;
   align-items: center;
 }
-
 .section-icon {
   width: 32rpx;
   height: 32rpx;
   margin-right: 10rpx;
 }
-
-/* ========== 鍒嗙被鍗＄墖缃戞牸 ========== */
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
 }
-
 .template-card {
   background: #fff;
   border-radius: 24rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.10), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
-  border: 1rpx solid rgb(255 255 255 / 0.80);
+  border: 1rpx solid #5B6FE8;
+  box-shadow:
+    0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
+    0 4rpx 20rpx rgba(91, 111, 232, 0.10),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   flex-direction: column;
   position: relative;
 }
-
 .template-card:active {
   transform: scale(0.97);
   box-shadow: 0 2rpx 10rpx rgb(91 111 232 / 0.12), 0 1rpx 2rpx rgb(12 26 46 / 0.03);
 }
-
 .template-card.selected {
-  border-color: rgb(91 111 232 / 0.30);
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
+  border-color: #5B6FE8;
+  border-width: 2rpx;
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 0.70) inset,
+    0 6rpx 24rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
-
-/* 鍗＄墖椤堕儴 */
 .card-top {
   height: 80rpx;
   display: flex;
@@ -165,7 +144,6 @@ page {
   position: relative;
   overflow: hidden;
 }
-
 .card-top::before {
   content: '';
   position: absolute;
@@ -176,7 +154,6 @@ page {
   opacity: 0.10;
   filter: blur(24rpx);
 }
-
 .card-dot {
   width: 20rpx; height: 20rpx;
   border-radius: 50%;
@@ -184,7 +161,6 @@ page {
   z-index: 1;
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
 }
-
 .card-badge,
 .card-count {
   font-size: 21rpx;
@@ -196,15 +172,12 @@ page {
   z-index: 1;
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
-
-/* 鍗＄墖搴曢儴 */
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
   flex: 1;
   position: relative;
 }
-
 .card-name {
   font-size: 26rpx;
   font-weight: 700;
@@ -214,7 +187,6 @@ page {
   letter-spacing: 0.5rpx;
   line-height: 1.35;
 }
-
 .card-desc {
   font-size: 21rpx;
   color: #8C97A6;
@@ -224,8 +196,6 @@ page {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-/* 閫変腑瑙掓爣 */
 .card-check {
   position: absolute;
   top: 0; right: 0;
@@ -235,19 +205,15 @@ page {
   justify-content: center;
   border-radius: 0 24rpx 0 16rpx;
 }
-
 .check-icon {
   width: 28rpx;
   height: 28rpx;
 }
-
 .check-text {
   color: #fff;
   font-size: 24rpx;
   font-weight: 700;
 }
-
-/* 搴曢儴鑹茬嚎 */
 .template-card::after {
   content: '';
   position: absolute;
@@ -257,17 +223,12 @@ page {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
-
-/* ========== 寮圭獥閬僵 ========== */
 .doc-mask {
   position: fixed; inset: 0; z-index: 200;
   background: rgb(0 0 0 / 0.45);
   animation: fadeIn 0.2s ease;
 }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* ========== 妯℃澘閫夋嫨寮圭獥 ========== */
 .doc-picker {
   position: fixed; left: 0; right: 0; bottom: 0;
   padding-bottom: env(safe-area-inset-bottom);
@@ -275,91 +236,4 @@ page {
   background: #fff; border-radius: 32rpx 32rpx 0 0;
   box-shadow: 0 -8rpx 40rpx rgb(91 111 232 / 0.18);
   transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
-}
-.doc-picker--show { transform: translateY(0); }
-
-.doc-picker-drag { padding: 16rpx 0 0; text-align: center; }
-
-.drag-bar {
-  width: 72rpx; height: 6rpx; border-radius: 10rpx;
-  background: #D5DDE8; margin: 0 auto;
-}
-
-.doc-picker-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 28rpx 32rpx 20rpx;
-}
-
-.doc-picker-title-wrap {
-  display: flex; align-items: center;
-}
-
-.doc-picker-dot {
-  width: 16rpx; height: 16rpx; border-radius: 50%;
-  margin-right: 12rpx; flex-shrink: 0;
-}
-
-.doc-picker-title {
-  font-size: 32rpx; font-weight: 700; color: #1A2332;
-  margin-right: 16rpx;
-}
-
-.doc-picker-subtitle {
-  font-size: 24rpx; color: #8C97A6;
-  background: #F0F2F5; padding: 4rpx 14rpx; border-radius: 20rpx;
-}
-
-.doc-picker-close {
-  width: 56rpx; height: 56rpx; display: flex; align-items: center; justify-content: center;
-  background: #F0F2F5; border-radius: 50%; font-size: 28rpx; color: #8C97A6;
-}
-
-/* ========== 鎼滅储锟?========== */
-
-/* ========== 寮圭獥鍒楄〃 ========== */
-.doc-picker-body {
-  max-height: 52vh; padding: 0 32rpx 48rpx;
-  min-height: 0; overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.doc-grid {
-  display: grid !important; grid-template-columns: repeat(2, 1fr) !important;
-  gap: 20rpx;
-}
-
-.doc-grid-item {
-  background: #fff; border-radius: 20rpx;
-  border: 1rpx solid rgb(91 111 232 / 0.08);
-  overflow: hidden; display: flex; flex-direction: column;
-  transition: all 0.2s;
-}
-
-.doc-grid-item:active {
-  transform: scale(0.97);
-  background: rgb(91 111 232 / 0.03);
-}
-
-.doc-grid-color {
-  background: var(--cat-color, #7B5CFA);
-  height: 8rpx; width: 100%;
-}
-
-.doc-grid-content {
-  padding: 20rpx 24rpx 22rpx;
-  display: flex; align-items: center;
-  justify-content: center; flex: 1;
-}
-
-.doc-grid-name {
-  font-size: 26rpx; font-weight: 600; color: #1A2332;
-  text-align: center; line-height: 1.4;
-}
-
-.doc-empty {
-  padding: 60rpx 0; text-align: center;
-}
-
-.doc-empty-text {
-  font-size: 26rpx; color: #8C97A6;
-}
+}

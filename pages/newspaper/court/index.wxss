@@ -95,10 +95,14 @@ page { background: #F8F7FC; }
   background: #fff;
   border-radius: 24rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.10), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
-  border: 1rpx solid rgb(255 255 255 / 0.80);
+  border: 1rpx solid #5B6FE8;
+  box-shadow:
+    0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
+    0 4rpx 20rpx rgba(91, 111, 232, 0.10),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
   position: relative;
 }
 
@@ -108,8 +112,11 @@ page { background: #F8F7FC; }
 }
 
 .template-card.selected {
-  border-color: rgb(91 111 232 / 0.30);
-  box-shadow: 0 4rpx 20rpx rgb(91 111 232 / 0.15), 0 1rpx 3rpx rgb(12 26 46 / 0.04);
+  border-color: #5B6FE8;
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 0.70) inset,
+    0 6rpx 24rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
 
 /* 鍗＄墖椤堕儴 */
@@ -127,7 +134,7 @@ page { background: #F8F7FC; }
   left: -20rpx; top: -20rpx;
   width: 160rpx; height: 160rpx;
   border-radius: 50%;
-  background: var(--card-color, #7B5CFA);
+  background: var(--card-color, #A78BFA);
   opacity: 0.10;
   filter: blur(24rpx);
 }
@@ -270,7 +277,7 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid-color {
-  background: var(--cat-color, #7B5CFA);
+  background: var(--cat-color, #A78BFA);
 
   height: 8rpx; width: 100%;
 }
