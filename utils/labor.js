@@ -7,7 +7,7 @@ const categories = [
   {
     id: 1,
     name: '员工个人离职声明类',
-    color: '#52C41A',
+    color: '#5B6FE8',
     desc: '员工主动声明离职',
     hot: true,
     docs: [
@@ -19,7 +19,7 @@ const categories = [
   {
     id: 2,
     name: '劳动合同解除通用公告',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     desc: '解除合同公告与通知书',
     hot: true,
     docs: [
@@ -30,7 +30,7 @@ const categories = [
   {
     id: 3,
     name: '企业单方解除劳动关系声明',
-    color: '#F5222D',
+    color: '#5B6FE8',
     desc: '企业主动解除员工劳动关系',
     hot: true,
     docs: [

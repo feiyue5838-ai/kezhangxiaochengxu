@@ -18,7 +18,7 @@ var CATEGORIES = [
     id: 'simple',
     name: '简单版',
     desc: '基础个人信息',
-    color: COLORS_12[0],  // #5B6FE8 蓝色
+    color: '#5B6FE8',
     hot: true,
     docs: toDocs([
       '身份证(简单版)'
@@ -28,7 +28,7 @@ var CATEGORIES = [
     id: 'concise',
     name: '精简版',
     desc: '精简描述',
-    color: COLORS_12[1],  // #FA8C16 橙色
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '身份证(精简版)'
@@ -38,7 +38,7 @@ var CATEGORIES = [
     id: 'basic',
     name: '基础版',
     desc: '标准格式',
-    color: COLORS_12[2],  // #52C41A 绿色
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '身份证(基础版)'
@@ -48,7 +48,7 @@ var CATEGORIES = [
     id: 'lawyer',
     name: '律师版',
     desc: '含法律声明',
-    color: COLORS_12[3],  // #9BA8FF 浅蓝色
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '身份证(律师版)'
