@@ -286,9 +286,14 @@ page { background: #F8F7FC; }
 
 .doc-grid-color {
   background: var(--cat-color, #A78BFA);
-
-  height: 8rpx; width: 100%;
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 8rpx;
+  width: 100%;
+  border-radius: 20rpx 20rpx 0 0;
 }
+
+
 
 .doc-grid-content {
   padding: 20rpx 24rpx 22rpx;
