@@ -7,7 +7,7 @@ const categories = [
   {
     id: 1,
     name: '个人道歉声明',
-    color: '#EB2F96',
+    color: '#5B6FE8',
     desc: '个人原因致歉公示',
     hot: true,
     docs: [
@@ -31,7 +31,7 @@ const categories = [
   {
     id: 3,
     name: '产品道歉声明',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     desc: '产品质量问题致歉',
     hot: false,
     docs: [
@@ -42,7 +42,7 @@ const categories = [
   {
     id: 4,
     name: '其他道歉声明',
-    color: '#52C41A',
+    color: '#5B6FE8',
     desc: '侵权、违约等致歉',
     hot: false,
     docs: [

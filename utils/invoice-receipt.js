@@ -16,7 +16,7 @@ var CATEGORIES = [
     id: 'check',
     name: '支票、存根结算凭证',
     desc: '支票及结算凭证',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['支票','转账支票','存根联'])
   },
@@ -24,7 +24,7 @@ var CATEGORIES = [
     id: 'realestate',
     name: '房产不动产发票',
     desc: '购房及不动产票据',
-    color: '#F5222D',
+    color: '#5B6FE8',
     hot: true,
     docs: toDocs(['购房发票','销售不动产专用发票','销售不动产统一发票'])
   },
@@ -32,7 +32,7 @@ var CATEGORIES = [
     id: 'medical',
     name: '保险医疗票据',
     desc: '保险及医疗票据',
-    color: '#9BA8FF',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['保险发票','商业险发票'])
   },
@@ -40,7 +40,7 @@ var CATEGORIES = [
     id: 'vehicle',
     name: '机动车 / 车船税费票据',
     desc: '购车及车船税票据',
-    color: '#EB2F96',
+    color: '#5B6FE8',
     hot: true,
     docs: toDocs(['购车发票','机动车销售统一发票','机动车销售发票','车辆购置税发票','车船税发票'])
   },
@@ -48,7 +48,7 @@ var CATEGORIES = [
     id: 'general',
     name: '通用基础发票',
     desc: '税控 / 网络 / 定额 / 空白',
-    color: '#52C41A',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['发票','空白发票','定额发票','通用机打发票','通用网络发票','通用税控发票','网络在线通用发票','财政票据','政府性基金（资金）通用票据'])
   },
@@ -56,7 +56,7 @@ var CATEGORIES = [
     id: 'special',
     name: '专用发票（收票/开票方）',
     desc: '按收票开票方区分',
-    color: '#13C2C2',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['专用发票（开票方）','普通发票（收票方）','专用发票（收票方）','普票发票（收票方）','代开统一发票','代开专用发票（发票联）','代开专用发票（抵扣联）'])
   },
@@ -64,7 +64,7 @@ var CATEGORIES = [
     id: 'service',
     name: '建筑、服务业行业发票',
     desc: '建筑及服务业票据',
-    color: '#7B8FF7',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['建筑业统一发票','建筑安装业统一发票','服务业平推式发票'])
   },
@@ -72,7 +72,7 @@ var CATEGORIES = [
     id: 'trade',
     name: '进出口外贸发票',
     desc: '进出口贸易票据',
-    color: '#FAAD14',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['出口商品发票','出口货物专用发票'])
   },
@@ -80,7 +80,7 @@ var CATEGORIES = [
     id: 'management',
     name: '发票管理配套凭证',
     desc: '发票领购及管理凭证',
-    color: '#8C8C8C',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs(['发票领购簿'])
   }

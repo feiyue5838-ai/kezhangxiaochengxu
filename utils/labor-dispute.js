@@ -43,7 +43,7 @@ const categories = [
     id: 'labor_02',
     name: '劳动仲裁公告',
     desc: '劳动仲裁相关公告',
-    color: '#6675EA',
+    color: '#5B6FE8',
     docs: [
       '劳动仲裁申请公告',
       '仲裁受理通知',
@@ -55,7 +55,7 @@ const categories = [
     id: 'labor_03',
     name: '工资欠款公告',
     desc: '拖欠工资相关公告',
-    color: '#727BED',
+    color: '#5B6FE8',
     docs: [
       '拖欠工资声明',
       '工资欠款公告',
@@ -66,7 +66,7 @@ const categories = [
     id: 'labor_04',
     name: '工伤事故公告',
     desc: '工伤相关公告',
-    color: '#7D81F0',
+    color: '#5B6FE8',
     docs: [
       '工伤事故声明',
       '工伤认定公告',

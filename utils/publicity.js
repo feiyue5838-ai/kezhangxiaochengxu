@@ -8,7 +8,7 @@ const categories = [
   {
     id: 1,
     name: '个人主体',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     desc: '个人宣传、文章发表',
     hot: true,
     docs: [
@@ -32,7 +32,7 @@ const categories = [
   {
     id: 3,
     name: '政府主体',
-    color: '#52C41A',
+    color: '#5B6FE8',
     desc: '政府形象、机关宣传',
     hot: false,
     docs: [
@@ -43,7 +43,7 @@ const categories = [
   {
     id: 4,
     name: '普法公益',
-    color: '#EB2F96',
+    color: '#5B6FE8',
     desc: '法制宣传、公益公告',
     hot: true,
     docs: [
@@ -58,7 +58,7 @@ const categories = [
   {
     id: 5,
     name: '项目工程',
-    color: '#722ED1',
+    color: '#5B6FE8',
     desc: '项目招商、工程宣传',
     hot: false,
     docs: [

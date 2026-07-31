@@ -31,7 +31,7 @@ var CATEGORIES = [
     id: 'estate',
     name: '工程房产物业类',
     desc: '工程款 · 竣工 · 交房 · 拆迁',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     hot: true,
     docs: toDocs([
       '工程款结算公告', '竣工验收公告', '交房公告', '道路封闭公告',
@@ -46,7 +46,7 @@ var CATEGORIES = [
     id: 'seal',
     name: '公章/证件遗失免责',
     desc: '公章 · 证照 · 身份证 · 免责',
-    color: '#F5222D',
+    color: '#5B6FE8',
     hot: true,
     docs: toDocs([
       '合同作废声明', '未备案公章免责声明', '身份证冒用免责声明',
@@ -59,7 +59,7 @@ var CATEGORIES = [
     id: 'debt',
     name: '债权债务/催收/催告函',
     desc: '债权转让 · 催收 · 资产处置',
-    color: '#13C2C2',
+    color: '#5B6FE8',
     hot: true,
     docs: toDocs([
       '催告函', '债务逾期催收通知书', '货款催收公告', '借款逾期催收函',
@@ -71,7 +71,7 @@ var CATEGORIES = [
     id: 'license',
     name: '经营许可/备案/注销',
     desc: '办学 · 食品 · 资质 · 许可',
-    color: '#52C41A',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '终止办学公告', '食品召回公告', '解除公告', '减资撤销公告',
@@ -86,7 +86,7 @@ var CATEGORIES = [
     id: 'hr',
     name: '人事/招聘/劳务仲裁',
     desc: '招聘 · 求职 · 社保 · 仲裁',
-    color: '#EB2F96',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '招聘公告', '求职公告', '劳动人事争议仲裁委员会公告', '社保减员公告'
@@ -96,7 +96,7 @@ var CATEGORIES = [
     id: 'lost',
     name: '遗失/寻人/寻物启事',
     desc: '寻人 · 寻车 · 寻找责任人',
-    color: '#722ED1',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '寻人启事', '寻车启事', '寻找责任人公告'
@@ -106,7 +106,7 @@ var CATEGORIES = [
     id: 'terminate',
     name: '合作解除/终止/澄清',
     desc: '解除代理 · 严正声明 · 澄清',
-    color: '#FA541C',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '解除委托代理公告', '解除代持公告', '关于防止诈骗的严正声明',
@@ -119,7 +119,7 @@ var CATEGORIES = [
     id: 'property',
     name: '不动产/土地/产权公示',
     desc: '宅基地 · 土地使用权 · 产权交易',
-    color: '#1890FF',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '不动产公开挂牌转让公告', '宅基地使用权确权公告',
@@ -130,7 +130,7 @@ var CATEGORIES = [
     id: 'notify',
     name: '各类通知/公示/备案',
     desc: '限期返岗 · 除名 · 户口 · 债权申报',
-    color: '#2F54EB',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '限期返岗通知', '接受遗赠声明', '网签合同撤销公示',
@@ -143,7 +143,7 @@ var CATEGORIES = [
     id: 'auction',
     name: '拍卖/招标/竞价类',
     desc: '暂停拍卖 · 竞价公告',
-    color: '#FADC14',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '暂停拍卖通知', '竞价公告'
@@ -153,7 +153,7 @@ var CATEGORIES = [
     id: 'org',
     name: '机构设立/开业/解散',
     desc: '公益中心 · 商会 · 学校 · 分支机构',
-    color: '#A0D911',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '公益志愿服务中心成立公告', '商会成立公告', '学校成立公告',
@@ -164,7 +164,7 @@ var CATEGORIES = [
     id: 'stock',
     name: '产权/股权/股票相关',
     desc: '回购股票 · 商铺租赁 · 涉案账户',
-    color: '#13C2C2',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '关于回购限制性股票的减资公告', '核查开设赌场涉案账户公告',
@@ -175,7 +175,7 @@ var CATEGORIES = [
     id: 'notary',
     name: '公证/遗嘱/法律文书',
     desc: '遗嘱公证 · 公证告示',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '遗嘱公证公告', '遗嘱公证告示'
@@ -185,7 +185,7 @@ var CATEGORIES = [
     id: 'vehicle',
     name: '车辆/船舶相关',
     desc: '三无船舶 · 车辆报废',
-    color: '#8C8C8C',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '寻三无船舶船主公告'
@@ -206,7 +206,7 @@ var CATEGORIES = [
     id: 'other',
     name: '其他综合公告声明',
     desc: '迁坟 · 并购 · 致歉 · 破产清算',
-    color: '#8C8C8C',
+    color: '#5B6FE8',
     hot: false,
     docs: toDocs([
       '公告', '迁坟公告', '并购公告', '停业生产经营声明', '更正声明',

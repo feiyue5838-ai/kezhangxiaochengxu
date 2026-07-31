@@ -56,7 +56,7 @@ module.exports = {
       id: 2,
       name: '合同/协议类',
       iconSvg: '/assets/icons/icon-doc-03-generic.svg',
-      color: '#FF6B35',
+      color: '#5B6FE8',
       docs: [
         { name: '乘用车买卖合同', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '国内游合同', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -79,7 +79,7 @@ module.exports = {
       id: 3,
       name: '许可证/资质类',
       iconSvg: '/assets/icons/icon-doc-06-generic.svg',
-      color: '#13C2C2',
+      color: '#5B6FE8',
       docs: [
         { name: '人力资源服务许可证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '食品生产许可证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -106,7 +106,7 @@ module.exports = {
       id: 4,
       name: '票据/凭证类',
       iconSvg: '/assets/icons/icon-doc-05-generic.svg',
-      color: '#722ED1',
+      color: '#5B6FE8',
       docs: [
         { name: '工会经费收入专用收据', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '社会团体会费统一票据', iconSvg: '/assets/icons/icon-doc-05-generic.svg' },
@@ -131,7 +131,7 @@ module.exports = {
       id: 5,
       name: '交通/运输类',
       iconSvg: '/assets/icons/icon-doc-09-generic.svg',
-      color: '#EB2F96',
+      color: '#5B6FE8',
       docs: [
         { name: '客运出租汽车经营证', iconSvg: '/assets/icons/icon-doc-10-4A8CFF.svg' },
         { name: '船舶营运运输证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -155,7 +155,7 @@ module.exports = {
       id: 6,
       name: '建筑/工程类',
       iconSvg: '/assets/icons/icon-doc-07-generic.svg',
-      color: '#FA8C16',
+      color: '#5B6FE8',
       docs: [
         { name: '建设工程消防验收意见书', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '建设许可证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -184,7 +184,7 @@ module.exports = {
       id: 7,
       name: '营业执照/资质类',
       iconSvg: '/assets/icons/icon-doc-08-generic.svg',
-      color: '#2F54EB',
+      color: '#5B6FE8',
       docs: [
         { name: '营业执照', iconSvg: '/assets/icons/icon-doc-08-generic.svg' },
         { name: '个体营业执照', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -200,7 +200,7 @@ module.exports = {
       id: 8,
       name: '医疗/医药类',
       iconSvg: '/assets/icons/icon-doc-11-generic.svg',
-      color: '#C41D7F',
+      color: '#5B6FE8',
       docs: [
         { name: '医疗器械生产/经营许可证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '医疗器械生产企业许可证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -214,7 +214,7 @@ module.exports = {
       id: 9,
       name: '金融/税务类',
       iconSvg: '/assets/icons/icon-doc-04-generic.svg',
-      color: '#D4380D',
+      color: '#5B6FE8',
       docs: [
         { name: '银行机构信用代码证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '税务IC卡', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -239,7 +239,7 @@ module.exports = {
       id: 10,
       name: '进出口/贸易类',
       iconSvg: '/assets/icons/icon-doc-12-generic.svg',
-      color: '#096DD3',
+      color: '#5B6FE8',
       docs: [
         { name: 'FormE产地证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '出入境检验检疫报检企业备案表', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
@@ -260,7 +260,7 @@ module.exports = {
       id: 11,
       name: '文化/食品/其他类',
       iconSvg: '/assets/icons/icon-doc-13-generic.svg',
-      color: '#389E0D',
+      color: '#5B6FE8',
       docs: [
         { name: '印刷经营许可证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '网络文化经营许可证', iconSvg: '/assets/icons/icon-doc-12-generic.svg' },
@@ -287,7 +287,7 @@ module.exports = {
       id: 12,
       name: '交通/特种设备类',
       iconSvg: '/assets/icons/icon-doc-14-generic.svg',
-      color: '#AD2102',
+      color: '#5B6FE8',
       docs: [
         { name: '电梯使用登记证', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },
         { name: '电梯定期检验报告', iconSvg: '/assets/icons/icon-doc-03-generic.svg' },

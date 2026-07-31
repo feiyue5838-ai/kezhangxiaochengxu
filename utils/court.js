@@ -5,7 +5,7 @@
 
 const categories = [
   {
-    id: 1, name: '债权债务与催收', color: '#F5222D',
+    id: 1, name: '债权债务与催收', color: '#5B6FE8',
     desc: '债权转让、欠款催告', hot: true,
     docs: [
       { name: '债权转让公告', sub: '债权转让类' },
@@ -15,7 +15,7 @@ const categories = [
     ]
   },
   {
-    id: 2, name: '破产与清算', color: '#FA541C',
+    id: 2, name: '破产与清算', color: '#5B6FE8',
     desc: '破产公告、重整招募、债权核查', hot: true,
     docs: [
       { name: '法院破产公告', sub: '破产基础公告' },
@@ -27,7 +27,7 @@ const categories = [
     ]
   },
   {
-    id: 3, name: '仲裁与送达', color: '#D4380D',
+    id: 3, name: '仲裁与送达', color: '#5B6FE8',
     desc: '仲裁文书、开庭传票、送达公告', hot: true,
     docs: [
       { name: '仲裁文书送达公告', sub: '仲裁纠纷送达' },
@@ -39,7 +39,7 @@ const categories = [
     ]
   },
   {
-    id: 4, name: '行政处罚送达', color: '#BD310E',
+    id: 4, name: '行政处罚送达', color: '#5B6FE8',
     desc: '人社、税务、消防、卫生行政处罚', hot: false,
     docs: [
       { name: '行政处罚事先告知书送达公告', sub: '行政处罚告知类' },
@@ -77,7 +77,7 @@ const categories = [
     ]
   },
   {
-    id: 6, name: '司法拍卖与资产处置', color: '#8C8C8C',
+    id: 6, name: '司法拍卖与资产处置', color: '#5B6FE8',
     desc: '房产、车辆、资产拍卖认领', hot: false,
     docs: [
       { name: '司法拍卖公告', sub: '不动产资产拍卖' },
@@ -88,7 +88,7 @@ const categories = [
     ]
   },
   {
-    id: 7, name: '补偿提存与领取', color: '#52C41A',
+    id: 7, name: '补偿提存与领取', color: '#5B6FE8',
     desc: '补偿款、提存款、集体资产领取', hot: false,
     docs: [
       { name: '领取丧葬费和抚恤金通知', sub: '补偿款领取' },
@@ -99,7 +99,7 @@ const categories = [
     ]
   },
   {
-    id: 8, name: '寻人协查与司法文书', color: '#722ED1',
+    id: 8, name: '寻人协查与司法文书', color: '#5B6FE8',
     desc: '寻亲、协查通报、宣告死亡', hot: false,
     docs: [
       { name: '寻找目击证人及死者家属启示', sub: '协查寻找' },
@@ -112,7 +112,7 @@ const categories = [
     ]
   },
   {
-    id: 9, name: '行政监管与企业公告', color: '#0FCB7D',
+    id: 9, name: '行政监管与企业公告', color: '#5B6FE8',
     desc: '海关、人防、股权、律师声明', hot: false,
     docs: [
       { name: '海关走私货物认领公告', sub: '海关查扣财物' },

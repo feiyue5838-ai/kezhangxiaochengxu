@@ -5,7 +5,7 @@
 
 const categories = [
   {
-    id: 1, name: '债权债务综合清算', color: '#F5222D',
+    id: 1, name: '债权债务综合清算', color: '#5B6FE8',
     desc: '债权债务清理公告', hot: true,
     docs: [
       { name: '债权债务清理公告', sub: '综合清算' },
@@ -13,7 +13,7 @@ const categories = [
     ]
   },
   {
-    id: 2, name: '债权转让公告催收', color: '#FA541C',
+    id: 2, name: '债权转让公告催收', color: '#5B6FE8',
     desc: '纯转让 · 转让+催收 · 通知送达 · 应收账款', hot: true,
     docs: [
       // 2-1 纯债权转让
@@ -33,14 +33,14 @@ const categories = [
     ]
   },
   {
-    id: 3, name: '贷款违约公告', color: '#D4380D',
+    id: 3, name: '贷款违约公告', color: '#5B6FE8',
     desc: '违约贷款公告', hot: false,
     docs: [
       { name: '违约贷款公告', sub: '贷款违约' },
     ]
   },
   {
-    id: 4, name: '金融保险债权解除', color: '#8C8C8C',
+    id: 4, name: '金融保险债权解除', color: '#5B6FE8',
     desc: '投保人解除保险合同', hot: false,
     docs: [
       { name: '投保人解除保险合同', sub: '金融保险解除' },

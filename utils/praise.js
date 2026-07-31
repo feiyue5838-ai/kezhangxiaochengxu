@@ -7,7 +7,7 @@ const categories = [
   {
     id: 1,
     name: '个人表扬信',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     desc: '表扬个人先进事迹',
     hot: true,
     docs: [
@@ -31,7 +31,7 @@ const categories = [
   {
     id: 3,
     name: '员工表扬信',
-    color: '#52C41A',
+    color: '#5B6FE8',
     desc: '表扬员工优秀表现',
     hot: false,
     docs: [
@@ -42,7 +42,7 @@ const categories = [
   {
     id: 4,
     name: '单位表扬信',
-    color: '#7B8FF7',
+    color: '#5B6FE8',
     desc: '表扬单位协作贡献',
     hot: false,
     docs: [

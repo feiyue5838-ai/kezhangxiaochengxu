@@ -7,7 +7,7 @@ const categories = [
   {
     id: 1,
     name: '通用拍卖公告',
-    color: '#F5222D',
+    color: '#5B6FE8',
     desc: '线下拍卖通用模板',
     hot: true,
     docs: [
@@ -31,7 +31,7 @@ const categories = [
   {
     id: 3,
     name: '专项资产拍卖',
-    color: '#FA8C16',
+    color: '#5B6FE8',
     desc: '资产、机动车专项拍卖',
     hot: false,
     docs: [
@@ -42,7 +42,7 @@ const categories = [
   {
     id: 4,
     name: '司法法院拍卖',
-    color: '#F5222D',
+    color: '#5B6FE8',
     desc: '法院强制执行拍卖公告',
     hot: false,
     docs: [

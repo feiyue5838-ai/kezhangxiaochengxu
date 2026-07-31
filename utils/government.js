@@ -5,7 +5,7 @@
 
 const categories = [
   {
-    id: 1, name: '检察司法类公告', color: '#722ED1',
+    id: 1, name: '检察司法类公告', color: '#5B6FE8',
     desc: '人民检察院公告', hot: false,
     docs: [
       { name: '人民检察院公告' },
@@ -21,14 +21,14 @@ const categories = [
     ]
   },
   {
-    id: 3, name: '规划行政许可公示', color: '#0FCB7D',
+    id: 3, name: '规划行政许可公示', color: '#5B6FE8',
     desc: '规划设计条件变更公示', hot: false,
     docs: [
       { name: '规划设计条件变更公示' },
     ]
   },
   {
-    id: 4, name: '公证遗嘱类公告', color: '#FA8E17',
+    id: 4, name: '公证遗嘱类公告', color: '#5B6FE8',
     desc: '遗嘱公告', hot: false,
     docs: [
       { name: '遗嘱公告' },

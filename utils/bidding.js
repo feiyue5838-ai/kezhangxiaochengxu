@@ -18,7 +18,7 @@ const categories = [
   {
     id: 2,
     name: '采购供应商招标',
-    color: '#6675EA',
+    color: '#5B6FE8',
     desc: '物资采购、供应商入围招标',
     hot: true,
     docs: [
@@ -29,7 +29,7 @@ const categories = [
   {
     id: 3,
     name: '招聘通用招标',
-    color: '#727BED',
+    color: '#5B6FE8',
     desc: '社会招聘、通用服务招标',
     hot: false,
     docs: [

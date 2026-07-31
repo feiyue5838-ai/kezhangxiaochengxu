@@ -24,7 +24,7 @@ const categories = [
   {
     id: 2,
     name: '竣工环保验收公示',
-    color: '#6675EA',
+    color: '#5B6FE8',
     desc: '建设项目竣工环境保护验收公示',
     hot: true,
     docs: [
@@ -37,7 +37,7 @@ const categories = [
   {
     id: 3,
     name: '排污许可证公示',
-    color: '#727BED',
+    color: '#5B6FE8',
     desc: '排污许可证申领、变更、延续公示',
     hot: false,
     docs: [
@@ -50,7 +50,7 @@ const categories = [
   {
     id: 4,
     name: '清洁生产与环境预案公示',
-    color: '#7D81F0',
+    color: '#5B6FE8',
     desc: '清洁生产审核、突发环境事件预案',
     hot: false,
     docs: [
@@ -63,7 +63,7 @@ const categories = [
   {
     id: 5,
     name: '其他环保公示',
-    color: '#8887F3',
+    color: '#5B6FE8',
     desc: '辐射安全、土壤调查等其他公示',
     hot: false,
     docs: [
