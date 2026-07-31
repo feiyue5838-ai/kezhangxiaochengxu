@@ -1,5 +1,5 @@
-const api = require('../../utils/api.js');
-const regionData = require('../../utils/region-data.js');
+const api = require('../../../utils/api.js');
+const regionData = require('../../../utils/region-data.js');
 
 // 登报流程页面常量（避免硬编码路径散落多处）
 const PAGE_ORDER = '/pages/newspaper/order/index';
@@ -129,9 +129,10 @@ Page({
   async _loadPapers() {
     this.setData({ isLoadingPapers: true });
     try {
-      const papers = await api.getNewspaperList({ pageSize: 200 });
+      const papers = (await api.getNewspaperList({ pageSize: 200 })) || [];
+      const paperList = Array.isArray(papers) ? papers : (papers.list || papers.data || []);
       // 注入展示字段：logoColor、logoText、tag、minPrice
-      const processed = (papers || []).map(p => this._processPaper(p));
+      const processed = paperList.map(p => this._processPaper(p));
       // 默认显示当前省份筛选结果（按行政区划代码精确匹配）
       const defaultProvinceCode = regionData.getProvinceCode(regionData.provinces[0]);
       const filtered = processed.filter(p => {
@@ -356,8 +357,9 @@ Page({
     const copyCount = this.data.copyCount || 1;
 
     // 调用后端计价接口（传入全部参数，包含 copyCount）
+    // 注意：后端 @Query 参数为 snake_case，故传 newspaper_id 而非 newspaperId
     api.getNewspaperPrice({
-      newspaperId: selectedPaperId,
+      newspaper_id: selectedPaperId,
       contentLength: charCount,
       issueCount,
       copyCount
@@ -442,14 +444,14 @@ Page({
         const dto = {
           type: that.data.businessType,
           content: that.data.content,
-          newspaperId: String(that.data.selectedPaper || ''),
+          newspaper_id: String(that.data.selectedPaper || ''), // 后端用 snake_case
           newspaperName: paper.name,
           templateId: that.data.templateId || '',
           issueCount: that.data.issueCount,
           copyCount: that.data.copyCount,
           price: that.data.totalPrice,
-          addressId: address.id,
-          addressJson: JSON.stringify(address),
+          address_id: address.id,       // 后端用 snake_case
+          address_json: JSON.stringify(address), // 后端用 snake_case
           remark: that.data.remark || '',
           invoice: that.data.invoice || null,
           images: images

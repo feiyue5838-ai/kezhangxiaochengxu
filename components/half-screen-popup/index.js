@@ -135,7 +135,7 @@ Component({
           price: Number(s.price),
           displayPrice: Number(s.displayPrice),
           description: s.description || '',
-          categoryName: (s.seal_categories && s.seal_categories.name) || '',
+          categoryName: (s.sealCategories && s.sealCategories.name) || '',
         }));
         // 映射套餐数据
         const apiPackages = (res.packages || []).map(p => ({
@@ -149,7 +149,7 @@ Component({
           sealNames: (p.seals || []).map(s => s.name).join('、'),
           // 套餐自己上传的图片（管理后台维护），预览时优先展示
           images: (p.images || []).map(u => api.API_BASE + u),
-          categoryName: (p.seal_categories && p.seal_categories.name) || '',
+          categoryName: (p.sealCategories && p.sealCategories.name) || '',
         }));
 
         // 如果传了 filterSealId，只保留匹配的印章，清空套餐
@@ -207,7 +207,7 @@ Component({
         price: Number(s.price),
         displayPrice: this._calcDisplayPrice(s, r),
         description: s.description || '',
-        categoryName: (s.seal_categories && s.seal_categories.name) || (s.category && s.category.name) || '',
+        categoryName: (s.sealCategories && s.sealCategories.name) || (s.category && s.category.name) || '',
       });
       const mapPackage = p => ({
         id: p.id,
@@ -219,7 +219,7 @@ Component({
         sealNames: (p.seals || []).map(s => s.name).join('、'),
         // 套餐自己上传的图片（管理后台维护），预览时优先展示
         images: (p.images || []).map(u => api.API_BASE + u),
-        categoryName: (p.seal_categories && p.seal_categories.name) || (p.category && p.category.name) || '',
+        categoryName: (p.sealCategories && p.sealCategories.name) || (p.category && p.category.name) || '',
       });
 
       const apiSeals = (seals || []).map(mapSeal);

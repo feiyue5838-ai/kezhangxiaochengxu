@@ -202,7 +202,7 @@ Page({
     this.setData({ selectedCategory: 'b14f2347-9ea5-49ef-a056-cc104b13e4c5' });
     this.selectComponent('#sealPopup').openWithCategory(
       '058ce9b9-ed91-4ee8-905e-1234327c653f',
-      'b14f2347-9ea5-49ef-a056-cc104b13e4c5'
+      '2256dcb7-0117-4057-9b5d-b037f6536aaf'
     );
   },
 
@@ -210,7 +210,7 @@ Page({
     this.setData({ selectedCategory: 'c0000001-0000-0000-0000-000000000002' });
     this.selectComponent('#sealPopup').openWithCategory(
       '058ce9b9-ed91-4ee8-905e-1234327c653f',
-      'c0000001-0000-0000-0000-000000000002'
+      ''
     );
   },
 

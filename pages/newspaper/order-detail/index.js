@@ -1,5 +1,5 @@
 // pages/newspaper/order-detail/index.js
-const api = require('../../utils/api.js');
+const api = require('../../../utils/api.js');
 
 Page({
   data: {

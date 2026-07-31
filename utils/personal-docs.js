@@ -25,7 +25,7 @@ module.exports = {
     {
       name: '职业资格与执业证件',
       desc: '职业资格证/执业证/工作证/培训合格证',
-      color: '#F5222D',
+      color: '#5B6FE8',
       iconSvg: '/assets/icons/icon-doc-09-generic.svg',
       total: 114,
       docs: [
@@ -148,7 +148,7 @@ module.exports = {
     {
       name: '医疗健康类',
       desc: '出生证明/体检报告/健康证明/诊断证明书',
-      color: '#EB2F96',
+      color: '#6A6CEC',
       iconSvg: '/assets/icons/icon-doc-04-generic.svg',
       total: 7,
       docs: [
@@ -164,7 +164,7 @@ module.exports = {
     {
       name: '合同协议与法律文书',
       desc: '合同/协议/法律文书/委托书/公证书',
-      color: '#52C41A',
+      color: '#7B5CFA',
       iconSvg: '/assets/icons/icon-doc-03-generic.svg',
       total: 25,
       docs: [
@@ -198,7 +198,7 @@ module.exports = {
     {
       name: '房产与土地相关证件单据',
       desc: '房产证/土地证/不动产权证/安置协议',
-      color: '#FA8C16',
+      color: '#8C6EF3',
       iconSvg: '/assets/icons/icon-doc-07-generic.svg',
       total: 34,
       docs: [
@@ -241,7 +241,7 @@ module.exports = {
     {
       name: '金融财税与票据',
       desc: '发票/收据/税票/保险单/保证金收据',
-      color: '#5B6FE8',
+      color: '#9B79F4',
       iconSvg: '/assets/icons/icon-doc-05-generic.svg',
       total: 28,
       docs: [
@@ -278,7 +278,7 @@ module.exports = {
     {
       name: '交通与运输相关证件',
       desc: '驾驶证/行驶证/船舶证书/运输单据',
-      color: '#9BA8FF',
+      color: '#A78BFA',
       iconSvg: '/assets/icons/icon-doc-11-generic.svg',
       total: 16,
       docs: [
@@ -303,7 +303,7 @@ module.exports = {
   {
       name: '企业证件',
       desc: '营业执照/资质证书/经营许可证等企业证件遗失声明',
-      color: '#1890FF',
+      color: '#B49CF7',
       iconSvg: '/assets/icons/icon-doc-02-generic.svg',
       total: 50,
       docs: [
