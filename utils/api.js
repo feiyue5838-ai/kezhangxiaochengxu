@@ -12,7 +12,7 @@
 // 开发版（模拟器 / 真机调试 / 预览）走局域网 IP，体验版 / 正式版走 HTTPS 域名
 // ⚠️ 发版前：把 API_BASE_PROD 替换为已备案的 HTTPS 域名，并在微信公众平台
 //    开发管理 → 服务器域名 中把 request / uploadFile / downloadFile 都加上该域名
-const API_BASE_DEV = 'http://192.168.31.219:3001';
+const API_BASE_DEV = 'http://127.0.0.1:3001'; // devtools 走环回地址；真机预览需改回 http://192.168.31.219:3001
 const API_BASE_PROD = 'https://api.rongcheng.com'; // TODO: 替换为实际备案 HTTPS 域名
 
 let API_BASE;
@@ -286,7 +286,7 @@ module.exports = {
 
   // 报纸模板 ?GET /api/newspapers/templates?categoryId=xxx
 
-  getNewspaperTemplate: (categoryId) => request({ url: '/api/newspapers/templates', data: { categoryId } }),
+  getNewspaperTemplate: (categoryId) => request({ url: '/api/newspapers/templates', data: { category_id: categoryId } }),
 
   // 报纸价格 ?GET /api/newspapers/price
 
@@ -298,7 +298,7 @@ module.exports = {
 
   // 登报订单列表 ?GET /api/orders?module=newspaper
 
-  getNewspaperOrderList: (params) => request({ url: '/api/orders', data: { ...params, module: 'newspaper' } }),
+  getNewspaperOrderList: (params) => request({ url: '/api/orders', data: { ...params, module: 'newspaper' }, method: 'GET' }),
 
   // 登报订单详情 ?GET /api/orders/:id
 
@@ -323,6 +323,10 @@ module.exports = {
   // 公告模板（按 17 分类分组）→ GET /api/newspapers/announcement-templates
 
   getAnnouncementTemplates: () => request({ url: '/api/newspapers/announcement-templates' }),
+
+  // 公告声明模板（按 1 分类分组，公告声明 banner）→ GET /api/newspapers/notice-templates
+
+  getNoticeTemplates: () => request({ url: '/api/newspapers/notice-templates' }),
 
   // 企业证件模板（按 12 分类分组）→ GET /api/newspapers/company-doc-templates
 
@@ -362,6 +366,9 @@ module.exports = {
 
   getPublicityTemplates: () => request({ url: '/api/newspapers/publicity-templates' }),
 
+  // 表扬信模板（按 4 分类分组）→ GET /api/newspapers/praise-templates
+
+  getPraiseTemplates: () => request({ url: '/api/newspapers/praise-templates' }),
 
 
 
