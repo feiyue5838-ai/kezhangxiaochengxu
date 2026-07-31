@@ -168,18 +168,22 @@
   gap: 24rpx;
 }
 
-/* 鍒嗙被鍗＄墖 */
+/* 分类卡片 */
 .cat-card {
   border-radius: 20rpx;
   padding: 24rpx 10rpx 20rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.06);
+  border: 2rpx solid #5B6FE8;
+  box-shadow: 0 2rpx 12rpx rgba(91, 111, 232, 0.12), 0 1rpx 3rpx rgba(12, 26, 46, 0.05);
+  box-sizing: border-box;
+  min-height: 168rpx;
 }
 
 .cat-card:active {
@@ -187,7 +191,7 @@
   opacity: 0.88;
 }
 
-/* 鍥炬爣瀹瑰櫒 */
+/* 图标容器 */
 .icon-wrap {
   width: 76rpx;
   height: 76rpx;
@@ -197,15 +201,20 @@
   justify-content: center;
   margin-bottom: 14rpx;
   background: #F8F7FC;
+  flex-shrink: 0;
 }
 
-/* 鍒嗙被鍚嶇О */
+/* 分类名称 */
 .cat-name {
   font-size: 24rpx;
   color: #1A2332;
   font-weight: 600;
   text-align: center;
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* SVG 鍥炬爣灏哄 */
