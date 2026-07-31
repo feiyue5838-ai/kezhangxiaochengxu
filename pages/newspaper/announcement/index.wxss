@@ -236,4 +236,31 @@ page {
   background: #fff; border-radius: 32rpx 32rpx 0 0;
   box-shadow: 0 -8rpx 40rpx rgb(91 111 232 / 0.18);
   transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
-}
+}
+.template-card + .doc-grid,
+.doc-grid {
+  /* 容器：grid 布局，保持原样 */
+}
+
+.doc-grid-item {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  border: 1rpx solid #5B6FE8;
+  box-shadow:
+    0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
+    0 2rpx 12rpx rgba(91, 111, 232, 0.10),
+    0 1rpx 2rpx rgba(12, 26, 46, 0.03);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-sizing: border-box;
+}
+
+.doc-grid-item:active {
+  transform: scale(0.97);
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 0.70) inset,
+    0 4rpx 16rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 2rpx rgba(12, 26, 46, 0.03);
+}
