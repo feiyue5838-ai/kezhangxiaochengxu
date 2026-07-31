@@ -18,6 +18,7 @@ Page({
       color: ['#5B6FE8', '#6474E9', '#6D78EB', '#767DEC', '#7F81ED', '#8886EF',
               '#918AF0', '#9A8FF1', '#A393F3', '#AC98F4', '#B59CF5', '#B49CF7'][index % 12],
     })),
+    loading: false,
   },
 
   onLoad() {
@@ -33,14 +34,16 @@ Page({
   },
 
   async _loadFromApi() {
+    this.setData({ loading: true })
     try {
       const res = await api.getCompanyDocTemplates();
       if (Array.isArray(res) && res.length > 0) {
         categoriesFromApi = res;
-        this.setData({ categoryList: res });
+        this.setData({ categoryList: res, loading: false });
       }
     } catch (e) {
       console.warn('[company-docs] API 调用失败，使用前端硬编码兜底', e);
+      this.setData({ loading: false });
     }
   },
 

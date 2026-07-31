@@ -1,5 +1,11 @@
 <!--pages/newspaper/announcement/index.wxml-->
 <view class="page">
+  <!-- Loading -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中…</text>
+  </view>
+
   <!-- 自定义导航栏 -->
   <nav-bar title="{{pageTitle}}" bind:back="goBack"></nav-bar>
 

@@ -13,7 +13,8 @@ Page({
     pickedItems: [],
     searchKey: '',
     categoryList: governmentConfig.categories,
-  },
+  ,
+    loading: false},
 
   onLoad() {
     this._floatDragStart = null;
@@ -28,6 +29,7 @@ Page({
   },
 
   async _loadFromApi() {
+    this.setData({ loading: true })
     try {
       const res = await api.getGovernmentTemplates();
       if (Array.isArray(res) && res.length > 0) {
@@ -40,10 +42,11 @@ Page({
           hot: cat.hot,
           docs: (cat.docs || []).map(d => ({ name: d.name, sub: cat.name })),
         }));
-        this.setData({ categoryList: mapped });
+        this.setData({ categoryList: mapped, loading: false });
       }
     } catch (e) {
       console.warn('[government] API 调用失败，使用前端硬编码兜底', e);
+      this.setData({ loading: false });
     }
   },
 

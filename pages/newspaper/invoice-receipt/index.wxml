@@ -1,4 +1,10 @@
 <view class="page">
+  <!-- Loading -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中…</text>
+  </view>
+
   <!-- 自定义导航栏（紫色渐变，与政府送达对齐）-->
   <nav-bar title="发票收据" bind:back="goBack"></nav-bar>
 

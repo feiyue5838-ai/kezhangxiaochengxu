@@ -17,6 +17,7 @@ Page({
       hot: cat.hot,
       items: cat.docs
     })),
+    loading: false,
     pickedIndex: -1,
     pickedItems: [],
     showDocPicker: false,
@@ -43,6 +44,7 @@ Page({
   },
 
   async _loadFromApi() {
+    this.setData({ loading: true })
     try {
       const res = await api.getCourtTemplates();
       if (Array.isArray(res) && res.length > 0) {
@@ -56,10 +58,11 @@ Page({
           hot: cat.hot,
           items: (cat.docs || []).map(d => ({ name: d.name, sub: cat.name }))
         }));
-        this.setData({ categories: mapped });
+        this.setData({ categories: mapped, loading: false });
       }
     } catch (e) {
       console.warn('[court] API 调用失败，使用前端硬编码兜底', e);
+      this.setData({ loading: false });
     }
   },
 

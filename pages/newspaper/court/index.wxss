@@ -320,3 +320,35 @@ page { background: #F8F7FC; }
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.40);
 }
 .float-btn-icon { width: 44rpx; height: 44rpx; }
+
+
+/* Loading */
+.loading-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.loading-spinner {
+  width: 56rpx;
+  height: 56rpx;
+  border: 4rpx solid rgba(91, 111, 232, 0.15);
+  border-top-color: #5B6FE8;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.loading-text {
+  margin-top: 20rpx;
+  font-size: 26rpx;
+  color: #8c9dcc;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
