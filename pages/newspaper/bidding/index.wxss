@@ -104,10 +104,10 @@ page { background: #F8F7FC; }
 .doc-grid-item {
   background: #fff;
   border-radius: 20rpx;
-  padding: 24rpx;
-  border: 1rpx solid #5B6FE8;
+  padding: 20rpx 24rpx;
+  border: 2rpx solid #5B6FE8;
   box-shadow:
-    0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
+    0 0 0 1rpx rgba(167, 139, 250, 0.85) inset,
     0 2rpx 12rpx rgba(91, 111, 232, 0.10),
     0 1rpx 2rpx rgba(12, 26, 46, 0.03);
   position: relative;
@@ -116,13 +116,12 @@ page { background: #F8F7FC; }
   box-sizing: border-box;
 }
 .doc-grid-item:active { transform: scale(0.97); }
-.doc-grid-color {
-  background: var(--cat-color, #A78BFA);
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  height: 8rpx;
-  width: 100%;
-  border-radius: 20rpx 20rpx 0 0;
+  border-color: #5B6FE8;
+  border-width: 2rpx;
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 1) inset,
+    0 4rpx 16rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 2rpx rgba(12, 26, 46, 0.03);
 }
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
 .doc-grid-name { font-size: 25rpx; color: #1A2332; font-weight: 500; line-height: 1.4; flex: 1;
