@@ -13,8 +13,8 @@ Page({
     pickedItems: [],
     searchKey: '',
     categoryList: governmentConfig.categories,
-  ,
-    loading: false},
+    loading: false
+  },
 
   onLoad() {
     this._floatDragStart = null;
