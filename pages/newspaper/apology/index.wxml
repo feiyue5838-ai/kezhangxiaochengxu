@@ -7,7 +7,7 @@
     <view class="banner-deco-circle"></view>
     <view class="banner-deco-circle2"></view>
     <text class="banner-title">登报道歉声明</text>
-    <text class="banner-subtitle">涵盖{{categoryList.length}}大类 · 全类型道歉模板</text>
+    <text class="banner-subtitle">涵盖{{categories.length}}大类 · 全类型道歉模板</text>
     <view class="banner-tags">
       <view class="banner-tag"><image src="/assets/icons/icon-idcard-shield.svg" mode="aspectFit" class="tag-icon" />合规公示</view>
       <view class="banner-tag"><image src="/assets/icons/icon-idcard-check.svg" mode="aspectFit" class="tag-icon" />法律依据</view>
@@ -17,11 +17,11 @@
   <!-- 分类卡片网格 -->
   <view class="template-section">
     <view class="template-grid">
-      <view class="template-card" wx:for="{{categoryList}}" wx:key="id"
-        bindtap="openDocPicker" data-index="{{index}}">
+      <view class="template-card" wx:for="{{categories}}" wx:key="id"
+        bindtap="selectTemplate" data-id="{{item.id}}">
         <view class="card-top" style="--card-color: {{item.color || '#EB2F96'}}">
           <view class="card-dot" style="background: {{item.color || '#EB2F96'}};"></view>
-          <view class="card-count" style="background: {{item.color || '#EB2F96'}};">{{item.docs.length}}</view>
+          <view class="card-count" style="background: {{item.color || '#EB2F96'}};">{{item.items.length}}</view>
         </view>
         <view class="card-body">
           <text class="card-name">{{item.name}}</text>
@@ -37,8 +37,8 @@
     <view class="doc-picker-drag"><view class="drag-bar"></view></view>
     <view class="doc-picker-header">
       <view class="doc-picker-title-wrap">
-        <view class="doc-picker-dot" style="background: {{categoryList[pickedIndex].color}};"></view>
-        <text class="doc-picker-title">{{categoryList[pickedIndex].name}}</text>
+        <view class="doc-picker-dot" style="background: {{categories[pickedIndex].color}};"></view>
+        <text class="doc-picker-title">{{categories[pickedIndex].name}}</text>
         <text class="doc-picker-subtitle">{{pickedItems.length}}个模板</text>
       </view>
       <view class="doc-picker-close" bindtap="closeDocPicker"><text>✕</text></view>
@@ -47,7 +47,7 @@
       <view class="doc-grid">
         <view class="doc-grid-item" wx:for="{{pickedItems}}" wx:key="name"
           bindtap="selectItem" data-name="{{item.name}}"
-          style="--cat-color: {{categoryList[pickedIndex].color}};">
+          style="--cat-color: {{categories[pickedIndex].color}};">
           <view class="doc-grid-color" style=""></view>
           <view class="doc-grid-content">            <text class="doc-grid-name">{{item.name}}</text>
           </view>

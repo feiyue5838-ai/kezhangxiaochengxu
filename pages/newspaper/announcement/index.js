@@ -11,6 +11,8 @@ let categoriesFromApi = null
 Page({
   data: {
     selectedCategory: '',
+    pageTitle: '声明公告',
+    bannerTitle: '声明公告登报',
     categories: announcementConfig.categories.map(cat => ({
       id: cat.id,
       name: cat.name,
@@ -24,17 +26,26 @@ Page({
     showDocPicker: false,
     searchKey: '',
     loading: false,
-    useApi: false, // 是否使用了 API 数据
+    useApi: false,
+    pageId: 5,
   },
 
-  onLoad() {
+  onLoad(options) {
+    const id = options && options.id ? Number(options.id) : 5
+    const isNotice = id === 6
+    this.setData({
+      pageId: id,
+      pageTitle: isNotice ? '公告声明' : '声明公告',
+      bannerTitle: isNotice ? '公告声明登报' : '声明公告登报',
+    })
     this._loadFromApi()
   },
 
   async _loadFromApi() {
     this.setData({ loading: true })
     try {
-      const res = await api.getAnnouncementTemplates()
+      const fetcher = this.data.pageId === 6 ? api.getNoticeTemplates : api.getAnnouncementTemplates
+      const res = await fetcher()
       if (Array.isArray(res) && res.length > 0) {
         categoriesFromApi = res
         const cats = res.map(g => ({
@@ -95,7 +106,6 @@ Page({
     const item = (cat.items || []).find(d => d.name === name)
     if (!item) return
 
-    // API 有 content 用 API content，无则 fallback 到规则生成
     const content = (item.content && item.content.trim())
       ? item.content
       : announcementConfig.generateContent(name)
@@ -103,12 +113,12 @@ Page({
     wx.setStorageSync('newspaperTemplate', {
       name: item.name,
       content,
-      businessType: '公告声明',
+      businessType: cat.name,
       category: cat.name,
       _timestamp: Date.now()
     })
     wx.setStorageSync('formPageNavData', {
-      type: '公告声明',
+      type: cat.name,
       docName: item.name,
       categoryName: cat.name,
       itemName: item.name,

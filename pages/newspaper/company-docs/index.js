@@ -15,8 +15,8 @@ Page({
     searchKey: '',
     categoryList: companyDocsConfig.categories.map((cat, index) => ({
       ...cat,
-      color: ['#5B6FE8', '#FF6B35', '#13C2C2', '#722ED1', '#EB2F96', '#FA8C16',
-              '#2F54EB', '#C41D7F', '#D4380D', '#096DD3', '#389E0D', '#AD2102'][index % 12],
+      color: ['#5B6FE8', '#6474E9', '#6D78EB', '#767DEC', '#7F81ED', '#8886EF',
+              '#918AF0', '#9A8FF1', '#A393F3', '#AC98F4', '#B59CF5', '#B49CF7'][index % 12],
     })),
   },
 

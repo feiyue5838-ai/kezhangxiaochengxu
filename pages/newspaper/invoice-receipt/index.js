@@ -42,7 +42,7 @@ Page({
   _useFallback() {
     const fallback = invoiceReceiptConfig.categories.map((cat, index) => ({
       ...cat,
-      color: ['#5B6FE8', '#FA8C16', '#52C41A', '#9BA8FF', '#13C2C2', '#EB2F96'][index % 6],
+      color: ['#5B6FE8', '#6D78EB', '#7F81EE', '#918AF1', '#A293F4', '#B49CF7'][index % 6],
       total: cat.docs.length,
     }));
     this.setData({
