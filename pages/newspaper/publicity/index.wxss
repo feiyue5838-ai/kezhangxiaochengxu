@@ -103,6 +103,15 @@ page { background: #F8F7FC; }
   flex-direction: column;
   position: relative;
 }
+.template-card.selected {
+  border-color: #5B6FE8;
+  border-width: 2rpx;
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 0.70) inset,
+    0 6rpx 24rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
+}
+
 
 .template-card:active {
   transform: scale(0.97);
