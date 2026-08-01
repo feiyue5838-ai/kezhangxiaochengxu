@@ -179,10 +179,16 @@
   position: relative;
   z-index: 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14rpx;
+  gap: 12rpx;
   padding: 0 40rpx;
   margin-top: 40rpx;
+}
+.agreement-center {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
 }
 
 .checkbox {
@@ -206,18 +212,7 @@
   font-weight: 700;
 }
 
-.agreement-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8rpx;
-}
-.agreement-links {
-  display: flex;
-  gap: 16rpx;
-}
-.agreement-links .link {
+.agreement-center .link {
   font-size: 24rpx;
   color: #7B5CFA;
   font-weight: 500;
