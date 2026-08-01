@@ -209,8 +209,9 @@
 .agreement-text {
   font-size: 22rpx;
   color: #999;
-  line-height: 1.7;
+  line-height: 1.5;
   flex: 1;
+  white-space: nowrap;
 }
 .link {
   color: #7B5CFA;
