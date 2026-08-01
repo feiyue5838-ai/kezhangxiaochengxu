@@ -763,12 +763,24 @@
   box-sizing: border-box;
   padding: 20rpx;
   border-radius: 16rpx;
-  border: 2rpx solid #E5E8F0;
-  background: #FAFBFF;
+  border: 1rpx solid #5B6FE8;
+  background: #fff;
+  box-shadow:
+    0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
+    0 4rpx 20rpx rgba(91, 111, 232, 0.10),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.sec-card:active {
+  transform: scale(0.97);
 }
 .sec-card.selected {
   border-color: #5B6FE8;
-  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+  border-width: 2rpx;
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 0.70) inset,
+    0 6rpx 24rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
 .sec-check {
   position: absolute;
@@ -777,8 +789,8 @@
   width: 32rpx;
   height: 32rpx;
   border-radius: 50%;
-  background: rgba(255,255,255,0.9);
-  color: #5B6FE8;
+  background: #5B6FE8;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -789,17 +801,11 @@
   font-weight: 600;
   color: #1A2332;
 }
-.sec-card.selected .sec-name {
-  color: #fff;
-}
 .sec-cycle {
   display: block;
   font-size: 22rpx;
   color: #8C97A6;
   margin-top: 6rpx;
-}
-.sec-card.selected .sec-cycle {
-  color: rgba(255,255,255,0.85);
 }
 .sec-price-row {
   display: flex;
@@ -811,14 +817,8 @@
   font-weight: 700;
   color: #F56C6C;
 }
-.sec-card.selected .sec-price {
-  color: #fff;
-}
 .sec-unit {
   font-size: 20rpx;
   color: #8C97A6;
   margin-left: 4rpx;
-}
-.sec-card.selected .sec-unit {
-  color: rgba(255,255,255,0.85);
 }
