@@ -39,7 +39,13 @@ Page({
     selectedCityCode: '',
     filteredPapers: [],
     publishFee: 0,
-    totalPrice: 0
+    sectionFee: 0,
+    totalPrice: 0,
+
+    // 版面选择（enable_sections=1 的报纸才有）
+    sections: [],
+    selectedSection: '',
+    selectedSectionName: ''
   },
 
   onLoad(options) {
@@ -265,11 +271,46 @@ Page({
 
   selectPaper(e) {
     const id = e.currentTarget.dataset.id;
-    // 切换报纸时清除旧的份数/期数/收件人（可选）
+    const paper = this.data.papers.find(p => String(p.id) === String(id));
+    // 切换报纸时清除旧的份数/期数/版面
     this.setData({
       selectedPaper: String(id),
       issueCount: 1,
-      copyCount: 1
+      copyCount: 1,
+      selectedSection: '',
+      selectedSectionName: '',
+      sections: []
+    });
+    // 报纸开启版面选择 → 拉取启用版面
+    if (paper && paper.enableSections === 1) {
+      this._loadSections(String(id));
+    }
+    this.calculatePrice();
+  },
+
+  // 拉取报纸版面（公开接口，仅启用中的版面）
+  _loadSections(newspaperId) {
+    api.getNewspaperSections(newspaperId).then(res => {
+      const list = Array.isArray(res) ? res : (res.list || res.data || []);
+      const active = list.filter(s => s.status === 1);
+      this.setData({ sections: active });
+      // 默认选中第一个版面
+      if (active.length > 0) {
+        this.setData({ selectedSection: String(active[0].id), selectedSectionName: active[0].name });
+        this.calculatePrice();
+      }
+    }).catch(() => {
+      this.setData({ sections: [] });
+    });
+  },
+
+  // 选择版面
+  selectSection(e) {
+    const id = e.currentTarget.dataset.id;
+    const sec = this.data.sections.find(s => String(s.id) === String(id));
+    this.setData({
+      selectedSection: String(id),
+      selectedSectionName: sec ? sec.name : ''
     });
     this.calculatePrice();
   },
@@ -362,11 +403,13 @@ Page({
       newspaper_id: selectedPaperId,
       contentLength: charCount,
       issueCount,
-      copyCount
+      copyCount,
+      section_id: this.data.selectedSection || undefined
     }).then(res => {
       if (res && res.totalPrice != null) {
         this.setData({
-          publishFee: res.totalPrice,
+          publishFee: res.wordPrice != null ? res.wordPrice : res.totalPrice,
+          sectionFee: res.sectionPrice || 0,
           totalPrice: res.totalPrice
         });
       } else {
@@ -383,10 +426,13 @@ Page({
     const pricePerWord = paper.pricePerWord || 0;
     const minWords = paper.minWords || 50;
     const billableWords = Math.max(charCount, minWords);
-    const publishFee = pricePerWord * billableWords * issueCount * copyCount;
+    const wordFee = pricePerWord * billableWords * issueCount * copyCount;
+    const sec = this.data.sections.find(s => String(s.id) === String(this.data.selectedSection));
+    const sectionFee = sec ? Number(sec.listPrice) * issueCount * copyCount : 0;
     this.setData({
-      publishFee: Math.round(publishFee * 100) / 100,
-      totalPrice: Math.round(publishFee * 100) / 100
+      publishFee: Math.round(wordFee * 100) / 100,
+      sectionFee: Math.round(sectionFee * 100) / 100,
+      totalPrice: Math.round((wordFee + sectionFee) * 100) / 100
     });
   },
 
@@ -420,9 +466,10 @@ Page({
     const paper = that.data.papers.find(p => String(p.id) === String(that.data.selectedPaper || ''));
     const address = that.data.selectedAddress;
 
+    const sectionLine = that.data.selectedSectionName ? '版面：' + that.data.selectedSectionName + '\n' : '';
     wx.showModal({
       title: '确认支付',
-      content: '报纸：' + paper.name + '\n' + that.data.issueCount + '期 · ' + that.data.copyCount + '份\n合计：¥' + that.data.totalPrice,
+      content: '报纸：' + paper.name + '\n' + sectionLine + that.data.issueCount + '期 · ' + that.data.copyCount + '份\n合计：¥' + that.data.totalPrice,
       async success(res) {
         if (!res.confirm) {
           that.setData({ isSubmitting: false });
@@ -446,6 +493,8 @@ Page({
           content: that.data.content,
           newspaper_id: String(that.data.selectedPaper || ''), // 后端用 snake_case
           newspaperName: paper.name,
+          section_id: that.data.selectedSection || '',   // 后端用 snake_case
+          section_name: that.data.selectedSectionName || '',
           templateId: that.data.templateId || '',
           issueCount: that.data.issueCount,
           copyCount: that.data.copyCount,

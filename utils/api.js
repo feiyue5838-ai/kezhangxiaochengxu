@@ -288,6 +288,8 @@ module.exports = {
 
   getNewspaperTemplate: (categoryId) => request({ url: '/api/newspapers/templates', data: { category_id: categoryId } }),
 
+  // 报纸版面列表 ?GET /api/newspapers/:id/sections
+  getNewspaperSections: (newspaperId) => request({ url: '/api/newspapers/' + newspaperId + '/sections' }),
   // 报纸价格 ?GET /api/newspapers/price
 
   getNewspaperPrice: (data) => request({ url: '/api/newspapers/price', data }),

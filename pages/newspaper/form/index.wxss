@@ -155,6 +155,7 @@
   color: #8C97A6;
 }
 
+.section-select,
 .paper-section,
 .count-section,
 .receiver-section,
@@ -745,4 +746,79 @@
   margin-left: 16rpx;
 }
 
-
+/* 版面选择 */
+.section-tip {
+  font-size: 24rpx;
+  color: #8C97A6;
+  margin-left: 12rpx;
+}
+.sec-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+.sec-card {
+  position: relative;
+  flex: 0 0 calc(50% - 8rpx);
+  box-sizing: border-box;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid #E5E8F0;
+  background: #FAFBFF;
+}
+.sec-card.selected {
+  border-color: #5B6FE8;
+  background: linear-gradient(135deg, #5B6FE8 0%, #7B8FF7 100%);
+}
+.sec-check {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  color: #5B6FE8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sec-name {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A2332;
+}
+.sec-card.selected .sec-name {
+  color: #fff;
+}
+.sec-cycle {
+  display: block;
+  font-size: 22rpx;
+  color: #8C97A6;
+  margin-top: 6rpx;
+}
+.sec-card.selected .sec-cycle {
+  color: rgba(255,255,255,0.85);
+}
+.sec-price-row {
+  display: flex;
+  align-items: baseline;
+  margin-top: 12rpx;
+}
+.sec-price {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #F56C6C;
+}
+.sec-card.selected .sec-price {
+  color: #fff;
+}
+.sec-unit {
+  font-size: 20rpx;
+  color: #8C97A6;
+  margin-left: 4rpx;
+}
+.sec-card.selected .sec-unit {
+  color: rgba(255,255,255,0.85);
+}

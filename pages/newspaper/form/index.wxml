@@ -64,6 +64,27 @@
     </view>
   </view>
 
+  <!-- 版面选择（报纸开启版面选择且存在启用版面时显示） -->
+  <view class="section-select" wx:if="{{selectedPaper && sections.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">选择版面</text>
+      <text class="section-tip">刊例价 + 按字费</text>
+    </view>
+    <view class="sec-grid">
+      <view class="sec-card {{selectedSection === item.id ? 'selected' : ''}}" wx:for="{{sections}}" wx:key="id" bindtap="selectSection" data-id="{{item.id}}">
+        <view class="sec-check" wx:if="{{selectedSection === item.id}}">
+          <text style="font-size:20rpx;">✓</text>
+        </view>
+        <text class="sec-name">{{item.name}}</text>
+        <text class="sec-cycle">{{item.publishCycle || '次日见报'}}</text>
+        <view class="sec-price-row">
+          <text class="sec-price">¥{{item.listPrice}}</text>
+          <text class="sec-unit">/期·份</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 期数/份数选择 -->
   <view class="count-section" wx:if="{{selectedPaper}}">
     <view class="section-header">
@@ -159,8 +180,12 @@
     </view>
     <view class="price-list">
       <view class="price-row">
-        <text class="price-label">刊登费用</text>
+        <text class="price-label">按字刊登费</text>
         <text class="price-value">¥{{publishFee}}</text>
+      </view>
+      <view class="price-row" wx:if="{{sectionFee > 0}}">
+        <text class="price-label">版面费（{{selectedSectionName}}）</text>
+        <text class="price-value">¥{{sectionFee}}</text>
       </view>
       <view class="price-row total">
         <text class="price-label">合计</text>

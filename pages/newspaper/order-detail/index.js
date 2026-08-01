@@ -66,6 +66,7 @@ Page({
       newspaperName,
       issueCount: o.newspaperIssueCount || 0,
       copyCount: o.newspaperCopyCount || 0,
+      sectionName: o.newspaperSectionName || '',
       images: this._parseArray(o.newspaperImages),
       date: this._formatDate(o.createdAt),
       price: o.totalPrice,

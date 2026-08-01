@@ -35,6 +35,10 @@
         <text class="info-label">选择报纸</text>
         <text class="info-value">{{order.paper}}</text>
       </view>
+      <view class="info-row" wx:if="{{order.sectionName}}">
+        <text class="info-label">报纸版面</text>
+        <text class="info-value">{{order.sectionName}}</text>
+      </view>
       <view class="info-row" wx:if="{{order.issueCount}}">
         <text class="info-label">刊登期数</text>
         <text class="info-value">{{order.issueCount}}期</text>
