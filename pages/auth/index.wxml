@@ -55,7 +55,6 @@
     <text class="agreement-text">
       登录即表示同意
       <text class="link" bindtap="openPrivacy">《隐私政策》</text>
-      和
       <text class="link" bindtap="openTerms">《用户服务协议》</text>
     </text>
   </view>
