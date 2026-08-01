@@ -280,6 +280,11 @@ page {
   min-height: 0; overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+.doc-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 20rpx;
+}
 
 .doc-grid-content {
   padding: 20rpx 24rpx 22rpx;
