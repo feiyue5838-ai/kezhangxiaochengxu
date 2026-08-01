@@ -10,6 +10,7 @@ Page({
     charCount: 0,
     isSubmitting: false,
     isLoadingPapers: false,
+    canSubmit: false, // 报纸+地址+内容齐备才可支付
 
     // 身份证信息(从 idcard-page 传来)
     idCardName: '',
@@ -110,6 +111,9 @@ Page({
     } else {
       this._loadDefaultAddress();
     }
+
+    // 计算按钮可用态（报纸+地址+内容齐备）
+    this.updateCanSubmit();
   },
 
   onReady() {
@@ -125,6 +129,7 @@ Page({
       if (list && list.length) {
         const def = list.find(a => a.isDefault) || list[0];
         this.setData({ selectedAddress: def });
+        this.updateCanSubmit();
       }
     } catch (e) {
       // 静默失败，由用户手动选择地址
@@ -285,6 +290,7 @@ Page({
     if (paper && paper.enableSections === 1) {
       this._loadSections(String(id));
     }
+    this.updateCanSubmit();
     this.calculatePrice();
   },
 
@@ -374,11 +380,23 @@ Page({
   onContentInput(e) {
     const content = e.detail.value;
     this.setData({ content, charCount: content.length });
+    this.updateCanSubmit();
     this.calculatePrice();
   },
 
   onRemarkInput(e) {
     this.setData({ remark: e.detail.value });
+  },
+
+  // 立即支付按钮可用态：报纸 + 收件地址 + 登报内容 全部齐备
+  updateCanSubmit() {
+    const { selectedPaper, selectedAddress, content } = this.data;
+    const canSubmit = !!String(selectedPaper || '') &&
+      !!(selectedAddress && selectedAddress.id) &&
+      !!(content && content.trim());
+    if (canSubmit !== this.data.canSubmit) {
+      this.setData({ canSubmit });
+    }
   },
 
   /**

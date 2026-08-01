@@ -615,6 +615,12 @@
   border: none;
 }
 
+/* 条件变色：报纸+地址+内容未齐备时置灰 */
+.pay-btn-disabled {
+  background: #C5CAD5;
+  box-shadow: none;
+}
+
 /* ========== 闂佸憡鐟﹂崹褰掑Χ閵婏妇鈹嶉柍鈺佸暕缁辨牠鏌ㄥ☉妯煎闁哄苯锕钘夌暋閹殿喚顢呴梺?========== */
 .section-arrow {
   font-size: 32rpx;

@@ -200,6 +200,6 @@
       <text class="total-label">应付金额</text>
       <text class="total-price">¥{{totalPrice}}</text>
     </view>
-    <button class="pay-btn" bindtap="submitOrder">立即支付</button>
+    <button class="pay-btn {{canSubmit ? '' : 'pay-btn-disabled'}}" disabled="{{!canSubmit}}" bindtap="submitOrder">立即支付</button>
   </view>
 </view>
