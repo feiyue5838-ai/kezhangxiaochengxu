@@ -23,7 +23,7 @@
   <!-- 分类卡片网格 -->
   <view class="template-section">
     <view class="template-grid">
-      <view class="template-card" wx:for="{{categories}}" wx:key="id"
+      <view class="template-card {{item.id === selectedCategory ? 'selected' : ''}}" wx:for="{{categories}}" wx:key="id"
         bindtap="selectTemplate" data-id="{{item.id}}">
         <view class="card-top" style="--card-color: {{item.color || '#5B6FE8'}}">
           <view class="card-dot" style="background: {{item.color || '#5B6FE8'}};"></view>

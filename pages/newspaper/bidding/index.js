@@ -8,6 +8,7 @@ const biddingConfig = require('../../../utils/bidding.js');
 Page({
   data: {
     showDocPicker: false,
+    selectedCategory: '',
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
@@ -45,7 +46,7 @@ Page({
     const idx = e.currentTarget.dataset.index;
     const cat = this.data.categoryList[idx];
     const docs = cat.docs || [];
-    this.setData({ showDocPicker: true, pickedIndex: idx, pickedItems: docs, searchKey: '' });
+    this.setData({ showDocPicker: true, pickedIndex: idx, selectedCategory: cat.id, pickedItems: docs, searchKey: '' });
   },
 
   closeDocPicker() { this.setData({ showDocPicker: false }); },

@@ -9,6 +9,7 @@ let categoriesFromApi = null;
 Page({
   data: {
     showDocPicker: false,
+    selectedCategory: '',
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
@@ -29,7 +30,7 @@ Page({
   },
 
   async _loadFromApi() {
-    this.setData({ loading: true })
+    this.setData({ loading: true });
     try {
       const res = await api.getGovernmentTemplates();
       if (Array.isArray(res) && res.length > 0) {
@@ -60,6 +61,7 @@ Page({
     this.setData({
       showDocPicker: true,
       pickedIndex: idx,
+      selectedCategory: cat.id,
       pickedItems: cat.docs || [],
       searchKey: ''
     });

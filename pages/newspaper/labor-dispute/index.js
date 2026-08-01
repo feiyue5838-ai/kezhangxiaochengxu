@@ -6,6 +6,7 @@ const laborLocal = require('../../../utils/labor.js');
 Page({
   data: {
     showDocPicker: false,
+    selectedCategory: '',
     pickedIndex: 0,
     pickedItems: [],
     searchKey: '',
@@ -60,6 +61,7 @@ Page({
     this.setData({
       showDocPicker: true,
       pickedIndex: idx,
+      selectedCategory: cat.id,
       pickedItems: cat.docs || [],
       searchKey: '',
     });
