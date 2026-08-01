@@ -51,7 +51,8 @@
     "pages/aftersale/apply/index",
     "pages/aftersale/detail/index",
     "pages/outlet/orders/index/index",
-    "pages/outlet/order-detail/index/index"
+    "pages/outlet/order-detail/index/index",
+    "pages/newspaper/announcement-statement/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

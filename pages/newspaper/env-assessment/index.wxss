@@ -143,7 +143,9 @@ page { background: #F8F7FC; }
   padding: 4rpx 18rpx;
   border-radius: 20rpx; font-weight: 700;
   position: relative; z-index: 1;
-  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);}
+  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
+  }
+
 .template-card.selected {
   border-color: #5B6FE8;
   border-width: 2rpx;
@@ -153,7 +155,6 @@ page { background: #F8F7FC; }
     0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
 
-}
 
 /* 鍗＄墖搴曢儴 */
 .card-body {

@@ -228,7 +228,10 @@ page {
   background: rgb(0 0 0 / 0.45);
   animation: fadeIn 0.2s ease;
 }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 .doc-picker {
   position: fixed; left: 0; right: 0; bottom: 0;
   padding-bottom: env(safe-area-inset-bottom);

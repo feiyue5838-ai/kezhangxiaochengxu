@@ -208,7 +208,10 @@ page { background: #F8F7FC; }
   animation: fadeIn 0.2s ease;
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 /* ========== 妯℃澘閫夋嫨寮圭獥 ========== */
 .doc-picker {

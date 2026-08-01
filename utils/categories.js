@@ -18,7 +18,7 @@ module.exports = {
     { id: 3,  name: '企业证件',   iconSvg: '/assets/icons/icon-cat-company.svg', bgColor: '#5B6FE8', route: '/pages/newspaper/company-docs/index' },
     { id: 4,  name: '发票收据',   iconSvg: '/assets/icons/icon-cat-invoice.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/invoice-receipt/index' },
     { id: 5,  name: '声明公告',    iconSvg: '/assets/icons/icon-cat-announcement.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/announcement/index' },
-    { id: 6,  name: '公告声明',    iconSvg: '/assets/icons/icon-cat-confession.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/apology/index' },
+    { id: 6,  name: '公告声明',    iconSvg: '/assets/icons/icon-cat-confession.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/announcement-statement/index' },
     { id: 7,  name: '法院公告',    iconSvg: '/assets/icons/icon-cat-court.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/court/index' },
     { id: 8,  name: '政府送达',    iconSvg: '/assets/icons/icon-cat-government.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/government/index' },
     { id: 9,  name: '债权债务',    iconSvg: '/assets/icons/icon-cat-creditor.svg', bgColor: '#5B6FE8',  route: '/pages/newspaper/creditor/index' },
