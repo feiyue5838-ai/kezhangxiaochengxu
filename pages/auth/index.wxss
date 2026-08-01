@@ -179,7 +179,7 @@
   position: relative;
   z-index: 10;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14rpx;
   padding: 0 40rpx;
   margin-top: 40rpx;
@@ -191,7 +191,6 @@
   border-radius: 8rpx;
   border: 2rpx solid #ccc;
   flex-shrink: 0;
-  margin-top: 4rpx;
   display: flex;
   align-items: center;
   justify-content: center;
