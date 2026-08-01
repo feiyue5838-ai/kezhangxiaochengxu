@@ -237,6 +237,64 @@ page {
   box-shadow: 0 -8rpx 40rpx rgb(91 111 232 / 0.18);
   transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
 }
+.doc-picker--show { transform: translateY(0); }
+
+.doc-picker-drag { padding: 16rpx 0 0; text-align: center; }
+
+.drag-bar {
+  width: 72rpx; height: 6rpx; border-radius: 10rpx;
+  background: #D5DDE8; margin: 0 auto;
+}
+
+.doc-picker-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28rpx 32rpx 20rpx;
+}
+
+.doc-picker-title-wrap {
+  display: flex; align-items: center;
+}
+
+.doc-picker-dot {
+  width: 16rpx; height: 16rpx; border-radius: 50%;
+  margin-right: 12rpx; flex-shrink: 0;
+}
+
+.doc-picker-title {
+  font-size: 32rpx; font-weight: 700; color: #1A2332;
+  margin-right: 16rpx;
+}
+
+.doc-picker-subtitle {
+  font-size: 24rpx; color: #8C97A6;
+  background: #F0F2F5; padding: 4rpx 14rpx; border-radius: 20rpx;
+}
+
+.doc-picker-close {
+  width: 56rpx; height: 56rpx; display: flex; align-items: center; justify-content: center;
+  background: #F0F2F5; border-radius: 50%; font-size: 28rpx; color: #8C97A6;
+}
+
+.doc-picker-body {
+  max-height: 52vh; padding: 0 32rpx 48rpx;
+  min-height: 0; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.doc-grid-content {
+  padding: 20rpx 24rpx 22rpx;
+  display: flex; align-items: center;
+  justify-content: center; flex: 1;
+}
+
+.doc-grid-name {
+  font-size: 26rpx; font-weight: 600; color: #1A2332;
+  text-align: center; line-height: 1.4;
+}
+
+.doc-empty {
+  padding: 60rpx 0; text-align: center;
+}
 .template-card + .doc-grid,
 .doc-grid {
   /* 容器：grid 布局，保持原样 */
