@@ -52,10 +52,12 @@
     <view class="checkbox {{agreed ? 'checked' : ''}}" bindtap="toggleAgree">
       <text wx:if="{{agreed}}" class="check-mark">✓</text>
     </view>
-    <text class="agreement-text">
-      登录即表示同意
-      <text class="link" bindtap="openPrivacy">《隐私政策》</text>
-      <text class="link" bindtap="openTerms">《用户服务协议》</text>
-    </text>
+    <view class="agreement-content">
+      <view class="agreement-links">
+        <text class="link" bindtap="openPrivacy">《隐私政策》</text>
+        <text class="link" bindtap="openTerms">《用户服务协议》</text>
+      </view>
+      <text class="agreement-hint">登录即表示同意</text>
+    </view>
   </view>
 </view>
