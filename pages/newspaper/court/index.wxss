@@ -181,6 +181,13 @@ page { background: #F8F7FC; }
   display: flex; align-items: center; justify-content: center;
   border-radius: 0 24rpx 0 16rpx;
 }
+.check-text {
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
 
 .check-icon { width: 28rpx; height: 28rpx; }
 

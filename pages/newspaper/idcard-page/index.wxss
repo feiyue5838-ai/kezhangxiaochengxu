@@ -165,6 +165,13 @@ page {
   border-radius: 0 24rpx 0 16rpx;
   z-index: 3;
 }
+.check-text {
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .template-card::after {
   content: '';
   position: absolute;

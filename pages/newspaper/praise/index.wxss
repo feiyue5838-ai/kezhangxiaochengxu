@@ -141,7 +141,16 @@ page { background: #F8F7FC; }
   padding: 4rpx 18rpx;
   border-radius: 20rpx; font-weight: 700;
   position: relative; z-index: 1;
-  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
+  box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
+.template-card.selected {
+  border-color: #5B6FE8;
+  border-width: 2rpx;
+  box-shadow:
+    0 0 0 2rpx rgba(167, 139, 250, 0.70) inset,
+    0 6rpx 24rpx rgba(91, 111, 232, 0.20),
+    0 1rpx 3rpx rgba(12, 26, 46, 0.04);
+}
+
 }
 
 /* 鍗＄墖搴曢儴 */
