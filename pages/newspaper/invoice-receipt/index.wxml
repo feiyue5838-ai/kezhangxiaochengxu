@@ -38,7 +38,11 @@
           <text class="card-name">{{item.name}}</text>
           <text class="card-desc">{{item.desc || (item.docs[0].name + (item.docs[1] ? '、' + item.docs[1].name : '') + (item.docs[2] ? '、' + item.docs[2].name : ''))}}</text>
         </view>
+      
+      <view class="card-check" wx:if="{{item.id === selectedCategory}}" style="background: {{item.color || '#5B6FE8'}};">
+        <text class="check-text">✓</text>
       </view>
+</view>
     </view>
   </view>
 

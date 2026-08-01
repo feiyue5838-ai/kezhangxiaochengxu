@@ -33,7 +33,11 @@
           <text class="card-name">{{item.name}}</text>
           <text class="card-desc">{{item.desc}}</text>
         </view>
+      
+      <view class="card-check" wx:if="{{item.id === selectedCategory}}" style="background: {{item.color || '#5B6FE8'}};">
+        <text class="check-text">✓</text>
       </view>
+</view>
     </view>
   </view>
 

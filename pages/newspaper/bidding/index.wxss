@@ -61,6 +61,20 @@ page { background: #F8F7FC; }
 .card-body { padding: 8rpx 24rpx 24rpx; background: #fff; flex: 1; position: relative; }
 .card-name { font-size: 26rpx; font-weight: 700; color: #1A2332; display: block; margin-bottom: 6rpx; letter-spacing: 0.5rpx; line-height: 1.35; }
 .card-desc { font-size: 21rpx; color: #8C97A6; display: block; line-height: 1.45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-check {
+  position: absolute;
+  top: 0; right: 0;
+  width: 48rpx; height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 24rpx 0 16rpx;
+}
+.check-text {
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+}
 .template-card::after {
   content: ''; position: absolute; left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx; border-radius: 20rpx;

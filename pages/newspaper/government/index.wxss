@@ -184,6 +184,12 @@ page { background: #F8F7FC; }
 
 .check-icon { width: 28rpx; height: 28rpx; }
 
+.check-text {
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
 /* 搴曢儴鑹茬嚎 */
 .template-card::after {
   content: '';

@@ -165,6 +165,20 @@ page { background: #F8F7FC; }
 }
 
 /* 搴曢儴鑹茬嚎 */
+.card-check {
+  position: absolute;
+  top: 0; right: 0;
+  width: 48rpx; height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 24rpx 0 16rpx;
+}
+.check-text {
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+}
 .template-card::after {
   content: '';
   position: absolute;

@@ -189,6 +189,12 @@
 
 .check-icon { width: 28rpx; height: 28rpx; }
 
+.check-text {
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
 /* 闁圭厧鐡ㄥú鐔煎磿閹绢喗鍤岄柤纰卞墮濞?*/
 .template-card::after {
   content: '';
