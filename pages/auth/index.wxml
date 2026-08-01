@@ -50,11 +50,11 @@
   <!-- 协议声明 -->
   <view class="agreement-row">
     <view class="agreement-center">
+      <text class="link" bindtap="openPrivacy">《隐私政策》</text>
+      <text class="link" bindtap="openTerms">《用户服务协议》</text>
       <view class="checkbox {{agreed ? 'checked' : ''}}" bindtap="toggleAgree">
         <text wx:if="{{agreed}}" class="check-mark">✓</text>
       </view>
-      <text class="link" bindtap="openPrivacy">《隐私政策》</text>
-      <text class="link" bindtap="openTerms">《用户服务协议》</text>
     </view>
     <text class="agreement-hint">登录即表示同意</text>
   </view>
