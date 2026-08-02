@@ -16,7 +16,7 @@ Component({
     },
     switchTab: function (e) {
       const index = Number(e.currentTarget.dataset.index);
-      const pages = ['/pages/home/index', '/pages/seal-tab/index', '/pages/newspaper-tab/index', '/pages/license/index', '/pages/profile/index'];
+      const pages = ['/pages/home/index', '/pages/seal-tab/index', '/pages/newspaper-tab/index', '/pages/bookkeeping-tab/index', '/pages/profile/index'];
       wx.switchTab({ url: pages[index] });
     }
   }
