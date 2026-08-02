@@ -23,7 +23,7 @@ Component({
   },
 
   observers: {
-    'selectedId': function(id) {
+    'selectedId': function(_id) {
       // 延迟执行，确保组件已完全初始化
       if (this._updatePreview) {
         this._updatePreview();

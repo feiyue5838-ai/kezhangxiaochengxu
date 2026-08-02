@@ -21,15 +21,15 @@ Component({
       this.setData({ region });
       this.triggerEvent('formchange', this.getData());
     },
-    onContact(e) { 
-      this.setData({ contactPhone: e.detail.value }); 
-      this.triggerEvent('formchange', this.getData()); 
+    onContact(e) {
+      this.setData({ contactPhone: e.detail.value });
+      this.triggerEvent('formchange', this.getData());
       if (e.detail.value) this._throttleVibrate();
     },
     onCompany(e) { this.setData({ companyName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },
-    onLegal(e) { 
-      this.setData({ legalPhone: e.detail.value }); 
-      this.triggerEvent('formchange', this.getData()); 
+    onLegal(e) {
+      this.setData({ legalPhone: e.detail.value });
+      this.triggerEvent('formchange', this.getData());
       if (e.detail.value) this._throttleVibrate();
     },
     onName(e) { this.setData({ personName: e.detail.value }); this.triggerEvent('formchange', this.getData()); },

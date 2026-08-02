@@ -82,13 +82,13 @@ Component({
               navHeight: statusBarHeight + 44
             });
           }
-        } catch (e) {
+        } catch {
           this.setData({
             statusBarHeight,
             navHeight: statusBarHeight + 44
           });
         }
-      } catch (e) {
+      } catch {
         this.setData({
           statusBarHeight: 20,
           navHeight: 64
@@ -104,7 +104,7 @@ Component({
 
       // 如果用户显式传了 showBack，以传入值为准；否则用自动判断
       const hasExplicitShowBack =
-        this.properties.hasOwnProperty('showBack') &&
+        Object.prototype.hasOwnProperty.call(this.properties, 'showBack') &&
         typeof this.properties.showBack === 'boolean';
       const finalShowBack = hasExplicitShowBack
         ? this.properties.showBack

@@ -75,7 +75,7 @@ function doSmartReplace(content, categoryName) {
   // ══════════════════════════════════════════════════════
   // 6. 语义明确的 8X 模式（带上下文）
   // ══════════════════════════════════════════════════════
-  r = r.replace(/XXXXXXXX（平台\/场合）/g, '（示例：XX平台）（平台\/场合）');
+  r = r.replace(/XXXXXXXX（平台\/场合）/g, '（示例：XX平台）（平台\/场合）'); // eslint-disable-line no-useless-escape
   r = r.replace(/XXXXXXXX（事件）/g, '（示例：XX事件）（事件）');
   r = r.replace(/XXXXXXXX（作品/g, '（示例：具体作品）（作品');
   r = r.replace(/XXXXXXXX元/g, '（示例：XX万元）元');
@@ -97,7 +97,7 @@ function doSmartReplace(content, categoryName) {
   // 7. 特殊 8X 模式（证件类，必须在通用兜底之前）
   // ══════════════════════════════════════════════════════
   r = r.replace(/XXXXXXXX证件/g, '（示例：XX）证件');
-  
+
   // ══════════════════════════════════════════════════════
   // 8. 通用 8X 兜底（排除年、数字、中文）
   // ══════════════════════════════════════════════════════
@@ -176,7 +176,7 @@ function doSmartReplace(content, categoryName) {
 
   // 通用 XXX 兜底
   r = r.replace(/(?<![X])XXX(?![X年\d一-龥])/g, '（示例：张三）');
-  
+
   // XXX证件 规则（必须在姓名规则之前执行，但代码位置在函数内末尾）
   r = r.replace(/XXX证件/g, '（示例：身份证）证件');
 

@@ -118,7 +118,7 @@ Component({
     },
 
     // 从 API 加载印章和套餐，并更新组件内部数据
-    _loadAndOpen(categoryId, sceneName) {
+    _loadAndOpen(categoryId, _sceneName) {
       wx.showLoading({ title: '加载中...', mask: true });
       api.getSealSceneProducts(categoryId, this.data._licenseRegion).then(res => {
         wx.hideLoading();

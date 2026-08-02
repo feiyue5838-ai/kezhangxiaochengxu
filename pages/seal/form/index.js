@@ -113,7 +113,7 @@ Page({
             id: s.id
           };
         });
-                // 找到四川在列表中的索引（默认选中）
+        // 找到四川在列表中的索引（默认选中）
         const sichuanIdx = provinces.findIndex(p => p.name === '四川省');
         const defaultIdx = sichuanIdx >= 0 ? sichuanIdx : 0;
         const defaultProvince = provinces[defaultIdx];

@@ -7,7 +7,6 @@
  */
 
 
-
 // ==================== 环境自适应 API_BASE ====================
 // 开发版（模拟器 / 真机调试 / 预览）走局域网 IP，体验版 / 正式版走 HTTPS 域名
 // ⚠️ 发版前：把 API_BASE_PROD 替换为已备案的 HTTPS 域名，并在微信公众平台
@@ -28,13 +27,11 @@ try {
 // API_BASE 也在模块导出中，供组件拼接图片等静态资源使用
 
 
-
 const request = (options) => {
 
   return new Promise((resolve, reject) => {
 
     const token = wx.getStorageSync('token');
-
 
 
     wx.request({
@@ -164,7 +161,6 @@ const request = (options) => {
 };
 
 
-
 // 网点独立请求函数（使用网点 token，与用户 token 分离）
 const outletRequest = (options) => {
   return new Promise((resolve, reject) => {
@@ -217,7 +213,6 @@ module.exports = {
   storeLogin: (data) => request({ url: '/api/auth/store-login', method: 'POST', data: data }),
 
 
-
   // ==================== 用户相关 ====================
 
   // 获取用户信息 ?GET /api/user/profile
@@ -227,7 +222,6 @@ module.exports = {
   // 更新用户信息 ?PUT /api/user/profile
 
   updateUserInfo: (data) => request({ url: '/api/user/profile', method: 'PUT', data: data }),
-
 
 
   // ==================== 印章服务 ====================
@@ -274,7 +268,6 @@ module.exports = {
   // 开发环境模拟微信支付回调（生产环境该接口返?403）→ POST /api/orders/:id/dev-paid
 
   devConfirmPay: (id) => request({ url: `/api/orders/${id}/dev-paid`, method: 'POST' }),
-
 
 
   // ==================== 登报服务 ====================
@@ -376,16 +369,6 @@ module.exports = {
   getPraiseTemplates: () => request({ url: '/api/newspapers/praise-templates' }),
 
 
-
-
-
-
-
-
-
-
-
-
   // ==================== 收货地址 ====================
 
   // 地址列表 ?GET /api/users/addresses
@@ -403,7 +386,6 @@ module.exports = {
   // 删除地址 ?DELETE /api/users/addresses/:id
 
   deleteAddress: (id) => request({ url: `/api/users/addresses/${id}`, method: 'DELETE' }),
-
 
 
   // ==================== 网点端（Outlet）====================
@@ -466,7 +448,6 @@ module.exports = {
       });
     });
   },
-
 
 
   // ==================== 通用 ====================
@@ -562,7 +543,6 @@ module.exports = {
   },
 
 
-
   // ==================== 系统配置 ====================
 
   // 获取单个配置（公开接口，无需登录? GET /api/config?key=xxx
@@ -572,7 +552,7 @@ module.exports = {
   getConfig: (key) => request({ url: '/api/config', data: { key } }),
 
 
-// 网点独立请求函数（使用网点 token，与用户 token 分离）
+  // 网点独立请求函数（使用网点 token，与用户 token 分离）
 
   outletRequest: (options) => {
 
@@ -639,7 +619,6 @@ module.exports = {
     });
 
   },
-
 
 
   // 网点登录（返回 outlet 信息含 openid 绑定状态）>POST /api/auth/store-login
@@ -781,14 +760,7 @@ module.exports = {
   },
 
 
-
-
-
   // ==================== 网点微信绑定 & 订阅消息 ====================
-
-
-
-  
 
 
   // ==================== 评价（小程序端） ====================

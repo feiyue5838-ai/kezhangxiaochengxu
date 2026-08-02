@@ -26,7 +26,7 @@ function request(options) {
     let retryCount = 0;
 
     const doRequest = () => {
-      wx.request({ timeout: 15000,
+      wx.request({
         url,
         method,
         data,
