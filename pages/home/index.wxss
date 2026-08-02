@@ -7,12 +7,13 @@ page {
   --primary-light: #A78BFA;
   --primary-gradient: linear-gradient(135deg, #5B6FE8, #A78BFA);
   --bg-color: #F5F6FA;
-  --bg-white: #ffffff;
+  --bg-white: #fff;
   --border-color: #E8EDF2;
   --text-primary: #1A202C;
   --text-secondary: #8896B3;
   --text-hint: #A8B4C5;
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
   background: var(--bg-color);
   min-height: 100vh;
 }
@@ -80,7 +81,7 @@ page {
 
 /* 瑁呴グ鍦?鈥?鍙充笅瑙掑崐閫忔槑澶ф皵鍏冪礌 */
 .hero::before {
-  display: none; /* WeChat 涓嶆敮鎸佷吉鍏冪礌锛屾敼鐢ㄧ湡瀹炲厓绱?*/
+  display: none; /* WeChat 涓嶆敮鎸佷吉鍏冪礌锛屾敼鐢ㄧ湡瀹炲厓绱? */
 }
 
 .hero-deco {
@@ -155,7 +156,7 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(180deg, #FCFCFF 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #FCFCFF 0%, #FFF 100%);
   border: 1rpx solid rgb(235 237 245 / 0.5);
   border-radius: 24rpx;
   padding: 40rpx 0 28rpx;
@@ -172,15 +173,17 @@ page {
 /* 娓愯繘鍏ュ満 + 椤堕儴棰滆壊娓楀叆鍗＄墖 */
 .svc-col:nth-child(1) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.3s forwards;
-  background: linear-gradient(180deg, #FCFCFF 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #FCFCFF 0%, #FFF 100%);
 }
+
 .svc-col:nth-child(2) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.4s forwards;
-  background: linear-gradient(180deg, #FCFCFF 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #FCFCFF 0%, #FFF 100%);
 }
+
 .svc-col:nth-child(3) {
   animation: cardIn 0.5s var(--ease-out-quart) 0.5s forwards;
-  background: linear-gradient(180deg, #FCFCFF 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #FCFCFF 0%, #FFF 100%);
 }
 
 @keyframes cardIn {
@@ -255,7 +258,7 @@ page {
   display: none;
 }
 
-/* 鏍囬宸︿晶瑁呴グ鏉?*/
+/* 鏍囬宸︿晶瑁呴グ鏉? */
 .section-title-bar {
   position: absolute;
   left: 0;
@@ -326,7 +329,6 @@ page {
 .order {
   display: flex;
   align-items: center;
-  padding: 28rpx 0;
   border-bottom: 1rpx solid var(--border-color);
   transition: background 0.2s ease, padding-left 0.2s var(--ease-out-quart);
   border-radius: 12rpx;
@@ -446,7 +448,7 @@ page {
   white-space: nowrap;
 }
 
-/* 搴曢儴瀹夊叏鍖?*/
+/* 搴曢儴瀹夊叏鍖? */
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;

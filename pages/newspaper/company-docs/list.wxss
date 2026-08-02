@@ -78,7 +78,7 @@
 .doc-icon-wrap {
   width: 56rpx; height: 56rpx;
   border-radius: 20rpx;
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);18, var(--cat-color, #5B6FE8)0C);
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   display: flex; align-items: center; justify-content: center;
   margin-right: 16rpx; flex-shrink: 0;
 }

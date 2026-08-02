@@ -27,6 +27,7 @@ page {
   font-weight: 300;
   line-height: 1;
 }
+
 .nav-placeholder {
   width: 60rpx;
   height: 100%;
@@ -41,8 +42,6 @@ page {
 
 /* ========== 内容区 ========== */
 .content-wrap {
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
   padding-left: 32rpx;
   padding-right: 32rpx;
   padding-bottom: 80rpx;

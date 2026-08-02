@@ -71,7 +71,7 @@
 }
 
 .star-gray {
-  color: #DDDDDD;
+  color: #DDD;
 }
 
 .star-label {

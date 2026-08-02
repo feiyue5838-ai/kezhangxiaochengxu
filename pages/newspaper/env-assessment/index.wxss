@@ -26,6 +26,7 @@ page { background: #F8F7FC; }
   width: 60rpx;
   height: 100%;
 }
+
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
@@ -186,11 +187,13 @@ page { background: #F8F7FC; }
   justify-content: center;
   border-radius: 0 24rpx 0 16rpx;
 }
+
 .check-text {
   color: #fff;
   font-size: 24rpx;
   font-weight: 700;
 }
+
 .template-card::after {
   content: '';
   position: absolute;
@@ -302,7 +305,6 @@ page { background: #F8F7FC; }
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
-
   box-shadow:
     0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
     0 4rpx 20rpx rgba(91, 111, 232, 0.10),
@@ -319,6 +321,7 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
+
 .doc-grid-name {
   font-size: 25rpx;
   color: #1A2332;

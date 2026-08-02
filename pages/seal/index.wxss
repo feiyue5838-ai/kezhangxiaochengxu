@@ -106,7 +106,7 @@ page {
   z-index: 1;
 }
 
-/* 缁熻鏉?*/
+/* 缁熻鏉? */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -181,7 +181,7 @@ page {
 
 /* ===== 鍥涗釜鍗¤兒鏈夎厚鎰燂紙鍗＄瑧锛?===== */
 .cat-card {
-  background: #FFFFFF;
+  background: #FFF;
   border-radius: 24rpx;
   overflow: hidden;
   box-shadow: 
@@ -191,7 +191,7 @@ page {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 铏氭槑松杈广€傚厜鏅曟晥鏋?*/
+/* 铏氭槑松杈广€傚厜鏅曟晥鏋? */
 .cat-card::before {
   content: '';
   position: absolute;
@@ -227,7 +227,7 @@ page {
   position: relative;
 }
 
-/* 鍥惧爞鍖烘湰锛氭紨鍙樻部褰紙鍦嗗舰锛?*/
+/* 鍥惧爞鍖烘湰锛氭紨鍙樻部褰紙鍦嗗舰锛? */
 .icon-wrap {
   width: 96rpx;
   height: 96rpx;
@@ -328,7 +328,7 @@ page {
   letter-spacing: 0.5rpx;
 }
 
-/* 搴曢儴瀹夊叏鍖?*/
+/* 搴曢儴瀹夊叏鍖? */
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;

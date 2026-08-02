@@ -8,6 +8,7 @@
   padding-top: 200rpx;
 }
 .loading-text, .empty-text { color: #999; font-size: 28rpx; }
+
 .back-btn {
   margin-top: 30rpx;
   background: #07c160;
@@ -38,6 +39,7 @@
   border-radius: 16rpx;
   padding: 30rpx;
 }
+
 .info-title {
   font-size: 30rpx;
   font-weight: 600;
@@ -46,6 +48,7 @@
   border-left: 6rpx solid #07c160;
   padding-left: 16rpx;
 }
+
 .info-row {
   display: flex;
   justify-content: space-between;
@@ -65,6 +68,7 @@
   padding: 24rpx;
   margin-top: 10rpx;
 }
+
 .cancel-btn, .pay-btn {
   flex: 1;
   border-radius: 44rpx;

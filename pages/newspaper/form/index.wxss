@@ -6,7 +6,7 @@
   gap: 20rpx;
   padding: 20rpx 24rpx;
   background: #fff;
-  margin: 0 20rpx 0 20rpx;
+  margin: 0 20rpx;
   border-radius: 16rpx;
   box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
 }
@@ -77,6 +77,7 @@
   width: 60rpx;
   height: 100%;
 }
+
 .nav-action {
   font-size: 28rpx;
   color: #fff;
@@ -758,11 +759,13 @@
   color: #8C97A6;
   margin-left: 12rpx;
 }
+
 .sec-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 16rpx;
 }
+
 .sec-card {
   position: relative;
   flex: 0 0 calc(50% - 8rpx);
@@ -777,9 +780,11 @@
     0 1rpx 3rpx rgba(12, 26, 46, 0.04);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
 .sec-card:active {
   transform: scale(0.97);
 }
+
 .sec-card.selected {
   border-color: #5B6FE8;
   border-width: 2rpx;
@@ -788,6 +793,7 @@
     0 6rpx 24rpx rgba(91, 111, 232, 0.20),
     0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
+
 .sec-check {
   position: absolute;
   top: 12rpx;
@@ -801,28 +807,33 @@
   align-items: center;
   justify-content: center;
 }
+
 .sec-name {
   display: block;
   font-size: 28rpx;
   font-weight: 600;
   color: #1A2332;
 }
+
 .sec-cycle {
   display: block;
   font-size: 22rpx;
   color: #8C97A6;
   margin-top: 6rpx;
 }
+
 .sec-price-row {
   display: flex;
   align-items: baseline;
   margin-top: 12rpx;
 }
+
 .sec-price {
   font-size: 32rpx;
   font-weight: 700;
   color: #F56C6C;
 }
+
 .sec-unit {
   font-size: 20rpx;
   color: #8C97A6;

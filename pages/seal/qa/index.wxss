@@ -146,7 +146,7 @@
   box-sizing: border-box;
   background: var(--bg-white);
   border-radius: 24rpx 24rpx 0 0;
-  padding: 40rpx 40rpx;
+  padding: 40rpx;
   padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;

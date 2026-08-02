@@ -95,7 +95,7 @@
   z-index: 1;
 }
 
-/* 缁熻鏉?*/
+/* 缁熻鏉? */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -223,7 +223,7 @@
   height: 40rpx;
 }
 
-/* 搴曢儴淇′换鏍?*/
+/* 搴曢儴淇′换鏍? */
 .trust-bar {
   display: flex;
   align-items: center;
@@ -244,7 +244,7 @@
   letter-spacing: 0.5rpx;
 }
 
-/* 搴曢儴瀹夊叏鍖?*/
+/* 搴曢儴瀹夊叏鍖? */
 .safe-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;

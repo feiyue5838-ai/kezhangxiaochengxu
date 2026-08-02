@@ -11,7 +11,8 @@
 .nav-back {
   position: absolute;
   left: 32rpx;
-  /* top 鐢?inline style 鍔ㄦ€佹彁渚涳紝涓庤兌鍥婃寜閽瀭鐩村眳涓?*/
+
+  /* top 鐢?inline style 鍔ㄦ€佹彁渚涳紝涓庤兌鍥婃寜閽瀭鐩村眳涓? */
   transform: translateY(-50%);
   width: 60rpx;
   height: 60rpx;
@@ -202,14 +203,14 @@
   display: block;
 }
 
-/* 宸︿笂瑙掔豢鑹插鍕捐鏍?*/
+/* 宸︿笂瑙掔豢鑹插鍕捐鏍? */
 .check-badge {
   position: absolute;
   top: 0; left: 0;
   width: 44rpx;
   height: 44rpx;
   background: #5B6FE8;
-  border-radius: 20rpx 0 20rpx 0;
+  border-radius: 20rpx 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,7 +226,7 @@
   width: 36rpx;
   height: 36rpx;
   background: #5B6FE8;
-  border-radius: 16rpx 0 16rpx 0;
+  border-radius: 16rpx 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -292,6 +293,7 @@
 }
 
 /* ========== 鎼存洟鍎撮幓鎰唉閹稿鎸?========== */
+
 /* ========== 瑙勮寖鎻愮ず鏂囧瓧锛堟瘡涓笂浼犳ā鍧椾笅鏂癸級 ===== */
 .spec-tip {
   margin-top: 20rpx;

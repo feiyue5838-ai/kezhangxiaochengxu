@@ -107,7 +107,7 @@
 }
 .form-textarea::placeholder { color: #C4C8D0; }
 
-/* 闁告瑦鍨归妶銊╁箮椤掆偓閵囨梻鐚剧拠鑼偓鐑藉礆閸ャ劌搴?*/
+/* 闁告瑦鍨归妶銊╁箮椤掆偓閵囨梻鐚剧拠鑼偓鐑藉礆閸ャ劌搴? */
 .title-type-row {
   display: flex;
   gap: 24rpx;

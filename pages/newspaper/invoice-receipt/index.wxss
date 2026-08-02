@@ -26,6 +26,7 @@ page { background: #F8F7FC; }
   width: 60rpx;
   height: 100%;
 }
+
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
@@ -302,7 +303,6 @@ page { background: #F8F7FC; }
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
-
   box-shadow:
     0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
     0 4rpx 20rpx rgba(91, 111, 232, 0.10),
@@ -319,6 +319,7 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
+
 .doc-grid-name {
   font-size: 25rpx;
   color: #1A2332;
@@ -365,6 +366,7 @@ page { background: #F8F7FC; }
   justify-content: center;
   z-index: 999;
 }
+
 .loading-spinner {
   width: 56rpx;
   height: 56rpx;
@@ -373,11 +375,13 @@ page { background: #F8F7FC; }
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
+
 .loading-text {
   margin-top: 20rpx;
   font-size: 26rpx;
   color: #8c9dcc;
 }
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }

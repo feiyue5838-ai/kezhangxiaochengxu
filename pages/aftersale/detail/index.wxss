@@ -9,6 +9,7 @@
   font-size: 44rpx; color: #fff; font-weight: 300; line-height: 1;
 }
 .nav-placeholder { width: 60rpx; height: 100%; }
+
 .nav-title {
   position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
@@ -26,8 +27,8 @@
   box-shadow: 0 2rpx 12rpx rgb(91 111 232 / 0.08);
 }
 .status-icon { font-size: 72rpx; }
-.status-icon.pending { }
 .status-icon.processing { animation: pulse 1.5s infinite; }
+
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.08); }
@@ -36,6 +37,7 @@
 
 /* 区块 */
 .section-title { font-size: 28rpx; font-weight: 600; color: #1A2332; display: block; margin-bottom: 20rpx; }
+
 .info-section {
   background: #fff; border-radius: 16rpx; padding: 24rpx;
   margin-bottom: 20rpx;
@@ -47,15 +49,18 @@
 .timeline { padding-left: 16rpx; }
 .timeline-item { display: flex; position: relative; padding-bottom: 32rpx; }
 .timeline-item:last-child { padding-bottom: 0; }
+
 .timeline-dot {
   width: 24rpx; flex-shrink: 0; position: relative; top: 6rpx;
 }
+
 .dot-inner {
   width: 20rpx; height: 20rpx; border-radius: 50%;
   background: #ccc;
 }
 .timeline-item.done .dot-inner { background: #52c41a; }
 .timeline-item.active .dot-inner { background: #5B6FE8; }
+
 .timeline-line {
   position: absolute; left: 9rpx; top: 28rpx; bottom: 0;
   width: 2rpx; background: #eee;
@@ -85,6 +90,7 @@
 
 /* 撤销按钮 */
 .cancel-section { margin-top: 40rpx; }
+
 .cancel-btn {
   width: 100%; height: 88rpx; border-radius: 44rpx;
   border: 2rpx solid #f0f0f0; color: #999; font-size: 30rpx;

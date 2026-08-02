@@ -11,6 +11,7 @@ page { background: #F8F7FC; }
   padding: 0 32rpx;
   position: relative;
 }
+
 .nav-back {
   width: 60rpx;
   height: 100%;
@@ -22,6 +23,7 @@ page { background: #F8F7FC; }
   font-weight: 300;
   line-height: 1;
 }
+
 .nav-placeholder {
   width: 60rpx;
   height: 100%;
@@ -133,6 +135,7 @@ page { background: #F8F7FC; }
   position: relative;
 }
 .idcard-preview image { width: 100%; display: block; }
+
 .idcard-preview .replace-btn {
   position: absolute;
   bottom: 16rpx;
@@ -143,6 +146,7 @@ page { background: #F8F7FC; }
   padding: 8rpx 20rpx;
   border-radius: 100rpx;
 }
+
 .idcard-add {
   margin-top: 24rpx;
   border: 2rpx dashed #D5DDE8;

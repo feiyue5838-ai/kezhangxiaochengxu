@@ -6,7 +6,7 @@ page {
   --primary-dark: #4A5CD1;
   --error: #5B6FE8;
   --bg-color: #F8F7FC;
-  --bg-white: #ffffff;
+  --bg-white: #fff;
   --bg-light: #F8F7FC;
   --border-color: #D5DDE8;
   --text-secondary: #8C97A6;

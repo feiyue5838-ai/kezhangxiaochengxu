@@ -2,6 +2,7 @@ page {
   background: #F8F7FC;
   min-height: 100vh;
 }
+
 .nav-back {
   width: 60rpx;
   height: 100%;
@@ -13,6 +14,7 @@ page {
   font-weight: 300;
   line-height: 1;
 }
+
 .nav-title {
   position: absolute;
   left: 50%;
@@ -21,10 +23,12 @@ page {
   font-weight: 600;
   color: #fff;
 }
+
 .nav-placeholder {
   width: 60rpx;
   height: 100%;
 }
+
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 40rpx 32rpx 50rpx;
@@ -33,6 +37,7 @@ page {
   position: relative;
   overflow: hidden;
 }
+
 .banner-deco-circle {
   position: absolute;
   width: 160rpx; height: 160rpx;
@@ -40,6 +45,7 @@ page {
   background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.14), transparent 70%);
   right: 20rpx; top: 10rpx;
 }
+
 .banner-deco-circle2 {
   position: absolute;
   width: 100rpx; height: 100rpx;
@@ -47,6 +53,7 @@ page {
   background: radial-gradient(circle at 70% 70%, rgb(255 255 255 / 0.10), transparent 70%);
   left: 120rpx; bottom: 20rpx;
 }
+
 .banner-title {
   font-size: 44rpx;
   font-weight: bold;
@@ -56,6 +63,7 @@ page {
   position: relative;
   z-index: 1;
 }
+
 .banner-subtitle {
   font-size: 26rpx;
   color: rgb(255 255 255 / 0.9);
@@ -64,6 +72,7 @@ page {
   position: relative;
   z-index: 1;
 }
+
 .banner-tags {
   display: flex;
   justify-content: center;
@@ -71,6 +80,7 @@ page {
   position: relative;
   z-index: 1;
 }
+
 .banner-tag {
   display: flex;
   align-items: center;
@@ -80,17 +90,20 @@ page {
   padding: 8rpx 20rpx;
   border-radius: 20rpx;
 }
+
 .tag-icon {
   width: 28rpx;
   height: 28rpx;
   margin-right: 6rpx;
 }
+
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
   position: relative;
   z-index: 10;
 }
+
 .section-title {
   font-size: 30rpx;
   font-weight: 600;
@@ -99,16 +112,19 @@ page {
   display: flex;
   align-items: center;
 }
+
 .section-icon {
   width: 32rpx;
   height: 32rpx;
   margin-right: 10rpx;
 }
+
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
 }
+
 .template-card {
   background: #fff;
   border-radius: 24rpx;
@@ -123,10 +139,12 @@ page {
   flex-direction: column;
   position: relative;
 }
+
 .template-card:active {
   transform: scale(0.97);
   box-shadow: 0 2rpx 10rpx rgb(91 111 232 / 0.12), 0 1rpx 2rpx rgb(12 26 46 / 0.03);
 }
+
 .template-card.selected {
   border-color: #5B6FE8;
   border-width: 2rpx;
@@ -135,6 +153,7 @@ page {
     0 6rpx 24rpx rgba(91, 111, 232, 0.20),
     0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
+
 .card-top {
   height: 80rpx;
   display: flex;
@@ -144,6 +163,7 @@ page {
   position: relative;
   overflow: hidden;
 }
+
 .card-top::before {
   content: '';
   position: absolute;
@@ -154,6 +174,7 @@ page {
   opacity: 0.10;
   filter: blur(24rpx);
 }
+
 .card-dot {
   width: 20rpx; height: 20rpx;
   border-radius: 50%;
@@ -161,6 +182,7 @@ page {
   z-index: 1;
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12);
 }
+
 .card-badge,
 .card-count {
   font-size: 21rpx;
@@ -172,12 +194,14 @@ page {
   z-index: 1;
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
+
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
   flex: 1;
   position: relative;
 }
+
 .card-name {
   font-size: 26rpx;
   font-weight: 700;
@@ -187,6 +211,7 @@ page {
   letter-spacing: 0.5rpx;
   line-height: 1.35;
 }
+
 .card-desc {
   font-size: 21rpx;
   color: #8C97A6;
@@ -196,6 +221,7 @@ page {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .card-check {
   position: absolute;
   top: 0; right: 0;
@@ -205,15 +231,18 @@ page {
   justify-content: center;
   border-radius: 0 24rpx 0 16rpx;
 }
+
 .check-icon {
   width: 28rpx;
   height: 28rpx;
 }
+
 .check-text {
   color: #fff;
   font-size: 24rpx;
   font-weight: 700;
 }
+
 .template-card::after {
   content: '';
   position: absolute;
@@ -223,15 +252,18 @@ page {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   opacity: 0.5;
 }
+
 .doc-mask {
   position: fixed; inset: 0; z-index: 200;
   background: rgb(0 0 0 / 0.45);
   animation: fadeIn 0.2s ease;
 }
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
 .doc-picker {
   position: fixed; left: 0; right: 0; bottom: 0;
   padding-bottom: env(safe-area-inset-bottom);
@@ -283,6 +315,7 @@ page {
   min-height: 0; overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+
 .doc-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
@@ -303,6 +336,7 @@ page {
 .doc-empty {
   padding: 60rpx 0; text-align: center;
 }
+
 .template-card + .doc-grid,
 .doc-grid {
   /* 容器：grid 布局，保持原样 */
@@ -317,7 +351,6 @@ page {
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
-
   box-shadow:
     0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
     0 4rpx 20rpx rgba(91, 111, 232, 0.10),
@@ -348,6 +381,7 @@ page {
   justify-content: center;
   z-index: 999;
 }
+
 .loading-spinner {
   width: 56rpx;
   height: 56rpx;
@@ -356,11 +390,13 @@ page {
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
+
 .loading-text {
   margin-top: 20rpx;
   font-size: 26rpx;
   color: #8c9dcc;
 }
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }

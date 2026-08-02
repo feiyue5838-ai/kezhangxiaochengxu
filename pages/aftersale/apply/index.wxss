@@ -9,6 +9,7 @@
   font-size: 44rpx; color: #fff; font-weight: 300; line-height: 1;
 }
 .nav-placeholder { width: 60rpx; height: 100%; }
+
 .nav-title {
   position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
@@ -37,6 +38,7 @@
 
 /* 鍞悗绫诲瀷 */
 .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20rpx; }
+
 .type-item {
   display: flex; flex-direction: column; align-items: center; gap: 10rpx;
   padding: 24rpx 16rpx; border-radius: 16rpx;
@@ -62,6 +64,7 @@
 .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16rpx; }
 .upload-item { position: relative; aspect-ratio: 1; border-radius: 12rpx; overflow: hidden; }
 .upload-img { width: 100%; height: 100%; }
+
 .upload-remove {
   position: absolute; top: 6rpx; right: 6rpx;
   width: 36rpx; height: 36rpx; border-radius: 50%;
@@ -69,6 +72,7 @@
   display: flex; align-items: center; justify-content: center;
   font-size: 22rpx;
 }
+
 .upload-add {
   aspect-ratio: 1; border-radius: 12rpx;
   border: 2rpx dashed #ccc;
@@ -77,8 +81,9 @@
 .upload-icon { font-size: 56rpx; color: #B0BBC8; line-height: 1; }
 .upload-text { font-size: 22rpx; color: #B0BBC8; }
 
-/* 鎵嬫満鍙?*/
+/* 鎵嬫満鍙? */
 .required { color: #FF4D4F; }
+
 .phone-input {
   width: 100%; height: 88rpx; padding: 0 20rpx;
   background: #F8F7FC; border-radius: 12rpx;
@@ -94,9 +99,11 @@
   margin: 40rpx 0 16rpx;
   box-shadow: 0 8rpx 24rpx rgb(91 111 232 / 0.4);
 }
+
 .submit-btn.disabled {
   background: #ccc; box-shadow: none;
 }
+
 .submit-note {
   display: block; text-align: center;
   font-size: 22rpx; color: #B0BBC8; line-height: 1.6;

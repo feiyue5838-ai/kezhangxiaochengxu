@@ -2,7 +2,7 @@
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
-/* 瀵艰埅鏍?*/
+/* 瀵艰埅鏍? */
 .nav-back { width: 60rpx; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 40rpx; color: #fff; font-weight: 300; }
 .nav-title { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 34rpx; font-weight: 600; color: #fff; }
 .nav-placeholder { width: 60rpx; }
@@ -13,11 +13,13 @@ page { background: #F8F7FC; }
   padding: 40rpx 32rpx 50rpx; border-radius: 0 0 40rpx 40rpx;
   text-align: center; position: relative; overflow: hidden;
 }
+
 .banner-deco-circle {
   position: absolute; width: 160rpx; height: 160rpx; border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.14), transparent 70%);
   right: 20rpx; top: 10rpx;
 }
+
 .banner-deco-circle2 {
   position: absolute; width: 100rpx; height: 100rpx; border-radius: 50%;
   background: radial-gradient(circle at 70% 70%, rgb(255 255 255 / 0.10), transparent 70%);
@@ -32,6 +34,7 @@ page { background: #F8F7FC; }
 /* 鍒嗙被鍖哄煙 */
 .template-section { padding: 24rpx; margin-top: -30rpx; position: relative; z-index: 10; }
 .template-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20rpx; }
+
 .template-card {
   background: #fff;
   border-radius: 24rpx;
@@ -46,6 +49,7 @@ page { background: #F8F7FC; }
   flex-direction: column;
   position: relative;
 }
+
 .template-card.selected {
   border-color: #5B6FE8;
   border-width: 2rpx;
@@ -56,10 +60,12 @@ page { background: #F8F7FC; }
 }
 
 .template-card:active { transform: scale(0.97); }
+
 .card-top {
   height: 80rpx; display: flex; align-items: center; justify-content: space-between;
   padding: 24rpx 28rpx 12rpx; position: relative; overflow: hidden;
 }
+
 .card-top::before {
   content: ''; position: absolute; left: -20rpx; top: -20rpx;
   width: 160rpx; height: 160rpx; border-radius: 50%;
@@ -70,6 +76,7 @@ page { background: #F8F7FC; }
 .card-body { padding: 8rpx 24rpx 24rpx; background: #fff; flex: 1; position: relative; }
 .card-name { font-size: 26rpx; font-weight: 700; color: #1A2332; display: block; margin-bottom: 6rpx; letter-spacing: 0.5rpx; line-height: 1.35; }
 .card-desc { font-size: 21rpx; color: #8C97A6; display: block; line-height: 1.45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 .card-check {
   position: absolute;
   top: 0; right: 0;
@@ -79,11 +86,13 @@ page { background: #F8F7FC; }
   justify-content: center;
   border-radius: 0 24rpx 0 16rpx;
 }
+
 .check-text {
   color: #fff;
   font-size: 24rpx;
   font-weight: 700;
 }
+
 .template-card::after {
   content: ''; position: absolute; left: 24rpx; right: 24rpx; bottom: 8rpx;
   height: 4rpx; border-radius: 20rpx;
@@ -92,6 +101,7 @@ page { background: #F8F7FC; }
 
 /* 寮圭獥 */
 .doc-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgb(0 0 0 / 0.45); z-index: 200; }
+
 .doc-picker {
   position: fixed; left: 0; right: 0; bottom: 0;
   padding-bottom: env(safe-area-inset-bottom); background: #fff;
@@ -102,6 +112,7 @@ page { background: #F8F7FC; }
 .doc-picker--show { transform: translateY(0); }
 .doc-picker-drag { display: flex; justify-content: center; padding: 12rpx 0 0; flex-shrink: 0; }
 .drag-bar { width: 48rpx; height: 6rpx; background: #D5DDE8; border-radius: 4rpx; }
+
 .doc-picker-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 24rpx 32rpx; border-bottom: 1rpx solid #F0F2F5; flex-shrink: 0;
@@ -110,6 +121,7 @@ page { background: #F8F7FC; }
 .doc-picker-dot { width: 16rpx; height: 16rpx; border-radius: 50%; margin-right: 12rpx; flex-shrink: 0; box-shadow: 0 2rpx 6rpx rgb(0 0 0 / 0.10); }
 .doc-picker-title { font-size: 30rpx; font-weight: 600; color: #1A2332; }
 .doc-picker-subtitle { font-size: 24rpx; color: #8C97A6; margin-left: 12rpx; }
+
 .doc-picker-close {
   width: 56rpx; height: 56rpx; display: flex; align-items: center; justify-content: center;
   font-size: 32rpx; color: #8C97A6; background: #F8F7FC; border-radius: 50%;
@@ -118,12 +130,14 @@ page { background: #F8F7FC; }
 .doc-picker-body { flex: 1; padding: 0 32rpx 48rpx; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .doc-empty { padding: 60rpx 0; text-align: center; }
 .doc-empty-text { font-size: 26rpx; color: #8C97A6; }
+
 .doc-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
   padding: 8rpx 0 40rpx;
 }
+
 .doc-grid-item {
   background: #fff;
   border-radius: 20rpx;
@@ -133,12 +147,12 @@ page { background: #F8F7FC; }
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
-
   box-shadow:
     0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
     0 4rpx 20rpx rgba(91, 111, 232, 0.10),
     0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
+
 .doc-grid-item:active {
  transform: scale(0.97); 
   border-color: #5B6FE8;
@@ -149,6 +163,7 @@ page { background: #F8F7FC; }
     0 1rpx 2rpx rgba(12, 26, 46, 0.03);
 }
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
+
 .doc-grid-name { font-size: 25rpx; color: #1A2332; font-weight: 500; line-height: 1.4; flex: 1;
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
 
@@ -161,6 +176,7 @@ page { background: #F8F7FC; }
   box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06);
   animation: float-breathe 3s ease-in-out infinite;
 }
+
 @keyframes float-breathe {
   0%, 100% { box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06); }
   50% { box-shadow: 0 8rpx 32rpx rgb(91 111 232 / 0.45), 0 2rpx 10rpx rgb(12 26 46 / 0.08); }

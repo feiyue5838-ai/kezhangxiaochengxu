@@ -1,6 +1,6 @@
 /* pages/newspaper/company-docs/index.wxss */
 
-/* 婵炴垶鎸稿锕傛閳哄倻顩烽柛濠勫枔濡插牓鏌ｈ缁垱鎱ㄩ妶鍡愪簻闁汇垹鎲″銊╂倵閻熸媽瀚伴柛娆忕箳閳ь剟娼х紞濠勭礊?*/
+/* 婵炴垶鎸稿锕傛閳哄倻顩烽柛濠勫枔濡插牓鏌ｈ缁垱鎱ㄩ妶鍡愪簻闁汇垹鎲″銊╂倵閻熸媽瀚伴柛娆忕箳閳ь剟娼х紞濠勭礊? */
 
 .page {
   background: #F8F7FC;
@@ -31,6 +31,7 @@
   width: 60rpx;
   height: 100%;
 }
+
 /* ========== Banner ========== */
 .banner {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
@@ -124,7 +125,7 @@
     0 1rpx 3rpx rgba(12, 26, 46, 0.04);
 }
 
-/* 闂佸憡顨愮槐鏇熸櫠閺嶃劊浜滈柛顐ｆ礀閸?*/
+/* 闂佸憡顨愮槐鏇熸櫠閺嶃劊浜滈柛顐ｆ礀閸? */
 .card-top {
   height: 80rpx;
   display: flex; align-items: center;
@@ -159,7 +160,7 @@
   box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18);
 }
 
-/* 闂佸憡顨愮槐鏇熸櫠閺嶃劍鍎熼柡鍥ュ灩閸?*/
+/* 闂佸憡顨愮槐鏇熸櫠閺嶃劍鍎熼柡鍥ュ灩閸? */
 .card-body {
   padding: 8rpx 24rpx 24rpx;
   background: #fff;
@@ -179,7 +180,7 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* 闂備緡鍋勯ˇ顕€鎳欓幋鐘冲枂闁圭儤鎸鹃崹?*/
+/* 闂備緡鍋勯ˇ顕€鎳欓幋鐘冲枂闁圭儤鎸鹃崹? */
 .card-check {
   position: absolute; top: 0; right: 0;
   width: 48rpx; height: 48rpx;
@@ -195,7 +196,7 @@
   font-weight: 700;
 }
 
-/* 闁圭厧鐡ㄥú鐔煎磿閹绢喗鍤岄柤纰卞墮濞?*/
+/* 闁圭厧鐡ㄥú鐔煎磿閹绢喗鍤岄柤纰卞墮濞? */
 .template-card::after {
   content: '';
   position: absolute;
@@ -307,7 +308,6 @@
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
-
   box-shadow:
     0 0 0 1rpx rgba(167, 139, 250, 0.55) inset,
     0 4rpx 20rpx rgba(91, 111, 232, 0.10),
@@ -324,6 +324,7 @@
 }
 
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
+
 .doc-grid-name {
   font-size: 25rpx;
   color: #1A2332;
@@ -370,6 +371,7 @@
   justify-content: center;
   z-index: 999;
 }
+
 .loading-spinner {
   width: 56rpx;
   height: 56rpx;
@@ -378,11 +380,13 @@
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
+
 .loading-text {
   margin-top: 20rpx;
   font-size: 26rpx;
   color: #8c9dcc;
 }
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
