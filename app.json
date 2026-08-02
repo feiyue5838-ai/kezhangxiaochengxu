@@ -1,58 +1,10 @@
 {
   "pages": [
     "pages/home/index",
-    "pages/auth/index",
     "pages/seal/index",
-    "pages/seal/form/index",
-    "pages/seal/select/index",
-    "pages/seal/order-confirm/index",
-    "pages/seal/material-upload/index",
-    "pages/seal/reviews/index",
-    "pages/address/edit/index",
-    "pages/address/index",
-    "pages/invoice/edit/index",
-    "pages/seal/review-submit/index",
-    "pages/seal/qa/index",
     "pages/newspaper/index",
-    "pages/newspaper/labor-dispute/index",
-    "pages/newspaper/env-assessment/index",
-    "pages/newspaper/auction/index",
-    "pages/newspaper/bidding/index",
-    "pages/newspaper/apology/index",
-    "pages/newspaper/praise/index",
-    "pages/newspaper/publicity/index",
-    "pages/newspaper/idcard-page/index",
-    "pages/newspaper/order/index",
-    "pages/newspaper/order-detail/index",
-    "pages/newspaper/invoice-receipt/index",
-    "pages/newspaper/personal-docs/index",
-    "pages/newspaper/company-docs/index",
-    "pages/newspaper/announcement/index",
-    "pages/newspaper/court/index",
-    "pages/newspaper/government/index",
-    "pages/newspaper/creditor/index",
-    "pages/newspaper/content-edit/index",
-    "pages/newspaper/form/index",
-    "pages/seal/order-detail/index",
     "pages/bookkeeping/index",
-    "pages/bookkeeping/order-confirm/index",
-    "pages/bookkeeping/order-detail/index",
-    "pages/profile/index",
-    "pages/webview/index",
-    "pages/order/list/index",
-    "pages/agreement/privacy/index",
-    "pages/agreement/terms/index",
-    "pages/realname/index",
-    "pages/outlet-binding/index",
-    "pages/notification/index",
-    "pages/help/index",
-    "pages/about/index",
-    "pages/aftersale/list/index",
-    "pages/aftersale/apply/index",
-    "pages/aftersale/detail/index",
-    "pages/outlet/orders/index/index",
-    "pages/outlet/order-detail/index/index",
-    "pages/newspaper/announcement-statement/index"
+    "pages/profile/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -104,5 +56,135 @@
   },
   "usingComponents": {},
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "subpackages": [
+    {
+      "root": "pages/seal/",
+      "pages": [
+        "form/index",
+        "select/index",
+        "order-confirm/index",
+        "material-upload/index",
+        "reviews/index",
+        "review-submit/index",
+        "qa/index",
+        "order-detail/index"
+      ]
+    },
+    {
+      "root": "pages/newspaper/",
+      "pages": [
+        "labor-dispute/index",
+        "env-assessment/index",
+        "auction/index",
+        "bidding/index",
+        "apology/index",
+        "praise/index",
+        "publicity/index",
+        "idcard-page/index",
+        "order/index",
+        "order-detail/index",
+        "invoice-receipt/index",
+        "personal-docs/index",
+        "company-docs/index",
+        "announcement/index",
+        "court/index",
+        "government/index",
+        "creditor/index",
+        "content-edit/index",
+        "form/index",
+        "announcement-statement/index"
+      ]
+    },
+    {
+      "root": "pages/aftersale/",
+      "pages": [
+        "list/index",
+        "apply/index",
+        "detail/index"
+      ]
+    },
+    {
+      "root": "pages/order/",
+      "pages": [
+        "list/index"
+      ]
+    },
+    {
+      "root": "pages/bookkeeping/",
+      "pages": [
+        "order-confirm/index",
+        "order-detail/index"
+      ]
+    },
+    {
+      "root": "pages/realname/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/address/",
+      "pages": [
+        "index",
+        "edit/index"
+      ]
+    },
+    {
+      "root": "pages/invoice/",
+      "pages": [
+        "edit/index"
+      ]
+    },
+    {
+      "root": "pages/notification/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/help/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/about/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/agreement/",
+      "pages": [
+        "privacy/index",
+        "terms/index"
+      ]
+    },
+    {
+      "root": "pages/outlet/",
+      "pages": [
+        "orders/index/index",
+        "order-detail/index/index"
+      ]
+    },
+    {
+      "root": "pages/auth/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/webview/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/outlet-binding/",
+      "pages": [
+        "index"
+      ]
+    }
+  ]
 }
