@@ -48,7 +48,7 @@ const request = (options) => {
 
         'Content-Type': 'application/json',
 
-        'Authorization': token ? `Bearer ${token}` : '',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
 
         ...options.header
 
@@ -172,7 +172,7 @@ const outletRequest = (options) => {
       timeout: options.timeout || 15000,
       header: {
         'Content-Type': 'application/json',
-        'Authorization': outletToken ? 'Bearer ' + outletToken : '',
+        ...(outletToken ? { Authorization: 'Bearer ' + outletToken } : {}),
         ...options.header
       },
       success: (res) => {
@@ -421,7 +421,7 @@ module.exports = {
         name: 'file',
         formData: data,
         header: {
-          'Authorization': outletToken ? 'Bearer ' + outletToken : ''
+          ...(outletToken ? { Authorization: 'Bearer ' + outletToken } : {}),
         },
         success: (res) => {
           try {
@@ -474,8 +474,7 @@ module.exports = {
 
         header: {
 
-          'Authorization': token ? `Bearer ${token}` : ''
-
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
 
         success: (res) => {
@@ -574,7 +573,7 @@ module.exports = {
 
           'Content-Type': 'application/json',
 
-          'Authorization': outletToken ? 'Bearer ' + outletToken : '',
+          ...(outletToken ? { Authorization: 'Bearer ' + outletToken } : {}),
 
           ...options.header
 
