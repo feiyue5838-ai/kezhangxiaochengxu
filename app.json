@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/home/index",
-    "pages/seal/index",
-    "pages/newspaper/index",
-    "pages/bookkeeping/index",
+    "pages/seal-tab/index",
+    "pages/newspaper-tab/index",
+    "pages/bookkeeping-tab/index",
     "pages/profile/index"
   ],
   "window": {
@@ -23,13 +23,13 @@
     "borderStyle": "white",
     "list": [
       {
-        "pagePath": "pages/seal/index",
+        "pagePath": "pages/seal-tab/index",
         "text": "刻章",
         "iconPath": "assets/icons/tab-seal.png",
         "selectedIconPath": "assets/icons/tab-seal-active.png"
       },
       {
-        "pagePath": "pages/newspaper/index",
+        "pagePath": "pages/newspaper-tab/index",
         "text": "登报",
         "iconPath": "assets/icons/tab-news.png",
         "selectedIconPath": "assets/icons/tab-news-active.png"
@@ -41,7 +41,7 @@
         "selectedIconPath": "assets/icons/tab-home-active.png"
       },
       {
-        "pagePath": "pages/bookkeeping/index",
+        "pagePath": "pages/bookkeeping-tab/index",
         "text": "代理记账",
         "iconPath": "assets/icons/tab-bookkeeping.png",
         "selectedIconPath": "assets/icons/tab-bookkeeping-active.png"

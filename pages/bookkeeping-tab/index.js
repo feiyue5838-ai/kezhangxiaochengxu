@@ -1,4 +1,4 @@
-// pages/bookkeeping/index.js
+// pages/bookkeeping-tab/index.js
 const api = require('../../utils/api.js');
 const common = require('../../utils/common.js');
 

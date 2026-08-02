@@ -117,9 +117,9 @@ Page({
   goToPage(e) {
     const page = e.currentTarget.dataset.page;
     const pageMap = {
-      'seal': '/pages/seal/index',
-      'newspaper': '/pages/newspaper/index',
-      'bookkeeping': '/pages/bookkeeping/index'
+      'seal': '/pages/seal-tab/index',
+      'newspaper': '/pages/newspaper-tab/index',
+      'bookkeeping': '/pages/bookkeeping-tab/index'
     };
     const url = pageMap[page];
     if (url) {
