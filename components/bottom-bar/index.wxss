@@ -1,5 +1,0 @@
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;align-items:center;padding:16rpx 32rpx;padding-bottom:calc(16rpx + env(safe-area-inset-bottom));box-shadow:0 -4rpx 20rpx rgb(0 0 0 / 0.06);z-index:100}
-.price-preview{display:flex;align-items:baseline;gap:8rpx}
-.preview-label{font-size:26rpx;color:var(--text-secondary)}
-.preview-price{font-size:40rpx;font-weight:bold;color:var(--primary-color)}
-.submit-btn{background:linear-gradient(135deg,#5B6FE8,#A78BFA);color:#fff;font-size:30rpx;font-weight:bold;border-radius:44rpx;padding:22rpx 48rpx;margin-left:auto}
