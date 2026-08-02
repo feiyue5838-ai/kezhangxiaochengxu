@@ -1,4 +1,4 @@
-// pages/newspaper/apology/index.js
+// pages/newspaper/announcement-statement/index.js
 const common = require('../../../utils/common.js');
 const annStmtConfig = require('../../../utils/announcement-statement.js');
 const api = require('../../../utils/api.js');
@@ -35,7 +35,7 @@ Page({
   async _loadFromApi() {
     this.setData({ loading: true })
     try {
-      const res = await Promise.resolve(null) // TODO: 接入后端公告声明 API
+      const res = await api.getNoticeTemplates()
       if (Array.isArray(res) && res.length > 0) {
         categoriesFromApi = res
         const cats = res.map(g => ({

@@ -177,11 +177,12 @@ Page({
     this.setData({ ri: [pi, ci, di], cs: cities, ds: districts });
   },
   confirmRegion() {
-    const { ri, cs } = this.data;
+    const { ri, cs, ds } = this.data;
     const province = P[ri[0]] || '';
     const city = cs[ri[1]] || '';
-    // 两级显示：省 市
-    const region = [province, city].filter(Boolean).join(' ');
+    const district = ds[ri[2]] || '';
+    // 三级显示：省 市 区
+    const region = [province, city, district].filter(Boolean).join(' ');
     this.setData({
       showRegion: false,
       currentRegion: region,

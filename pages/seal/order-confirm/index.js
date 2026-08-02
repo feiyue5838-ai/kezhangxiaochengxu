@@ -585,6 +585,8 @@ Page({
       license_region: this.data.licenseRegion,
       seal_reason: this.data.sealReason,
       total_price: selectedData.totalPrice || this.data.totalPrice,
+      // license_address_json: 执照地区JSON,用于派单匹配
+      license_address_json: JSON.stringify(this._parseLicenseRegion(this.data.licenseRegion)),
       // address_json：后端通过 JSON.parse(address_json) 获取地址用于自动分配门店
       address_json: JSON.stringify(this.data.address || {}),
       invoice: this.data.invoice,
@@ -687,6 +689,14 @@ Page({
       });
     };
     poll();
+  },
+
+  // 解析执照地区字符串为JSON对象
+  _parseLicenseRegion(regionStr) {
+    if (!regionStr) return {};
+    const parts = regionStr.split(' ').filter(Boolean);
+    const [province, city, district] = parts;
+    return { province: province || '', city: city || '', district: district || '' };
   },
 
   // 返回上一页

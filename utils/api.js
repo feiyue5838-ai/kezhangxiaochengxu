@@ -18,8 +18,9 @@ const API_BASE_PROD = 'https://api.rongcheng.com'; // TODO: 替换为实际备�
 let API_BASE;
 try {
   const envVersion = wx.getAccountInfoSync().miniProgram.envVersion;
-  // 'develop' = 模拟器/真机调试/预览；'trial' = 体验版；'release' = 正式版
-  API_BASE = (envVersion === 'develop') ? API_BASE_DEV : API_BASE_PROD;
+  // 'develop' = 模拟器/真机调试；'trial' = 体验版/预览；'release' = 正式版
+  // 预览版(trial)因为没备案HTTPS域名,临时走开发地址(API_BASE_DEV)
+  API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
 } catch (e) {
   API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
 }
@@ -122,6 +123,8 @@ const request = (options) => {
 
       fail: (err) => {
 
+        // 调试日志（生产环境可删除）：
+        // console.error('API_FAIL:', JSON.stringify({url: API_BASE + options.url, errMsg: err.errMsg}));
         wx.getNetworkType({
 
           success: (networkRes) => {
