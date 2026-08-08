@@ -162,6 +162,7 @@ page { background: #F8F7FC; }
 }
 
 .card-name {
+  text-align: center;
   font-size: 26rpx; font-weight: 700;
   color: #1A2332; display: block;
   margin-bottom: 6rpx;

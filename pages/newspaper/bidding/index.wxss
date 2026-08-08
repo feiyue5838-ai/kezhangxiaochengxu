@@ -74,7 +74,8 @@ page { background: #F8F7FC; }
 .card-dot { width: 20rpx; height: 20rpx; border-radius: 50%; position: relative; z-index: 1; box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.12); }
 .card-count { font-size: 21rpx; color: #fff; padding: 4rpx 18rpx; border-radius: 20rpx; font-weight: 700; position: relative; z-index: 1; box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.18); }
 .card-body { padding: 8rpx 24rpx 24rpx; background: #fff; flex: 1; position: relative; }
-.card-name { font-size: 26rpx; font-weight: 700; color: #1A2332; display: block; margin-bottom: 6rpx; letter-spacing: 0.5rpx; line-height: 1.35; }
+.card-name {
+  text-align: center; font-size: 26rpx; font-weight: 700; color: #1A2332; display: block; margin-bottom: 6rpx; letter-spacing: 0.5rpx; line-height: 1.35; }
 .card-desc { font-size: 21rpx; color: #8C97A6; display: block; line-height: 1.45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .card-check {
