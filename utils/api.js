@@ -826,4 +826,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   /** API 基础地址（用于拼接图片等静态资源） */
   API_BASE: API_BASE,
 
+  // ==================== 帮助中心 ====================
+
+  /** 帮助中心（GET /api/faqs，返回 {categories, phone}） */
+  getFaqList: () => request({ url: '/api/faqs' }),
+
 };
