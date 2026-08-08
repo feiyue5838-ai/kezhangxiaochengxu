@@ -266,12 +266,16 @@ page { background: #F8F7FC; }
 
 /* ========== 寮圭獥鍒楄〃 ========== */
 .doc-picker-body {
+  white-space: normal;
+  box-sizing: border-box;
   max-height: 52vh; padding: 0 32rpx 48rpx;
   min-height: 0; overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .doc-grid {
+  width: 100%;
+  box-sizing: border-box;
   display: grid !important; grid-template-columns: repeat(2, 1fr) !important;
   gap: 20rpx;
 }
@@ -311,8 +315,11 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid-name {
-  font-size: 26rpx; font-weight: 600; color: #1A2332;
-  text-align: center; line-height: 1.4;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1A2332;
+  text-align: center;
+  line-height: 1.5;
 }
 
 .doc-empty {

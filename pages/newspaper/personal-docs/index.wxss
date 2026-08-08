@@ -179,7 +179,7 @@ page { background: #F8F7FC; }
 .card-check {
   position: absolute; top: 0; right: 0;
   width: 48rpx; height: 48rpx;
-  display: flex; align-items: center; justify-content: center;
+  display: block; text-align: center;
   border-radius: 0 24rpx 0 16rpx;
 }
 
@@ -257,6 +257,7 @@ page { background: #F8F7FC; }
 }
 
 .doc-picker-title {
+  width: 100%;
   font-size: 30rpx; font-weight: 600; color: #1A2332;
 }
 
@@ -272,10 +273,10 @@ page { background: #F8F7FC; }
 }
 
 .doc-picker-body {
-  flex: 1;
-  padding: 0 32rpx 48rpx;
-  min-height: 0;
-  overflow-y: auto;
+  max-height: 52vh; padding: 0 32rpx 48rpx;
+  min-height: 0; overflow-y: auto;
+  white-space: normal;
+  box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -288,16 +289,22 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
   padding: 8rpx 0 40rpx;
 }
 
 .doc-grid-item {
+  width: calc(50% - 10rpx);
+  max-width: calc(50% - 10rpx);
+  min-width: 0;
+  box-sizing: border-box;
   background: #fff;
   border-radius: 20rpx;
-  padding: 20rpx 24rpx;
+  padding: 28rpx 24rpx;
   border: 1rpx solid #5B6FE8;
   position: relative;
   overflow: hidden;
@@ -318,11 +325,14 @@ page { background: #F8F7FC; }
     0 1rpx 2rpx rgba(12, 26, 46, 0.03);
 }
 
-.doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
+.doc-grid-content { display: block; width: 100%; text-align: center; }
 
 .doc-grid-name {
-  font-size: 26rpx; font-weight: 600; color: #1A2332;
-  text-align: center; line-height: 1.4;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1A2332;
+  text-align: center;
+  line-height: 1.5;
 }
 
 

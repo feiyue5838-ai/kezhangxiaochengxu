@@ -127,11 +127,15 @@ page { background: #F8F7FC; }
   font-size: 32rpx; color: #8C97A6; background: #F8F7FC; border-radius: 50%;
 }
 
-.doc-picker-body { flex: 1; padding: 0 32rpx 48rpx; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.doc-picker-body {
+  white-space: normal;
+  box-sizing: border-box; flex: 1; padding: 0 32rpx 48rpx; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .doc-empty { padding: 60rpx 0; text-align: center; }
 .doc-empty-text { font-size: 26rpx; color: #8C97A6; }
 
 .doc-grid {
+  width: 100%;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
@@ -165,8 +169,11 @@ page { background: #F8F7FC; }
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
 
 .doc-grid-name {
-  font-size: 26rpx; font-weight: 600; color: #1A2332;
-  text-align: center; line-height: 1.4;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1A2332;
+  text-align: center;
+  line-height: 1.5;
 }
 
 

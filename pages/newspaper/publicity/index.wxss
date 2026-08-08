@@ -271,6 +271,8 @@ page { background: #F8F7FC; }
 }
 
 .doc-picker-body {
+  white-space: normal;
+  box-sizing: border-box;
   flex: 1;
   padding: 0 32rpx 48rpx;
   min-height: 0;
@@ -287,6 +289,8 @@ page { background: #F8F7FC; }
 }
 
 .doc-grid {
+  width: 100%;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
@@ -320,8 +324,11 @@ page { background: #F8F7FC; }
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
 
 .doc-grid-name {
-  font-size: 26rpx; font-weight: 600; color: #1A2332;
-  text-align: center; line-height: 1.4;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1A2332;
+  text-align: center;
+  line-height: 1.5;
 }
 
 
