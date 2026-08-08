@@ -100,24 +100,45 @@ Page({
     wx.showLoading({ title: '发起支付' });
     api.getBookkeepingPayParams(id, openid).then((payRes) => {
       wx.hideLoading();
-      const pay = payRes || {};
-      wx.requestPayment({
-        ...pay,
-        success() {
+      const { type, payment } = payRes || {};
+
+      if (type === 'wechat' && payment) {
+        wx.requestPayment({
+          timeStamp: payment.timeStamp,
+          nonceStr: payment.nonceStr,
+          package: payment.package,
+          signType: payment.signType || 'RSA',
+          paySign: payment.paySign,
+          success() {
+            that.setData({ submitting: false });
+            wx.showToast({ title: '支付成功', icon: 'success' });
+            that.loadOrder(id);
+          },
+          fail(err) {
+            that.setData({ submitting: false });
+            if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+              wx.showToast({ title: '已取消支付', icon: 'none' });
+            } else {
+              wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+            }
+          }
+        });
+      } else if (type === 'dev') {
+        api.devConfirmPay(id).then(function() {
           that.setData({ submitting: false });
           wx.showToast({ title: '支付成功', icon: 'success' });
           that.loadOrder(id);
-        },
-        fail(err) {
+        }).catch(function() {
           that.setData({ submitting: false });
-          if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
-            wx.showToast({ title: '已取消支付', icon: 'none' });
-          } else {
-            wx.showToast({ title: '支付失败', icon: 'none' });
-          }
-        }
-      });
-    }).catch(() => {
+          wx.showToast({ title: '支付处理失败', icon: 'none' });
+        });
+      } else {
+        // free（价格为 0）或兜底
+        that.setData({ submitting: false });
+        wx.showToast({ title: '支付成功', icon: 'success' });
+        that.loadOrder(id);
+      }
+    }).catch(function() {
       wx.hideLoading();
       that.setData({ submitting: false });
       wx.showToast({ title: '获取支付参数失败', icon: 'none' });

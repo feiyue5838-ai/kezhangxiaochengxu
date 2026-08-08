@@ -12,9 +12,7 @@
     "navigationBarTitleText": "蓉城企服",
     "navigationBarTextStyle": "white"
   },
-  "requiredPrivateInfos": [
-    "getLocation"
-  ],
+
   "tabBar": {
     "custom": false,
     "color": "#8B95A5",

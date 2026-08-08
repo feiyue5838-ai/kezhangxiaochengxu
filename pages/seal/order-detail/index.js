@@ -147,33 +147,71 @@ Page({
     }
     this.setData({ isSubmitting: true });
     var that = this;
-    wx.showModal({
-      title: '模拟支付',
-      content: '这是模拟支付（实际需接入微信支付）',
-      success: function(res) {
-        if (res.confirm) {
-          that.updateOrderStatus('processing', '进行中', 'processing');
-          wx.showToast({ title: '支付成功', icon: 'success' });
+    var id = this.data.order.id;
+    var app = getApp();
+    var openid = (app && app.globalData && app.globalData.openid) || '';
+    wx.showLoading({ title: '发起支付' });
+    api.getSealPayParams(id, openid).then(function(payRes) {
+      var pay = payRes || {};
+      var type = pay.type;
+      var payment = pay.payment;
+      wx.hideLoading();
+
+      if (type === 'wechat' && payment) {
+        wx.requestPayment({
+          timeStamp: payment.timeStamp,
+          nonceStr: payment.nonceStr,
+          package: payment.package,
+          signType: payment.signType || 'RSA',
+          paySign: payment.paySign,
+          success: function() { that._pollPaid(id); },
+          fail: function(err) {
+            that.setData({ isSubmitting: false });
+            if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+              wx.showToast({ title: '已取消支付', icon: 'none' });
+            } else {
+              wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+            }
+          }
+        });
+      } else if (type === 'dev') {
+        api.devConfirmPay(id).then(function() { that._afterPay(id); }).catch(function() {
+          wx.hideLoading();
           that.setData({ isSubmitting: false });
-        } else {
-          that.setData({ isSubmitting: false });
-        }
+          wx.showToast({ title: '支付处理失败', icon: 'none' });
+        });
+      } else {
+        that._afterPay(id);
       }
+    }).catch(function() {
+      wx.hideLoading();
+      that.setData({ isSubmitting: false });
+      wx.showToast({ title: '获取支付参数失败', icon: 'none' });
     });
   },
 
-  completeOrder: function() {
+  _afterPay: function(id) {
+    this.setData({ isSubmitting: false });
+    wx.showToast({ title: '支付成功', icon: 'success' });
+    this.loadOrder(id);
+  },
+
+  _pollPaid: function(id) {
     var that = this;
-    wx.showModal({
-      title: '确认完成',
-      content: '确认订单已完成？',
-      success: function(res) {
-        if (res.confirm) {
-          that.updateOrderStatus('completed', '已完成', 'completed');
-          wx.showToast({ title: '订单已完成', icon: 'success' });
+    var tries = 0;
+    var poll = function() {
+      api.getSealOrderDetail(id).then(function(detail) {
+        if (detail && detail.status >= 2) { that._afterPay(id); return; }
+        throw new Error('pending');
+      }).catch(function() {
+        if (tries++ < 4) {
+          setTimeout(poll, 800);
+        } else {
+          that._afterPay(id);
         }
-      }
-    });
+      });
+    };
+    poll();
   },
 
   updateOrderStatus: function(status, statusText, statusClass) {

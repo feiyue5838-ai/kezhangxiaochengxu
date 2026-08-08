@@ -42,11 +42,13 @@
         <!-- 待支付：取消 + 支付 -->
         <block wx:if="{{item.status === 'pending'}}">
           <view class="action-btn cancel" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onCancelOrder">取消订单</view>
-          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onPayOrder">立即支付</view>
+          <navigator class="action-btn primary" url="/pages/seal/order-detail/index?id={{item.id}}" wx:if="{{item.module === 'seal'}}">立即支付</navigator>
+          <navigator class="action-btn primary" url="/pages/newspaper/order-detail/index?id={{item.id}}" wx:elif="{{item.module === 'newspaper'}}">立即支付</navigator>
+          <navigator class="action-btn primary" url="/pages/bookkeeping/order-detail/index?id={{item.id}}" wx:elif="{{item.module === 'bookkeeping'}}">立即支付</navigator>
         </block>
-        <!-- 进行中：完成 -->
+        <!-- 进行中：订单由系统自动推进 -->
         <block wx:elif="{{item.status === 'processing'}}">
-          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onCompleteOrder">确认完成</view>
+          <!-- 无需用户操作 -->
         </block>
         <!-- 已完成：删除 + 申请售后 -->
         <block wx:elif="{{item.status === 'completed'}}">

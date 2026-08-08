@@ -12,8 +12,46 @@
       <text class="status-badge {{statusBadgeClass}}">{{statusBadgeText}}</text>
     </view>
 
-    <!-- 认证表单（未认证/认证失败时显示） -->
-    <view class="form-card" wx:if="{{verifyStatus === 0 || verifyStatus === 2}}">
+    <!-- 认证选择页（未认证时展示两个入口） -->
+    <view class="form-card" wx:if="{{verifyStatus === 0 && !showIdCardForm}}">
+      <view class="form-title">选择认证方式</view>
+
+      <!-- 方式一：微信实名认证（推荐） -->
+      <view class="verify-method-card" bindtap="onStartWechatVerify">
+        <view class="verify-method-left">
+          <view class="verify-method-icon">
+            <image src="/assets/icons/wechat-icon.svg" mode="aspectFit" />
+          </view>
+          <view class="verify-method-info">
+            <text class="verify-method-title">微信实名认证</text>
+            <text class="verify-method-desc">自动获取微信已认证身份，一键完成</text>
+          </view>
+        </view>
+        <view class="verify-method-tag">推荐</view>
+      </view>
+
+      <!-- 方式二：上传身份证（兜底） -->
+      <view class="verify-method-card" bindtap="showIdCardForm">
+        <view class="verify-method-left">
+          <view class="verify-method-icon">
+            <image src="/assets/icons/idcard-icon.svg" mode="aspectFit" />
+          </view>
+          <view class="verify-method-info">
+            <text class="verify-method-title">上传身份证认证</text>
+            <text class="verify-method-desc">手动填写身份信息并上传证件照片</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 身份证上传表单（方案 B，降级入口；认证失败时直接展示） -->
+    <view class="form-card" wx:if="{{showIdCardForm || verifyStatus === 2}}">
+      <!-- 返回选择按钮（仅方案 B 入口时显示） -->
+      <view class="back-btn-row" wx:if="{{showIdCardForm}}">
+        <view class="back-btn" bindtap="onBackToChoice">
+          <text>&lt; 返回选择认证方式</text>
+        </view>
+      </view>
       <view class="form-title">基本信息</view>
 
       <view class="form-row">
@@ -75,7 +113,7 @@
     </view>
 
     <button class="submit-btn {{canSubmit ? '' : 'submit-btn--disabled'}}"
-      wx:if="{{verifyStatus === 0 || verifyStatus === 2}}"
+      wx:if="{{showIdCardForm || verifyStatus === 2}}"
       bindtap="onSubmit">
       {{verifyStatus === 2 ? '重新认证' : '提交认证'}}
     </button>

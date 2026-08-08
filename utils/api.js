@@ -12,7 +12,13 @@
 // ⚠️ 发版前：把 API_BASE_PROD 替换为已备案的 HTTPS 域名，并在微信公众平台
 //    开发管理 → 服务器域名 中把 request / uploadFile / downloadFile 都加上该域名
 const API_BASE_DEV = 'http://192.168.31.218:3002'; // 真机预览/开发版走局域网IP（2026-08-05 本机 WLAN IP 从 .219 变更为 .218，后端临时端口 3002；机器重启还原 3001 后需同步改回）
-const API_BASE_PROD = 'https://api.rongcheng.com'; // TODO: 替换为实际备案 HTTPS 域名
+// ============================================================================
+// ===== TODO 替换为已备案 HTTPS 域名后再发布正式版 =====
+// 格式示例：'https://api.rongcheng.com'
+// 必须与微信公众平台「开发管理 → 服务器域名 → request / uploadFile / downloadFile」登记的域名完全一致
+// ============================================================================
+const API_BASE_PROD = ''; // ← 取消此行注释并填入真实域名，如：'https://api.rongcheng.com'
+
 
 let API_BASE;
 try {
@@ -22,6 +28,11 @@ try {
   API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
 } catch (e) {
   API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
+}
+
+// [M1 安全护栏] 明文 HTTP 可被同 WiFi 中间人嗅探令牌/身份证号；仅允许 develop/trial 在可信网络使用
+if (API_BASE.indexOf('http://') === 0) {
+  console.warn('[安全] 当前 API_BASE 为明文 HTTP（' + API_BASE + '），令牌与个人信息可被局域网嗅探，仅限开发/预览版可信网络使用；发版前必须切换为已备案 HTTPS 域名 API_BASE_PROD');
 }
 
 // API_BASE 也在模块导出中，供组件拼接图片等静态资源使用
@@ -217,7 +228,16 @@ module.exports = {
 
   // 获取用户信息 ?GET /api/user/profile
 
-  getUserInfo: () => request({ url: '/api/user/profile' }),
+  // 实名认证提交（后端核验，绝不在客户端伪造成功）> POST /api/user/realname-verify
+// 微信实名认证（方案 A）> POST /api/user/realname-verify/wechat
+verifyByWechat: (data) => request({ url: '/api/user/realname-verify/wechat', method: 'POST', data }),
+
+submitRealname: (data) => request({ url: '/api/user/realname-verify', method: 'POST', data }),
+
+// 获取实名认证状态 > GET /api/user/realname-verify
+getRealnameStatus: () => request({ url: '/api/user/realname-verify' }),
+
+getUserInfo: () => request({ url: '/api/user/profile' }),
 
   // 更新用户信息 ?PUT /api/user/profile
 
@@ -267,7 +287,16 @@ module.exports = {
 
   // 开发环境模拟微信支付回调（生产环境该接口返?403）→ POST /api/orders/:id/dev-paid
 
-  devConfirmPay: (id) => request({ url: `/api/orders/${id}/dev-paid`, method: 'POST' }),
+  // 仅开发/体验版可用：客户端模拟“支付成功”。生产环境该接口必须禁用（后端返回 403），
+  // 且订单支付完成只能由微信支付异步回调(notify)驱动，绝不信任任何客户端调用。
+  devConfirmPay: (id) => {
+    let env = 'develop';
+    try { env = wx.getAccountInfoSync().miniProgram.envVersion; } catch (e) {}
+    if (env === 'release') {
+      return Promise.reject(new Error('生产环境不支持模拟支付'));
+    }
+    return request({ url: `/api/orders/${id}/dev-paid`, method: 'POST' });
+  },
 
 
   // ==================== 登报服务 ====================

@@ -188,3 +188,67 @@ page { background: #F8F7FC; }
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   box-shadow: 0 8rpx 24rpx rgb(82 196 26 / 0.35);
 }
+
+
+/* ======= verify-method cards ======= */
+.verify-method-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  background: #F8F7FC;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  border: 2rpx solid transparent;
+}
+.verify-method-card:last-child { margin-bottom: 0; }
+.verify-method-card:active { border-color: #5B6FE8; background: #EEF0FF; }
+
+.verify-method-left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  flex: 1;
+}
+
+.verify-method-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+.verify-method-icon image { width: 44rpx; height: 44rpx; }
+
+.verify-method-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+.verify-method-title { font-size: 30rpx; font-weight: 600; color: #1A2332; }
+.verify-method-desc { font-size: 22rpx; color: #8C97A6; }
+
+.verify-method-tag {
+  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 6rpx 16rpx;
+  border-radius: 100rpx;
+  flex-shrink: 0;
+}
+
+/* ======= back button ======= */
+.back-btn-row { margin-bottom: 24rpx; }
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #5B6FE8;
+  padding: 8rpx 0;
+}
+.back-btn:active { opacity: 0.7; }

@@ -1,4 +1,5 @@
 const common = require('../../utils/common.js');
+const api = require('../../utils/api.js');
 
 Page({
   data: {
@@ -8,6 +9,7 @@ Page({
     statusDesc: '完成实名认证，享受更多服务',
     statusBadgeClass: 'status-badge--wait',
     statusBadgeText: '未认证',
+    showIdCardForm: false,  // false=展示选择页 true=展示上传身份证表单
     formData: {
       name: '',
       idNumber: '',
@@ -24,8 +26,8 @@ Page({
   loadVerifyStatus() {
     const data = wx.getStorageSync('realname_verify');
     if (data && data.status === 1) {
-      // 已认证
-      const id = data.idNumber || '';
+      const rawId = data.idNumber || '';
+      const mask = data.idNumberMask || (rawId ? rawId.substring(0, 3) + '***********' + rawId.substring(rawId.length - 4) : '');
       this.setData({
         verifyStatus: 1,
         statusIcon: '/assets/icons/icon-b64-20.svg',
@@ -35,7 +37,7 @@ Page({
         statusBadgeText: '已认证 ✓',
         verifyData: {
           name: data.name,
-          idNumberMask: id.substring(0, 3) + '***********' + id.substring(id.length - 4),
+          idNumberMask: mask,
           verifyTime: data.verifyTime || '',
         },
       });
@@ -79,6 +81,66 @@ Page({
       && d.idCardBack;
   },
 
+  // — 方案 A：微信实名认证（推荐）—
+  onStartWechatVerify() {
+    wx.triggerVerify({
+      appId: 'wx68ab58ca4a6dd92a',
+      success: (detail) => {
+        wx.showLoading({ title: '验证中...' });
+        api.verifyByWechat({
+          encryptedData: detail.encryptedData,
+          iv: detail.iv,
+        }).then((res) => {
+          wx.hideLoading();
+          if (res.status === 1) {
+            wx.setStorageSync('realname_verify', {
+              status: 1,
+              name: res.name,
+              idNumberMask: res.idNumberMask,
+              verifyTime: res.verifyTime || '',
+            });
+            this.loadVerifyStatus();
+            wx.showToast({ title: '认证成功', icon: 'success' });
+          } else {
+            wx.showModal({
+              title: '认证失败',
+              content: (res && res.message) || '微信实名认证未能通过，请尝试上传身份证',
+              confirmText: '上传身份证',
+              success: (m) => { if (m.confirm) this.setData({ showIdCardForm: true }); }
+            });
+          }
+        }).catch(() => {
+          wx.hideLoading();
+          wx.showToast({ title: '验证失败，请稍后重试', icon: 'none' });
+        });
+      },
+      fail: (err) => {
+        if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+          // 用户主动取消，忽略
+          return;
+        }
+        // 接口不支持或出错，引导上传身份证
+        wx.showModal({
+          title: '微信认证不可用',
+          content: '请尝试上传身份证认证',
+          confirmText: '上传身份证',
+          success: (m) => { if (m.confirm) this.setData({ showIdCardForm: true }); }
+        });
+      }
+    });
+  },
+
+  // 展示上传身份证表单（方案 B 入口）
+  showIdCardForm() {
+    this.setData({ showIdCardForm: true });
+  },
+
+  // 返回选择页
+  onBackToChoice() {
+    this.setData({ showIdCardForm: false });
+  },
+
+  // — 方案 B：上传身份证提交 —
   onSubmit() {
     const d = this.data.formData;
     if (!d.name.trim() || d.name.trim().length < 2) {
@@ -96,21 +158,30 @@ Page({
     }
 
     wx.showLoading({ title: '提交中...' });
-    // 模拟认证请求
-    setTimeout(() => {
+    const getUrl = (r) => (r && (r.url || (r.data && r.data.url))) || r;
+    Promise.all([
+      api.uploadFile(d.idCardFront, '/api/upload/id-card'),
+      api.uploadFile(d.idCardBack, '/api/upload/id-card'),
+    ]).then((res) => api.submitRealname({
+      name: d.name.trim(),
+      idNumber: d.idNumber.trim(),
+      idCardFront: getUrl(res[0]),
+      idCardBack: getUrl(res[1]),
+    })).then((verifyRes) => {
       wx.hideLoading();
-      const saveData = {
+      const id = d.idNumber.trim();
+      wx.setStorageSync('realname_verify', {
         status: 1,
         name: d.name.trim(),
-        idNumber: d.idNumber.trim(),
-        idCardFront: d.idCardFront,
-        idCardBack: d.idCardBack,
-        verifyTime: '2026-06-17',
-      };
-      wx.setStorageSync('realname_verify', saveData);
+        idNumberMask: id.substring(0, 3) + '***********' + id.substring(id.length - 4),
+        verifyTime: (verifyRes && verifyRes.verifyTime) || '',
+      });
       this.loadVerifyStatus();
-      wx.showToast({ title: '认证成功！', icon: 'success' });
-    }, 1500);
+      wx.showToast({ title: '认证成功', icon: 'success' });
+    }).catch((err) => {
+      wx.hideLoading();
+      wx.showToast({ title: (err && err.message) || '认证失败，请重试', icon: 'none' });
+    });
   },
 
   onBack() {

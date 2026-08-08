@@ -224,36 +224,14 @@ Page({
     });
   },
 
-  // 快捷操作：立即支付
+  // 快捷操作：立即支付 — 跳转到对应详情页处理真实支付
   onPayOrder(e) {
-    const id = e.currentTarget.dataset.id;
-    const module = e.currentTarget.dataset.module;
-    wx.showModal({
-      title: '模拟支付',
-      content: '这是模拟支付（实际需接入微信支付）',
-      success: (res) => {
-        if (res.confirm) {
-          this.updateOrder(id, module, 'processing', '进行中', 'processing');
-          wx.showToast({ title: '支付成功', icon: 'success' });
-        }
-      }
-    });
+    // 已由 navigator 组件处理，保留方法防止意外调用兜底
   },
 
-  // 快捷操作：确认完成
+  // 快捷操作：确认完成 — 订单状态由系统后端驱动，用户无需手动操作
   onCompleteOrder(e) {
-    const id = e.currentTarget.dataset.id;
-    const module = e.currentTarget.dataset.module;
-    wx.showModal({
-      title: '确认完成',
-      content: '确认订单已完成？',
-      success: (res) => {
-        if (res.confirm) {
-          this.updateOrder(id, module, 'completed', '已完成', 'completed');
-          wx.showToast({ title: '订单已完成', icon: 'success' });
-        }
-      }
-    });
+    // 已由系统自动推进，保留方法防止意外调用兜底
   },
 
   // 更新订单状态（本地存储）
