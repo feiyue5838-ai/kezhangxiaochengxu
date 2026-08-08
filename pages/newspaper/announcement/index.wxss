@@ -202,9 +202,7 @@ page {
   position: relative;
 }
 
-.card-name {
-  text-align: center;
-  font-size: 26rpx;
+.card-name {font-size: 26rpx;
   font-weight: 700;
   color: #1A2332;
   display: block;
