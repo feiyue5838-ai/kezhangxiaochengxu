@@ -325,7 +325,11 @@ page { background: #F8F7FC; }
     0 1rpx 2rpx rgba(12, 26, 46, 0.03);
 }
 
-.doc-grid-content { display: block; width: 100%; text-align: center; }
+.doc-grid-content {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
 
 .doc-grid-name {
   font-size: 26rpx;

@@ -327,9 +327,9 @@ page {
 }
 
 .doc-grid-content {
-  padding: 20rpx 24rpx 22rpx;
-  display: flex; align-items: center;
-  justify-content: center; flex: 1;
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .doc-grid-name {
