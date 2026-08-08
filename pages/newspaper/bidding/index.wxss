@@ -164,18 +164,11 @@ page { background: #F8F7FC; }
 }
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
 
-.doc-grid-name { font-size: 25rpx; color: #1A2332; font-weight: 500; line-height: 1.4; flex: 1;
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
-
-/* 娴姩鎸夐挳 */
-.float-btn {
-  position: fixed; right: 24rpx; z-index: 150;
-  width: 88rpx; height: 88rpx;
-  background: linear-gradient(135deg, #5B6FE8, #A78BFA);
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06);
-  animation: float-breathe 3s ease-in-out infinite;
+.doc-grid-name {
+  font-size: 26rpx; font-weight: 600; color: #1A2332;
+  text-align: center; line-height: 1.4;
 }
+
 
 @keyframes float-breathe {
   0%, 100% { box-shadow: 0 6rpx 24rpx rgb(91 111 232 / 0.35), 0 2rpx 8rpx rgb(12 26 46 / 0.06); }

@@ -321,18 +321,10 @@ page { background: #F8F7FC; }
 .doc-grid-content { flex: 1; min-width: 0; display: flex; align-items: flex-start; }
 
 .doc-grid-name {
-  font-size: 25rpx;
-  color: #1A2332;
-  font-weight: 500;
-  line-height: 1.4;
-  flex: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
+  font-size: 26rpx; font-weight: 600; color: #1A2332;
+  text-align: center; line-height: 1.4;
 }
+
 
 /* ========== 娴姩瀹㈡湇鎸夐挳 ========== */
 .float-btn {
