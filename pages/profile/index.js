@@ -106,7 +106,8 @@ Page({
       2: { title: '发票管理', url: '/pages/invoice/edit/index' },
       3: { title: '地址管理', url: '/pages/address/edit/index' },
       4: { title: '实名认证', url: '/pages/realname/index' },
-      5: { title: '消息通知', url: '/pages/notification/index' }
+      5: { title: '消息通知', url: '/pages/notification/index' },
+    6: { title: '帮助中心', url: '/pages/help/index' }
     };
     const item = map[id];
     if (!item) return;
