@@ -53,11 +53,14 @@ Page({
     try {
       this.setData({ loading: true });
       const res = await api.getNewspaperTemplate(IDCARD_CATEGORY_ID);
-      // 后端返回 {list: [...], total}，需要取 res.list
+      // 后端返回 {list: [...]}，取 res.list
       const tmplList = Array.isArray(res) ? res : (res && res.list) || [];
-      if (tmplList.length > 0) {
+      // 该分类(56eab382)为"个人证件"大类，混有房产证/学历/营业执照等其他证件模板；
+      // 本页语义为"身份证登报"，仅保留名称含"身份证"的模板
+      const idcardList = tmplList.filter(function (t) { return (t.name || '').indexOf('身份证') >= 0; });
+      if (idcardList.length > 0) {
         // API返回成功，用后端数据（字段映射：id/name/desc/color/content）
-        this.setData({ templates: tmplList, loading: false });
+        this.setData({ templates: idcardList, loading: false });
       } else {
         // 返回空或异常，保持兜底
         this.setData({ loading: false });
