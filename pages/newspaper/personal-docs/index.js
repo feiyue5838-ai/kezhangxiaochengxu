@@ -3,6 +3,10 @@ const common = require('../../../utils/common.js');
 const personalDocsConfig = require('../../../utils/personal-docs.js');
 const api = require('../../../utils/api.js');
 
+// 类目卡片配色：与企业证件页统一为蓝紫渐变（12 色循环）
+const CARD_GRAD = ['#5B6FE8', '#6474E9', '#6D78EB', '#767DEC', '#7F81ED', '#8886EF', '#918AF0', '#9A8FF1', '#A393F3', '#AC98F4', '#B59CF5', '#B49CF7'];
+const withGradColor = (list) => (list || []).map((cat, i) => ({ ...cat, color: CARD_GRAD[i % CARD_GRAD.length] }));
+
 Page({
   data: {
     showDocPicker: false,
@@ -34,7 +38,7 @@ Page({
         wx.hideLoading();
         if (Array.isArray(data) && data.length > 0) {
           const totalCount = data.reduce((sum, cat) => sum + (cat.docs ? cat.docs.length : 0), 0);
-          this.setData({ categoryList: data, totalCount });
+          this.setData({ categoryList: withGradColor(data), totalCount });
         } else {
           this._useFallback();
         }
@@ -49,7 +53,7 @@ Page({
   _useFallback() {
     const fallback = personalDocsConfig.categories;
     this.setData({
-      categoryList: fallback,
+      categoryList: withGradColor(fallback),
       totalCount: personalDocsConfig.getTotalCount()
     });
   },
