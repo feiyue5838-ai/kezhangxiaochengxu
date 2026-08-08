@@ -35,7 +35,7 @@ const FALLBACK_TEMPLATES = [
 ];
 
 // 身份证挂失分类ID（后端UUID）
-const IDCARD_CATEGORY_ID = '036611a0-2e96-43f7-b2fc-f4271651db97';
+const IDCARD_CATEGORY_ID = '56eab382-2d52-4eb3-a684-c97b5e8a6ad4';
 
 Page({
   data: {
