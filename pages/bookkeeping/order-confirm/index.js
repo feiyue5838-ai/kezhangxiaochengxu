@@ -78,8 +78,7 @@ Page({
       this.setData({ orderId });
 
       // 2. 获取支付参数
-      const app = getApp();
-      const openid = (app && app.globalData && app.globalData.openid) || '';
+      const openid = wx.getStorageSync('openid') || '';
       const payRes = await api.getBookkeepingPayParams(orderId, openid);
 
       // 3. 发起微信支付

@@ -1,5 +1,4 @@
 // pages/home/index.js
-const app = getApp();
 const common = require('../../utils/common.js');
 
 // 状态映射

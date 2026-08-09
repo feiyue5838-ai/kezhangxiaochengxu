@@ -216,8 +216,15 @@ module.exports = {
   // ==================== 认证相关 ====================
 
   // 微信登录 ?POST /api/auth/wx-login
-
-  wxLogin: (code) => request({ url: '/api/auth/wx-login', method: 'POST', data: { code } }),
+  // [Storage 隔离修复] 登录成功后同步 openid 到 Storage，避免依赖 globalData.openid
+  wxLogin: (code) => {
+    return request({ url: '/api/auth/wx-login', method: 'POST', data: { code } }).then(res => {
+      if (res && res.openid) {
+        wx.setStorageSync('openid', res.openid);
+      }
+      return res;
+    });
+  },
 
   // 门店登录 ?POST /api/auth/store-login
 

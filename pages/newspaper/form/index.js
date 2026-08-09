@@ -537,8 +537,7 @@ Page({
   // 发起支付（对齐刻章下单流程）
   _payOrder(orderId) {
     const that = this;
-    const app = getApp();
-    const openid = (app && app.globalData && app.globalData.openid) || '';
+    const openid = wx.getStorageSync('openid') || '';
     api.getNewspaperPayParams(orderId, openid).then((data) => {
       const pay = data || {};
       if (pay.type === 'wechat' && pay.payment) {

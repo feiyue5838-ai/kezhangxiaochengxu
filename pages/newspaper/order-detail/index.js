@@ -111,8 +111,7 @@ Page({
     this.setData({ isSubmitting: true });
     const that = this;
     const id = this.data.order.id;
-    const app = getApp();
-    const openid = (app && app.globalData && app.globalData.openid) || '';
+    const openid = wx.getStorageSync('openid') || '';
     wx.showLoading({ title: '发起支付' });
     api.getNewspaperPayParams(id, openid).then((data) => {
       const pay = data || {};

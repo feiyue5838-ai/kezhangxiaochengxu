@@ -95,8 +95,7 @@ Page({
     this.setData({ submitting: true });
     const that = this;
     const id = this.data.order.id;
-    const app = getApp();
-    const openid = (app && app.globalData && app.globalData.openid) || '';
+    const openid = wx.getStorageSync('openid') || '';
     wx.showLoading({ title: '发起支付' });
     api.getBookkeepingPayParams(id, openid).then((payRes) => {
       wx.hideLoading();

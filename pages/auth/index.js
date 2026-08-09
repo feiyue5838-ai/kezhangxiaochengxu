@@ -1,7 +1,6 @@
 const common = require('../../utils/common.js');
 const auth = require('../../utils/auth.js');
 const api = require('../../utils/api.js');
-const app = getApp();
 
 Page({
   data: {
@@ -70,7 +69,9 @@ Page({
     wx.setStorageSync('token', data.token);
     wx.setStorageSync('userInfo', data.userInfo);
     wx.setStorageSync('isLogin', true);
-    app.refreshAuthState();
+    // 登录成功后同步 openid 到 Storage（api.wxLogin 已写入，此处做双重保险）
+    if (data.openid) wx.setStorageSync('openid', data.openid);
+    auth.refreshAuthState();
     this._redirectBack();
   },
 
@@ -87,7 +88,7 @@ Page({
   onGuestEnter() {
     wx.setStorageSync('isGuest', true);
     wx.setStorageSync('isLogin', true);
-    app.refreshAuthState();
+    auth.refreshAuthState();
     this._redirectBack();
   },
 

@@ -148,8 +148,7 @@ Page({
     this.setData({ isSubmitting: true });
     var that = this;
     var id = this.data.order.id;
-    var app = getApp();
-    var openid = (app && app.globalData && app.globalData.openid) || '';
+    var openid = wx.getStorageSync('openid') || '';
     wx.showLoading({ title: '发起支付' });
     api.getSealPayParams(id, openid).then(function(payRes) {
       var pay = payRes || {};
