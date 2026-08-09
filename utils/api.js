@@ -17,7 +17,8 @@ const API_BASE_DEV = 'http://192.168.31.218:3001'; // 真机预览/开发版走�
 // 格式示例：'https://api.rongcheng.com'
 // 必须与微信公众平台「开发管理 → 服务器域名 → request / uploadFile / downloadFile」登记的域名完全一致
 // ============================================================================
-const API_BASE_PROD = ''; // ← 取消此行注释并填入真实域名，如：'https://api.rongcheng.com'
+// ⚠️ 【发版必填】填入已备案 HTTPS 域名，留空则 release 模式所有接口直接报错
+const API_BASE_PROD = ''; // 格式：'https://api.rongcheng.com'
 
 
 let API_BASE;
@@ -25,7 +26,12 @@ try {
   const envVersion = wx.getAccountInfoSync().miniProgram.envVersion;
   // 'develop' = 模拟器/真机调试；'trial' = 体验版/预览；'release' = 正式版
   // 预览版(trial)因为没备案HTTPS域名,临时走开发地址(API_BASE_DEV)
-  API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
+  // release 模式必须有真实域名，否则所有接口必败
+const _isRelease = (envVersion === 'release');
+if (_isRelease && !API_BASE_PROD) {
+  console.error('[API] ⚠️ API_BASE_PROD 为空！release 模式接口全部失效，请在 utils/api.js 中填入已备案 HTTPS 域名');
+}
+API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : (API_BASE_PROD || API_BASE_DEV);
 } catch (e) {
   API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
 }

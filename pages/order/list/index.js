@@ -91,6 +91,8 @@ Page({
   },
 
   onShow: function () {
+    // 防止页面未就绪或正在加载时重复触发
+    if (this._loadingOrders) return;
     this.loadOrders();
   },
 
@@ -103,10 +105,13 @@ Page({
 
   // 加载订单：本地登报/刻章兜底 + 后端真实订单（含代理记账）
   loadOrders: async function () {
+    if (this._loadingOrders) return;
+    this._loadingOrders = true;
     this.setData({ loading: true });
     const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
     const localSealOrders = wx.getStorageSync('seal_orders') || [];
     let all = [];
+    let apiFailed = false;
     try {
       const res = await api.getSealOrderList({ pageSize: 200 });
       const apiOrders = (res && res.list) ? res.list.map(o => {
@@ -139,6 +144,8 @@ Page({
         ...mergedSealOrders
       ];
     } catch (e) {
+      apiFailed = true;
+      console.warn('[order-list] getSealOrderList failed, using local storage:', e);
       all = [
         ...normalize(newspaperOrders, 'newspaper'),
         ...normalize(localSealOrders, 'seal')
@@ -165,7 +172,7 @@ Page({
       }) : [];
       all.push(...bkOrders);
     } catch (e) {
-      console.error('loadBookkeepingOrders error', e);
+      console.warn('[order-list] getBookkeepingOrderList failed:', e);
     }
     all.sort((a, b) => {
       const da = a.date || '';
@@ -174,7 +181,11 @@ Page({
     });
     this.setData({ allList: all });
     this.filterList();
-    this.setData({ loading: false });
+    this.setData({ loading: false, _loadingOrders: false });
+    this._loadingOrders = false;
+    if (apiFailed) {
+      wx.showToast({ title: '网络异常，已显示本地数据', icon: 'none', duration: 2000 });
+    }
   },
 
   // 根据当前 Tab 过滤列表

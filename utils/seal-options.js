@@ -1,0 +1,72 @@
+/**
+ * 印章选项常量数据（从 pages/seal/order-confirm/index.js 提取）
+ * 47 个印章 + 7 个套餐，避免在 Page data{} 中硬编码以减少内存占用
+ * 使用模块级常量，require 后直接引用，不走 setData 序列化
+ */
+const SINGLE_SEALS = [
+  { id: 's1',  name: '财务章',              img: '/assets/images/seal-caiwuzhang.svg',       price: 150 },
+  { id: 's2',  name: '公章',                img: '/assets/images/seal-gongzhang.svg',        price: 180 },
+  { id: 's3',  name: '合同章',              img: '/assets/images/seal-hetongzhang.svg',      price: 160 },
+  { id: 's4',  name: '法人章',              img: '/assets/images/seal-farenzhang.svg',       price: 120 },
+  { id: 's5',  name: '发票章',              img: '/assets/images/seal-fapiaozhang.svg',      price: 150 },
+  { id: 's6',  name: '中英文公章',          img: '/assets/images/seal-gongzhang-en.svg',     price: 220 },
+  { id: 's7',  name: '中英文合同章',        img: '/assets/images/seal-hetongzhang-en.svg',   price: 200 },
+  { id: 's8',  name: '手动钢印章',          img: '/assets/images/seal-gang-shoudong.svg',    price: 180 },
+  { id: 's9',  name: '自动钢印章',          img: '/assets/images/seal-gang-zidong.svg',      price: 180 },
+  { id: 's10', name: '业务专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's11', name: '销售合同章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's12', name: '发货专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's13', name: '技术专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's14', name: '质检章',              img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's15', name: '收据专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's16', name: '委员会章',            img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's17', name: '生产办公室章',        img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's18', name: '人事专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's19', name: '授权专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's20', name: '资质专用章',          img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's21', name: '质量管理部章',        img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's22', name: '项目章',              img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's23', name: '办事机构印章',        img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's24', name: '组委会章',            img: '/assets/images/seal-zhuanyongzhang.svg',   price: 150 },
+  { id: 's25', name: '其他章(下单备注章名)', img: '/assets/images/seal-zhuanyongzhang.svg',  price: 150 },
+  { id: 's26', name: '个人签名章',          img: '/assets/images/seal-gerenmingzhang.svg',   price: 80  },
+  { id: 's27', name: '拆迁、买房使用',      img: '/assets/images/seal-gerenqita.svg',        price: 80  },
+  { id: 's28', name: '公证使用',            img: '/assets/images/seal-gerenqita.svg',        price: 80  },
+  { id: 's29', name: '企业员工使用',        img: '/assets/images/seal-gerenqita.svg',        price: 80  },
+  { id: 's30', name: '一级造价工程师',      img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's31', name: '一级注册建造师',      img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's32', name: '一级注册结构工程师',  img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's33', name: '注册监理工程师',      img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's34', name: '二级注册建筑师',      img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's35', name: '电气工程师',          img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's36', name: '房地产评估师',        img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's37', name: '会计师',              img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's38', name: '项目经理',            img: '/assets/images/seal-zhuanyeA.svg',         price: 150 },
+  { id: 's39', name: '二级造价工程师',      img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's40', name: '二级注册建造师',      img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's41', name: '二级注册结构工程师',  img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's42', name: '一级注册建筑师',      img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's43', name: '土木工程师',          img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's44', name: '化工工程师',          img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's45', name: '执业律师',            img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's46', name: '税务师',              img: '/assets/images/seal-zhuanyeB.svg',         price: 150 },
+  { id: 's47', name: '其他(下单请备注章名）', img: '/assets/images/seal-zhuanyeB.svg',       price: 150 },
+  // 电子印章有效期选项
+  { id: 'e1y', name: '一年有效期(不限次数)', img: '', price: 200 },
+  { id: 'e2y', name: '两年有效期(不限次数)', img: '', price: 350 },
+  { id: 'e3y', name: '三年有效期(不限次数)', img: '', price: 500 },
+  { id: 'e4y', name: '四年有效期(不限次数)', img: '', price: 650 },
+  { id: 'e5y', name: '五年有效期(不限次数)', img: '', price: 800 },
+];
+
+const PACKAGES = [
+  { id: 'p1', name: '公章、财务章、法人章',                    badge: '特惠', price: 350, seals: ['s2', 's1', 's4'] },
+  { id: 'p2', name: '公章、财务章、发票章、法人章',             badge: '特惠', price: 470, seals: ['s2', 's1', 's5', 's4'] },
+  { id: 'p3', name: '公章、发票章、财务章',                    badge: '特惠', price: 350, seals: ['s2', 's5', 's1'] },
+  { id: 'p4', name: '公章、财务章、合同章',                    badge: '特惠', price: 350, seals: ['s2', 's1', 's3'] },
+  { id: 'p5', name: '公章、合同章、发票章',                    badge: '特惠', price: 350, seals: ['s2', 's3', 's5'] },
+  { id: 'p6', name: '公章、财务章、发票章、合同章',             badge: '特惠', price: 450, seals: ['s2', 's1', 's5', 's3'] },
+  { id: 'p7', name: '公章、财务章、发票章、合同章、法人章',     badge: '特惠', price: 550, seals: ['s2', 's1', 's5', 's3', 's4'] },
+];
+
+module.exports = { SINGLE_SEALS, PACKAGES };

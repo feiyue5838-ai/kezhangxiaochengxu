@@ -42,6 +42,7 @@ Page({
   },
 
   onShow() {
+    if (this._loadingOrders) return;
     this._ensureTabBar();
     this.loadOrders();
   },
@@ -62,6 +63,8 @@ Page({
   },
 
   async loadOrders() {
+    if (this._loadingOrders) return;
+    this._loadingOrders = true;
     this.setData({ loading: true });
     const allOrders = [];
 
@@ -91,6 +94,7 @@ Page({
     }));
 
     this.setData({ orders: recent, loading: false });
+    this._loadingOrders = false;
   },
 
   _formatDate(timestamp) {

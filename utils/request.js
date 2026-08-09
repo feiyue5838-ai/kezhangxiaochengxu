@@ -52,6 +52,10 @@ function request(options) {
         },
         fail: (err) => {
           retryCount++;
+          if (retryCount === 1) {
+            // 首次失败即提示用户，不要等重试完才告知
+            wx.showToast({ title: '网络不佳，正在重试...', icon: 'none', duration: 1500 });
+          }
           if (retryCount <= retry) {
             setTimeout(doRequest, retryDelay);
           } else {

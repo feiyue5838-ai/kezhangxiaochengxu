@@ -1,5 +1,6 @@
 const api = require('../../../utils/api.js');
 const common = require('../../../utils/common.js');
+const { SINGLE_SEALS, PACKAGES } = require('../../../utils/seal-options.js');
 
 Page({
   data: {
@@ -164,7 +165,7 @@ Page({
     // 优先使用 select 页面传入的 items（带真实价格），否则从静态 sealMap 回退
     let totalPrice = dataTotalPrice || 0;
     if ((!items || items.length === 0) && ids && ids.length > 0) {
-      const allSeals = this.data.singleSeals.concat(this.data.packages);
+      const allSeals = SINGLE_SEALS.concat(PACKAGES);
       const sealMap = new Map(allSeals.map(s => [s.id, s]));
       totalPrice = 0;
       ids.forEach(id => {
@@ -553,7 +554,7 @@ Page({
     // 如果 items 为空（form 页面等旧流程），从静态 sealMap 回退
     if (items.length === 0 && selectedIds.length > 0) {
       const allSeals = [
-        ...this.data.singleSeals || [],
+        ...SINGLE_SEALS || [],
         ...(this.data.businessSeals || []),
         ...(this.data.personalSeals || []),
         ...(this.data.professionalSeals || []),

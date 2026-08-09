@@ -11,6 +11,7 @@ Page({
   },
 
   onShow() {
+    if (this._loadingOrders) return;
     this.loadOrders();
   },
 
@@ -19,15 +20,20 @@ Page({
   },
 
   async loadOrders() {
+    if (this._loadingOrders) return;
+    this._loadingOrders = true;
     this.setData({ loading: true });
     try {
       const res = await api.getNewspaperOrderList({ page: 1, pageSize: 50 });
       const raw = (res && res.list) || [];
       const orders = raw.map(o => this._mapOrder(o));
-      this.setData({ orders, loading: false });
+      this.setData({ orders, loading: false, _loadingOrders: false });
+      this._loadingOrders = false;
       this.filterOrders(this.data.currentTab);
     } catch (e) {
-      this.setData({ orders: [], filteredOrders: [], loading: false });
+      this.setData({ orders: [], filteredOrders: [], loading: false, _loadingOrders: false });
+      this._loadingOrders = false;
+      wx.showToast({ title: '网络异常，请稍后重试', icon: 'none', duration: 2000 });
     }
   },
 
