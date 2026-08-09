@@ -94,8 +94,10 @@ Page({
 
   _wxPay(payRes) {
     return new Promise((resolve, reject) => {
-      // 只提取微信支付需要的字段，避免展开多余字段
-      const { timeStamp, nonceStr, package: pkg, signType, paySign } = payRes || {};
+      // 统一从 payRes.payment 提取支付参数（与 seal/newspaper 保持一致）
+      // payRes 结构：{ type, payment: { timeStamp, nonceStr, package, signType, paySign } }
+      const payment = (payRes && payRes.payment) ? payRes.payment : payRes || {};
+      const { timeStamp, nonceStr, package: pkg, signType, paySign } = payment;
       wx.requestPayment({
         timeStamp,
         nonceStr,
