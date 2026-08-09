@@ -57,6 +57,18 @@ Page({
   },
 
   onLoad(options) {
+    // 未登录时拦截，避免填写后提交撞 401
+    if (!wx.getStorageSync('token')) {
+      wx.showModal({
+        title: '请先登录',
+        content: '下单前需先登录，是否前往登录？',
+        success: (res) => {
+          if (res.confirm) wx.navigateTo({ url: '/pages/auth/index' });
+        },
+      });
+      return;
+    }
+
     // 清除旧流程数据，避免各入口互相影响
     // 只清除流程核心数据,不清除材料/地址/发票(用户在流程中可以来回切换)
     wx.removeStorageSync('selectedSealsData');

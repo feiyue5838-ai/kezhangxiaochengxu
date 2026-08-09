@@ -47,6 +47,19 @@ Page({
   },
 
   async onLoad(options) {
+    // 未登录时拦截，避免上传材料后撞 401 导致材料浪费
+    const token = wx.getStorageSync('token');
+    if (!token) {
+      wx.showModal({
+        title: '请先登录',
+        content: '上传材料前需先登录，是否前往登录？',
+        success: (res) => {
+          if (res.confirm) wx.navigateTo({ url: '/pages/auth/index' });
+        },
+      });
+      return;
+    }
+
     this.setData({ pageTitle: '上传材料' });
 
     // 清理过期的 Storage 数据
