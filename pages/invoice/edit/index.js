@@ -30,7 +30,7 @@ Page({
   onLoad() {
     // 读取已有发票信息
     try {
-      const info = wx.getStorageSync('invoiceData') || {};
+      const info = wx.getStorageSync('invoiceInfo') || {};
       if (info && info.type) {
         this.setData({ invoiceType: info.type });
         if (info.type === 'normal' && info.title) {
@@ -79,7 +79,7 @@ Page({
       cancelText: '取消',
       success: (res) => {
         if (res.confirm) {
-          wx.removeStorageSync('invoiceData');
+          wx.removeStorageSync('invoiceInfo');
           wx.showToast({ title: '已清空', icon: 'success' });
           setTimeout(() => this.goBack(), 1200);
         }
@@ -131,7 +131,7 @@ Page({
     }
 
     try {
-      wx.setStorageSync('invoiceData', invoiceData);
+      wx.setStorageSync('invoiceInfo', invoiceData);
       wx.showToast({ title: '保存成功', icon: 'success' });
       this.setData({ isSaving: false });
       setTimeout(() => this.goBack(), 1200);
