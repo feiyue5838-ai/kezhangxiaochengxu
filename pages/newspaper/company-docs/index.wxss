@@ -1,13 +1,13 @@
 /* pages/newspaper/company-docs/index.wxss */
 
-/* 婵炴垶鎸稿锕傛閳哄倻顩烽柛濠勫枔濡插牓鏌ｈ缁垱鎱ㄩ妶鍡愪簻闁汇垹鎲″銊╂倵閻熸媽瀚伴柛娆忕箳閳ь剟娼х紞濠勭礊? */
+/* 企业证照上传区域 */
 
 .page {
   background: #F8F7FC;
   min-height: 100vh;
 }
 
-/* ========== 闁诲簼绲绘竟鍫ュ春閸涙潙鍐€闊洢鍎崇粈鍕磼妲屾牕浜鐟帮工閵嗘帡骞囬鈧紞渚€鏌ら崘鍙夋拱婵炲懏鐟╅弫?========== */
+/* ========== 证照类型选择 ========== */
 
 .nav-back {
   width: 60rpx;
@@ -83,14 +83,14 @@
 
 .tag-icon { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 
-/* ========== 闂佸憡甯掑Λ娑氭偖椤愶附鐒诲璺侯儏椤忋儵鏌涢弽褎鎯堥柣?========== */
+/* ========== 证照预览上传 ========== */
 .template-section {
   padding: 24rpx;
   margin-top: -30rpx;
   position: relative; z-index: 10;
 }
 
-/* ========== 闂佸憡甯掑Λ娑氭偖椤愶箑纭€闁挎稑瀚。鑽ょ磽閸愨晛鐏﹂柣?========== */
+/* ========== 证照填写说明 ========== */
 .template-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -205,7 +205,7 @@
   opacity: 0.5;
 }
 
-/* ========== 闁荤姴娲ｅ鎺戔枎閵忕媭鍤曢柛锔诲幘瀹曞爼鏌ㄥ☉妯煎缂併劍濞婇弻鍫ュΩ閵夈儳锛欓柣蹇曞仜妤犲繒妲?========== */
+/* ========== 证照预览上传 ========== */
 .doc-mask {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgb(0 0 0 / 0.45);
@@ -341,7 +341,7 @@
 }
 
 
-/* ========== 濠电偞鎯岄崰鏍ㄦ叏閳哄啠鍋撻獮鍨仾婵犫偓閸ヮ剙绠板鑸靛姈鐏?========== */
+/* ========== 证照预览上传 ========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;

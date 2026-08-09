@@ -2,7 +2,7 @@
 
 .page { background: #F8F7FC; min-height: 100vh; }
 
-/* ========== 閼奉亜鐣炬稊澶婎嚤閼割亝锟?- 濞撴劕褰夋径鎾劥妞嬪孩锟?========== */
+/* ========== 营业执照上传 ========== */
 .nav-back {
   width: 60rpx;
   height: 100%;
@@ -24,7 +24,7 @@
 }
 .nav-placeholder { width: 60rpx; }
 
-/* ========== 閹兼粎鍌ㄩ弽?- 閻у€熷閼冲本娅欐搴㈢壐 ========== */
+/* ========== 证照编辑 ========== */
 .search-wrap {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   padding: 0 32rpx 24rpx;
@@ -44,7 +44,7 @@
 /* ========== 濠婃艾濮╅崠鍝勭厵 ========== */
 .doc-scroll { height: calc(100vh - var(--nav-h, 64px) - 46px); }
 
-/* ========== 閸欏苯鍨純鎴炵壐 ========== */
+/* ========== 证照信息 ========== */
 .doc-grid { display: flex; flex-wrap: wrap; padding: 16rpx 24rpx; }
 
 .doc-card {
@@ -65,7 +65,7 @@
   background: #F8F7FC;
 }
 
-/* 瀹革缚鏅惰ぐ鈺勫缁旀牗娼憗鍛淬偘 */
+/* 证照预览上传卡片 */
 .doc-card::before {
   content: '';
   position: absolute; left: 0; top: 0; bottom: 0;

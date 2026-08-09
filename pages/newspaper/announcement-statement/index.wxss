@@ -1,4 +1,4 @@
-/* pages/newspaper/apology/index.wxss - 涓庣幆璇勫叕绀洪〉闈㈠畬鍏ㄥ绛? */
+/* pages/newspaper/announcement-statement/index.wxss - 与环评公示页面完整对应 */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
@@ -331,7 +331,7 @@ page { background: #F8F7FC; }
   line-height: 1.5;
 }
 
-/* ========== 娴姩瀹㈡湇鎸夐挳 ========== */
+/* ========== 表单输入 ========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;

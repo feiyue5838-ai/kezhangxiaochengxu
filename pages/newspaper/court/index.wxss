@@ -1,8 +1,8 @@
-/* pages/newspaper/court/index.wxss - 涓庝紒涓氳瘉浠堕〉闈㈠畬鍏ㄥ锟? */
+/* pages/newspaper/court/index.wxss - 与企业证书页面完整对应 */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
-/* ========== 瀵艰埅鏍忥紙绱壊娓愬彉鑳屾櫙锟?========== */
+/* ========== 导航栏（绶冲彉鑷充笂娴娴） ========== */
 
 .nav-back {
   width: 60rpx;
@@ -202,7 +202,7 @@ page { background: #F8F7FC; }
   opacity: 0.5;
 }
 
-/* ========== 寮圭獥閬僵 ========== */
+/* ========== 窗口滚动 ========== */
 .doc-mask {
   position: fixed; inset: 0; z-index: 200;
   background: rgb(0 0 0 / 0.45);
@@ -329,7 +329,7 @@ page { background: #F8F7FC; }
   font-size: 26rpx; color: #8C97A6;
 }
 
-/* ========== 娴姩瀹㈡湇 ========== */
+/* ========== 表单输入 ========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;

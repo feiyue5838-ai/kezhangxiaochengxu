@@ -30,7 +30,7 @@ page { background: #F8F7FC; }
 }
 .nav-title { font-size: 34rpx; font-weight: 600; color: #fff; text-align: center; }
 
-/* ========== 鍐呭 ========== */
+/* ========== 内容 ========== */
 .verify-wrap {
   padding: 0 32rpx 80rpx;
 }

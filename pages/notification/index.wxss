@@ -29,7 +29,7 @@ page { background: #F8F7FC; }
 }
 .nav-title { font-size: 34rpx; font-weight: 600; color: #fff; text-align: center; }
 
-/* ========== 鍐呭鍖?========== */
+/* ========== 内容区 ========== */
 .notif-wrap {
   padding: calc(88rpx + constant(safe-area-inset-top)) 0 120rpx;
   padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
@@ -111,7 +111,7 @@ page { background: #F8F7FC; }
   color: #B0BBC8;
 }
 
-/* 娴姩瀹㈡湇鎸夐挳 */
+/* 表单输入 */
 .float-service {
   position: fixed;
   right: 32rpx;

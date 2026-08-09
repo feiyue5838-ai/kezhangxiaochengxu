@@ -106,7 +106,7 @@ page {
   z-index: 1;
 }
 
-/* 缁熻鏉? */
+/* 统计图 */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -227,7 +227,7 @@ page {
   position: relative;
 }
 
-/* 鍥惧爞鍖烘湰锛氭紨鍙樻部褰紙鍦嗗舰锛? */
+/* 图表背景，演示动画（圆形） */
 .icon-wrap {
   width: 96rpx;
   height: 96rpx;
@@ -252,7 +252,7 @@ page {
   z-index: -1;
 }
 
-/* SVG 鍥炬爣灏哄 */
+/* SVG 图标尺寸 */
 .cat-icon-img {
   width: 48rpx;
   height: 48rpx;

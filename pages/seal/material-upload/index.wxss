@@ -12,7 +12,7 @@
   position: absolute;
   left: 32rpx;
 
-  /* top 鐢?inline style 鍔ㄦ€佹彁渚涳紝涓庤兌鍥婃寜閽瀭鐩村眳涓? */
+  /* top 用 inline style 动态提示，与帮顶栏按钮居中 */
   transform: translateY(-50%);
   width: 60rpx;
   height: 60rpx;
@@ -48,7 +48,7 @@
   padding-bottom: 180rpx;
 }
 
-/* ========== 濡€虫健 ========== */
+/* ========== 材料清单 ========== */
 .module {
   margin-bottom: 32rpx;
 }
@@ -203,7 +203,7 @@
   display: block;
 }
 
-/* 宸︿笂瑙掔豢鑹插鍕捐鏍? */
+/* 左上角绿色对称 */
 .check-badge {
   position: absolute;
   top: 0; left: 0;
@@ -266,7 +266,7 @@
   color: #F53F3F;
 }
 
-/* ========== 閸旂姴褰块崶鐐垼 ========== */
+/* ========== 步骤进度 ========== */
 .plus-icon-lg {
   font-size: 48rpx;
   color: #6B7280;
@@ -292,9 +292,9 @@
   height: 20rpx;
 }
 
-/* ========== 鎼存洟鍎撮幓鎰唉閹稿鎸?========== */
+/* ========== 印章选择 ========== */
 
-/* ========== 瑙勮寖鎻愮ず鏂囧瓧锛堟瘡涓笂浼犳ā鍧椾笅鏂癸級 ===== */
+/* ========== 规范提示文字（每个上传左右顺序） ========== */
 .spec-tip {
   margin-top: 20rpx;
   padding: 16rpx 20rpx;
@@ -326,14 +326,14 @@
   color: #999;
 }
 
-/* ===== 鏍囬鍙充晶 ===== */
+/* ===== 标题右侧 ===== */
 .title-row-right {
   display: flex;
   align-items: center;
   gap: 6rpx;
 }
 
-/* ===== 鏍囬澶囨敞 ===== */
+/* ===== 标题备注 ===== */
 .title-note {
   font-size: 24rpx;
   color: #999;

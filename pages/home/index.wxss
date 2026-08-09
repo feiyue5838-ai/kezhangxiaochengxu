@@ -1,6 +1,6 @@
 /* pages/home/index.wxss */
 
-/* ========== CSS鍙橀噺涓庡叧閿抚 ========== */
+/* ========== CSS变量与相关 ========== */
 page {
   --primary-color: #5B6FE8;
   --primary-dark: #4A5CD1;
@@ -192,7 +192,7 @@ page {
 
 /* 椤堕儴棰滆壊娓楀叆鏁堟灉閫氳繃鍗＄墖鑳屾櫙娓愬彉瀹炵幇 */
 
-/* 鍗＄墖鎮诞鏁堟灉 - 杞昏Е涓嬫矇+闃村奖鍔犳繁 */
+/* 卡片悬浮效果 - 过渡下拉+模糊加深 */
 .svc-tap {
   transform: scale(0.96);
   transition: transform 0.25s cubic-bezier(0.25,1,0.5,1),
@@ -258,7 +258,7 @@ page {
   display: none;
 }
 
-/* 鏍囬宸︿晶瑁呴グ鏉? */
+/* 标题居中布局 */
 .section-title-bar {
   position: absolute;
   left: 0;

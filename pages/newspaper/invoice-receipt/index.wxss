@@ -1,8 +1,8 @@
-/* pages/newspaper/court/index.wxss - 涓庝紒涓氳瘉浠堕〉闈㈠畬鍏ㄥ锟? */
+/* pages/newspaper/invoice-receipt/index.wxss - 与企业证书页面完整对应 */
 page { background: #F8F7FC; }
 .page { min-height: 100vh; background: #F8F7FC; }
 
-/* ========== 瀵艰埅鏍忥紙绱壊娓愬彉鑳屾櫙锟?========== */
+/* ========== 导航栏（绶冲彉鑷充笂娴娴） ========== */
 
 .nav-back {
   width: 60rpx;
@@ -336,7 +336,7 @@ page { background: #F8F7FC; }
 }
 
 
-/* ========== 娴姩瀹㈡湇鎸夐挳 ========== */
+/* ========== 表单输入 ========== */
 .float-btn {
   position: fixed; right: 24rpx; z-index: 150;
   width: 88rpx; height: 88rpx;

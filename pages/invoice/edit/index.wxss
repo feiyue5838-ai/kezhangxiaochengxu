@@ -20,12 +20,12 @@
 }
 .nav-placeholder { width: 60rpx; height: 100%; }
 
-/* ========== 闁告劕鎳庨鎰板礌?========== */
+/* ========== 抬头编辑页 ========== */
 .content {
   padding: 24rpx 20rpx 160rpx;
 }
 
-/* ========== 闁告瑦鍨归妶銊х尵鐠囪尙鈧兘鏌呮径瀣仴 ========== */
+/* ========== 发票信息编辑区 ========== */
 .section-title {
   font-size: 28rpx; font-weight: 600; color: #333;
   margin: 28rpx 12rpx 12rpx;
@@ -107,7 +107,7 @@
 }
 .form-textarea::placeholder { color: #C4C8D0; }
 
-/* 闁告瑦鍨归妶銊╁箮椤掆偓閵囨梻鐚剧拠鑼偓鐑藉礆閸ャ劌搴? */
+/* 发票类型选择卡片样式 */
 .title-type-row {
   display: flex;
   gap: 24rpx;
@@ -131,7 +131,7 @@
   color: #5B6FE8; font-weight: 600;
 }
 
-/* ========== 閹煎瓨娲熼崕鎾箼瀹ュ嫮绋婇柡?========== */
+/* ========== 开票信息 ========== */
 .bottom-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;

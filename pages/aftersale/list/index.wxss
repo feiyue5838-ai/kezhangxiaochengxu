@@ -16,10 +16,10 @@
   font-size: 34rpx; font-weight: 600; color: #fff;
 }
 
-/* ========== 鍐呭鍖?========== */
+/* ========== 内容区 ========== */
 .content { padding: 24rpx 20rpx 40rpx; }
 
-/* 鐢宠鍏ュ彛 */
+/* 申请入口 */
 .apply-banner {
   background: linear-gradient(135deg, #5B6FE8, #A78BFA);
   border-radius: 20rpx; padding: 28rpx 32rpx;
@@ -33,7 +33,7 @@
 .apply-sub { font-size: 24rpx; color: rgba(255,255,255,0.75); display: block; }
 .apply-arrow { font-size: 40rpx; color: rgba(255,255,255,0.8); }
 
-/* 鍞悗璁板綍鍗＄墖 */
+/* 售后记录卡片 */
 .record-item {
   background: #fff; border-radius: 16rpx; padding: 24rpx;
   margin-bottom: 20rpx;

@@ -1,7 +1,7 @@
 /* pages/help/index.wxss */
 page { background: #F8F7FC; }
 
-/* ========== 瀵艰埅鏍忥紙涓庤兌鍥婂榻愶級 ========== */
+/* ========== 导航栏（与帮顶栏对应） ========== */
 .nav-content {
   position: relative;
   height: 100%;
@@ -29,7 +29,7 @@ page { background: #F8F7FC; }
   white-space: nowrap;
 }
 
-/* ========== 鍐呭鍖?========== */
+/* ========== 内容区 ========== */
 .help-wrap {
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);

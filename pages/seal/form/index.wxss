@@ -17,7 +17,7 @@
   outline: none;
 }
 
-/* ===== 閸掕崵鐝锋径鍥攳閺屻儴顕楅弽宄扮础 ===== */
+/* ===== 分割线 ===== */
 .query-location-bar {
   display: flex;
   align-items: center;
@@ -51,7 +51,7 @@
   transform: rotate(180deg);
 }
 
-/* 閸╁骸绔舵稉瀣閸掓�? */
+/* 城市选择下拉列表 */
 .query-city-dropdown {
   margin: -10rpx 24rpx 0;
   background: var(--bg-white);
@@ -76,7 +76,7 @@
   font-weight: 600;
 }
 
-/* 楠炲啿褰存穱鈩冧紖閸楋紕�? */
+/* 平台查询卡片 */
 .query-platform-card {
   margin: 0 24rpx 24rpx;
   padding: 32rpx;
@@ -147,7 +147,7 @@
   color: var(--text-secondary);
 }
 
-/* 鐠囧瓨妲戞穱鈩冧�? */
+/* 信息填写区域 */
 .query-info-section {
   margin: 0 24rpx 24rpx;
   padding: 28rpx 32rpx;
@@ -185,7 +185,7 @@
   line-height: 1.6;
 }
 
-/* 娣団€叉崲閹绘劗�? */
+/* 诚信保证 */
 .query-trust-card {
   margin: 0 24rpx 40rpx;
   padding: 28rpx 32rpx;
@@ -220,7 +220,7 @@
   line-height: 1.6;
 }
 
-/* 閸楁壆鐝烽柅澶嬪閸栫尨绱欑€靛綊缍?select 妞ゅ灚鐗卞蹇ョ�? */
+/* ===== 印章选择区域 ===== */
 .seal-select-section {
   padding: 30rpx 30rpx 10rpx;
 }
@@ -232,7 +232,7 @@
   margin-bottom: 20rpx;
 }
 
-/* 2閸掓缍夐弽纭风礄閿?select 妞ゅ吀绔撮懛杈剧礆 */
+/* select 选择当前印章类型 */
 .seal-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -259,7 +259,7 @@
   font-weight: 500;
 }
 
-/* 闁鑵戦敓? */
+/* 选中状态 */
 .seal-grid-item.active {
   background: var(--primary-bg);
 }
@@ -269,7 +269,7 @@
   font-weight: 600;
 }
 
-/* 閸欏厖绗傜憴鎺戝瑎闁顫楅�? */
+/* 选中角标 */
 .seal-check {
   position: absolute;
   top: 0;
@@ -289,9 +289,9 @@
   line-height: 1;
 }
 
-/* 閿熸枻鎷烽敓鏂ゆ嫹鍗伴敓鏂ゆ嫹閫夐敓鏂ゆ嫹閿熸枻�? */
+/* ===== 区域选择 ===== */
 
-/* ����ѡ�񵯴� */
+/* ===== 选择完成 ===== */
 .region-mask {
   position: fixed;
   inset: 0;

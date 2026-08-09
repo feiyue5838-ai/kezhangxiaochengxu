@@ -16,7 +16,7 @@
   font-size: 34rpx; font-weight: 600; color: #fff;
 }
 
-/* ========== 鍐呭鍖?========== */
+/* ========== 内容区 ========== */
 .content { padding: 24rpx 20rpx 120rpx; }
 
 /* 璁㈠崟鍗＄墖 */
@@ -36,7 +36,7 @@
 .section-title { font-size: 28rpx; font-weight: 600; color: #1A2332; display: block; margin-bottom: 20rpx; }
 .section-sub { font-size: 24rpx; font-weight: 400; color: #B0BBC8; }
 
-/* 鍞悗绫诲瀷 */
+/* 售后类型 */
 .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20rpx; }
 
 .type-item {
@@ -50,7 +50,7 @@
 .type-name { font-size: 24rpx; color: #555; text-align: center; }
 .type-item.active .type-name { color: #5B6FE8; font-weight: 600; }
 
-/* 闂鎻忚堪 */
+/* 问题描述 */
 .reason-input {
   width: 100%; min-height: 200rpx; padding: 20rpx;
   background: #F8F7FC; border-radius: 12rpx;
@@ -60,7 +60,7 @@
 .reason-placeholder { color: #B0BBC8; font-size: 28rpx; }
 .word-count { font-size: 22rpx; color: #B0BBC8; text-align: right; margin-top: 8rpx; }
 
-/* 涓婁紶鍑瘉 */
+/* 上传凭证 */
 .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16rpx; }
 .upload-item { position: relative; aspect-ratio: 1; border-radius: 12rpx; overflow: hidden; }
 .upload-img { width: 100%; height: 100%; }

@@ -50,7 +50,7 @@ page {
   color: var(--text-primary);
 }
 
-/* 2閸掓缍夐弽? */
+/* 2选1类型 */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -78,7 +78,7 @@ page {
   text-align: center;
 }
 
-/* 瀹告煡鈧鑵戦悩鑸碘偓? */
+/* 印章类型选择卡片 */
 .cat-card-selected {
   background: var(--primary-bg);
   border-color: var(--primary-color);
@@ -89,7 +89,7 @@ page {
   font-weight: 600;
 }
 
-/* 閸欏厖绗傜憴鎺戝瑎闁顫楅弽? */
+/* 印章类型选择说明 */
 .selected-badge {
   position: absolute;
   top: 0;
