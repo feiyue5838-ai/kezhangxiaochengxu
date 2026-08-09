@@ -555,8 +555,16 @@ Page({
         });
       } else if (pay.type === 'dev') {
         api.devConfirmPay(orderId).then(() => that._finishPaid(orderId)).catch(() => that.setData({ isSubmitting: false }));
-      } else {
+      } else if (pay.type === 'free') {
         that._finishPaid(orderId);
+      } else if (pay.type === 'wechat' && !pay.payment) {
+        console.error('[Newspaper] 支付参数异常：type=wechat 但 payment 为空', pay);
+        wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
+        that.setData({ isSubmitting: false });
+      } else {
+        console.error('[Newspaper] 未知支付类型:', pay.type, pay);
+        wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+        that.setData({ isSubmitting: false });
       }
     }).catch(() => {
       that.setData({ isSubmitting: false });

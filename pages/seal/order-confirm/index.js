@@ -641,8 +641,20 @@ Page({
           return;
         }
 
-        // free（价格为 0）或兜底：后端已在 createPayOrder 内完成支付+分配
-        this._finishPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、'));
+        // free（价格为 0）：后端已在 createPayOrder 内完成支付+分配
+        if (type === 'free') {
+          this._finishPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、'));
+        } else if (type === 'wechat' && !payment) {
+          // type=wechat 但无 payment：后端返回异常，前端不能擅自判定成功
+          console.error('[Seal] 支付参数异常：type=wechat 但 payment 为空', payRes);
+          wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
+          this.setData({ isSubmitting: false });
+        } else {
+          // 未知 type：也不应直接 success
+          console.error('[Seal] 未知支付类型:', type, payRes);
+          wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+          this.setData({ isSubmitting: false });
+        }
       }).catch((payErr) => {
         console.error('getSealPayParams error:', payErr);
         wx.showToast({ title: '获取支付参数失败', icon: 'none' });
@@ -684,8 +696,10 @@ Page({
         if (tries++ < 4) {
           setTimeout(poll, 800);
         } else {
-          // 回调可能略有延迟（款项已收），仍视为成功
-          this._finishPaid(orderId, totalPrice, sealNames);
+          // 轮询 4 次仍未确认（~3.2s）：不擅自判定成功，提示用户稍后查看
+          wx.showToast({ title: '支付确认中，请稍后查看订单', icon: 'none', duration: 2500 });
+          this.setData({ isSubmitting: false });
+          setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 2600);
         }
       });
     };

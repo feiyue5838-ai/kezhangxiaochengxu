@@ -94,16 +94,39 @@ Page({
 
   _wxPay(payRes) {
     return new Promise((resolve, reject) => {
-      // 统一从 payRes.payment 提取支付参数（与 seal/newspaper 保持一致）
       // payRes 结构：{ type, payment: { timeStamp, nonceStr, package, signType, paySign } }
-      const payment = (payRes && payRes.payment) ? payRes.payment : payRes || {};
-      const { timeStamp, nonceStr, package: pkg, signType, paySign } = payment;
+      const type = (payRes && payRes.type) || '';
+      const payment = (payRes && payRes.payment) ? payRes.payment : null;
+
+      if (type === 'dev') {
+        // 开发模式：服务端模拟微信回调
+        const orderId = this.data.orderId;
+        api.devConfirmPay(orderId).then(() => {
+          wx.showToast({ title: '支付成功', icon: 'success' });
+          setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId }); }, 1500);
+          resolve();
+        }).catch((e) => {
+          console.error('devConfirmPay error:', e);
+          wx.showToast({ title: '支付处理失败', icon: 'none' });
+          reject(new Error('devConfirmPay failed'));
+        });
+        return;
+      }
+
+      if (type !== 'wechat' || !payment) {
+        console.error('[Bookkeeping] 支付参数异常：type=' + type + ', payment=' + JSON.stringify(payment));
+        wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
+        reject(new Error('invalid pay params'));
+        return;
+      }
+
+      // 正式微信支付
       wx.requestPayment({
-        timeStamp,
-        nonceStr,
-        'package': pkg,
-        signType,
-        paySign,
+        timeStamp: payment.timeStamp,
+        nonceStr: payment.nonceStr,
+        package: payment.package,
+        signType: payment.signType,
+        paySign: payment.paySign,
         success: () => {
           wx.showToast({ title: '支付成功', icon: 'success' });
           const orderId = this.data.orderId;
