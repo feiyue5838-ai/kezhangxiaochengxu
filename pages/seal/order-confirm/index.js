@@ -164,9 +164,9 @@ Page({
 
     // 优先使用 select 页面传入的 items（带真实价格），否则从静态 sealMap 回退
     let totalPrice = dataTotalPrice || 0;
+    const allSeals = SINGLE_SEALS.concat(PACKAGES);
+    const sealMap = new Map(allSeals.map(s => [s.id, s]));
     if ((!items || items.length === 0) && ids && ids.length > 0) {
-      const allSeals = SINGLE_SEALS.concat(PACKAGES);
-      const sealMap = new Map(allSeals.map(s => [s.id, s]));
       totalPrice = 0;
       ids.forEach(id => {
         const item = sealMap.get(id);
@@ -669,7 +669,12 @@ Page({
         content: '后端接口未接通，是否以本地模拟方式完成下单演示？',
         success: (modalRes) => {
           if (modalRes.confirm) {
-            this._mockSaveSealOrder(orderData);
+            // 后端已完善，此演示分支不再可用，提示联系客服
+            wx.showModal({
+              title: '提示',
+              content: '下单服务暂不可用，请稍后重试或联系客服',
+              showCancel: false,
+            });
           }
           this.setData({ isSubmitting: false });
         }
@@ -750,37 +755,6 @@ Page({
     return `${baseKey}_${orderId}`;
   },
 
-  // 本地模拟保存刻章订单（后端未开发时的演示用）
-  _mockSaveSealOrder(orderData) {
-    const selectedData = wx.getStorageSync('selectedSealsData') || {};
-    const ids = selectedData.ids || [];
-    // 获取印章名称
-    const order = {
-      id: orderId,
-      module: 'seal',
-      type: '在线刻章',
-      desc: sealNames || '电子印章',
-      date: new Date().toISOString().split('T')[0],
-      createTime: new Date().toISOString().replace('T', ' ').substring(0, 16),
-      status: 'pending',
-      statusText: '待支付',
-      statusClass: 'pending',
-      price: totalPrice,
-      productName: sealNames,
-      url: '/pages/seal/order-confirm/index?id=' + orderId
-    };
-    try {
-      const orders = wx.getStorageSync('seal_orders') || [];
-      // 不重复追加（devConfirmPay 已落库，API 已同步，避免刷新后出现双条）
-      if (!orders.find(o => o.id === orderId)) {
-        orders.unshift(order);
-        wx.setStorageSync('seal_orders', orders);
-      }
-    } catch (e) {}
-    wx.showToast({ title: '模拟下单成功', icon: 'success' });
-    this._clearOrderCache();
-    setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1500);
-  }
 });
 
 
