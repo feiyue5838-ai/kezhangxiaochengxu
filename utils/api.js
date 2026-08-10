@@ -355,6 +355,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
 
   cancelNewspaperOrder: (id) => request({ url: `/api/orders/${id}/cancel`, method: 'POST' }),
 
+  // 用户申请退款（已支付订单进入售后审核） ?POST /api/orders/:id/refund-request
+  refundRequestNewspaperOrder: (id, reason) => request({ url: `/api/orders/${id}/refund-request`, method: 'POST', data: { reason: reason || '' } }),
+
   // 个人证件分类+证件列表 ?GET /api/newspapers/personal-docs
 
   getPersonalDocs: () => request({ url: '/api/newspapers/personal-docs' }),

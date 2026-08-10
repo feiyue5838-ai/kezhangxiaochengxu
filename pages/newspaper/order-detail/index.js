@@ -155,15 +155,20 @@ Page({
   cancelOrder() {
     const that = this;
     const id = this.data.order.id;
-    const isPaid = this.data.order.status === 2;
+    // 已支付(2)/制作中(3)/已发货(4) 走申请退款；待支付(1) 走取消
+    const isPaid = [2, 3, 4].includes(this.data.order.status);
     wx.showModal({
       title: isPaid ? '申请退款' : '取消订单',
-      content: isPaid ? '确认申请退款？款项将由平台处理。' : '确认取消该订单？',
+      content: isPaid ? '确认申请退款？款项将由平台审核处理。' : '确认取消该订单？',
       async success(res) {
         if (!res.confirm) return;
         wx.showLoading({ title: '处理中' });
         try {
-          await api.cancelNewspaperOrder(id);
+          if (isPaid) {
+            await api.refundRequestNewspaperOrder(id);
+          } else {
+            await api.cancelNewspaperOrder(id);
+          }
           wx.hideLoading();
           wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
           that.loadOrder(id);
