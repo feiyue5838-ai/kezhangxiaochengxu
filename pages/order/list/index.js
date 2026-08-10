@@ -228,9 +228,22 @@ Page({
       title: '提示',
       content: '确定取消此订单吗？',
       success: (res) => {
-        if (res.confirm) {
+        if (!res.confirm) return;
+        wx.showLoading({ title: '取消中' });
+        // 根据模块调用对应的后端取消接口（统一 /api/orders/:id/cancel）
+        const cancelApi = module === 'seal' ? api.cancelSealOrder
+          : module === 'bookkeeping' ? api.cancelBookkeepingOrder
+          : api.cancelNewspaperOrder;
+        cancelApi(id).then(() => {
+          wx.hideLoading();
+          wx.showToast({ title: '已取消', icon: 'success' });
+          // 后端取消成功后同步本地展示
           this.updateOrder(id, module, 'cancelled', '已取消', 'cancelled');
-        }
+        }).catch((err) => {
+          wx.hideLoading();
+          console.error('[order/list] 取消订单失败:', err);
+          wx.showToast({ title: '取消失败，请重试', icon: 'none' });
+        });
       }
     });
   },

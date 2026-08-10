@@ -294,6 +294,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
 
   getSealOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
 
+  // 取消刻章订单 / 申请退款 ?POST /api/orders/:id/cancel
+  cancelSealOrder: (id) => request({ url: `/api/orders/${id}/cancel`, method: 'POST' }),
+
   // 获取刻章订单微信支付参数 ?POST /api/orders/:id/pay
 
   getSealPayParams: (id, openid) => request({ url: `/api/orders/${id}/pay`, method: 'POST', data: { openid: openid || '' } }),
