@@ -162,7 +162,11 @@ Page({
         if (!res.confirm) return;
         wx.showLoading({ title: '处理中' });
         try {
-          await api.cancelBookkeepingOrder(id);
+          if (isPaid) {
+            await api.refundRequestBookkeepingOrder(id);
+          } else {
+            await api.cancelBookkeepingOrder(id);
+          }
           wx.hideLoading();
           wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
           that.loadOrder(id);

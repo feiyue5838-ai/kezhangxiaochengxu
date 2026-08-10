@@ -131,7 +131,10 @@ Page({
       success: function(res) {
         if (!res.confirm) return;
         wx.showLoading({ title: '处理中' });
-        api.cancelSealOrder(that.data.order.id).then(function() {
+        var refundReq = isPaid
+          ? api.refundRequestSealOrder(that.data.order.id)
+          : api.cancelSealOrder(that.data.order.id);
+        refundReq.then(function() {
           wx.hideLoading();
           wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
           // 重新拉取订单状态

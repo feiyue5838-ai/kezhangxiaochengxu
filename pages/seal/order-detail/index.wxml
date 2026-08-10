@@ -83,7 +83,7 @@
       <button class="pay-btn" bindtap="payOrder">立即支付</button>
     </view>
     <view class="bottom-bar" wx:elif="{{order.status === 'processing'}}">
-      <!-- 订单进度由系统自动推进，用户无需手动操作 -->
+      <button class="cancel-btn" bindtap="cancelOrder">申请退款</button>
     </view>
     <view class="bottom-bar" wx:elif="{{order.status === 'completed'}}">
       <button class="review-btn" bindtap="goWriteReview">写评价</button>

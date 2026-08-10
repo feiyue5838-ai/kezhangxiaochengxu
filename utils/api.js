@@ -297,6 +297,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   // 取消刻章订单 / 申请退款 ?POST /api/orders/:id/cancel
   cancelSealOrder: (id) => request({ url: `/api/orders/${id}/cancel`, method: 'POST' }),
 
+  // 用户申请退款（已支付订单进入售后审核） ?POST /api/orders/:id/refund-request
+  refundRequestSealOrder: (id, reason) => request({ url: `/api/orders/${id}/refund-request`, method: 'POST', data: { reason: reason || '' } }),
+
   // 获取刻章订单微信支付参数 ?POST /api/orders/:id/pay
 
   getSealPayParams: (id, openid) => request({ url: `/api/orders/${id}/pay`, method: 'POST', data: { openid: openid || '' } }),
@@ -850,6 +853,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   getBookkeepingOrderDetail: (id) => request({ url: '/api/orders/' + id }),
   /** 取消代理记账订单 */
   cancelBookkeepingOrder: (id) => request({ url: '/api/orders/' + id + '/cancel', method: 'POST' }),
+
+  // 用户申请退款（已支付订单进入售后审核） ?POST /api/orders/:id/refund-request
+  refundRequestBookkeepingOrder: (id, reason) => request({ url: `/api/orders/${id}/refund-request`, method: 'POST', data: { reason: reason || '' } }),
   /** 获取代理记账订单支付参数（POST） */
   getBookkeepingPayParams: (orderId, openid) =>
     request({ url: '/api/bookkeeping/orders/' + orderId + '/pay-params', method: 'POST', data: { openid: openid || '' } }),
