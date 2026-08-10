@@ -74,8 +74,8 @@ Page({
   },
 
   _statusText(s) {
-    const map = { 1: '待支付', 2: '已支付', 3: '制作中', 4: '已发货', 5: '已完成', 6: '已取消', 7: '退款中', 8: '已退款' };
-    return map[s] || '待支付';
+    const { ORDER_STATUS_TEXT } = require('../../../utils/order-status.js');
+    return ORDER_STATUS_TEXT[s] || '待支付';
   },
 
   _formatDate(ts) {
@@ -131,6 +131,7 @@ Page({
           that.setData({ submitting: false });
           wx.showToast({ title: '支付处理失败', icon: 'none' });
         });
+      }
       // B-03: 增加 free 分支
       if (type === 'free') {
         that.setData({ submitting: false });

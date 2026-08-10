@@ -1,17 +1,13 @@
 // pages/seal/order-detail/index.js
 const api = require('../../../utils/api.js');
+const { ORDER_STATUS_TEXT, ORDER_STATUS_CLASS } = require('../../../utils/order-status.js');
 
 // Prisma 数字 status → 字符串 status + 样式 class
-const statusMap = {
-  1: { status: 'pending',    statusText: '待支付', statusClass: 'pending' },
-  2: { status: 'processing', statusText: '已支付', statusClass: 'processing' },
-  3: { status: 'processing', statusText: '制作中', statusClass: 'processing' },
-  4: { status: 'completed',  statusText: '已发货', statusClass: 'completed' },
-  5: { status: 'completed',  statusText: '已完成', statusClass: 'completed' },
-  6: { status: 'cancelled',  statusText: '已取消', statusClass: 'cancelled' },
-  7: { status: 'cancelled',  statusText: '退款中', statusClass: 'cancelled' },
-  8: { status: 'cancelled',  statusText: '已退款', statusClass: 'cancelled' },
-};
+// 订单状态文本/样式 —— 单一事实源见 utils/order-status.js（必须与后端 order-status.ts 的 ORDER_STATUS_TEXT 一致）
+const statusMap = {};
+Object.keys(ORDER_STATUS_CLASS).forEach(function(k){
+  statusMap[k] = { status: ORDER_STATUS_CLASS[k].status, statusText: ORDER_STATUS_TEXT[k], statusClass: ORDER_STATUS_CLASS[k].cls };
+});
 
 Page({
   data: {

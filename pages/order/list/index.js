@@ -20,7 +20,10 @@ const statusText = (status) => {
     processing: '进行中',
     completed: '已完成',
     cancelled: '已取消',
-    refund: '退款'
+    refund: '退款',
+    aftersale: '售后中',
+    refunding: '退款中',
+    refunded: '已退款'
   };
   return map[status] || '未知';
 };
