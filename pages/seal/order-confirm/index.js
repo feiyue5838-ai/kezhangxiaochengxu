@@ -208,7 +208,19 @@ Page({
   // 加载已保存的数据
   loadSavedData() {
     // 读取地址
-    const address = wx.getStorageSync('deliveryAddress') || null;
+    let address = wx.getStorageSync('deliveryAddress') || null;
+    // 兜底：个人印章没有收货地址时，从 sealFormData.region 解析省市区用于派单
+    if (!address && this.data.isPersonal) {
+      const fd = wx.getStorageSync('sealFormData') || {};
+      if (fd.region) {
+        const parts = (fd.region || '').split(' ').filter(Boolean);
+        address = {
+          province: parts[0] || '',
+          city: parts[1] || '',
+          district: parts[2] || ''
+        };
+      }
+    }
     if (address) {
       this.setData({ address });
     }
