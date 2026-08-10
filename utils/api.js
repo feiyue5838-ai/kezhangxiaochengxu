@@ -498,9 +498,7 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   // ==================== 通用 ====================
 
   // 文件上传（用户侧）→ POST /api/upload/user-image
-
-  // 后端直返 { url }，兼容可能的 { code:0, data } 包装
-
+  // U-06: 增加 HTTP 状态码检查
   uploadFile: (filePath, endpoint) => {
 
     return new Promise((resolve, reject) => {
@@ -523,6 +521,20 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
         },
 
         success: (res) => {
+          // U-06: 检查 HTTP 状态码
+          if (res.statusCode === 401) {
+            require('./auth.js').logout();
+            reject(new Error('登录已过期，请重新登录'));
+            return;
+          }
+          if (res.statusCode === 413) {
+            reject(new Error('图片过大，请压缩后重试'));
+            return;
+          }
+          if (res.statusCode !== 200 && res.statusCode !== 201) {
+            reject(new Error('上传失败(' + res.statusCode + ')'));
+            return;
+          }
 
           let data;
 

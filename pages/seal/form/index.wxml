@@ -124,7 +124,7 @@
   <form-submit-btn wx:if="{{!isElectronic && !isPersonal}}" enabled="{{formValid}}" bind:submit="onSubmit" />
 
   <!-- 8. 半屏弹窗 -->
-  <half-screen-popup id="sealPopup" title="{{popupTitle}}" source-title="{{pageTitle}}" licenseRegion="{{currentRegion}}" bind:confirm="onSealConfirm"></half-screen-popup>
+  <half-screen-popup id="sealPopup" title="{{popupTitle}}" source-title="{{pageTitle}}" license-region="{{currentRegion}}" bind:confirm="onSealConfirm"></half-screen-popup>
   </block>
   </view>
 </view>

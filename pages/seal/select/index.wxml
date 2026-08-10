@@ -36,7 +36,7 @@
       id="sealPopup"
       title="{{popupTitle}}"
       source-title="{{pageTitle}}"
-      licenseRegion="{{licenseRegion}}"
+      license-region="{{licenseRegion}}"
       bind:confirm="onSealConfirm"
     />
   </view>

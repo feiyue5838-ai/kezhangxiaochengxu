@@ -7,14 +7,16 @@
 const CITIES = ['成都市','自贡市','攀枝花市','泸州市','德阳市','绵阳市','广元市','遂宁市','内江市','乐山市','南充市','眉山市','宜宾市','广安市','达州市','巴中市','雅安市','资阳市','阿坝州','甘孜州','凉山州'];
 
 /**
- * 表单校验
+ * 表单校验 - U-04: 使用统一 validatePhone
  * @param {Object} form - { title, content, phone, name }
  * @returns {{ valid: boolean, msg: string }}
  */
 function validateForm(form) {
   if (!form.title || !form.title.trim()) return { valid: false, msg: '请输入标题' };
   if (!form.content || !form.content.trim()) return { valid: false, msg: '请输入登报内容' };
-  if (!form.phone || form.phone.trim().length !== 11) return { valid: false, msg: '请输入正确的手机号' };
+  // U-04: 使用统一 validatePhone
+  const phoneResult = validatePhone(form.phone);
+  if (!phoneResult.valid) return phoneResult;
   return { valid: true, msg: '' };
 }
 
@@ -168,7 +170,7 @@ function validateImageSize(size, maxMB = 5) {
 }
 
 /**
- * 手机号格式验证
+ * 手机号格式验证 - U-04: 统一为严格校验
  * @param {string} phone
  * @returns {{ valid: boolean, msg: string }}
  */
@@ -176,14 +178,16 @@ function validatePhone(phone) {
   if (!phone || !phone.trim()) {
     return { valid: false, msg: '请输入手机号' };
   }
-  if (!/^1[3-9]\d{9}$/.test(phone.trim())) {
+  const trimmed = phone.trim();
+  // U-04: 统一使用严格的正则
+  if (!/^1[3-9]\d{9}$/.test(trimmed)) {
     return { valid: false, msg: '手机号格式不正确' };
   }
   return { valid: true, msg: '' };
 }
 
 /**
- * 身份证号格式验证
+ * 身份证号格式验证 - U-05: 增强校验（出生日期 + 校验码）
  * @param {string} idCard
  * @returns {{ valid: boolean, msg: string }}
  */
@@ -191,8 +195,20 @@ function validateIdCard(idCard) {
   if (!idCard || !idCard.trim()) {
     return { valid: false, msg: '请输入身份证号' };
   }
-  if (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(idCard.trim())) {
+  const s = idCard.trim().toUpperCase();
+  // U-05: 使用严格正则（18位 + 出生日期 + 校验码）
+  if (!/^[1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dX]$/.test(s)) {
     return { valid: false, msg: '身份证号格式不正确' };
+  }
+  // U-05: 校验码验证 (ISO 7064:1983 MOD 11-2)
+  const weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+  const checkCodes = '10X98765432';
+  let sum = 0;
+  for (let i = 0; i < 17; i++) {
+    sum += weights[i] * parseInt(s[i], 10);
+  }
+  if (checkCodes[sum % 11] !== s[17]) {
+    return { valid: false, msg: '身份证号校验位错误' };
   }
   return { valid: true, msg: '' };
 }

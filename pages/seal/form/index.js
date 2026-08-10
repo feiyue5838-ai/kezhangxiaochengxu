@@ -193,13 +193,15 @@ Page({
     const province = P[ri[0]] || '';
     const city = cs[ri[1]] || '';
     const district = ds[ri[2]] || '';
+    // S-16: 使用省份全称而非简称
+    const provinceFull = PROVINCE_SHORT_TO_FULL[province] || province;
     // 三级显示：省 市 区
-    const region = [province, city, district].filter(Boolean).join(' ');
+    const region = [provinceFull, city, district].filter(Boolean).join(' ');
     this.setData({
       showRegion: false,
       currentRegion: region,
       currentCity: city,
-      currentProvince: { ...this.data.currentProvince, name: province },
+      currentProvince: { ...this.data.currentProvince, name: provinceFull },
     });
     this.selectComponent('#stampForm').setRegion(region);
   },
@@ -283,11 +285,16 @@ Page({
     return true;
   },
 
-  // 个人印章:提交并跳转订单确认页
+  // 个人印章:提交并跳转订单确认页 - S-18: 写入地区信息
   _doPersonalSubmit() {
     const ids = this.data.selectedSeal.split(',').filter(Boolean);
     const names = this.data.selectedSealName.split('、').filter(Boolean);
     const categoryName = '个人印章';
+    // S-18: 个人印章也写入地区信息
+    const region = this.data.currentRegion || '';
+    if (region) {
+      wx.setStorageSync('sealFormData', { region, _timestamp: Date.now() });
+    }
     wx.setStorageSync('selectedSealsData', {
       ids: ids,
       names: names,
@@ -382,10 +389,15 @@ Page({
     this.selectComponent('#sealPopup').openWithData(filtered, this.data._allElectronicPackages, this.data.currentRegion);
   },
 
-  // 电子印章:提交并跳转
+  // 电子印章:提交并跳转 - S-18: 写入地区信息
   _doElectronicSubmit() {
     const ids = this.data.selectedSeal.split(',').filter(Boolean);
     const names = this.data.selectedSealName.split('、').filter(Boolean);
+    // S-18: 电子印章也写入地区信息
+    const region = this.data.currentRegion || '';
+    if (region) {
+      wx.setStorageSync('sealFormData', { region, _timestamp: Date.now() });
+    }
     wx.setStorageSync('selectedSealsData', {
       ids: ids,
       names: names,

@@ -3,10 +3,17 @@
  */
 
 /**
- * 检查是否已登录
+ * 检查是否已登录 - A-04: 游客不算已登录
  */
 function isLogin() {
-  return !!wx.getStorageSync('token') || !!wx.getStorageSync('isGuest');
+  return !!wx.getStorageSync('token');
+}
+
+/**
+ * 检查是否可以浏览（游客允许）
+ */
+function canBrowse() {
+  return isLogin() || isGuest();
 }
 
 /**
@@ -152,22 +159,30 @@ function request(options = {}) {
  *   const { checkAuth } = require('../../utils/auth.js');
  *   onLoad() { checkAuth(this); }
  *
+ * A-04: 游客默认不允许进入下单页（allowGuest=false）
  * @param {PageInstance} page Page 实例
+ * @param {Object} options - { allowGuest: boolean } 是否允许游客进入
  */
-function checkAuth(page) {
-  if (!isLogin()) {
-    // 延迟跳转避免页面渲染闪烁
-    setTimeout(() => {
-      wx.navigateTo({ url: '/pages/auth/index' });
-    }, 100);
-    return false;
-  }
-  return true;
+function checkAuth(page, options = {}) {
+  const { allowGuest = false } = options;
+  
+  // 已登录（有 token）
+  if (isLogin()) return true;
+  
+  // 游客 + 允许游客进入
+  if (allowGuest && isGuest()) return true;
+  
+  // 未登录：跳转登录页
+  setTimeout(() => {
+    wx.navigateTo({ url: '/pages/auth/index' });
+  }, 100);
+  return false;
 }
 
 module.exports = {
   isLogin,
   isGuest,
+  canBrowse,  // A-04: 新增
   getUserInfo,
   getToken,
   logout,

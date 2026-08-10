@@ -85,7 +85,7 @@ Page({
     });
   },
 
-  // Storage 兜底（历史本地单）
+  // Storage 兜底（历史本地单）- S-19: 不使用当前地址冒充历史地址
   _loadFromStorage: function(id) {
     var that = this;
     try {
@@ -109,8 +109,8 @@ Page({
         } else {
           found.statusIconSvg = '/assets/icons/icon-order-doc.svg';
         }
-        var address = wx.getStorageSync('deliveryAddress') || null;
-        if (address && !address.province) address = null;
+        // S-19: 只使用订单本身保存的地址，不用当前地址兜底
+        var address = found.address || found._address || null;
         that.setData({ order: found, address: address, loading: false });
       } else {
         that._showNotFound();
@@ -125,17 +125,26 @@ Page({
     wx.showToast({ title: '订单不存在', icon: 'none' });
   },
 
+  // 取消订单 / 申请退款 - S-06: 调用后端接口
   cancelOrder: function() {
     var that = this;
+    var isPaid = that.data.order && that.data.order._raw && that.data.order._raw.status >= 2;
     wx.showModal({
-      title: '提示',
-      content: '确定取消此订单吗？',
+      title: isPaid ? '申请退款' : '取消订单',
+      content: isPaid ? '确认申请退款？款项将由平台处理。' : '确定取消此订单吗？',
       success: function(res) {
-        if (res.confirm) {
-          that.updateOrderStatus('cancelled', '已取消', 'cancelled');
-          wx.showToast({ title: '已取消', icon: 'success' });
-          setTimeout(function() { wx.navigateBack(); }, 1500);
-        }
+        if (!res.confirm) return;
+        wx.showLoading({ title: '处理中' });
+        api.cancelSealOrder(that.data.order.id).then(function() {
+          wx.hideLoading();
+          wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
+          // 重新拉取订单状态
+          that.loadOrder(that.data.order.id);
+        }).catch(function(err) {
+          wx.hideLoading();
+          console.error('[order-detail] 取消订单失败:', err);
+          wx.showToast({ title: '操作失败，请重试', icon: 'none' });
+        });
       }
     });
   },
@@ -195,18 +204,29 @@ Page({
     this.loadOrder(id);
   },
 
+  // 支付成功后轮询 - S-04: 轮询失败不清缓存，提示用户稍后查看
   _pollPaid: function(id) {
     var that = this;
     var tries = 0;
+    var MAX_TRIES = 15;  // 增加到15次，共15秒
     var poll = function() {
       api.getSealOrderDetail(id).then(function(detail) {
         if (detail && detail.status >= 2) { that._afterPay(id); return; }
         throw new Error('pending');
       }).catch(function() {
-        if (tries++ < 4) {
-          setTimeout(poll, 800);
+        if (tries++ < MAX_TRIES) {
+          setTimeout(poll, 1000);
         } else {
-          that._afterPay(id);
+          // 轮询超时：不判定成功，提示用户稍后查看
+          that.setData({ isSubmitting: false });
+          wx.showModal({
+            title: '支付确认中',
+            content: '若已扣款，稍后在「我的订单」查看状态',
+            showCancel: false,
+            success: function() {
+              wx.redirectTo({ url: '/pages/seal/order-detail/index?id=' + id });
+            }
+          });
         }
       });
     };
@@ -249,24 +269,23 @@ Page({
     wx.navigateTo({ url: '/pages/aftersale/apply/index?orderId=' + order.id });
   },
 
-  // 删除订单
+  // 删除订单 - S-07: 说明后端不支持删除，仅本地隐藏
   onDeleteOrder: function() {
     var that = this;
     wx.showModal({
       title: '删除订单',
-      content: '确定删除此订单？删除后不可恢复',
+      content: '后端暂不支持删除订单，仅在本机隐藏。确定隐藏此订单？',
       confirmColor: '#FF4D4F',
       success: function(res) {
         if (res.confirm) {
-          try {
-            var orders = wx.getStorageSync('seal_orders') || [];
-            var filtered = orders.filter(function(o) { return o.id !== that.data.order.id; });
-            wx.setStorageSync('seal_orders', filtered);
-            wx.showToast({ title: '已删除', icon: 'success' });
-            setTimeout(function() { wx.navigateBack(); }, 1500);
-          } catch (e) {
-            wx.showToast({ title: '删除失败', icon: 'none' });
+          // 维护本地隐藏列表
+          var hiddenIds = wx.getStorageSync('hiddenOrderIds') || [];
+          if (hiddenIds.indexOf(that.data.order.id) === -1) {
+            hiddenIds.push(that.data.order.id);
+            wx.setStorageSync('hiddenOrderIds', hiddenIds);
           }
+          wx.showToast({ title: '已隐藏', icon: 'success' });
+          setTimeout(function() { wx.navigateBack(); }, 1500);
         }
       }
     });

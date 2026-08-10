@@ -103,6 +103,7 @@ Page({
     return true;
   },
 
+  // B-05: 计价请求防竞态
   async fetchPrice() {
     // 只有全部选项选齐才获取并显示价格
     if (!this._isAllSelected()) {
@@ -110,6 +111,10 @@ Page({
       return;
     }
     this.setData({ price: '--', payDisabled: true });
+    
+    // B-05: 请求序号，丢弃过期响应
+    const seq = ++this._priceSeq;
+    
     try {
       const res = await api.getBookkeepingPrice({
         taxpayerType: this.data.taxpayerType,
@@ -118,15 +123,29 @@ Page({
         social: this.data.social,
         fund: this.data.fund,
       });
+      // B-05: 丢弃过期响应
+      if (seq !== this._priceSeq) return;
+      
       const price = Number(res.price || res.amount || 0);
       if (price > 0) {
         this.setData({ price: price.toFixed(2), payDisabled: false });
+      } else {
+        // B-04: 价格<=0时提示用户
+        this.setData({ price: '--', payDisabled: true });
+        wx.showToast({ title: '该组合暂不支持，请调整选项', icon: 'none' });
       }
     } catch (e) {
+      // B-05: 丢弃过期响应
+      if (seq !== this._priceSeq) return;
+      
       console.error('获取价格失败:', e);
+      // B-04: 价格获取失败时提示用户
+      this.setData({ price: '--', payDisabled: true });
+      wx.showToast({ title: '价格获取失败，请重试', icon: 'none' });
     }
   },
 
+  // B-02/B-06: 不在 URL 中传递价格和手机号
   onPay() {
     if (this.data.payDisabled) return;
     const { taxpayerType, cycle, invoice, social, fund } = this.data;
@@ -135,9 +154,11 @@ Page({
     if (!invoice) { wx.showToast({ title: '请选择开票需求', icon: 'none' }); return; }
     if (!social) { wx.showToast({ title: '请选择社保缴纳', icon: 'none' }); return; }
     if (!this.validatePhone()) return;
-    const { phone, price } = this.data;
+    const { phone } = this.data;
+    // B-06: 手机号通过 Storage 传递，不暴露在 URL
+    wx.setStorageSync('bookkeepingPhone', phone);
     wx.navigateTo({
-      url: `/pages/bookkeeping/order-confirm/index?taxpayerType=${taxpayerType}&cycle=${cycle}&invoice=${invoice}&social=${social}&fund=${fund}&phone=${phone}&price=${price}`
+      url: `/pages/bookkeeping/order-confirm/index?taxpayerType=${taxpayerType}&cycle=${cycle}&invoice=${invoice}&social=${social}&fund=${fund}`
     });
   },
 

@@ -175,8 +175,9 @@ Page({
       console.warn('[order-list] getBookkeepingOrderList failed:', e);
     }
     all.sort((a, b) => {
-      const da = a.date || '';
-      const db = b.date || '';
+      // U-07: 使用 createTime（含时分）排序，没有则用 date
+      const da = a.createTime || a.date || '';
+      const db = b.createTime || b.date || '';
       return db.localeCompare(da);
     });
     this.setData({ allList: all });

@@ -381,7 +381,9 @@ Page({
     const content = e.detail.value;
     this.setData({ content, charCount: content.length });
     this.updateCanSubmit();
-    this.calculatePrice();
+    // N-04: 防抖 - 延迟400ms发送请求
+    clearTimeout(this._priceTimer);
+    this._priceTimer = setTimeout(() => this.calculatePrice(), 400);
   },
 
   onRemarkInput(e) {
@@ -400,8 +402,8 @@ Page({
   },
 
   /**
-   * 计算价格：优先调用后端 calculatePrice 接口，口令/兜底时使用本地公式
-   * 公式：publishFee = 单价 × max(字数, 最低字数) × 期数 × 份数
+   * 计算价格：优先调用后端 calculatePrice 接口，失败时使用本地公式
+   * N-04: 增加请求序号，避免竞态
    */
   calculatePrice() {
     const selectedPaperId = String(this.data.selectedPaper || '');
@@ -415,6 +417,9 @@ Page({
     const issueCount = this.data.issueCount || 1;
     const copyCount = this.data.copyCount || 1;
 
+    // N-04: 请求序号，丢弃过期响应
+    const seq = ++this._priceSeq;
+
     // 调用后端计价接口（传入全部参数，包含 copyCount）
     // 注意：后端 @Query 参数为 snake_case，故传 newspaper_id 而非 newspaperId
     api.getNewspaperPrice({
@@ -424,6 +429,9 @@ Page({
       copyCount,
       section_id: this.data.selectedSection || undefined
     }).then(res => {
+      // N-04: 丢弃过期响应
+      if (seq !== this._priceSeq) return;
+      
       if (res && res.totalPrice != null) {
         this.setData({
           publishFee: res.wordPrice != null ? res.wordPrice : res.totalPrice,
@@ -434,6 +442,8 @@ Page({
         this._calcPriceLocally(paper, charCount, issueCount, copyCount);
       }
     }).catch(() => {
+      // N-04: 丢弃过期响应
+      if (seq !== this._priceSeq) return;
       // 网络异常时兜底本地计算
       this._calcPriceLocally(paper, charCount, issueCount, copyCount);
     });
@@ -509,22 +519,30 @@ Page({
         const dto = {
           type: that.data.businessType,
           content: that.data.content,
-          newspaper_id: String(that.data.selectedPaper || ''), // 后端用 snake_case
+          newspaper_id: String(that.data.selectedPaper || ''),
           newspaperName: paper.name,
-          section_id: that.data.selectedSection || '',   // 后端用 snake_case
+          section_id: that.data.selectedSection || '',
           section_name: that.data.selectedSectionName || '',
           templateId: that.data.templateId || '',
           issueCount: that.data.issueCount,
           copyCount: that.data.copyCount,
-          price: that.data.totalPrice,
-          address_id: address.id,       // 后端用 snake_case
-          address_json: JSON.stringify(address), // 后端用 snake_case
+          // N-02: 价格由后端计算，不传前端价格
+          // price: that.data.totalPrice,
+          address_id: address.id,
+          address_json: JSON.stringify(address),
           remark: that.data.remark || '',
           invoice: that.data.invoice || null,
           images: images
         };
+        // N-03: 复用已创建的订单ID
+        if (that._createdOrderId) {
+          that._payOrder(that._createdOrderId);
+          return;
+        }
         api.createNewspaperOrder(dto).then((order) => {
           wx.hideLoading();
+          // N-03: 缓存已创建的订单ID
+          that._createdOrderId = order.id;
           that._payOrder(order.id);
         }).catch(() => {
           wx.hideLoading();
@@ -573,6 +591,11 @@ Page({
   },
 
   _finishPaid(orderId) {
+    // N-03/N-06/N-07: 清除缓存
+    this._createdOrderId = null;
+    wx.removeStorageSync('selectedAddress');
+    wx.removeStorageSync('newspaperTemplate');
+    wx.removeStorageSync('formPageNavData');
     this.setData({ isSubmitting: false });
     wx.showToast({ title: '下单成功', icon: 'success' });
     setTimeout(() => {

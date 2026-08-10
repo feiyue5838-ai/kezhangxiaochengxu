@@ -23,7 +23,42 @@ Page({
     this.loadVerifyStatus();
   },
 
-  loadVerifyStatus() {
+  // A-08: 加载实名认证状态时先调后端接口
+  async loadVerifyStatus() {
+    try {
+      const res = await api.getRealnameStatus();
+      if (res && res.status === 1) {
+        this.setData({
+          verifyStatus: 1,
+          statusIcon: '/assets/icons/icon-b64-20.svg',
+          statusTitle: '已认证',
+          statusDesc: '您的身份信息已通过审核',
+          statusBadgeClass: 'status-badge--pass',
+          statusBadgeText: '已认证 ✓',
+          verifyData: {
+            name: res.name,
+            idNumberMask: res.idNumberMask,
+            verifyTime: res.verifyTime || '',
+          },
+        });
+        // 同步到 Storage
+        wx.setStorageSync('realname_verify', {
+          status: 1,
+          name: res.name,
+          idNumberMask: res.idNumberMask,
+          verifyTime: res.verifyTime || '',
+        });
+      } else {
+        // 后端未认证，检查本地缓存
+        this._loadFromStorage();
+      }
+    } catch (e) {
+      // 接口失败，从 Storage 读取
+      this._loadFromStorage();
+    }
+  },
+
+  _loadFromStorage() {
     const data = wx.getStorageSync('realname_verify');
     if (data && data.status === 1) {
       const rawId = data.idNumber || '';
@@ -169,11 +204,21 @@ Page({
       idCardBack: getUrl(res[1]),
     })).then((verifyRes) => {
       wx.hideLoading();
+      // A-08: 根据后端返回状态判断，不硬编码成功
+      const status = Number(verifyRes && verifyRes.status);
+      if (status !== 1) {
+        wx.showModal({
+          title: '认证未通过',
+          content: (verifyRes && verifyRes.message) || '请核对信息后重试',
+          showCancel: false
+        });
+        return;
+      }
       const id = d.idNumber.trim();
       wx.setStorageSync('realname_verify', {
         status: 1,
-        name: d.name.trim(),
-        idNumberMask: id.substring(0, 3) + '***********' + id.substring(id.length - 4),
+        name: verifyRes.name || d.name.trim(),
+        idNumberMask: verifyRes.idNumberMask || (id.substring(0, 3) + '***********' + id.substring(id.length - 4)),
         verifyTime: (verifyRes && verifyRes.verifyTime) || '',
       });
       this.loadVerifyStatus();

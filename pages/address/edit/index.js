@@ -173,7 +173,7 @@ Page({
       return;
     }
 
-    if (!/^1\d{10}$/.test(phone)) {
+    if (!/^1[3-9]\d{9}$/.test(phone)) {
       wx.showToast({ title: '请输入正确的手机号', icon: 'none' });
       return;
     }

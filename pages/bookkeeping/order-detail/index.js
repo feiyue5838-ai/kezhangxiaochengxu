@@ -131,12 +131,17 @@ Page({
           that.setData({ submitting: false });
           wx.showToast({ title: '支付处理失败', icon: 'none' });
         });
-      } else {
-        // free（价格为 0）或兜底
+      // B-03: 增加 free 分支
+      if (type === 'free') {
         that.setData({ submitting: false });
         wx.showToast({ title: '支付成功', icon: 'success' });
         that.loadOrder(id);
+        return;
       }
+      // 兜底：未知类型报错
+      console.error('[Bookkeeping order-detail] 未知支付类型:', type);
+      that.setData({ submitting: false });
+      wx.showToast({ title: '支付失败，请重试', icon: 'none' });
     }).catch(function() {
       wx.hideLoading();
       that.setData({ submitting: false });

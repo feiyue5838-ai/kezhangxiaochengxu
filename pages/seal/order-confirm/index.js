@@ -265,7 +265,7 @@ Page({
 
   // 检查是否可以提交
   checkSubmitStatus() {
-    const { address, materials, isPersonal, isElectronic } = this.data;
+    const { address, materials, isPersonal, isElectronic, contactPhone } = this.data;
     const hasAddress = address && address.detail;
 
     // 与 material-upload 对齐：法人照片/手持身份证按后台白名单地区判定必填
@@ -273,7 +273,10 @@ Page({
     const needHandheldId = this.data.needHandheldId;
     const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto, needHandheldId });
 
-    this.setData({ canSubmit: hasAddress && materialsComplete });
+    // S-15: 联系电话格式校验
+    const phoneOk = contactPhone && /^1[3-9]\d{9}$/.test(contactPhone.trim());
+
+    this.setData({ canSubmit: hasAddress && materialsComplete && phoneOk });
   },
 
   // 拉取后台材料规则，使 order-confirm 的材料必填判定与 material-upload 完全一致：
@@ -510,6 +513,13 @@ Page({
       wx.showToast({ title: '订单提交中，请稍候', icon: 'none' });
       return;
     }
+
+    // S-15: 校验联系电话格式
+    const phone = (this.data.contactPhone || '').trim();
+    if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+      wx.showToast({ title: '请填写正确的联系电话', icon: 'none' });
+      return;
+    }
     if (!this.data.canSubmit) {
       // 精确提示缺什么
       const { address, materials, isPersonal, isElectronic } = this.data;
@@ -595,6 +605,21 @@ Page({
       materials: submitMaterials
     };
 
+    // S-09: 复用已创建的订单ID，避免重复创建
+    if (this._createdOrderId) {
+      // 订单已创建，直接重新获取支付参数
+      api.getSealPayParams(this._createdOrderId, wx.getStorageSync('openid') || '').then((payRes) => {
+        wx.hideLoading();
+        this._handlePayResponse(this._createdOrderId, payRes, selectedData, items);
+      }).catch((payErr) => {
+        console.error('getSealPayParams error:', payErr);
+        wx.hideLoading();
+        wx.showToast({ title: '获取支付参数失败', icon: 'none' });
+        this.setData({ isSubmitting: false });
+      });
+      return;
+    }
+
     api.createSealOrder(orderData).then((res) => {
       wx.hideLoading();
       // 后端返回新建订单（此时状态必为『待支付』，绝不会由前端预置已付）
@@ -605,56 +630,12 @@ Page({
         return;
       }
 
+      // S-09: 缓存已创建的订单ID，支付取消后可复用
+      this._createdOrderId = orderId;
+
       // 第二步：向后端获取支付参数（真实统一下单 / 免费 / 开发模拟）
       api.getSealPayParams(orderId, wx.getStorageSync('openid') || '').then((payRes) => {
-        const type = payRes.type;        // 'wechat' | 'free' | 'dev'
-        const payment = payRes.payment;
-
-        if (type === 'wechat' && payment) {
-          // 正式支付：调起微信支付；成功后由后端异步回调置『已支付+分配』
-          wx.requestPayment({
-            timeStamp: payment.timeStamp,
-            nonceStr: payment.nonceStr,
-            package: payment.package,
-            signType: payment.signType || 'RSA',
-            paySign: payment.paySign,
-            success: () => this._pollPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、')),
-            fail: (err) => {
-              if (String(err.errMsg || '').indexOf('cancel') > -1) {
-                wx.showToast({ title: '已取消支付', icon: 'none' });
-              } else {
-                wx.showToast({ title: '支付失败，请重试', icon: 'none' });
-              }
-              this.setData({ isSubmitting: false });
-            }
-          });
-          return;
-        }
-
-        if (type === 'dev') {
-          // 开发环境：服务端模拟微信回调完成支付+分配（生产环境该接口返回 403）
-          api.devConfirmPay(orderId).then(() => this._finishPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、'))).catch((e) => {
-            console.error('devConfirmPay error:', e);
-            wx.showToast({ title: '支付处理失败', icon: 'none' });
-            this.setData({ isSubmitting: false });
-          });
-          return;
-        }
-
-        // free（价格为 0）：后端已在 createPayOrder 内完成支付+分配
-        if (type === 'free') {
-          this._finishPaid(orderId, selectedData.totalPrice, items.map(i=>i.name).filter(Boolean).join('、'));
-        } else if (type === 'wechat' && !payment) {
-          // type=wechat 但无 payment：后端返回异常，前端不能擅自判定成功
-          console.error('[Seal] 支付参数异常：type=wechat 但 payment 为空', payRes);
-          wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
-          this.setData({ isSubmitting: false });
-        } else {
-          // 未知 type：也不应直接 success
-          console.error('[Seal] 未知支付类型:', type, payRes);
-          wx.showToast({ title: '支付失败，请重试', icon: 'none' });
-          this.setData({ isSubmitting: false });
-        }
+        this._handlePayResponse(orderId, payRes, selectedData, items);
       }).catch((payErr) => {
         console.error('getSealPayParams error:', payErr);
         wx.showToast({ title: '获取支付参数失败', icon: 'none' });
@@ -684,6 +665,8 @@ Page({
 
   // 支付成功收尾：清缓存 + 提示 + 跳转（dev/free 场景服务端已同步完成支付+分配）
   _finishPaid(orderId, totalPrice, sealNames) {
+    // S-09: 清除缓存的订单ID
+    this._createdOrderId = null;
     wx.showToast({ title: '支付成功', icon: 'success' });
     this._clearOrderCache();
     setTimeout(() => { wx.switchTab({ url: '/pages/home/index' }); }, 1200);
@@ -747,13 +730,68 @@ Page({
     wx.removeStorageSync('materialUploadContext');
     wx.removeStorageSync('currentOrderId');
     wx.removeStorageSync('sealOrderPhone');
+    // S-12: 清除材料上传导航数据
+    wx.removeStorageSync('materialUploadNavData');
   },
 
-  // 获取隔离的 Storage Key
-  _getStorageKey(baseKey) {
-    const orderId = wx.getStorageSync('currentOrderId') || 'DEFAULT';
-    return `${baseKey}_${orderId}`;
+  // S-09: 统一处理支付响应
+  _handlePayResponse(orderId, payRes, selectedData, items) {
+    const type = payRes.type;        // 'wechat' | 'free' | 'dev'
+    const payment = payRes.payment;
+    const sealNames = items.map(i => i.name).filter(Boolean).join('、');
+
+    if (type === 'wechat' && payment) {
+      // 正式支付：调起微信支付；成功后由后端异步回调置『已支付+分配』
+      wx.requestPayment({
+        timeStamp: payment.timeStamp,
+        nonceStr: payment.nonceStr,
+        package: payment.package,
+        signType: payment.signType || 'RSA',
+        paySign: payment.paySign,
+        success: () => this._pollPaid(orderId, selectedData.totalPrice, sealNames),
+        fail: (err) => {
+          if (String(err.errMsg || '').indexOf('cancel') > -1) {
+            wx.showToast({ title: '已取消支付', icon: 'none' });
+          } else {
+            wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+          }
+          this.setData({ isSubmitting: false });
+        }
+      });
+      return;
+    }
+
+    if (type === 'dev') {
+      // 开发环境：服务端模拟微信回调完成支付+分配（生产环境该接口返回 403）
+      api.devConfirmPay(orderId).then(() => this._finishPaid(orderId, selectedData.totalPrice, sealNames)).catch((e) => {
+        console.error('devConfirmPay error:', e);
+        wx.showToast({ title: '支付处理失败', icon: 'none' });
+        this.setData({ isSubmitting: false });
+      });
+      return;
+    }
+
+    // free（价格为 0）：后端已在 createPayOrder 内完成支付+分配
+    if (type === 'free') {
+      this._finishPaid(orderId, selectedData.totalPrice, sealNames);
+    } else if (type === 'wechat' && !payment) {
+      // type=wechat 但无 payment：后端返回异常，前端不能擅自判定成功
+      console.error('[Seal] 支付参数异常：type=wechat 但 payment 为空', payRes);
+      wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
+      this.setData({ isSubmitting: false });
+    } else {
+      // 未知 type：也不应直接 success
+      console.error('[Seal] 未知支付类型:', type, payRes);
+      wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+      this.setData({ isSubmitting: false });
+    }
   },
+
+  // 页面卸载时清理
+  onUnload() {
+    // S-09: 如果支付未完成，清除缓存的订单ID（下次重新创建）
+    // 如果支付已完成，_finishPaid 已经清理了
+  }
 
 });
 

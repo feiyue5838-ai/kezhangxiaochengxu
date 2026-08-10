@@ -88,12 +88,19 @@ Page({
     // 判断是否是个体户
     const isIndividual = categoryName === '个体户';
 
-    // 个人印章：判断是否需要额外模块
-    const hasProfessional = selectedSealIds.some(id =>
-      ['s30','s31','s32','s33','s34','s35','s36','s37','s38',
-        's39','s40','s41','s42','s43','s44','s45','s46','s47'].includes(id)
+    // S-11: 职业章/签名章判定 - 改为数据驱动（从 items 中读取 categoryName 或标记）
+    // 如果 context.selectedItems 有数据，使用后端返回的分类信息
+    const selectedItems = context.selectedItems || [];
+    const hasProfessional = selectedItems.some(item => 
+      item.requiresCert || /执业|资格|职业|建造师|工程师|会计师|律师|税务师/.test(item.categoryName || item.name || '')
     );
-    const hasSignature = selectedSealIds.includes('s26');
+    const hasSignature = selectedItems.some(item => 
+      /签名章/.test(item.name || '')
+    ) || selectedSealIds.some(id => {
+      // 兼容旧流程：尝试匹配后端返回的印章名称
+      const item = selectedItems.find(i => i.seal_id === id || i.id === id);
+      return item && /签名章/.test(item.name || '');
+    });
 
     // 动态计算身份证标题
     let idCardTitle = '身份证';
@@ -164,7 +171,7 @@ Page({
 
   // ---------- 清理过期数据 ----------
   _cleanExpiredData() {
-    // 清理超过24小时的临时数据
+    // S-12: 清理超过24小时的临时数据，写入时需带 _timestamp
     const keysToCheck = ['selectedSealsData', 'sealOrderForm', 'materialInfo'];
     const now = Date.now();
     const MAX_AGE = 24 * 60 * 60 * 1000; // 24小时
@@ -320,6 +327,7 @@ Page({
 
     // 与已保存材料合并，避免重新进入时整体覆盖掉之前上传的文件
     const savedM = wx.getStorageSync('materialInfo') || {};
+    // S-12: 写入时添加时间戳
     const material = {
       ...savedM,
       // 身份证材料（个人/公司/电子印章共用）
@@ -338,7 +346,10 @@ Page({
       legalPhoto: this.data.legalPhoto,
 
       // 补充材料
-      additional: this.data.additional
+      additional: this.data.additional,
+
+      // 时间戳
+      _timestamp: Date.now()
     };
 
     wx.setStorageSync('materialInfo', material);
