@@ -108,38 +108,44 @@ Page({
       idCardTitle = isIndividual ? '经营者身份证' : '法人身份证';
     }
 
-    // 法人白底自拍照：企业和个体户模式下，仅后台配置的地区显示（SystemConfig.legalPhotoCities）
-    // 默认上海/山东/新疆/贵阳；接口异常/无记录时沿用兜底列表，保证功能不中断。
-    // 注意：显式配置空数组 [] 表示所有地区都不显示，需尊重（故仅异常时兜底）。
-    const LEGAL_PHOTO_FALLBACK = ['上海', '山东', '新疆', '贵阳'];
-    let legalPhotoCities = LEGAL_PHOTO_FALLBACK;
-    try {
-      const cfg = await api.getConfig('legalPhotoCities');
-      if (Array.isArray(cfg)) legalPhotoCities = cfg;
-    } catch (e) {
-      // 接口异常时沿用兜底列表
+    // 主体类型：优先使用 order-confirm/main 流程下发的 subjectType，否则按既有规则推导
+    let subjectType = navData.subjectType;
+    if (!subjectType) {
+      subjectType = isPersonal ? 'personal' : (isElectronic ? 'electronic' : (isIndividual ? 'individual' : 'company'));
     }
-    const needLegalPhoto = (isCompany || isIndividual) && legalPhotoCities.some(city => (region || '').includes(city));
 
-    // 法人手持身份证：所需地区改由后台配置（SystemConfig.handheldIdCities）下发，
-    // 默认上海/山东/新疆/贵阳；接口异常/无记录时沿用兜底列表，保证功能不中断。
-    const HANDHELD_FALLBACK = ['上海', '山东', '新疆', '贵阳'];
-    let handheldCities = HANDHELD_FALLBACK;
+    // 地区材料白名单：后端 SystemConfig 下发（api.getConfig 返回配置对象，需读 .value）
+    // 仅接口异常时兜底默认列表；显式配置空数组 [] 表示全地区不显示，须尊重。
+    const REGION_FALLBACK = ['上海', '山东', '新疆', '贵阳'];
+    let legalPhotoCities = REGION_FALLBACK;
+    let handheldCities = REGION_FALLBACK;
     try {
-      const cfg = await api.getConfig('handheldIdCities');
-      if (Array.isArray(cfg)) handheldCities = cfg;
-    } catch (e) {
-      // 接口异常（如网络不通）时沿用兜底列表
-    }
-    const needHandheldId = isCompany && handheldCities.some(city => (region || '').includes(city));
+      legalPhotoCities = common.configToArray(await api.getConfig('legalPhotoCities'), REGION_FALLBACK);
+    } catch (e) { /* 接口异常沿用兜底 */ }
+    try {
+      handheldCities = common.configToArray(await api.getConfig('handheldIdCities'), REGION_FALLBACK);
+    } catch (e) { /* 接口异常沿用兜底 */ }
 
-    // 动态计算照片标题和提示
+    // 单一材料必填规则（S-13/S-14 数据源）：与个人/电子/主体类型/地区白名单/执业/签名统一判定
+    const materialRule = common.getRequiredMaterials({
+      subjectType: subjectType,
+      isElectronic: isElectronic,
+      hasProfessional: hasProfessional,
+      hasSignature: hasSignature,
+      region: region,
+      legalPhotoCities: legalPhotoCities,
+      handheldIdCities: handheldCities
+    });
+    const required = materialRule.required;
+    const needLegalPhoto = required.indexOf('legalPhoto') >= 0;
+    const needHandheldId = required.indexOf('handheldIdPhoto') >= 0;
     let photoTitle = '';
-    let photoNote = '';
     if (needLegalPhoto) {
       photoTitle = isIndividual ? '经营者自拍半身照' : '法人自拍半身照';
-      photoNote = '';
     }
+    const extraDocsNote = (materialRule.extraDocs && materialRule.extraDocs.length)
+      ? ('需一并上传：' + materialRule.extraDocs.join('、'))
+      : '';
 
     this.setData({
       isPersonal,
@@ -147,13 +153,18 @@ Page({
       isElectronic,
       region,
       isIndividual,
+      subjectType,
+      materialRule,
       needLegalPhoto,
       needHandheldId,
-      needProfessionalCert: isPersonal && hasProfessional,
-      needSignature: isPersonal && hasSignature,
+      needProfessionalCert: required.indexOf('professionalCert') >= 0,
+      needSignature: required.indexOf('signature') >= 0,
+      licenseTitle: materialRule.licenseLabel || '营业执照',
+      licenseRequired: materialRule.licenseRequired,
+      extraDocsNote,
       idCardTitle,
       photoTitle,
-      photoNote
+      photoNote: ''
     });
 
     // 预载已上传材料：重新进入上传页时回显，避免 onSubmit 整体覆盖导致之前上传的材料丢失
@@ -285,40 +296,18 @@ Page({
   onSignatureTap() { this.chooseImage('signature'); },
   onAdditionalTap() { this.chooseImage('additional', 5); },
 
-  // ---------- 检查是否可以提交 ----------
+  // ---------- 检查是否可以提交（S-13 统一：与 order-confirm 同源读取 materialRule.required） ----------
   checkSubmitStatus() {
-    const { isPersonal, isCompany, isElectronic, license, legalPhoto, idCardFront, idCardBack, professionalCert, signature, needProfessionalCert, needSignature } = this.data;
-
-    if (isCompany || isElectronic) {
-      // 企业/电子印章模式：营业执照 + 法人身份证正反面
-      let canSubmit = !!(license && idCardFront && idCardBack);
-      // 法人白底自拍照：电子印章必传；公司/个体户仅在后台白名单地区必传（与 order-confirm 对齐）
-      const photoRequired = isElectronic || this.data.needLegalPhoto;
-      if (photoRequired) {
-        canSubmit = canSubmit && !!this.data.legalPhoto;
-      }
-      // 上海/山东/新疆/贵阳地区需要法人手持身份证
-      if (this.data.needHandheldId) {
-        canSubmit = canSubmit && !!this.data.handheldIdPhoto;
-      }
-      this.setData({ canSubmit });
-      return;
-    }
-
-    // 个人印章模式：身份证正反面
-    let canSubmit = !!(idCardFront && idCardBack);
-
-    // 职业章必填校验
-    if (needProfessionalCert) {
-      canSubmit = canSubmit && !!professionalCert;
-    }
-
-    // 个人签名必填校验
-    if (needSignature) {
-      canSubmit = canSubmit && !!signature;
-    }
-
-    this.setData({ canSubmit });
+    const d = this.data;
+    const rule = d.materialRule || { required: ['license', 'idCardFront', 'idCardBack'] };
+    const savedM = wx.getStorageSync('materialInfo') || {};
+    const get = (k) => {
+      const v = d[k];
+      if (v !== undefined && v !== null && v !== '') return v;
+      return savedM[k] || '';
+    };
+    const allFilled = rule.required.every((k) => !!get(k));
+    this.setData({ canSubmit: allFilled });
   },
 
   // ---------- 提交 ----------

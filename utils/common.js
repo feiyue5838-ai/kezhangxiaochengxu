@@ -271,24 +271,81 @@ function getNavigationHeight() {
  * @param {Object} options - { isPersonal, isElectronic, needPhoto }
  * @returns {boolean}
  */
-function checkMaterialsComplete(materials, options = {}) {
-  const { isPersonal, isElectronic, needPhoto, needHandheldId } = options;
+// ============ 刻章主体类型与材料规则（S-13/S-14 单一数据源）============
+// 主体类型枚举（与后端 SystemConfig.subjectTypes 保持一致；前端亦作为兜底）
+const SUBJECT_TYPES = [
+  { value: 'company',     label: '企业刻章',   licenseLabel: '营业执照',             licenseRequired: true,  extraDocs: [] },
+  { value: 'individual',  label: '个体工商户', licenseLabel: '营业执照',             licenseRequired: true,  extraDocs: [] },
+  { value: 'government',  label: '政府机关',   licenseLabel: '统一社会信用代码证',   licenseRequired: true,  extraDocs: ['刻章申请函', '介绍信'] },
+  { value: 'institution', label: '事业单位',   licenseLabel: '事业单位法人证书',     licenseRequired: true,  extraDocs: ['刻章申请函', '介绍信'] },
+  { value: 'social_org',  label: '社会团体',   licenseLabel: '社会团体法人登记证书', licenseRequired: true,  extraDocs: ['刻章申请函', '介绍信'] },
+  { value: 'personal',    label: '个人印章',   licenseLabel: '',                    licenseRequired: false, extraDocs: [] },
+  { value: 'electronic',  label: '电子印章',   licenseLabel: '营业执照',             licenseRequired: true,  extraDocs: [] }
+];
 
-  const hasLicense = !!materials.license;
-  const hasIdCard = !!materials.idCardFront && !!materials.idCardBack;
-  const hasPhoto = !!materials.photo;
-  const hasHandheld = !!materials.handheldIdPhoto;
+function getSubjectType(value) {
+  return SUBJECT_TYPES.find(t => t.value === value) || SUBJECT_TYPES[0];
+}
 
-  if (isElectronic) {
-    // 电子印章：营业执照 + 法人身份证 + 法人照片
-    return hasLicense && hasIdCard && hasPhoto;
-  } else if (isPersonal) {
-    // 个人印章：仅身份证
-    return hasIdCard;
-  } else {
-    // 公司/个体户：营业执照 + 身份证 +（白名单地区）法人照片 +（白名单地区）手持身份证
-    return hasLicense && hasIdCard && (!needPhoto || hasPhoto) && (!needHandheldId || hasHandheld);
+// api.getConfig 解包后返回的是配置对象 { value: [...] }，需读 .value 才是真实数组
+// （直接 Array.isArray(cfg) 永远为 false，这是后端白名单此前一直没生效的根因）
+function configToArray(cfg, fallback) {
+  if (!cfg) return fallback;
+  let v = cfg;
+  if (typeof cfg === 'object' && cfg !== null && typeof cfg.value !== 'undefined') v = cfg.value;
+  if (typeof v === 'string') {
+    try { v = JSON.parse(v); } catch (e) { return fallback; }
   }
+  if (!Array.isArray(v)) return fallback;
+  return v;
+}
+
+function inRegion(region, cities) {
+  if (!region || !Array.isArray(cities)) return false;
+  return cities.some(c => (region || '').indexOf(c) >= 0);
+}
+
+// 计算某订单所需的材料字段清单（单一数据源，取代 material-upload.checkSubmitStatus 与旧 checkMaterialsComplete 的重复/冲突逻辑）
+// @returns {{ required: string[], licenseLabel: string, licenseRequired: boolean, extraDocs: string[] }}
+function getRequiredMaterials(o) {
+  o = o || {};
+  const subjectType = o.subjectType;
+  const isElectronic = !!o.isElectronic || subjectType === 'electronic';
+  const hasProfessional = !!o.hasProfessional;
+  const hasSignature = !!o.hasSignature;
+  const region = o.region;
+  const legalPhotoCities = o.legalPhotoCities || [];
+  const handheldIdCities = o.handheldIdCities || [];
+
+  if (subjectType === 'personal') {
+    const required = ['idCardFront', 'idCardBack'];
+    if (hasProfessional) required.push('professionalCert');
+    if (hasSignature) required.push('signature');
+    return { required: required, licenseLabel: '', licenseRequired: false, extraDocs: [] };
+  }
+
+  const def = getSubjectType(subjectType);
+  const required = ['license', 'idCardFront', 'idCardBack'];
+  if (isElectronic || inRegion(region, legalPhotoCities)) required.push('legalPhoto');
+  if (inRegion(region, handheldIdCities)) required.push('handheldIdPhoto');
+  return { required: required, licenseLabel: def.licenseLabel, licenseRequired: def.licenseRequired, extraDocs: def.extraDocs };
+}
+
+function checkMaterialsComplete(materials, options) {
+  options = options || {};
+  const subjectType = options.subjectType || (options.isPersonal ? 'personal' : (options.isElectronic ? 'electronic' : 'company'));
+  const required = getRequiredMaterials({
+    subjectType: subjectType,
+    isElectronic: !!options.isElectronic,
+    hasProfessional: !!options.hasProfessional,
+    hasSignature: !!options.hasSignature
+  }).required;
+  const req = required.filter(function (k) {
+    if (k === 'legalPhoto') return !!options.needPhoto;
+    if (k === 'handheldIdPhoto') return !!options.needHandheldId;
+    return true;
+  });
+  return req.every(function (k) { return !!(materials && materials[k]); });
 }
 
 module.exports = {
@@ -310,5 +367,10 @@ module.exports = {
   // 导航栏高度计算
   getNavigationHeight: getNavigationHeight,
   // 地区判断和材料检查
-  checkMaterialsComplete: checkMaterialsComplete
+  checkMaterialsComplete: checkMaterialsComplete,
+  // S-13/S-14 材料规则单一数据源
+  getRequiredMaterials: getRequiredMaterials,
+  getSubjectType: getSubjectType,
+  SUBJECT_TYPES: SUBJECT_TYPES,
+  configToArray: configToArray
 };

@@ -41,9 +41,9 @@
   </view>
 
   <!-- ========== 模块2：营业执照【全局必填 *】 ========== -->
-  <view class="module" wx:if="{{isCompany || isElectronic}}">
+  <view class="module" wx:if="{{licenseRequired}}">
     <view class="title-row">
-      <text class="module-title">营业执照</text>
+      <text class="module-title">{{licenseTitle}}</text>
     </view>
     <view class="upload-single">
       <block wx:if="{{license}}">
@@ -53,7 +53,7 @@
       </block>
       <view wx:else class="upload-placeholder-lg" bindtap="onLicenseTap">
           <text class="placeholder-emoji-lg">📄</text>
-          <text class="placeholder-label">点击上传 营业执照<text class="star">*</text></text>
+          <text class="placeholder-label">点击上传 {{licenseTitle}}<text class="star">*</text></text>
       </view>
     </view>
     <!-- 规范提示 -->
@@ -186,6 +186,9 @@
     <!-- 规范提示 -->
     <view class="spec-tip spec-tip-gray">
       <text class="spec-tip-text spec-gray">适用于遗失补刻、变更法人重刻、营业执照信息缺失等场景；客服将主动联系您补充对应佐证文件</text>
+    </view>
+    <view class="spec-tip spec-tip-warn" wx:if="{{extraDocsNote}}">
+      <text class="spec-tip-text spec-warn">⚠️ {{extraDocsNote}}</text>
     </view>
   </view>
 

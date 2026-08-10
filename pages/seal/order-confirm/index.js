@@ -197,7 +197,7 @@ Page({
     });
 
     // 异步拉取后台材料规则（法人照片/手持身份证按地区白名单），与 material-upload 保持一致
-    this._loadMaterialRules(licenseRegion, this.data.isPersonal, this.data.isElectronic);
+    this._loadMaterialRules(licenseRegion);
   },
 
   // 每次显示页面时刷新数据（从子页返回时）
@@ -265,16 +265,16 @@ Page({
 
   // 检查是否可以提交
   checkSubmitStatus() {
-    const { address, materials, isPersonal, isElectronic, contactPhone } = this.data;
+    const { address, contactPhone } = this.data;
     const hasAddress = address && address.detail;
 
-    // 与 material-upload 对齐：法人照片/手持身份证按后台白名单地区判定必填
-    const needPhoto = this.data.needLegalPhoto;
-    const needHandheldId = this.data.needHandheldId;
-    const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto, needHandheldId });
+    // 与 material-upload 同源读取 materialRule.required（单一数据源）
+    const rule = this.data.materialRule || { required: ['license', 'idCardFront', 'idCardBack'] };
+    const materials = wx.getStorageSync('materialInfo') || {};
+    const materialsComplete = rule.required.every(k => !!materials[k]);
 
     // S-15: 联系电话格式校验
-    const phoneOk = contactPhone && /^1[3-9]\d{9}$/.test(contactPhone.trim());
+    const phoneOk = contactPhone && /^1[3-9]\d{9}$/.test((contactPhone || '').trim());
 
     this.setData({ canSubmit: hasAddress && materialsComplete && phoneOk });
   },
@@ -283,32 +283,40 @@ Page({
   // - 法人白底自拍照：仅后台 legalPhotoCities 白名单地区（公司/个体户）或电子印章需上传
   // - 法人手持身份证：仅后台 handheldIdCities 白名单地区需上传
   // 不再无条件要求法人照片（修复非白名单地区订单永远无法提交的问题）
-  async _loadMaterialRules(region, isPersonal, isElectronic) {
+  async _loadMaterialRules(region) {
     const FALLBACK = ['上海', '山东', '新疆', '贵阳'];
-    const isCompanyOrIndividual = !isPersonal && !isElectronic;
+    const sd = wx.getStorageSync('selectedSealsData') || {};
+    const fd = wx.getStorageSync('sealFormData') || {};
+    const isPersonal = this.data.isPersonal;
+    const isElectronic = this.data.isElectronic;
+    const subjectType = sd.subjectType || fd.subjectType || (isPersonal ? 'personal' : (isElectronic ? 'electronic' : 'company'));
+    const items = sd.items || [];
+    const hasProfessional = items.some(item => item.requiresCert || /执业|资格|职业|建造师|工程师|会计师|律师|税务师/.test(item.categoryName || item.name || ''));
+    const hasSignature = items.some(item => /签名章/.test(item.name || '') || (item.categoryName || '').indexOf('签名') >= 0);
     const inList = (cities) => cities.some(c => (region || '').includes(c));
 
-    // 先用兜底白名单同步给出初始判定，避免异步等待期间短暂错位
+    // 初始判定（兜底白名单）
     this.setData({
-      needLegalPhoto: isElectronic || (isCompanyOrIndividual && inList(FALLBACK)),
-      needHandheldId: isCompanyOrIndividual && inList(FALLBACK)
+      materialRule: common.getRequiredMaterials({ subjectType: subjectType, isElectronic: isElectronic, hasProfessional: hasProfessional, hasSignature: hasSignature, region: region, legalPhotoCities: FALLBACK, handheldIdCities: FALLBACK }),
+      needLegalPhoto: isElectronic || inList(FALLBACK),
+      needHandheldId: !isPersonal && !isElectronic && inList(FALLBACK)
     });
     this.checkSubmitStatus();
 
     let legalCities = FALLBACK;
     let handheldCities = FALLBACK;
     try {
-      const cfg = await api.getConfig('legalPhotoCities');
-      if (Array.isArray(cfg)) legalCities = cfg;
+      legalCities = common.configToArray(await api.getConfig('legalPhotoCities'), FALLBACK);
     } catch (e) { /* 接口异常时沿用兜底白名单 */ }
     try {
-      const cfg = await api.getConfig('handheldIdCities');
-      if (Array.isArray(cfg)) handheldCities = cfg;
+      handheldCities = common.configToArray(await api.getConfig('handheldIdCities'), FALLBACK);
     } catch (e) { /* 接口异常时沿用兜底白名单 */ }
 
+    const rule = common.getRequiredMaterials({ subjectType: subjectType, isElectronic: isElectronic, hasProfessional: hasProfessional, hasSignature: hasSignature, region: region, legalPhotoCities: legalCities, handheldIdCities: handheldCities });
     this.setData({
-      needLegalPhoto: isElectronic || (isCompanyOrIndividual && inList(legalCities)),
-      needHandheldId: isCompanyOrIndividual && inList(handheldCities)
+      materialRule: rule,
+      needLegalPhoto: rule.required.indexOf('legalPhoto') >= 0,
+      needHandheldId: rule.required.indexOf('handheldIdPhoto') >= 0
     });
     this.checkSubmitStatus();
   },
@@ -351,6 +359,7 @@ Page({
     wx.setStorageSync('materialUploadContext', {
       isPersonal: this.data.isPersonal,
       isElectronic: this.data.isElectronic,
+      subjectType: selectedData.subjectType || (wx.getStorageSync('sealFormData') || {}).subjectType || null,
       selectedSealIds: selectedData.ids || [],
       categoryName: selectedData.categoryName || ''
     });
@@ -358,6 +367,7 @@ Page({
     wx.setStorageSync('materialUploadNavData', {
       region: this.data.licenseRegion || '成都',
       isPersonal: this.data.isPersonal,
+      subjectType: selectedData.subjectType || (wx.getStorageSync('sealFormData') || {}).subjectType || null,
       categoryName: selectedData.categoryName || '',
       _timestamp: Date.now()
     });
@@ -522,11 +532,11 @@ Page({
     }
     if (!this.data.canSubmit) {
       // 精确提示缺什么
-      const { address, materials, isPersonal, isElectronic } = this.data;
+      const address = this.data.address;
       const hasAddress = address && address.detail;
-      const needPhoto = this.data.needLegalPhoto;
-      const needHandheldId = this.data.needHandheldId;
-      const materialsComplete = common.checkMaterialsComplete(materials, { isPersonal, isElectronic, needPhoto, needHandheldId });
+      const rule = this.data.materialRule || { required: ['license', 'idCardFront', 'idCardBack'] };
+      const materials = wx.getStorageSync('materialInfo') || {};
+      const materialsComplete = rule.required.every(k => !!materials[k]);
       if (!hasAddress) {
         wx.showToast({ title: '请填写配送地址', icon: 'none' }); return;
       }
