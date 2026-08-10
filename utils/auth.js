@@ -74,6 +74,7 @@ function logout() {
   // — 业务表单草稿缓存 —
   wx.removeStorageSync('selectedSealsData');   // 印章选择数据（含名称/数量）
   wx.removeStorageSync('sealOrderForm');       // 刻章表单（执照地区/刻章原因/公司名/手机）
+  wx.removeStorageSync('materialInfo');          // 印章材料信息（含证件照/营业执照，换账号须清除）
   wx.removeStorageSync('materialUploadContext'); // 印章材料上传上下文
   wx.removeStorageSync('newspaperTemplate');   // 登报模板（含姓名/证件号）
   wx.removeStorageSync('formPageNavData');     // 登报业务类型/文档名称
