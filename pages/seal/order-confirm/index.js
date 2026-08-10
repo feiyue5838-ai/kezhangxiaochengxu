@@ -209,8 +209,8 @@ Page({
   loadSavedData() {
     // 读取地址
     let address = wx.getStorageSync('deliveryAddress') || null;
-    // 兜底：个人印章没有收货地址时，从 sealFormData.region 解析省市区用于派单
-    if (!address && this.data.isPersonal) {
+    // 兜底：个人印章和电子印章没有收货地址时，从 sealFormData.region 解析省市区用于派单
+    if (!address && (this.data.isPersonal || this.data.isElectronic)) {
       const fd = wx.getStorageSync('sealFormData') || {};
       if (fd.region) {
         const parts = (fd.region || '').split(' ').filter(Boolean);
