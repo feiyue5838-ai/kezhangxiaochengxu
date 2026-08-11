@@ -633,13 +633,6 @@ Page({
       materials: submitMaterials
     };
 
-    // 调试日志：查看请求体
-    console.log('=== createSealOrder 请求体 ===');
-    console.log('orderData:', JSON.stringify(orderData, null, 2));
-    console.log('items:', items);
-    console.log('selectedIds:', selectedIds);
-    console.log('selectedData:', selectedData);
-
     // S-09: 复用已创建的订单ID，避免重复创建
     if (this._createdOrderId) {
       // 订单已创建，直接重新获取支付参数
