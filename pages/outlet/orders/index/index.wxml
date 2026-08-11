@@ -1,4 +1,12 @@
 <view class="page">
+  <!-- 顶部操作栏 -->
+  <view class="top-bar">
+    <view class="notif-btn" bindtap="goToNotifications">
+      <image class="notif-icon" src="/assets/icons/notification.png" mode="aspectFit"></image>
+      <view wx:if="{{unreadCount > 0}}" class="notif-badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
+    </view>
+  </view>
+
   <view wx:if="{{loading}}" class="loading">
     <text>加载中...</text>
   </view>

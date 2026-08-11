@@ -6,6 +6,7 @@ Page({
     list: [],
     loading: true,
     empty: false,
+    unreadCount: 0,
   },
 
   onLoad() {
@@ -23,7 +24,10 @@ Page({
       wx.redirectTo({ url: '/pages/outlet-binding/index' })
       return
     }
-    await this.fetchOrders()
+    await Promise.all([
+      this.fetchOrders(),
+      this.fetchUnreadCount()
+    ])
   },
 
   async fetchOrders() {
@@ -52,6 +56,23 @@ Page({
   goToDetail(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({ url: `/pages/outlet/order-detail/index/index?id=${id}` })
+  },
+
+  async fetchUnreadCount() {
+    try {
+      const res = await api.outletRequest({
+        url: '/outlets/me/notifications',
+        method: 'GET',
+        data: { unreadOnly: true, pageSize: 1 },
+      });
+      this.setData({ unreadCount: res.pagination?.total || 0 });
+    } catch (e) {
+      console.error('获取未读数失败:', e);
+    }
+  },
+
+  goToNotifications() {
+    wx.navigateTo({ url: '/pages/outlet/notifications/index' });
   },
 
   onPullDownRefresh() {

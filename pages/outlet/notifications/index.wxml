@@ -1,0 +1,50 @@
+<view class="container">
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading">
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <!-- 通知列表 -->
+  <view wx:elif="{{notifications.length > 0}}" class="notification-list">
+    <view 
+      wx:for="{{notifications}}" 
+      wx:key="id" 
+      class="notification-item {{item.is_read ? 'read' : 'unread'}}"
+      data-id="{{item.id}}"
+      data-order_id="{{item.order_id}}"
+      data-order_no="{{item.order_no}}"
+      bindtap="onNotificationTap"
+    >
+      <view class="notif-header">
+        <view class="notif-title">
+          <text class="title-text">{{item.title}}</text>
+          <view wx:if="{{!item.is_read}}" class="unread-dot"></view>
+        </view>
+        <text class="notif-time">{{item.createdAt}}</text>
+      </view>
+      
+      <view class="notif-content">{{item.content}}</view>
+      
+      <view class="notif-footer">
+        <view wx:if="{{item.order_no}}" class="order-tag">
+          <text>{{item.order_no}}</text>
+        </view>
+        <view class="notif-actions">
+          <view 
+            class="action-btn delete-btn"
+            data-id="{{item.id}}"
+            catchtap="deleteNotification"
+          >
+            <text>删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty-state">
+    <image class="empty-icon" src="/assets/images/empty-notification.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无消息</text>
+  </view>
+</view>
