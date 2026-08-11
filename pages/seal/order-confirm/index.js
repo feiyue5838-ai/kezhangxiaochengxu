@@ -670,6 +670,12 @@ Page({
         this.setData({ isSubmitting: false });
       });
     }).catch((err) => {
+      // 401 已在 api.js 处理（清 token + 跳登录页），此处不再弹窗
+      if (!wx.getStorageSync('token')) {
+        wx.hideLoading();
+        this.setData({ isSubmitting: false });
+        return;
+      }
       // 后端未接通：本地演示兜底（不预置已付，仅本地展示）
       console.error('createSealOrder error:', err);
       wx.hideLoading();
