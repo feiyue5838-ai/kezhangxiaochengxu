@@ -50,6 +50,12 @@ Page({
   },
 
   onLoad(options) {
+    // 未登录先跳登录页
+    if (!wx.getStorageSync('token')) {
+      wx.navigateTo({ url: '/pages/auth/index' });
+      return;
+    }
+
     const { type } = options;
 
     // 优先读取 idcard-page 跳转时存入的模板数据

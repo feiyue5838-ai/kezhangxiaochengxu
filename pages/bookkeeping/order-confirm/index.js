@@ -25,6 +25,12 @@ Page({
 
   // B-02/B-06: 价格由后端计算，手机号通过 Storage 传递（不暴露在 URL）
   onLoad(options) {
+    // 未登录先跳登录页
+    if (!wx.getStorageSync('token')) {
+      wx.navigateTo({ url: '/pages/auth/index' });
+      return;
+    }
+
     const { taxpayerType, cycle, invoice, social, fund } = options;
     // B-06: 手机号从 Storage 读取，不通过 URL 传递
     const phone = wx.getStorageSync('bookkeepingPhone') || options.phone || '';

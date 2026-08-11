@@ -125,6 +125,12 @@ Page({
   },
 
   onLoad(options) {
+    // 未登录先跳登录页（A-04: 游客不能下单）
+    if (!wx.getStorageSync('token')) {
+      wx.navigateTo({ url: '/pages/auth/index' });
+      return;
+    }
+
     this.setData({ pageTitle: '确认订单' });
 
     // 生成或获取订单ID（用于数据隔离）
