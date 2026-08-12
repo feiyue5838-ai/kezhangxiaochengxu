@@ -4,6 +4,7 @@ Page({
   data: {
     notifications: [],
     currentDate: '',
+    phone: '4008886666',
     loading: true,
   },
 
@@ -45,6 +46,11 @@ Page({
       // 更新缓存
       wx.setStorageSync('notifications', list);
       this.setData({ notifications: list, loading: false });
+      // 同时加载客服电话
+      return api.getFaqList().then((r) => {
+        const p = r && r.data && r.data.phone;
+        if (p) this.setData({ phone: p });
+      }).catch(() => {});
     }).catch(() => {
       // 接口失败兜底缓存，loading 保持缓存时的状态
       this.setData({ notifications: cached, loading: false });
@@ -62,7 +68,7 @@ Page({
   },
 
   onContactService() {
-    wx.makePhoneCall({ phoneNumber: '4008886666', fail: () => { wx.showToast({ title: '拨打失败', icon: 'none' }); } });
+    wx.makePhoneCall({ phoneNumber: String(this.data.phone), fail: () => { wx.showToast({ title: '拨打失败', icon: 'none' }); } });
   },
 
   onBack() {
