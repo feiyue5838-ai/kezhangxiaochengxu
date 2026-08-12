@@ -24,9 +24,10 @@ Page({
       this.setData({ loading: false });
     });
     // 客服电话从系统配置读
-    api.getConfig('service_phone').then((phone) => {
-      // getConfig 返回字符串值或 null（后端按 key 返回单个 value）
-      if (phone && typeof phone === 'string') this.setData({ phone: phone });
+    api.getConfig('service_phone').then((res) => {
+      // 后端返回 {code:0, data:{key,value,...}}，需取 res.data.value
+      const phone = res && res.data && res.data.value;
+      if (phone && typeof phone === 'string') this.setData({ phone });
     }).catch(() => {});
   },
 
