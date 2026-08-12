@@ -5,6 +5,7 @@ Page({
     openIndex: -1,     // 当前展开的 FAQ 索引（flatFaqs 数组下标）
     categories: [],     // 分类网格 [{id, name, icon}]
     flatFaqs: [],       // 扁平化 FAQ 列表 [{id, categoryId, question, answer}]
+    selectedCatId: null, // 当前选中的分类ID，为null时显示全部
     phone: '4008886666',  // 客服电话（默认兜底）
     loading: true,
   },
@@ -50,6 +51,23 @@ Page({
     const cats = this.data.categories;
     const cat = cats.find(function(c) { return c.id === catId; });
     if (!cat) return;
+    // 点击已选中的分类，恢复显示全部问答
+    if (this.data.selectedCatId === catId) {
+      const flatFaqs = [];
+      (cats || []).forEach(function(c) {
+        (c.faqs || []).forEach(function(faq) {
+          flatFaqs.push({
+            id: faq.id,
+            categoryId: c.id,
+            question: faq.question,
+            answer: faq.answer,
+          });
+        });
+      });
+      this.setData({ flatFaqs: flatFaqs, selectedCatId: null, openIndex: -1 });
+      wx.showToast({ title: '已显示全部问答', icon: 'none' });
+      return;
+    }
     // 扁平化当前分类下的问答，显示在 FAQ 列表区域
     const catFaqs = (cat.faqs || []).map(function(faq, i) {
       return {
@@ -59,7 +77,7 @@ Page({
         answer: faq.answer,
       };
     });
-    this.setData({ flatFaqs: catFaqs, openIndex: -1 });
+    this.setData({ flatFaqs: catFaqs, selectedCatId: catId, openIndex: -1 });
     wx.showToast({
       title: '正在为您解答「' + (cat.name || '') + '」',
       icon: 'none',

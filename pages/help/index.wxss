@@ -91,6 +91,8 @@ page { background: #F8F7FC; }
   transition: all 0.2s;
 }
 .help-cat-item:active { transform: scale(0.96); opacity: 0.85; }
+.help-cat-item--active { background: #EEF2FF; border: 2rpx solid #7B5CFA; }
+.help-cat-item--active .help-cat-name { color: #7B5CFA; font-weight: 600; }
 
 .help-cat-icon { width: 64rpx; height: 64rpx; }
 .help-cat-name { font-size: 24rpx; color: #1A2332; text-align: center; font-weight: 500; }

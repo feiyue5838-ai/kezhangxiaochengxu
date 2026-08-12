@@ -3,15 +3,27 @@
   <view class="intro-header">
     <text class="intro-title">业务介绍</text>
   </view>
-  <view class="intro-images">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="intro-loading">
+    <text class="intro-loading-text">加载中...</text>
+  </view>
+
+  <!-- 图片列表 -->
+  <view wx:elif="{{imageList.length > 0}}" class="intro-images">
     <image
       wx:for="{{imageList}}"
-      wx:key="idx"
+      wx:key="index"
       class="intro-img"
       src="{{item}}"
       mode="widthFix"
       bindtap="onImagePreview"
       data-src="{{item}}"
     />
+  </view>
+
+  <!-- 空态 -->
+  <view wx:else class="intro-empty">
+    <text class="intro-empty-text">暂无业务介绍</text>
   </view>
 </view>

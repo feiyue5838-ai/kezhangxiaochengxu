@@ -42,7 +42,13 @@ if (API_BASE.indexOf('http://') === 0) {
 }
 
 // API_BASE 也在模块导出中，供组件拼接图片等静态资源使用
-
+// resolveImage: 把后端返回的相对图片路径（/uploads/...）拼成完整可访问 URL；
+// 已是 http(s) 外链则原样返回（如 https://img.shields.io 的测试 Banner）。
+function resolveImage(u) {
+  if (!u) return u;
+  if (/^https?:\/\//.test(u)) return u;
+  return API_BASE + u;
+}
 
 const request = (options) => {
 
@@ -862,10 +868,20 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
 
   /** API 基础地址（用于拼接图片等静态资源） */
   API_BASE: API_BASE,
+  /** 把后端相对图片路径拼成完整 URL（/uploads/... -> API_BASE+/uploads/...） */
+  resolveImage: resolveImage,
 
   // ==================== 帮助中心 ====================
 
   /** 帮助中心（GET /api/faqs，返回 {categories, phone}） */
   getFaqList: () => request({ url: '/api/faqs' }),
+
+  // ==================== 内容管理（小程序侧接入） ====================
+  /** 首页 Banner 轮播（GET /api/content/banners，status=1 生效） */
+  getBanners: () => request({ url: '/api/content/banners' }),
+  /** 平台公告列表（GET /api/content/announcements，status=1+未过期） */
+  getAnnouncements: () => request({ url: '/api/content/announcements' }),
+  /** 业务介绍列表（GET /api/content/intros，status=1；可传 type 过滤 personal/company/electronic，后端返回 type+all） */
+  getIntros: (type) => request({ url: '/api/content/intros' + (type ? ('?type=' + encodeURIComponent(type)) : '') }),
 
 };

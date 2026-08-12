@@ -7,8 +7,23 @@
   <!-- 滚动内容 -->
   <scroll-view scroll-y class="scroll">
 
-    <!-- Hero -->
-    <view class="hero">
+    <!-- Banner 轮播（后台配置，优先展示；单张时静态展示） -->
+    <view class="banner-wrap" wx:if="{{banners.length > 0}}">
+      <!-- 多张：轮播 -->
+      <swiper wx:if="{{banners.length > 1}}" class="banner-swiper" indicator-dots autoplay circular
+        indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" interval="10000">
+        <swiper-item wx:for="{{banners}}" wx:key="id">
+          <image class="banner-img" src="{{item.image}}" mode="aspectFit" bindtap="onBannerTap" data-link="{{item.link}}" />
+        </swiper-item>
+      </swiper>
+      <!-- 单张：静态图 -->
+      <view wx:else class="banner-static">
+        <image class="banner-img" src="{{banners[0].image}}" mode="aspectFit" bindtap="onBannerTap" data-link="{{banners[0].link}}" />
+      </view>
+    </view>
+
+    <!-- Hero（无 Banner 时展示默认引导语） -->
+    <view class="hero" wx:else>
       <view class="hero-deco"></view>
       <view class="hero-deco-2"></view>
       <text class="hero-title">企业服务 一站通达</text>

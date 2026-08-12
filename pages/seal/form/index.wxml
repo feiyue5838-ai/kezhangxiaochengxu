@@ -117,8 +117,8 @@
   <!-- 5. 反馈问答模块 -->
   <question-answer-module isPersonal="{{isPersonal}}" />
 
-  <!-- 6. 业务介绍图 -->
-  <business-introduce-card isPersonal="{{isPersonal}}" />
+  <!-- 6. 业务介绍图（三种印章类型通用，问答模块下方） -->
+  <business-introduce-card isPersonal="{{isPersonal}}" isElectronic="{{isElectronic}}" />
 
   <!-- 7. 底部提交按钮（电子印章/个人印章不需要，点击卡片直接下一步） -->
   <form-submit-btn wx:if="{{!isElectronic && !isPersonal}}" enabled="{{formValid}}" bind:submit="onSubmit" />

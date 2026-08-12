@@ -8,7 +8,7 @@
     <view class="help-hotline">
       <view class="hotline-left">
         <text class="hotline-label">7×24 小时客服热线</text>
-        <text class="hotline-number">400-888-6666</text>
+        <text class="hotline-number">{{phone}}</text>
       </view>
       <view class="hotline-btn" bindtap="onCallService">
         <image src="/assets/icons/icon-phone-circle.svg" mode="aspectFit" />
@@ -20,7 +20,7 @@
     <view class="help-cats">
       <view class="help-cat-title">常见问题分类</view>
       <view class="help-cat-grid">
-        <view class="help-cat-item" wx:for="{{categories}}" wx:key="id" bindtap="onCatTap" data-id="{{item.id}}">
+        <view class="help-cat-item {{selectedCatId === item.id ? 'help-cat-item--active' : ''}}" wx:for="{{categories}}" wx:key="id" bindtap="onCatTap" data-id="{{item.id}}">
           <image class="help-cat-icon" src="{{item.icon}}" mode="aspectFit" />
           <text class="help-cat-name">{{item.name}}</text>
         </view>

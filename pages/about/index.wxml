@@ -15,35 +15,30 @@
 
     <!-- 介绍卡片 -->
     <view class="info-card">
+      <!-- 业务介绍图片（后台配置） -->
+      <image wx:if="{{intro.image}}" class="intro-image" src="{{intro.image}}" mode="widthFix" />
       <view class="info-desc">
-        蓉城企服是成都本土企业服务一站式平台，致力于为广大企业主及个人用户提供便捷、高效、专业的证件办理、印章刻制、公告刊登等服务。
-      </view>
-
-      <view class="feature-grid">
-        <view class="feature-item" wx:for="{{features}}" wx:key="id">
-          <image class="feature-icon" src="{{item.icon}}" mode="aspectFit" />
-          <text class="feature-text">{{item.name}}</text>
-        </view>
+        {{intro.title || '蓉城企服是成都本土企业服务一站式平台，致力于为广大企业主及个人用户提供便捷、高效、专业的证件办理、印章刻制、公告刊登等服务。'}}
       </view>
 
       <view class="divider"></view>
 
       <!-- 联系方式 -->
       <view class="contact-list">
-        <view class="contact-item">
+        <view class="contact-item" bindtap="onCallService">
           <image class="contact-icon" src="/assets/icons/icon-phone-circle.svg" mode="aspectFit" />
           <text class="contact-label">客服热线</text>
-          <text class="contact-value">400-888-6666</text>
+          <text class="contact-value">{{phone}}</text>
         </view>
         <view class="contact-item" bindtap="onCopyWechat">
           <image class="contact-icon" src="/assets/icons/icon-chat.svg" mode="aspectFit" />
           <text class="contact-label">微信公众号</text>
           <text class="contact-value">蓉城企服</text>
         </view>
-        <view class="contact-item">
+        <view class="contact-item" wx:if="{{intro.subtitle}}">
           <image class="contact-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
           <text class="contact-label">公司地址</text>
-          <text class="contact-value">四川省成都市高新区天府大道中段XXX号</text>
+          <text class="contact-value">{{intro.subtitle}}</text>
         </view>
         <view class="contact-item">
           <image class="contact-icon" src="/assets/icons/icon-bell.svg" mode="aspectFit" />
