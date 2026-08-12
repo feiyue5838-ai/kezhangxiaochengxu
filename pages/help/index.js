@@ -15,7 +15,8 @@ Page({
 
   loadFaqs() {
     api.getFaqList().then((res) => {
-      const { categories = [], phone = '4008886666' } = res.data || {};
+      // request.js resolve(res.data)，后端直接返回 { categories, phone }
+      const { categories = [], phone = '4008886666' } = res || {};
       // 扁平化所有分类下的问答，保留 categoryId 以便分类过滤
       const flatFaqs = [];
       (categories || []).forEach(function(cat) {

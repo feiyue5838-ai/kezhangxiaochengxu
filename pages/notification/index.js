@@ -48,7 +48,8 @@ Page({
       this.setData({ notifications: list, loading: false });
       // 同时加载客服电话
       return api.getFaqList().then((r) => {
-        const p = r && r.data && r.data.phone;
+        // request.js resolve(res.data)，后端直接返回 { categories, phone }
+        const p = r && r.phone;
         if (p) this.setData({ phone: p });
       }).catch(() => {});
     }).catch(() => {
