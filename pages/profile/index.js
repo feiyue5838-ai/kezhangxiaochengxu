@@ -1,5 +1,6 @@
 const common = require('../../utils/common.js');
 const api = require('../../utils/api.js');
+const auth = require('../../utils/auth.js');
 
 Page({
   data: {
@@ -59,7 +60,8 @@ Page({
       'orderTypes[2].count': counts[2],
       'orderTypes[3].count': counts[3]
     });
-    // 补充代理记账订单统计（后端）
+    // 补充代理记账订单统计（后端）—— 未登录不拉取，避免触发全局 401 跳转
+    if (!auth.isLogin()) return;
     api.getBookkeepingOrderList({ pageSize: 200 }).then(res => {
       const list = (res && res.list) || [];
       const c = [0, 0, 0, 0];

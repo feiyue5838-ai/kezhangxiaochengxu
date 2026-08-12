@@ -15,8 +15,14 @@
     </view>
   </view>
 
+  <!-- 未登录引导 -->
+  <view class="empty-wrap" wx:if="{{needLogin}}">
+    <text class="empty-text">请先登录后查看订单</text>
+    <view class="empty-btn" bindtap="goLogin">去登录</view>
+  </view>
+
   <!-- 订单列表 -->
-  <view class="order-list" wx:if="{{list.length > 0}}">
+  <view class="order-list" wx:elif="{{list.length > 0}}">
     <view
       class="order-card"
       wx:for="{{list}}"

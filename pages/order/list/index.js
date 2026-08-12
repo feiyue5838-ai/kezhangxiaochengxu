@@ -1,5 +1,6 @@
 const common = require('../../../utils/common.js');
 const api = require('../../../utils/api.js');
+const auth = require('../../../utils/auth.js');
 
 // 刻章订单数字 status → 字符串 status（用于 Tab 过滤，与 localStorage 格式对齐）
 const sealStatusMap = {
@@ -78,7 +79,8 @@ Page({
     currentTab: 0,
     list: [],      // 当前显示的列表
     allList: [],   // 全部订单
-    loading: true
+    loading: true,
+    needLogin: false  // 未登录时显示登录引导
   },
 
   onLoad: function (options) {
@@ -99,6 +101,10 @@ Page({
     this.loadOrders();
   },
 
+  goLogin: function () {
+    wx.navigateTo({ url: '/pages/auth/index' });
+  },
+
   // 切换 Tab
   switchTab: function (e) {
     const idx = e.currentTarget.dataset.idx;
@@ -110,7 +116,13 @@ Page({
   loadOrders: async function () {
     if (this._loadingOrders) return;
     this._loadingOrders = true;
-    this.setData({ loading: true });
+    // 登录态检查：未登录不调用需鉴权的订单接口，避免触发全局 401 跳转
+    if (!auth.isLogin()) {
+      this.setData({ loading: false, needLogin: true, allList: [], list: [] });
+      this._loadingOrders = false;
+      return;
+    }
+    this.setData({ loading: true, needLogin: false });
     const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
     const localSealOrders = wx.getStorageSync('seal_orders') || [];
     let all = [];
