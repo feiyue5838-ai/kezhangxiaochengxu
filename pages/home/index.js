@@ -1,4 +1,5 @@
 // pages/home/index.js
+const api = require('../../utils/api.js');
 const common = require('../../utils/common.js');
 
 // 状态映射
@@ -24,7 +25,8 @@ Page({
     ],
     orders: [],
     loading: true,
-    showPrivacyPopup: false
+    showPrivacyPopup: false,
+    banners: [],   // Banner 轮播数据（后台配置）
   },
 
   onLoad() {
@@ -38,6 +40,26 @@ Page({
           }
         }
       });
+    }
+    // 加载 Banner
+    this.loadBanners();
+  },
+
+  loadBanners() {
+    api.getBanners().then((res) => {
+      const list = Array.isArray(res) ? res : (res.list || []);
+      this.setData({ banners: list.filter(b => b.status === 1 && b.image).map(b => ({ ...b, image: api.resolveImage(b.image) })) });
+    }).catch(() => {});
+  },
+
+  onBannerTap(e) {
+    const link = e.currentTarget.dataset.link;
+    if (!link) return;
+    // 支持跳转小程序页面或外链 webview
+    if (link.startsWith('/')) {
+      wx.switchTab({ url: link }).catch(() => wx.navigateTo({ url: link }));
+    } else if (link.startsWith('http')) {
+      wx.navigateTo({ url: '/pages/webview/index?url=' + encodeURIComponent(link) });
     }
   },
 

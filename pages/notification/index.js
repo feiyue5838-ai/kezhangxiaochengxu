@@ -1,9 +1,10 @@
-const common = require('../../utils/common.js');
+const api = require('../../utils/api.js');
 
 Page({
   data: {
     notifications: [],
     currentDate: '',
+    loading: true,
   },
 
   onLoad() {
@@ -17,16 +18,37 @@ Page({
   },
 
   loadNotifications() {
-    const raw = wx.getStorageSync('notifications') || [];
-    // 演示数据（有真实数据时用真实数据）
-    const demos = [
-      { id: 'n1', title: '您的印章订单已发货', content: '您的电子印章订单（订单号：SEAL20260617001）已完成制作，预计1-2个工作日内送达。', time: '10:23', unread: true },
-      { id: 'n2', title: '登报申请已受理', content: '您的身份证挂失登报申请已受理，预计明日见报。如有疑问请联系客服。', time: '昨天', unread: true },
-      { id: 'n3', title: '实名认证审核通过', content: '恭喜！您的实名认证申请已审核通过。', time: '06-15 14:30', unread: false },
-      { id: 'n4', title: '系统升级通知', content: '蓉城企服小程序已更新至 v1.0.0，新增多项服务功能，体验更流畅。', time: '06-10 09:00', unread: false },
-    ];
-    const list = raw.length > 0 ? raw : demos;
-    this.setData({ notifications: list });
+    // 优先读本地缓存（先展示避免白屏）
+    const cached = wx.getStorageSync('notifications') || [];
+    if (cached.length > 0) {
+      this.setData({ notifications: cached });
+    }
+    // 从后端拉取最新公告
+    api.getAnnouncements().then((res) => {
+      const now = Date.now();
+      const raw = Array.isArray(res) ? res : (res.list || []);
+      const list = raw.map((item) => {
+        const publishedAt = item.publishedAt ? new Date(item.publishedAt).getTime() : 0;
+        const expiredAt = item.expiredAt ? new Date(item.expiredAt).getTime() : Infinity;
+        if (item.status !== 1 || now < publishedAt || now > expiredAt) return null;
+        const d = new Date(item.publishedAt);
+        const today = new Date();
+        const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1);
+        const isToday = d.toDateString() === today.toDateString();
+        const isYesterday = d.toDateString() === yesterday.toDateString();
+        let timeStr;
+        if (isToday) timeStr = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+        else if (isYesterday) timeStr = '昨天';
+        else timeStr = `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        return { id: item.id, title: item.title, content: item.content, time: timeStr, unread: false };
+      }).filter(Boolean);
+      // 更新缓存
+      wx.setStorageSync('notifications', list);
+      this.setData({ notifications: list, loading: false });
+    }).catch(() => {
+      // 接口失败兜底缓存，loading 保持缓存时的状态
+      this.setData({ notifications: cached, loading: false });
+    });
   },
 
   onNotifTap(e) {
