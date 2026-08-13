@@ -10,6 +10,7 @@ Page({
     serviceTime: '',
     address: '',
     copyright: '',
+    companyName: '成都蓉城信息服务有限公司',
     intro: null,
     loading: true,
   },
@@ -34,6 +35,7 @@ Page({
           serviceTime: about.serviceTime || '',
           address: about.address || '',
           copyright: about.copyright || '',
+          companyName: about.companyName || this.data.companyName,
           intro,
           loading: false,
         });
