@@ -47,7 +47,6 @@ page {
   height: 34rpx;
   margin-right: 16rpx;
   flex-shrink: 0;
-  transform: scaleX(-1);
 }
 
 .announce-viewport {
