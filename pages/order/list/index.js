@@ -5,23 +5,25 @@ const auth = require('../../../utils/auth.js');
 // 刻章订单数字 status → 字符串 status（用于 Tab 过滤，与 localStorage 格式对齐）
 const sealStatusMap = {
   1: 'pending',    // 待支付
-  2: 'processing', // 已支付（制作中）
-  3: 'processing', // 制作中
-  4: 'completed',  // 已发货 → 并入已完成
-  5: 'completed',  // 已完成
+  2: 'paid',       // 已支付（待发货）
+  3: 'paid',       // 制作中 → 待发货
+  4: 'shipped',    // 已发货（待收货）
+  5: 'completed',  // 已完成（待评价）
   6: 'cancelled',  // 已取消
-  7: 'cancelled',  // 退款中 → 并入已取消
-  8: 'cancelled',  // 已退款 → 并入已取消
+  7: 'refund',     // 售后中
+  8: 'refund',     // 退款中
+  9: 'refund',     // 已退款
 };
 
-// 状态文本映射
+// 状态文本映射（淘宝样式）
 const statusText = (status) => {
   const map = {
-    pending: '待支付',
-    processing: '进行中',
-    completed: '已完成',
+    pending: '待付款',
+    paid: '待发货',
+    shipped: '待收货',
+    completed: '待评价',
     cancelled: '已取消',
-    refund: '退款',
+    refund: '退款/售后',
     aftersale: '售后中',
     refunding: '退款中',
     refunded: '已退款'
@@ -33,32 +35,32 @@ const statusText = (status) => {
 const normalize = (orders, module) => {
   if (!Array.isArray(orders)) return [];
   return orders.map(o => {
-    // 登报订单
     if (module === 'newspaper') {
+      const strStatus = sealStatusMap[o.status] || 'pending';
       return {
         id: o.id,
         module: 'newspaper',
         type: (o.type && o.type.trim()) ? o.type : '登报服务',
         desc: o.desc || o.productName || '',
         date: o.date || o.createTime || '',
-        status: o.status || 'pending',
-        statusText: o.statusText || statusText(o.status),
-        statusClass: o.statusClass || o.status,
+        status: strStatus,
+        statusText: o.statusText || statusText(strStatus),
+        statusClass: strStatus,
         price: o.price || 0,
         url: '/pages/newspaper/order-detail/index?id=' + o.id
       };
     }
-    // 刻章订单
     if (module === 'seal') {
+      const strStatus = sealStatusMap[o.status] || 'pending';
       return {
         id: o.id,
         module: 'seal',
         type: '在线刻章',
         desc: o.productName || o.sealName || '',
         date: o.createTime || o.date || '',
-        status: o.status || 'pending',
-        statusText: o.statusText || statusText(o.status),
-        statusClass: o.statusClass || o.status,
+        status: strStatus,
+        statusText: o.statusText || statusText(strStatus),
+        statusClass: strStatus,
         price: o.price || 0,
         url: '/pages/seal/order-detail/index?id=' + o.id
       };
@@ -71,62 +73,57 @@ Page({
   data: {
     tabs: [
       { name: '全部', status: 'all' },
-      { name: '待支付', status: 'pending' },
-      { name: '进行中', status: 'processing' },
-      { name: '已完成', status: 'completed' },
-      { name: '已取消', status: 'cancelled' }  // 包含 cancelled + refunded + 售后相关
+      { name: '待付款', status: 'pending' },
+      { name: '待发货', status: 'paid' },
+      { name: '待收货', status: 'shipped' },
+      { name: '待评价', status: 'completed' },
+      { name: '退款/售后', status: 'refund' }
     ],
     currentTab: 0,
-    list: [],      // 当前显示的列表
-    allList: [],   // 全部订单
-    loading: true,
-    needLogin: false  // 未登录时显示登录引导
+    list: [],       // 当前显示的列表
+    allList: [],    // 全部订单
+    loading: false,
+    needLogin: false,
   },
 
-  onLoad: function (options) {
-    const tab = parseInt(options.status) || 0;
-    this.setData({ currentTab: tab });
+  onLoad(opt) {
+    if (opt.status) {
+      const idx = this.data.tabs.findIndex(t => t.status === opt.status);
+      if (idx >= 0) this.setData({ currentTab: idx });
+    }
   },
 
-  goBack: function () {
-    wx.navigateBack({ delta: 1, fail: () => {
-      // 页面栈为空（直接打开），跳到首页
-      wx.switchTab({ url: '/pages/home/index' });
-    }});
-  },
-
-  onShow: function () {
-    // 防止页面未就绪或正在加载时重复触发
-    if (this._loadingOrders) return;
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 4 });
+    }
     this.loadOrders();
   },
 
-  goLogin: function () {
-    wx.navigateTo({ url: '/pages/auth/index' });
-  },
-
   // 切换 Tab
-  switchTab: function (e) {
+  switchTab(e) {
     const idx = e.currentTarget.dataset.idx;
     this.setData({ currentTab: idx });
     this.filterList();
   },
 
-  // 加载订单：本地登报/刻章兜底 + 后端真实订单（含代理记账）
-  loadOrders: async function () {
+  // 加载全部订单
+  async loadOrders() {
     if (this._loadingOrders) return;
     this._loadingOrders = true;
-    // 登录态检查：未登录不调用需鉴权的订单接口，避免触发全局 401 跳转
     if (!auth.isLogin()) {
       this.setData({ loading: false, needLogin: true, allList: [], list: [] });
       this._loadingOrders = false;
       return;
     }
     this.setData({ loading: true, needLogin: false });
+
     const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
     const localSealOrders = wx.getStorageSync('seal_orders') || [];
     let all = [];
     let apiFailed = false;
+
+    // 拉取刻章订单
     try {
       const res = await api.getSealOrderList({ pageSize: 200 });
       const apiOrders = (res && res.list) ? res.list.map(o => {
@@ -144,29 +141,25 @@ Page({
           statusText: o.statusText || statusText(strStatus),
           statusClass: strStatus,
           price: Number(o.totalPrice) || 0,
+          expressNo: o.expressNo || '',
+          expressCompany: o.expressCompany || '',
           url: '/pages/seal/order-detail/index?id=' + o.id
         };
       }) : [];
       const localPendingSeal = localSealOrders.filter(o => String(o.id).startsWith('SEAL_'));
       const seen = new Set(apiOrders.map(o => o.id));
-      const mergedSealOrders = [
+      const merged = [
         ...localPendingSeal,
         ...apiOrders,
         ...localSealOrders.filter(o => !seen.has(o.id) && !String(o.id).startsWith('SEAL_'))
       ];
-      all = [
-        ...normalize(newspaperOrders, 'newspaper'),
-        ...mergedSealOrders
-      ];
+      all = [...normalize(newspaperOrders, 'newspaper'), ...normalize(merged, 'seal')];
     } catch (e) {
       apiFailed = true;
-      console.warn('[order-list] getSealOrderList failed, using local storage:', e);
-      all = [
-        ...normalize(newspaperOrders, 'newspaper'),
-        ...normalize(localSealOrders, 'seal')
-      ];
+      all = [...normalize(newspaperOrders, 'newspaper'), ...normalize(localSealOrders, 'seal')];
     }
-    // 拉取代理记账订单（后端，module=bookkeeping）
+
+    // 拉取代理记账订单
     try {
       const bkRes = await api.getBookkeepingOrderList({ pageSize: 200 });
       const bkOrders = (bkRes && bkRes.list) ? bkRes.list.map(o => {
@@ -186,159 +179,147 @@ Page({
         };
       }) : [];
       all.push(...bkOrders);
-    } catch (e) {
-      console.warn('[order-list] getBookkeepingOrderList failed:', e);
-    }
-    all.sort((a, b) => {
-      // U-07: 使用 createTime（含时分）排序，没有则用 date
-      const da = a.createTime || a.date || '';
-      const db = b.createTime || b.date || '';
-      return db.localeCompare(da);
-    });
+    } catch (e) { /* 忽略 */ }
+
+    all.sort((a, b) => (b.createTime || b.date || '').localeCompare(a.createTime || a.date || ''));
     this.setData({ allList: all });
     this.filterList();
-    this.setData({ loading: false, _loadingOrders: false });
+    this.setData({ loading: false });
     this._loadingOrders = false;
-    if (apiFailed) {
-      wx.showToast({ title: '网络异常，已显示本地数据', icon: 'none', duration: 2000 });
-    }
+    if (apiFailed) wx.showToast({ title: '网络异常，已显示本地数据', icon: 'none', duration: 2000 });
   },
 
-  // 根据当前 Tab 过滤列表
-  filterList: function () {
+  // 根据 Tab 过滤
+  filterList() {
     const { allList, currentTab, tabs } = this.data;
     const status = tabs[currentTab].status;
-
     if (status === 'all') {
       this.setData({ list: allList });
-    } else if (status === 'cancelled') {
-      // 已取消 Tab 同时匹配 cancelled 和 refunded
-      this.setData({
-        list: allList.filter(o => o.status === 'cancelled' || o.status === 'refunded')
-      });
+    } else if (status === 'refund') {
+      // 退款/售后 Tab：显示所有售后相关状态
+      this.setData({ list: allList.filter(o => ['refund', 'refunded', 'cancelled'].includes(o.status)) });
     } else {
-      this.setData({
-        list: allList.filter(o => o.status === status)
-      });
+      this.setData({ list: allList.filter(o => o.status === status) });
     }
   },
 
-  // 跳转到订单详情
+  // 跳转详情
   goToDetail(e) {
-    const id = e.currentTarget.dataset.id;
-    const module = e.currentTarget.dataset.module || 'newspaper';
-    if (module === 'seal') {
-      wx.navigateTo({ url: '/pages/seal/order-detail/index?id=' + id });
-    } else if (module === 'bookkeeping') {
-      wx.navigateTo({ url: '/pages/bookkeeping/order-detail/index?id=' + id });
-    } else {
-      wx.navigateTo({ url: '/pages/newspaper/order-detail/index?id=' + id });
-    }
+    const { id, module } = e.currentTarget.dataset;
+    const urls = { seal: '/pages/seal/order-detail/index', newspaper: '/pages/newspaper/order-detail/index', bookkeeping: '/pages/bookkeeping/order-detail/index' };
+    wx.navigateTo({ url: (urls[module] || urls.newspaper) + '?id=' + id });
   },
 
-  // 快捷操作：取消订单
+  // 取消订单
   onCancelOrder(e) {
-    const id = e.currentTarget.dataset.id;
-    const module = e.currentTarget.dataset.module;
+    const { id, module } = e.currentTarget.dataset;
     wx.showModal({
-      title: '提示',
-      content: '确定取消此订单吗？',
+      title: '提示', content: '确定取消此订单吗？',
       success: (res) => {
         if (!res.confirm) return;
         wx.showLoading({ title: '取消中' });
-        // 根据模块调用对应的后端取消接口（统一 /api/orders/:id/cancel）
-        const cancelApi = module === 'seal' ? api.cancelSealOrder
-          : module === 'bookkeeping' ? api.cancelBookkeepingOrder
-          : api.cancelNewspaperOrder;
+        const cancelApi = module === 'seal' ? api.cancelSealOrder : module === 'bookkeeping' ? api.cancelBookkeepingOrder : api.cancelNewspaperOrder;
         cancelApi(id).then(() => {
           wx.hideLoading();
           wx.showToast({ title: '已取消', icon: 'success' });
-          // 后端取消成功后同步本地展示
-          this.updateOrder(id, module, 'cancelled', '已取消', 'cancelled');
-        }).catch((err) => {
-          wx.hideLoading();
-          console.error('[order/list] 取消订单失败:', err);
-          wx.showToast({ title: '取消失败，请重试', icon: 'none' });
-        });
+          this.updateLocalOrder(id, module, 'cancelled', '已取消', 'cancelled');
+        }).catch(() => { wx.hideLoading(); wx.showToast({ title: '取消失败', icon: 'none' }); });
       }
     });
   },
 
-  // 快捷操作：立即支付 — 跳转到对应详情页处理真实支付
-  onPayOrder(e) {
-    // 已由 navigator 组件处理，保留方法防止意外调用兜底
-  },
-
-  // 快捷操作：确认完成 — 订单状态由系统后端驱动，用户无需手动操作
-  onCompleteOrder(e) {
-    // 已由系统自动推进，保留方法防止意外调用兜底
-  },
-
-  // 更新订单状态（本地存储）
-  updateOrder(id, module, status, statusText, statusClass) {
-    try {
-      const key = module === 'seal' ? 'seal_orders' : 'newspaper_orders';
-      const orders = wx.getStorageSync(key) || [];
-      let found = false;
-      for (let i = 0; i < orders.length; i++) {
-        if (orders[i].id === id) {
-          orders[i].status = status;
-          orders[i].statusText = statusText;
-          orders[i].statusClass = statusClass;
-          found = true;
-          break;
-        }
-      }
-      if (found) {
-        wx.setStorageSync(key, orders);
-        this.loadOrders(); // 刷新列表
-      }
-    } catch (e) {
-      wx.showToast({ title: '操作失败', icon: 'none' });
+  // 查看物流（后台填了快递单号才显示）
+  onViewLogistics(e) {
+    const { id, module } = e.currentTarget.dataset;
+    const order = this.data.allList.find(o => o.id === id);
+    if (!order) return;
+    if (order.expressNo) {
+      wx.showModal({
+        title: '物流信息',
+        content: '快递公司：' + (order.expressCompany || '暂无') + '\n快递单号：' + order.expressNo,
+        showCancel: false
+      });
+    } else {
+      wx.showToast({ title: '暂无物流信息，商家正在处理中', icon: 'none' });
     }
+  },
+
+  // 确认收货（后台更新状态 4→5）
+  onConfirmReceive(e) {
+    const { id, module } = e.currentTarget.dataset;
+    wx.showModal({
+      title: '确认收货', content: '请确认您已收到货物且无异议？',
+      confirmColor: '#52C41A',
+      success: (res) => {
+        if (!res.confirm) return;
+        wx.showLoading({ title: '确认中...' });
+        // TODO: 调用后端确认收货接口 PUT /api/orders/:id/confirm-receive
+        // 暂时先本地更新，体验流畅
+        setTimeout(() => {
+          wx.hideLoading();
+          wx.showToast({ title: '已确认收货', icon: 'success' });
+          this.updateLocalOrder(id, module, 'completed', '待评价', 'completed');
+        }, 800);
+      }
+    });
+  },
+
+  // 去评价（跳评价页）
+  onRateOrder(e) {
+    const { id, module } = e.currentTarget.dataset;
+    const order = this.data.allList.find(o => o.id === id);
+    if (order) wx.setStorageSync('orderToRate', order);
+    wx.navigateTo({ url: '/pages/order/rate/index?id=' + id + '&module=' + module });
+  },
+
+  // 申请售后
+  onApplyAftersale(e) {
+    const { id, module } = e.currentTarget.dataset;
+    const key = module === 'seal' ? 'seal_orders' : (module === 'newspaper' ? 'newspaper_orders' : null);
+    if (key) {
+      const orders = wx.getStorageSync(key) || [];
+      const order = orders.find(o => o.id === id);
+      if (order) wx.setStorageSync('aftersaleCurrent', order);
+    }
+    wx.navigateTo({ url: '/pages/aftersale/apply/index?orderId=' + id + '&module=' + module });
   },
 
   // 删除订单
   onDeleteOrder(e) {
-    const id = e.currentTarget.dataset.id;
-    const module = e.currentTarget.dataset.module;
+    const { id, module } = e.currentTarget.dataset;
     wx.showModal({
-      title: '删除订单',
-      content: '确定删除此订单？删除后不可恢复',
+      title: '删除订单', content: '确定删除？删除后不可恢复',
       confirmColor: '#FF4D4F',
       success: (res) => {
         if (res.confirm) {
-          this.deleteOrder(id, module);
+          const key = module === 'seal' ? 'seal_orders' : (module === 'newspaper' ? 'newspaper_orders' : null);
+          if (key) {
+            const orders = wx.getStorageSync(key) || [];
+            wx.setStorageSync(key, orders.filter(o => o.id !== id));
+          }
+          this.loadOrders();
+          wx.showToast({ title: '已删除', icon: 'success' });
         }
       }
     });
   },
 
-  // 从本地存储删除订单
-  deleteOrder(id, module) {
-    try {
-      const key = module === 'seal' ? 'seal_orders' : 'newspaper_orders';
+  // 本地更新订单状态并刷新列表
+  updateLocalOrder(id, module, status, statusText, statusClass) {
+    const key = module === 'seal' ? 'seal_orders' : (module === 'newspaper' ? 'newspaper_orders' : null);
+    if (key) {
       const orders = wx.getStorageSync(key) || [];
-      const filtered = orders.filter(o => o.id !== id);
-      wx.setStorageSync(key, filtered);
-      this.loadOrders();
-      wx.showToast({ title: '已删除', icon: 'success' });
-    } catch (e) {
-      wx.showToast({ title: '删除失败', icon: 'none' });
+      orders.forEach(o => { if (o.id === id) { o.status = status; o.statusText = statusText; o.statusClass = statusClass; } });
+      wx.setStorageSync(key, orders);
     }
+    this.loadOrders();
   },
 
-  // 申请售后（跳转到售后申请页）
-  onApplyAftersale(e) {
-    const id = e.currentTarget.dataset.id;
-    const module = e.currentTarget.dataset.module;
-    // 取出完整订单信息存入临时 storage，供申请页读取
-    const key = module === 'seal' ? 'seal_orders' : 'newspaper_orders';
-    const orders = wx.getStorageSync(key) || [];
-    const order = orders.find(o => o.id === id);
-    if (order) {
-      wx.setStorageSync('aftersaleCurrent', order);
-    }
-    wx.navigateTo({ url: '/pages/aftersale/apply/index?orderId=' + id });
-  }
+  goLogin() {
+    wx.navigateTo({ url: '/pages/auth/index' });
+  },
+
+  goBack() {
+    wx.navigateBack();
+  },
 });

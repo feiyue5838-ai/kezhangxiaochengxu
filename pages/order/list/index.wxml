@@ -52,18 +52,24 @@
           <navigator class="action-btn primary" url="/pages/newspaper/order-detail/index?id={{item.id}}" wx:elif="{{item.module === 'newspaper'}}">立即支付</navigator>
           <navigator class="action-btn primary" url="/pages/bookkeeping/order-detail/index?id={{item.id}}" wx:elif="{{item.module === 'bookkeeping'}}">立即支付</navigator>
         </block>
-        <!-- 进行中：订单由系统自动推进 -->
-        <block wx:elif="{{item.status === 'processing'}}">
-          <!-- 无需用户操作 -->
+        <!-- 待发货：查看物流入口（后台填单号后显示）-->
+        <block wx:elif="{{item.status === 'paid'}}">
+          <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onViewLogistics">查看物流</view>
         </block>
-        <!-- 已完成：删除 + 申请售后 -->
+        <!-- 待收货：确认收货 -->
+        <block wx:elif="{{item.status === 'shipped'}}">
+          <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
+          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onConfirmReceive">确认收货</view>
+        </block>
+        <!-- 待评价：去评价 + 申请售后 -->
         <block wx:elif="{{item.status === 'completed'}}">
           <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
-          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除订单</view>
+          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onRateOrder">去评价</view>
+          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
-        <!-- 已取消/退款：删除 -->
-        <block wx:elif="{{item.status === 'cancelled' || item.status === 'refunded'}}">
-          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除订单</view>
+        <!-- 退款/售后/已取消：删除 -->
+        <block wx:elif="{{item.status === 'cancelled' || item.status === 'refund' || item.status === 'refunded'}}">
+          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
       </view>
     </view>
