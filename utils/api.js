@@ -13,12 +13,16 @@
 //    开发管理 → 服务器域名 中把 request / uploadFile / downloadFile 都加上该域名
 const API_BASE_DEV = 'http://192.168.31.218:3001'; // 真机预览/开发版走局域网IP（后端 PM2 监听 0.0.0.0:3001；2026-08-08 由临时端口 3002 改回 3001）
 // ============================================================================
-// ===== TODO 替换为已备案 HTTPS 域名后再发布正式版 =====
-// 格式示例：'https://api.rongcheng.com'
-// 必须与微信公众平台「开发管理 → 服务器域名 → request / uploadFile / downloadFile」登记的域名完全一致
+// ===== 正式版 API 域名（release 模式专用）=====
+// 当前为占位域名，发版前必须确认：
+//   1) 你已真实拥有并解析该域名（DNS A 记录指向部署服务器公网 IP）
+//   2) 已配置 HTTPS 证书（微信要求 request/uploadFile/downloadFile 必须为 https）
+//   3) 在微信公众平台「开发管理 → 服务器域名 → request / uploadFile / downloadFile」登记该域名
+// 后端当前仅监听 http://192.168.31.218:3001（局域网 HTTP，无 HTTPS），
+// 生产环境需在前端域名处加一层 HTTPS 反代（nginx/caddy）转发到后端 3001。
+// 如域名不同，只改下面这一行即可。
 // ============================================================================
-// ⚠️ 【发版必填】填入已备案 HTTPS 域名，留空则 release 模式所有接口直接报错
-const API_BASE_PROD = ''; // 格式：'https://api.rongcheng.com'
+const API_BASE_PROD = 'https://api.rongcheng.com'; // 占位域名，发版前替换为真实已备案 HTTPS 域名
 
 
 let API_BASE;
@@ -31,7 +35,7 @@ const _isRelease = (envVersion === 'release');
 if (_isRelease && !API_BASE_PROD) {
   console.error('[API] ⚠️ API_BASE_PROD 为空！release 模式接口全部失效，请在 utils/api.js 中填入已备案 HTTPS 域名');
 }
-API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : (API_BASE_PROD || API_BASE_DEV);
+API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
 } catch (e) {
   API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
 }
