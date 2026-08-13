@@ -76,12 +76,13 @@ Page({
     this.setData({ submitting: true });
 
     try {
-      await api.submitReview({
-        orderId: orderId,
-        module: 'seal',
-        serviceScore: serviceScore,
-        qualityScore: qualityScore,
-        content: trimmed
+      // 新接口：rating 取两个维度平均值，tags 固定 ['刻章']
+      const rating = Math.round((serviceScore + qualityScore) / 2);
+      await api.submitReview(orderId, {
+        rating: rating,
+        tags: ['刻章'],
+        content: trimmed,
+        images: [],
       });
 
       wx.showToast({ title: '评价提交成功！', icon: 'success' });

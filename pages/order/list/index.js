@@ -256,12 +256,16 @@ Page({
     });
   },
 
-  // 去评价（跳评价页）
+  // 去评价（按模块跳转）
   onRateOrder(e) {
     const { id, module } = e.currentTarget.dataset;
     const order = this.data.allList.find(o => o.id === id);
     if (order) wx.setStorageSync('orderToRate', order);
-    wx.navigateTo({ url: '/pages/order/rate/index?id=' + id + '&module=' + module });
+    if (module === 'seal') {
+      wx.navigateTo({ url: '/pages/seal/review-submit/index?orderId=' + id });
+    } else {
+      wx.navigateTo({ url: '/pages/order/rate/index?id=' + id + '&module=' + module });
+    }
   },
 
   // 申请售后

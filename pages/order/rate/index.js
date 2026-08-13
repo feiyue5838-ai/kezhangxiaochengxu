@@ -35,7 +35,7 @@ Page({
   },
 
   fetchOrder(id) {
-    api.getOrderDetail(id).then(res => {
+    api.getSealOrderDetail(id).then(res => {
       const d = res.data || res;
       this.setData({ order: d });
     }).catch(() => {

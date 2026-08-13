@@ -838,8 +838,7 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   // ==================== 评价（小程序端） ====================
   /** 已审核通过的评价列表 */
   reviewList: (params) => request({ url: '/api/reviews/list', data: params }),
-  /** 提交评价（需登录） */
-  submitReview: (data) => request({ url: '/api/reviews', method: 'POST', data }),
+
   /** 我的评价列表（需登录） */
   myReviews: (params) => request({ url: '/api/reviews/my', data: params }),
 
