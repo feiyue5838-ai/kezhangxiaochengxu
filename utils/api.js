@@ -891,5 +891,12 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   getAbout: () => request({ url: '/api/content/about' }),
   /** 协议内容：type = terms | privacy（GET /api/content/agreement/:type） */
   getAgreement: (type) => request({ url: '/api/content/agreement/' + encodeURIComponent(type) }),
+  // ==================== After-Sales ====================
+  /** User after-sales list (GET /api/after-sales/user) */
+  getUserAfterSales: (params) => request({ url: '/api/after-sales/user', data: params }),
+  /** User after-sales detail (GET /api/after-sales/user/:id) */
+  getAfterSalesDetail: (id) => request({ url: '/api/after-sales/user/' + id }),
+  /** Apply after-sales (POST /api/orders/:id/refund-request) */
+  refundRequest: (orderId, reason) => request({ url: '/api/orders/' + orderId + '/refund-request', method: 'POST', data: { reason } }),
 
 };

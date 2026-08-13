@@ -1,22 +1,11 @@
-const common = require('../../../utils/common.js');
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
     record: {},
-    statusText: {
-      pending: '待处理',
-      processing: '处理中',
-      completed: '已完成',
-      rejected: '已拒绝',
-      cancelled: '已撤销'
-    },
-    statusIcon: {
-      pending: '⏳',
-      processing: '🔄',
-      completed: '✅',
-      rejected: '❌',
-      cancelled: '🚫'
-    },
+    loading: false,
+    statusText: { 7: '待处理', 8: '退款中', 9: '已完成' },
+    statusIcon: { 7: '⏳', 8: '🔄', 9: '✅' },
     categoryText: {
       quality: '质量问题',
       missing: '漏刻/缺失',
@@ -24,40 +13,65 @@ Page({
       receipt: '补开收据',
       other: '其他'
     },
-    nextIndex: 0
+    nextIndex: 0,
+    reason: '',
+    category: '',
+    images: []
   },
 
-  onLoad() {
-    const record = wx.getStorageSync('aftersaleCurrent') || {};
-    // 计算nextIndex：找到第一个没有时间的条目
-    const nextIndex = (record.timeline || []).findIndex(t => !t.time);
-    this.setData({ record, nextIndex: nextIndex >= 0 ? nextIndex : 2 });
+  onLoad(opt) {
+    if (opt.id) {
+      this.setData({ loading: true });
+      api.getAfterSalesDetail(opt.id).then(res => {
+        const record = res.data || res;
+        this.setRecord(record);
+        this.setData({ loading: false });
+      }).catch(() => {
+        this.setData({ loading: false });
+      });
+    } else {
+      const record = wx.getStorageSync('aftersaleCurrent') || {};
+      this.setRecord(record);
+    }
+  },
+
+  setRecord(record) {
+    const status = Number(record.status) || 7;
+    const nextIdx = { 7: 1, 8: 2, 9: 3 }[status] || 1;
+    const now = record.createdAt
+      ? record.createdAt.replace('T', ' ').slice(0, 16)
+      : '';
+
+    // 从 remark 字段解析业务数据
+    let reason = '', category = '', images = [];
+    try {
+      const r = typeof record.remark === 'string'
+        ? JSON.parse(record.remark)
+        : (record.remark || {});
+      reason = r.afterSales?.reason || r.reason || '';
+      category = r.afterSales?.category || r.category || '';
+      images = r.afterSales?.images || r.images || [];
+    } catch { /* ignore */ }
+
+    // timeline 构造（3步：已提交→处理中→完成/拒绝）
+    const timeline = [
+      { time: now, title: '已提交', desc: '您的售后申请已提交，客服将在1-3个工作日内处理' },
+      { time: status >= 8 ? now : '', title: '处理中', desc: '客服正在核实处理中，请耐心等待' },
+      { time: status >= 9 ? now : '', title: status === 9 ? '已完成' : '已拒绝', desc: '' },
+    ];
+
+    this.setData({
+      record: Object.assign({}, record, { timeline }),
+      nextIndex: nextIdx - 1,
+      reason,
+      category,
+      images
+    });
   },
 
   previewImage(e) {
     const src = e.currentTarget.dataset.src;
-    wx.previewImage({ current: src, urls: this.data.record.images || [src] });
-  },
-
-  cancelApply() {
-    wx.showModal({
-      title: '确认撤销',
-      content: '确定要撤销此售后申请吗？撤销后将无法恢复。',
-      confirmColor: '#5B6FE8',
-      success: (res) => {
-        if (!res.confirm) return;
-        const records = wx.getStorageSync('aftersale_records') || [];
-        const idx = records.findIndex(r => r.id === this.data.record.id);
-        if (idx >= 0) {
-          records[idx].status = 'cancelled';
-          records[idx].timeline[0].time = new Date().toLocaleString('zh-CN');
-          records[idx].timeline[0].desc = '您已主动撤销此申请';
-          wx.setStorageSync('aftersale_records', records);
-        }
-        wx.showToast({ title: '已撤销', icon: 'success' });
-        setTimeout(() => { wx.navigateBack(); }, 1200);
-      }
-    });
+    wx.previewImage({ current: src, urls: this.data.images || [src] });
   },
 
   goBack() {
