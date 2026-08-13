@@ -104,7 +104,7 @@ page { background: #F8F7FC; }
 }
 .contact-item:last-child { border-bottom: none; }
 .contact-icon { width: 44rpx; height: 44rpx; margin-right: 16rpx; }
-.contact-label { font-size: 26rpx; color: #999; width: 120rpx; flex-shrink: 0; }
+.contact-label { font-size: 26rpx; color: #999; width: 160rpx; flex-shrink: 0; white-space: nowrap; overflow: hidden; }
 .contact-value { flex: 1; font-size: 26rpx; color: #1A2332; }
 
 /* 搴曢儴 */

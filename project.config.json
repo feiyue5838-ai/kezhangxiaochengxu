@@ -47,6 +47,58 @@
       {
         "value": ".log",
         "type": "suffix"
+      },
+      {
+        "value": "check_api.js",
+        "type": "file"
+      },
+      {
+        "value": "check_pkg.js",
+        "type": "file"
+      },
+      {
+        "value": "check_ver.js",
+        "type": "file"
+      },
+      {
+        "value": "check_ws2.js",
+        "type": "file"
+      },
+      {
+        "value": "inspect_dev.js",
+        "type": "file"
+      },
+      {
+        "value": "proxy-server.js",
+        "type": "file"
+      },
+      {
+        "value": "read_automator.js",
+        "type": "file"
+      },
+      {
+        "value": "screenshot_all.js",
+        "type": "file"
+      },
+      {
+        "value": "smoke_about.js",
+        "type": "file"
+      },
+      {
+        "value": "test_current.js",
+        "type": "file"
+      },
+      {
+        "value": "test_ws.js",
+        "type": "file"
+      },
+      {
+        "value": "verify_fixes.js",
+        "type": "file"
+      },
+      {
+        "value": "verify_pages.js",
+        "type": "file"
       }
     ],
     "include": []
