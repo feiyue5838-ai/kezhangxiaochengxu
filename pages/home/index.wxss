@@ -47,6 +47,7 @@ page {
   height: 34rpx;
   margin-right: 16rpx;
   flex-shrink: 0;
+  transform: scaleX(-1);
 }
 
 .announce-viewport {
@@ -72,8 +73,8 @@ page {
 }
 
 @keyframes announceMarquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 .announce-more {
