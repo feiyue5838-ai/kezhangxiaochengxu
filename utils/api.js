@@ -883,5 +883,7 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   getAnnouncements: () => request({ url: '/api/content/announcements' }),
   /** 业务介绍列表（GET /api/content/intros，status=1；可传 type 过滤 personal/company/electronic，后端返回 type+all） */
   getIntros: (type) => request({ url: '/api/content/intros' + (type ? ('?type=' + encodeURIComponent(type)) : '') }),
+  /** 平台关于信息（GET /api/content/about） */
+  getAbout: () => request({ url: '/api/content/about' }),
 
 };

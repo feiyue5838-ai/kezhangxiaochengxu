@@ -9,7 +9,7 @@
       <view class="logo-icon">
         <image src="/images/icon-cert.png" mode="aspectFit" />
       </view>
-      <text class="app-name">蓉城企服</text>
+      <text class="app-name">{{appName}}</text>
       <text class="app-version">v1.0.0 正式版</text>
     </view>
 
@@ -33,24 +33,24 @@
         <view class="contact-item" bindtap="onCopyWechat">
           <image class="contact-icon" src="/assets/icons/icon-chat.svg" mode="aspectFit" />
           <text class="contact-label">微信公众号</text>
-          <text class="contact-value">蓉城企服</text>
+          <text class="contact-value">{{wechat || '蓉城企服'}}</text>
         </view>
-        <view class="contact-item" wx:if="{{intro.subtitle}}">
+        <view class="contact-item" wx:if="{{address}}">
           <image class="contact-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
           <text class="contact-label">公司地址</text>
-          <text class="contact-value">{{intro.subtitle}}</text>
+          <text class="contact-value">{{address}}</text>
         </view>
         <view class="contact-item">
           <image class="contact-icon" src="/assets/icons/icon-bell.svg" mode="aspectFit" />
           <text class="contact-label">服务时间</text>
-          <text class="contact-value">周一至周五 9:00-18:00</text>
+          <text class="contact-value">{{serviceTime || '周一至周五 9:00-18:00'}}</text>
         </view>
       </view>
     </view>
 
     <!-- 底部 -->
     <view class="footer-note">
-      <text>© 2026 蓉城企服 All Rights Reserved\n成都蓉城信息服务有限公司</text>
+      <text>{{copyright || '© 2026 蓉城企服 All Rights Reserved'}}\n成都蓉城信息服务有限公司</text>
     </view>
   </view>
 </view>
