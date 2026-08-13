@@ -1,0 +1,51 @@
+<view class="page">
+  <nav-bar title="物流详情" bind:back="goBack" />
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 无物流信息 -->
+  <view class="empty-wrap" wx:elif="{{!expressNo}}">
+    <image class="empty-icon" src="/assets/icons/empty-logistics.png" mode="aspectFit" />
+    <text class="empty-text">暂无物流信息</text>
+    <text class="empty-sub">商家正在处理中，请稍后再来</text>
+  </view>
+
+  <!-- 物流主体 -->
+  <block wx:else>
+    <!-- 快递信息卡 -->
+    <view class="express-card">
+      <view class="express-header">
+        <image class="express-icon" src="/assets/icons/express-icon.png" mode="aspectFit" />
+        <view class="express-info">
+          <text class="express-company">{{expressCompany || '快递'}}</text>
+          <text class="express-no" bindtap="copyNo">{{expressNo}}</text>
+        </view>
+        <view class="copy-btn" bindtap="copyNo">复制</view>
+      </view>
+    </view>
+
+    <!-- 物流轨迹 -->
+    <view class="timeline-section">
+      <view class="section-title">物流动态</view>
+      <view class="timeline">
+        <view
+          class="timeline-item {{index === 0 ? 'latest' : ''}}"
+          wx:for="{{steps}}"
+          wx:key="index"
+        >
+          <view class="timeline-dot">
+            <view class="dot-inner"></view>
+            <view class="dot-line"></view>
+          </view>
+          <view class="timeline-content">
+            <text class="step-content">{{item.content}}</text>
+            <text class="step-time">{{item.time}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

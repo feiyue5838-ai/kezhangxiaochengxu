@@ -105,7 +105,9 @@
     {
       "root": "pages/order/",
       "pages": [
-        "list/index"
+        "list/index",
+        "logistics/index",
+        "rate/index"
       ]
     },
     {

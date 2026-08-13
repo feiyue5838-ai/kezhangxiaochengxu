@@ -904,5 +904,34 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
       data: { reason: reason || '', category: category || '', images: images || [] },
     }),
 
+  // ==================== 订单物流与评价 ====================
+
+  /** 用户确认收货（4→5） */
+  confirmReceive: (orderId) =>
+    request({ url: '/api/orders/' + orderId + '/confirm-receive', method: 'PUT' }),
+
+  /** 用户提交订单评价 */
+  submitReview: (orderId, data) =>
+    request({
+      url: '/api/orders/' + orderId + '/review',
+      method: 'POST',
+      data: {
+        rating: data.rating || 5,
+        tags: data.tags || [],
+        content: data.content || '',
+        images: data.images || [],
+      },
+    }),
+
+  // ==================== 图片上传 ====================
+
+  /** 上传评价图片（返回 URL） */
+  uploadReviewImage: (filePath) =>
+    request({
+      url: '/api/upload',
+      method: 'POST',
+      filePath: filePath,
+      name: 'file',
+    }),
 
 };

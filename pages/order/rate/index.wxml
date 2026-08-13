@@ -1,0 +1,73 @@
+<view class="page">
+  <nav-bar title="评价订单" bind:back="goBack" />
+
+  <!-- 订单卡片 -->
+  <view class="order-card" wx:if="{{order}}">
+    <view class="order-type">{{order.type || '刻章服务'}}</view>
+    <view class="order-price">¥{{order.price || order.totalPrice || 0}}</view>
+  </view>
+
+  <!-- 评分 -->
+  <view class="section">
+    <view class="section-title">服务评分</view>
+    <view class="star-row">
+      <view
+        class="star {{star >= 4 ? 'active' : ''}}"
+        wx:for="{{[1,2,3,4,5]}}"
+        wx:key="index"
+        data-star="{{item}}"
+        bindtap="onSelectStar"
+      >
+        <image src="{{star >= item ? '/assets/icons/star-filled.png' : '/assets/icons/star.png'}}" mode="aspectFit" />
+      </view>
+      <text class="star-label">{{starLabels[star-1]}}</text>
+    </view>
+  </view>
+
+  <!-- 评价标签 -->
+  <view class="section">
+    <view class="section-title">选择标签（可多选）</view>
+    <view class="tag-row">
+      <view
+        class="tag {{selectedTags.includes(item) ? 'active' : ''}}"
+        wx:for="{{tagOptions}}"
+        wx:key="index"
+        data-tag="{{item}}"
+        bindtap="onToggleTag"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 文字评价 -->
+  <view class="section">
+    <view class="section-title">文字评价</view>
+    <textarea
+      class="comment-input"
+      placeholder="分享您的使用体验（选填，最多200字）"
+      maxlength="200"
+      bindinput="onContentInput"
+      value="{{content}}"
+    />
+    <text class="word-count">{{content.length}}/200</text>
+  </view>
+
+  <!-- 图片评价 -->
+  <view class="section">
+    <view class="section-title">图片评价（选填，最多3张）</view>
+    <view class="img-row">
+      <view class="img-item" wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill" />
+        <view class="img-remove" data-idx="{{index}}" bindtap="onRemoveImg">×</view>
+      </view>
+      <view class="img-add" bindtap="onAddImg" wx:if="{{images.length < 3}}">
+        <image src="/assets/icons/add-image.png" mode="aspectFit" />
+        <text>添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-wrap">
+    <view class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="onSubmit">提交评价</view>
+  </view>
+</view>
