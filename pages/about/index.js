@@ -24,14 +24,20 @@ Page({
       this.setData({ loading: false });
     });
     // 客服电话从系统配置读
-    // request.js resolve(res.data)，后端返回 {code:0, data:{...}}，所以 res = {code, data}
+    // request.js resolve(res.data)，后端返回 {code:0, data:{ value, ... }}，所以 res = {code, data}
     api.getConfig('service_phone').then((res) => {
-      // res 可能是 { code, data: { value } } 或直接是字符串，兜底取
-      let phone;
+      // res 结构: { code: 0, data: { key, value, value_type, group, description } }
+      let phone = null;
       if (res && typeof res === 'object') {
-        phone = res.data && typeof res.data === 'object' ? res.data.value : res.data;
+        if (res.data && typeof res.data === 'object' && res.data.value !== undefined) {
+          phone = res.data.value;
+        } else if (res.value !== undefined) {
+          phone = res.value;
+        }
       }
-      if (phone != null) this.setData({ phone: String(phone) });
+      if (phone != null && phone !== '') {
+        this.setData({ phone: String(phone) });
+      }
     }).catch(() => {});
   },
 
