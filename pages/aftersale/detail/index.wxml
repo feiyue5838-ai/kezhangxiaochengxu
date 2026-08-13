@@ -1,65 +1,62 @@
 <view class="page">
-  <!-- 导航栏 -->
-  <nav-bar title="售后详情" bind:back="goBack" />
+  <nav-bar title="退款详情" bind:back="goBack" />
 
   <view class="content" style="padding-top: {{navHeight}}px;">
-    <!-- 状态卡片 -->
-    <view class="status-card">
-      <text class="status-icon {{record.status}}">{{statusIcon[record.status]}}</text>
-      <text class="status-label">{{statusText[record.status]}}</text>
+
+    <!-- 顶部状态 -->
+    <view class="status-bar status-bar-{{record.status}}">
+      <text class="status-icon-text">{{statusIcon[record.status]}}</text>
+      <text class="status-main-text">{{statusText[record.status]}}</text>
+      <text class="status-sub-text" wx:if="{{record.status === 7}}">客服正在处理中，请耐心等待</text>
+      <text class="status-sub-text" wx:if="{{record.status === 8}}">退款正在处理中，款项将原路返回</text>
+      <text class="status-sub-text" wx:if="{{record.status === 9}}">退款已完成，感谢您的耐心等待</text>
     </view>
 
-    <!-- 进度时间线 -->
-    <view class="timeline-section">
-      <text class="section-title">处理进度</text>
-      <view class="timeline">
-        <view
-          class="timeline-item {{item.time ? 'done' : (index === nextIndex ? 'active' : '')}}"
-          wx:for="{{record.timeline}}"
-          wx:key="index"
-        >
-          <view class="timeline-dot">
-            <view class="dot-inner" wx:if="{{item.time || index === nextIndex}}"></view>
-          </view>
-          <view class="timeline-line" wx:if="{{index < record.timeline.length - 1}}"></view>
-          <view class="timeline-content">
-            <text class="timeline-title">{{item.title}}</text>
-            <text class="timeline-time" wx:if="{{item.time}}">{{item.time}}</text>
-            <text class="timeline-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
-          </view>
+    <!-- 关联订单信息 -->
+    <view class="order-section">
+      <text class="section-label">关联订单</text>
+      <view class="order-row">
+        <image
+          class="order-img"
+          src="/assets/icons/icon-seal.png"
+          mode="aspectFill"
+        />
+        <view class="order-info">
+          <text class="order-name">{{record.type || record.productName || '刻章订单'}}</text>
+          <text class="order-meta">{{record.companyName || record.module || ''}} · {{record.createdAt ? record.createdAt.slice(0,10) : record.createTime}}</text>
+        </view>
+        <view class="order-right">
+          <text class="order-price">¥{{record.payPrice || record.total_price || '0.00'}}</text>
+          <text class="order-num">x1</text>
         </view>
       </view>
     </view>
 
-    <!-- 售后信息 -->
+    <!-- 退款信息 -->
     <view class="info-section">
-      <text class="section-title">售后信息</text>
+      <text class="section-label">退款信息</text>
       <view class="info-row">
-        <text class="info-label">售后类型</text>
-        <text class="info-value">【{{categoryText[record.category]}}】</text>
-      </view>
-      <view class="info-row">
-        <text class="info-label">联系电话</text>
-        <text class="info-value">{{record.phone}}</text>
+        <text class="info-key">退款类型</text>
+        <text class="info-val tag">{{categoryText[record.category] || categoryText[record.remark?.afterSales?.category] || '其他'}}</text>
       </view>
       <view class="info-row">
-        <text class="info-label">提交时间</text>
-        <text class="info-value">{{record.createTime}}</text>
+        <text class="info-key">问题描述</text>
+        <text class="info-val reason">{{record.reason || record.remark?.afterSales?.reason || '未填写'}}</text>
       </view>
-      <view class="info-row" wx:if="{{record.productName}}">
-        <text class="info-label">关联订单</text>
-        <text class="info-value">{{record.productName}}</text>
+      <view class="info-row" wx:if="{{record.phone}}">
+        <text class="info-key">联系电话</text>
+        <text class="info-val">{{record.phone}}</text>
       </view>
-      <view class="info-row align-top">
-        <text class="info-label">问题描述</text>
-        <text class="info-value reason-text">{{record.reason}}</text>
+      <view class="info-row">
+        <text class="info-key">申请时间</text>
+        <text class="info-val">{{record.createdAt ? record.createdAt.replace('T',' ').slice(0,16) : record.createTime}}</text>
       </view>
     </view>
 
-    <!-- 凭证图片 -->
+    <!-- 上传凭证（有图才显示） -->
     <view class="info-section" wx:if="{{record.images && record.images.length > 0}}">
-      <text class="section-title">上传凭证</text>
-      <view class="image-grid">
+      <text class="section-label">上传凭证</text>
+      <view class="img-list">
         <image
           wx:for="{{record.images}}"
           wx:key="*this"
@@ -72,9 +69,32 @@
       </view>
     </view>
 
-    <!-- 撤销按钮（仅待处理状态可撤销） -->
-    <view class="cancel-section" wx:if="{{record.status === 'pending'}}">
-      <view class="cancel-btn" bindtap="cancelApply">撤销申请</view>
+    <!-- 进度时间线 -->
+    <view class="timeline-section">
+      <text class="section-label">处理进度</text>
+      <view class="timeline">
+        <view
+          class="tl-item {{idx < record.currentStep ? 'done' : (idx === record.currentStep ? 'active' : '')}}"
+          wx:for="{{record.timeline}}"
+          wx:key="index"
+          wx:for-index="idx"
+        >
+          <view class="tl-dot">
+            <view class="tl-dot-inner" wx:if="{{idx <= record.currentStep}}"></view>
+          </view>
+          <view class="tl-line" wx:if="{{idx < record.timeline.length - 1}}"></view>
+          <view class="tl-content">
+            <text class="tl-title">{{item.title}}</text>
+            <text class="tl-time" wx:if="{{item.time}}">{{item.time}}</text>
+            <text class="tl-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 撤销按钮 -->
+    <view class="btn-area" wx:if="{{record.status === 7}}">
+      <view class="btn-cancel" bindtap="cancelApply">撤销申请</view>
     </view>
   </view>
 </view>

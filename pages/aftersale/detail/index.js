@@ -4,6 +4,7 @@ Page({
   data: {
     record: {},
     loading: false,
+    // 7=待处理  8=退款中  9=已完成
     statusText: { 7: '待处理', 8: '退款中', 9: '已完成' },
     statusIcon: { 7: '⏳', 8: '🔄', 9: '✅' },
     categoryText: {
@@ -12,66 +13,76 @@ Page({
       wrong: '信息错误',
       receipt: '补开收据',
       other: '其他'
-    },
-    nextIndex: 0,
-    reason: '',
-    category: '',
-    images: []
+    }
   },
 
   onLoad(opt) {
     if (opt.id) {
       this.setData({ loading: true });
       api.getAfterSalesDetail(opt.id).then(res => {
-        const record = res.data || res;
-        this.setRecord(record);
-        this.setData({ loading: false });
+        const record = this.parseRecord(res.data || res);
+        this.setData({ record, loading: false });
       }).catch(() => {
         this.setData({ loading: false });
       });
     } else {
-      const record = wx.getStorageSync('aftersaleCurrent') || {};
-      this.setRecord(record);
+      const raw = wx.getStorageSync('aftersaleCurrent') || {};
+      const record = this.parseRecord(raw);
+      this.setData({ record });
     }
   },
 
-  setRecord(record) {
-    const status = Number(record.status) || 7;
-    const nextIdx = { 7: 1, 8: 2, 9: 3 }[status] || 1;
-    const now = record.createdAt
-      ? record.createdAt.replace('T', ' ').slice(0, 16)
-      : '';
+  parseRecord(raw) {
+    const status = Number(raw.status) || 7;
+    // currentStep: 0=已提交, 1=处理中, 2=完成/拒绝
+    const currentStep = status >= 9 ? 2 : (status >= 8 ? 1 : 0);
 
-    // 从 remark 字段解析业务数据
+    // 解析 remark
     let reason = '', category = '', images = [];
     try {
-      const r = typeof record.remark === 'string'
-        ? JSON.parse(record.remark)
-        : (record.remark || {});
-      reason = r.afterSales?.reason || r.reason || '';
-      category = r.afterSales?.category || r.category || '';
-      images = r.afterSales?.images || r.images || [];
+      const rem = typeof raw.remark === 'string' ? JSON.parse(raw.remark) : (raw.remark || {});
+      reason = rem.afterSales?.reason || rem.reason || '';
+      category = rem.afterSales?.category || rem.category || '';
+      images = rem.afterSales?.images || rem.images || [];
     } catch { /* ignore */ }
 
-    // timeline 构造（3步：已提交→处理中→完成/拒绝）
+    const now = raw.createdAt
+      ? raw.createdAt.replace('T', ' ').slice(0, 16)
+      : (raw.createTime || '');
+
     const timeline = [
-      { time: now, title: '已提交', desc: '您的售后申请已提交，客服将在1-3个工作日内处理' },
-      { time: status >= 8 ? now : '', title: '处理中', desc: '客服正在核实处理中，请耐心等待' },
+      { time: now, title: '已提交', desc: '您的退款/售后申请已提交' },
+      { time: status >= 8 ? now : '', title: '处理中', desc: '客服正在核实处理中' },
       { time: status >= 9 ? now : '', title: status === 9 ? '已完成' : '已拒绝', desc: '' },
     ];
 
-    this.setData({
-      record: Object.assign({}, record, { timeline }),
-      nextIndex: nextIdx - 1,
+    return {
+      ...raw,
       reason,
       category,
-      images
-    });
+      images,
+      currentStep,
+      timeline,
+      phone: raw.phone || '',
+    };
   },
 
   previewImage(e) {
     const src = e.currentTarget.dataset.src;
-    wx.previewImage({ current: src, urls: this.data.images || [src] });
+    wx.previewImage({ current: src, urls: this.data.record.images || [src] });
+  },
+
+  cancelApply() {
+    wx.showModal({
+      title: '确认撤销',
+      content: '确定要撤销此退款/售后申请吗？撤销后将无法恢复。',
+      confirmColor: '#5B6FE8',
+      success: (res) => {
+        if (!res.confirm) return;
+        wx.showToast({ title: '已撤销', icon: 'success' });
+        setTimeout(() => wx.navigateBack(), 1200);
+      }
+    });
   },
 
   goBack() {
