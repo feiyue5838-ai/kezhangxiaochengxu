@@ -34,7 +34,7 @@ Page({
     this.refreshOrderCounts();
   },
 
-  // 从Storage统计各状态订单数（含后端代理记账订单）
+  // 从Storage统计各状态订单数（含后端代理记账订单 + 售后API）
   refreshOrderCounts() {
     const statusIdx = { pending: 0, processing: 1, completed: 2, refund: 3 };
     const counts = [0, 0, 0, 0];
@@ -42,7 +42,7 @@ Page({
     const collect = (orders) => {
       if (!Array.isArray(orders)) return;
       orders.forEach(o => {
-        // 退款订单 (refunded) 计入 “退款/售后” 分类
+        // 退款订单 (refunded) 计入 "退款/售后" 分类
         if (o.status === 'refunded') {
           counts[3]++;
           return;
@@ -62,27 +62,40 @@ Page({
     });
     // 补充代理记账订单统计（后端）—— 未登录不拉取，避免触发全局 401 跳转
     if (!auth.isLogin()) return;
-    api.getBookkeepingOrderList({ pageSize: 200 }).then(res => {
-      const list = (res && res.list) || [];
+
+    // 同时拉代理记账订单 + 售后记录
+    Promise.all([
+      api.getBookkeepingOrderList({ pageSize: 200 }),
+      api.getUserAfterSales({ pageSize: 50 })
+    ]).then(([bkRes, afterRes]) => {
+      // 代理记账
+      const bkList = (bkRes && bkRes.list) || [];
       const c = [0, 0, 0, 0];
-      list.forEach(o => {
+      bkList.forEach(o => {
         const s = bkStatusMap[o.status] || 'pending';
         if (s === 'refund') c[3]++;
         else { const idx = statusIdx[s]; if (idx !== undefined) c[idx]++; }
       });
+      // 售后记录（status 7/8/9 都计入退款/售后）
+      const afterList = (afterRes && afterRes.rows) || [];
+      const afterCount = afterList.length;
       this.setData({
         'orderTypes[0].count': counts[0] + c[0],
         'orderTypes[1].count': counts[1] + c[1],
         'orderTypes[2].count': counts[2] + c[2],
-        'orderTypes[3].count': counts[3] + c[3]
+        'orderTypes[3].count': counts[3] + c[3] + afterCount
       });
     }).catch(() => {});
   },
 
-  // 点击订单统计 → 跳转到订单列表并筛选对应状态
+  // 点击订单统计 → 跳转到订单列表或售后列表
   goToOrderList(e) {
     const type = e.currentTarget.dataset.type;
-    const statusMap = { pending: 1, processing: 2, completed: 3, refund: 4 };
+    if (type === 'refund') {
+      wx.navigateTo({ url: '/pages/aftersale/list/index' });
+      return;
+    }
+    const statusMap = { pending: 1, processing: 2, completed: 3 };
     const status = statusMap[type];
     wx.navigateTo({ url: '/pages/order/list/index?status=' + status });
   },
@@ -131,7 +144,7 @@ Page({
     this.setData({ userInfo });
   },
 
-  // 确认登录（头像+昵称都有了，点完成）
+  // 确认登录(头像+昵称都有了,点完成)
   onConfirmLogin() {
     const { avatarUrl, nickName } = this.data.userInfo;
     if (!avatarUrl || !nickName) {
