@@ -54,6 +54,7 @@
     "usingComponents":  {
 
                         },
+    "_compileVersion": "20250813-2332",
     "sitemapLocation":  "sitemap.json",
     "lazyCodeLoading":  "requiredComponents",
     "subpackages":  [
