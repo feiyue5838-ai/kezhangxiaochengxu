@@ -74,7 +74,7 @@ Page({
       { name: '待支付', status: 'pending' },
       { name: '进行中', status: 'processing' },
       { name: '已完成', status: 'completed' },
-      { name: '已取消/退款', status: 'cancelled' }  // 包含 cancelled + refunded
+      { name: '已取消', status: 'cancelled' }  // 包含 cancelled + refunded + 售后相关
     ],
     currentTab: 0,
     list: [],      // 当前显示的列表

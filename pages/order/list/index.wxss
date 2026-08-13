@@ -17,10 +17,9 @@
 }
 
 .tab-item {
-  flex: 1;
-  min-width: 150rpx;
-  text-align: center;
-  padding: 24rpx 0;
+  flex-shrink: 0;
+  min-width: 140rpx;
+  padding: 24rpx 32rpx;
   font-size: 28rpx;
   color: #666;
   position: relative;
