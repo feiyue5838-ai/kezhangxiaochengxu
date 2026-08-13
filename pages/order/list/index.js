@@ -1,32 +1,26 @@
+// VERSION_6TABS_20250813_2324 - Force recompile
 const common = require('../../../utils/common.js');
 const api = require('../../../utils/api.js');
 const auth = require('../../../utils/auth.js');
 
-// 刻章订单数字 status -> 字符串 status（用于 Tab 过滤，与 localStorage 格式对齐）
-const sealStatusMap = {
-  1: 'pending',    // 待支付
-  2: 'paid',       // 已支付（待发货）
-  3: 'paid',       // 制作中 -> 待发货
-  4: 'shipped',    // 已发货（待收货）
+// 刻章订单数字 status -> 字符�?status（用�?Tab 过滤，与 localStorage 格式对齐�?const sealStatusMap = {
+  1: 'pending',    // 待支�?  2: 'paid',       // 已支付（待发货）
+  3: 'paid',       // 制作�?-> 待发�?  4: 'shipped',    // 已发货（待收货）
   5: 'completed',  // 已完成（待评价）
-  6: 'cancelled',  // 已取消
-  7: 'refund',     // 售后中
-  8: 'refund',     // 退款中
-  9: 'refund',     // 已退款
-};
+  6: 'cancelled',  // 已取�?  7: 'refund',     // 售后�?  8: 'refund',     // 退款中
+  9: 'refund',     // 已退�?};
 
-// 状态文本映射（淘宝样式）
-const statusText = (status) => {
+// 状态文本映射（淘宝样式�?const statusText = (status) => {
   const map = {
-    pending: '待付款',
-    paid: '待发货',
-    shipped: '待收货',
-    completed: '待评价',
-    cancelled: '已取消',
-    refund: '退款/售后',
-    aftersale: '售后中',
+    pending: '待付�?,
+    paid: '待发�?,
+    shipped: '待收�?,
+    completed: '待评�?,
+    cancelled: '已取�?,
+    refund: '退�?售后',
+    aftersale: '售后�?,
     refunding: '退款中',
-    refunded: '已退款',
+    refunded: '已退�?,
   };
   return map[status] || '未知';
 };
@@ -73,11 +67,11 @@ Page({
   data: {
     tabs: [
       { name: '全部', status: 'all' },
-      { name: '待付款', status: 'pending' },
-      { name: '待发货', status: 'paid' },
-      { name: '待收货', status: 'shipped' },
-      { name: '待评价', status: 'completed' },
-      { name: '退款/售后', status: 'refund' },
+      { name: '待付�?, status: 'pending' },
+      { name: '待发�?, status: 'paid' },
+      { name: '待收�?, status: 'shipped' },
+      { name: '待评�?, status: 'completed' },
+      { name: '退�?售后', status: 'refund' },
     ],
     currentTab: 0,
     list: [],
@@ -213,15 +207,15 @@ Page({
     const { id, module } = e.currentTarget.dataset;
     wx.showModal({
       title: '提示',
-      content: '确定取消此订单吗？',
+      content: '确定取消此订单吗�?,
       success: (res) => {
         if (!res.confirm) return;
-        wx.showLoading({ title: '取消中...' });
+        wx.showLoading({ title: '取消�?..' });
         const cancelApi = module === 'seal' ? api.cancelSealOrder : module === 'bookkeeping' ? api.cancelBookkeepingOrder : api.cancelNewspaperOrder;
         cancelApi(id).then(() => {
           wx.hideLoading();
-          wx.showToast({ title: '已取消', icon: 'success' });
-          this.updateLocalOrder(id, module, 'cancelled', '已取消', 'cancelled');
+          wx.showToast({ title: '已取�?, icon: 'success' });
+          this.updateLocalOrder(id, module, 'cancelled', '已取�?, 'cancelled');
         }).catch(() => {
           wx.hideLoading();
           wx.showToast({ title: '取消失败', icon: 'none' });
@@ -243,11 +237,11 @@ Page({
       confirmColor: '#52C41A',
       success: (res) => {
         if (!res.confirm) return;
-        wx.showLoading({ title: '确认中...' });
+        wx.showLoading({ title: '确认�?..' });
         api.confirmReceive(id).then(() => {
           wx.hideLoading();
-          wx.showToast({ title: '已确认收货', icon: 'success' });
-          this.updateLocalOrder(id, module, 'completed', '待评价', 'completed');
+          wx.showToast({ title: '已确认收�?, icon: 'success' });
+          this.updateLocalOrder(id, module, 'completed', '待评�?, 'completed');
         }).catch(() => {
           wx.hideLoading();
           wx.showToast({ title: '确认失败，请重试', icon: 'none' });
@@ -292,7 +286,7 @@ Page({
             wx.setStorageSync(key, orders.filter(o => o.id !== id));
           }
           this.loadOrders();
-          wx.showToast({ title: '已删除', icon: 'success' });
+          wx.showToast({ title: '已删�?, icon: 'success' });
         }
       },
     });
