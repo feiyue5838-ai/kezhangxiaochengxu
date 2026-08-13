@@ -17,18 +17,12 @@ Page({
   },
 
   loadAbout() {
-    // 并行拉平台关于信息 + 业务介绍
-    Promise.all([
-      api.getAbout().catch(() => null),
-      api.getIntros('all').catch(() => []),
-    ]).then(([about, introRes]) => {
-      const list = Array.isArray(introRes) ? introRes : (introRes ? (introRes.list || []) : []);
-      const active = list.find(i => i.status === 1) || list[0];
-      const intro = active && active.image
-        ? { ...active, image: api.resolveImage(active.image) }
-        : null;
-      // about: request.js resolve(res.data)，返回 { appName, phone, wechat, serviceTime, intro, address, copyright }
+    // 优先使用 about.image，后台已可独立上传封面图；不再依赖业务介绍
+    api.getAbout().catch(() => null).then((about) => {
       if (about && typeof about === 'object') {
+        const intro = about.image
+          ? { title: about.intro || '', image: api.resolveImage(about.image) }
+          : null;
         this.setData({
           appName: about.appName || this.data.appName,
           phone: about.phone || this.data.phone,
@@ -40,7 +34,7 @@ Page({
           loading: false,
         });
       } else {
-        this.setData({ intro, loading: false });
+        this.setData({ intro: null, loading: false });
       }
     }).catch(() => {
       this.setData({ loading: false });
