@@ -1,193 +1,191 @@
 {
-    "pages":  [
-                  "pages/home/index",
-                  "pages/seal-tab/index",
-                  "pages/newspaper-tab/index",
-                  "pages/bookkeeping-tab/index",
-                  "pages/profile/index"
-              ],
-    "window":  {
-                   "backgroundTextStyle":  "light",
-                   "navigationBarBackgroundColor":  "#5B6FE8",
-                   "navigationBarTitleText":  "蓉城企服",
-                   "navigationBarTextStyle":  "white"
-               },
-    "tabBar":  {
-                   "custom":  false,
-                   "color":  "#8B95A5",
-                   "selectedColor":  "#5B6FE8",
-                   "backgroundColor":  "#ffffff",
-                   "borderStyle":  "white",
-                   "list":  [
-                                {
-                                    "pagePath":  "pages/seal-tab/index",
-                                    "text":  "刻章",
-                                    "iconPath":  "assets/icons/tab-seal.png",
-                                    "selectedIconPath":  "assets/icons/tab-seal-active.png"
-                                },
-                                {
-                                    "pagePath":  "pages/newspaper-tab/index",
-                                    "text":  "登报",
-                                    "iconPath":  "assets/icons/tab-news.png",
-                                    "selectedIconPath":  "assets/icons/tab-news-active.png"
-                                },
-                                {
-                                    "pagePath":  "pages/home/index",
-                                    "text":  "首页",
-                                    "iconPath":  "assets/icons/tab-home.png",
-                                    "selectedIconPath":  "assets/icons/tab-home-active.png"
-                                },
-                                {
-                                    "pagePath":  "pages/bookkeeping-tab/index",
-                                    "text":  "代理记账",
-                                    "iconPath":  "assets/icons/tab-bookkeeping.png",
-                                    "selectedIconPath":  "assets/icons/tab-bookkeeping-active.png"
-                                },
-                                {
-                                    "pagePath":  "pages/profile/index",
-                                    "text":  "我的",
-                                    "iconPath":  "assets/icons/tab-me.png",
-                                    "selectedIconPath":  "assets/icons/tab-me-active.png"
-                                }
-                            ]
-               },
-    "usingComponents":  {
-
-                        },
-    "_compileVersion": "20250813-2332",
-    "sitemapLocation":  "sitemap.json",
-    "lazyCodeLoading":  "requiredComponents",
-    "subpackages":  [
-                        {
-                            "root":  "pages/seal/",
-                            "pages":  [
-                                          "form/index",
-                                          "select/index",
-                                          "order-confirm/index",
-                                          "material-upload/index",
-                                          "reviews/index",
-                                          "review-submit/index",
-                                          "qa/index",
-                                          "order-detail/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/newspaper/",
-                            "pages":  [
-                                          "labor-dispute/index",
-                                          "env-assessment/index",
-                                          "auction/index",
-                                          "bidding/index",
-                                          "apology/index",
-                                          "praise/index",
-                                          "publicity/index",
-                                          "idcard-page/index",
-                                          "order/index",
-                                          "order-detail/index",
-                                          "invoice-receipt/index",
-                                          "personal-docs/index",
-                                          "company-docs/index",
-                                          "announcement/index",
-                                          "court/index",
-                                          "government/index",
-                                          "creditor/index",
-                                          "content-edit/index",
-                                          "form/index",
-                                          "announcement-statement/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/aftersale/",
-                            "pages":  [
-                                          "list/index",
-                                          "apply/index",
-                                          "detail/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/order/",
-                            "pages":  [
-                                          "list/index",
-                                          "logistics/index",
-                                          "rate/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/bookkeeping/",
-                            "pages":  [
-                                          "order-confirm/index",
-                                          "order-detail/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/realname/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/address/",
-                            "pages":  [
-                                          "index",
-                                          "edit/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/invoice/",
-                            "pages":  [
-                                          "edit/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/notification/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/help/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/about/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/agreement/",
-                            "pages":  [
-                                          "privacy/index",
-                                          "terms/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/outlet/",
-                            "pages":  [
-                                          "orders/index/index",
-                                          "order-detail/index/index",
-                                          "notifications/index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/auth/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/webview/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        },
-                        {
-                            "root":  "pages/outlet-binding/",
-                            "pages":  [
-                                          "index"
-                                      ]
-                        }
-                    ]
+  "pages": [
+    "pages/home/index",
+    "pages/seal-tab/index",
+    "pages/newspaper-tab/index",
+    "pages/bookkeeping-tab/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#5B6FE8",
+    "navigationBarTitleText": "蓉城企服",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "#8B95A5",
+    "selectedColor": "#5B6FE8",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/seal-tab/index",
+        "text": "刻章",
+        "iconPath": "assets/icons/tab-seal.png",
+        "selectedIconPath": "assets/icons/tab-seal-active.png"
+      },
+      {
+        "pagePath": "pages/newspaper-tab/index",
+        "text": "登报",
+        "iconPath": "assets/icons/tab-news.png",
+        "selectedIconPath": "assets/icons/tab-news-active.png"
+      },
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "assets/icons/tab-home.png",
+        "selectedIconPath": "assets/icons/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/bookkeeping-tab/index",
+        "text": "代理记账",
+        "iconPath": "assets/icons/tab-bookkeeping.png",
+        "selectedIconPath": "assets/icons/tab-bookkeeping-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/icons/tab-me.png",
+        "selectedIconPath": "assets/icons/tab-me-active.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "_compileVersion": "20260814-0001",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "subpackages": [
+    {
+      "root": "pages/seal/",
+      "pages": [
+        "form/index",
+        "select/index",
+        "order-confirm/index",
+        "material-upload/index",
+        "reviews/index",
+        "review-submit/index",
+        "qa/index",
+        "order-detail/index"
+      ]
+    },
+    {
+      "root": "pages/newspaper/",
+      "pages": [
+        "labor-dispute/index",
+        "env-assessment/index",
+        "auction/index",
+        "bidding/index",
+        "apology/index",
+        "praise/index",
+        "publicity/index",
+        "idcard-page/index",
+        "order/index",
+        "order-detail/index",
+        "invoice-receipt/index",
+        "personal-docs/index",
+        "company-docs/index",
+        "announcement/index",
+        "court/index",
+        "government/index",
+        "creditor/index",
+        "content-edit/index",
+        "form/index",
+        "announcement-statement/index"
+      ]
+    },
+    {
+      "root": "pages/aftersale/",
+      "pages": [
+        "list/index",
+        "apply/index",
+        "detail/index"
+      ]
+    },
+    {
+      "root": "pages/order/",
+      "pages": [
+        "list/index",
+        "logistics/index",
+        "rate/index"
+      ]
+    },
+    {
+      "root": "pages/bookkeeping/",
+      "pages": [
+        "order-confirm/index",
+        "order-detail/index"
+      ]
+    },
+    {
+      "root": "pages/realname/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/address/",
+      "pages": [
+        "index",
+        "edit/index"
+      ]
+    },
+    {
+      "root": "pages/invoice/",
+      "pages": [
+        "edit/index"
+      ]
+    },
+    {
+      "root": "pages/notification/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/help/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/about/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/agreement/",
+      "pages": [
+        "privacy/index",
+        "terms/index"
+      ]
+    },
+    {
+      "root": "pages/outlet/",
+      "pages": [
+        "orders/index/index",
+        "order-detail/index/index",
+        "notifications/index"
+      ]
+    },
+    {
+      "root": "pages/auth/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/webview/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/outlet-binding/",
+      "pages": [
+        "index"
+      ]
+    }
+  ]
 }
