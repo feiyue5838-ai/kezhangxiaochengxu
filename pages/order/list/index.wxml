@@ -1,8 +1,7 @@
 <view class="page">
-  <!-- v6-tabs-marker -->
   <nav-bar title="全部订单" bind:back="goBack" />
 
-  <!-- Tab �?-->
+  <!-- Tab 栏 -->
   <view class="tab-bar">
     <view
       wx:for="{{tabs}}"
@@ -16,10 +15,10 @@
     </view>
   </view>
 
-  <!-- 未登录引�?-->
+  <!-- 未登录引导 -->
   <view class="empty-wrap" wx:if="{{needLogin}}">
-    <text class="empty-text">请先登录后查看订�?/text>
-    <view class="empty-btn" bindtap="goLogin">去登�?/view>
+    <text class="empty-text">请先登录后查看订单</text>
+    <view class="empty-btn" bindtap="goLogin">去登录</view>
   </view>
 
   <!-- 订单列表 -->
@@ -29,7 +28,7 @@
       wx:for="{{list}}"
       wx:key="id"
     >
-      <!-- 订单�?-->
+      <!-- 订单头 -->
       <view class="order-header">
         <text class="order-type">{{item.type || '登报服务'}}</text>
         <text class="order-status {{item.statusClass}}">{{item.statusText}}</text>
@@ -62,13 +61,13 @@
           <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onConfirmReceive">确认收货</view>
         </block>
-        <!-- 待评�?已完成：申请售后 + 去评�?+ 删除 -->
+        <!-- 待评价/已完成：申请售后 + 去评价 + 删除 -->
         <block wx:elif="{{item.status === 'completed'}}">
           <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
-          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onRateOrder">去评�?/view>
+          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onRateOrder">去评价</view>
           <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
-        <!-- 已取�?退�?已退款：删除 -->
+        <!-- 已取消/退款/已退款：删除 -->
         <block wx:elif="{{item.status === 'cancelled' || item.status === 'refund' || item.status === 'refunded'}}">
           <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
@@ -76,14 +75,14 @@
     </view>
   </view>
 
-  <!-- 空状�?-->
+  <!-- 空状态 -->
   <view class="empty-wrap" wx:elif="{{!loading}}">
     <text class="empty-text">暂无订单</text>
-    <navigator url="/pages/home/index" open-type="switchTab" class="empty-btn">去下�?/navigator>
+    <navigator url="/pages/home/index" open-type="switchTab" class="empty-btn">去下单</navigator>
   </view>
 
-  <!-- 加载�?-->
+  <!-- 加载中 -->
   <view class="loading-wrap" wx:else>
-    <text class="loading-text">加载�?..</text>
+    <text class="loading-text">加载中...</text>
   </view>
 </view>
