@@ -34,69 +34,68 @@ Page({
     this.refreshOrderCounts();
   },
 
-  // 从Storage统计各状态订单数（含后端代理记账订单 + 售后API）
+  // 从 Storage 统计各状态订单数（与订单列表 tabs 对齐：进行中=待发货+待收货）
   refreshOrderCounts() {
-    const statusIdx = { pending: 0, processing: 1, completed: 2, refund: 3 };
-    const counts = [0, 0, 0, 0];
-    const bkStatusMap = { 1: 'pending', 2: 'processing', 3: 'processing', 4: 'completed', 5: 'completed', 6: 'cancelled', 7: 'refund', 8: 'refund' };
+    const counts = { pending: 0, paid: 0, completed: 0, refund: 0 };
+    const bkStatusMap = { 1: 'pending', 2: 'paid', 3: 'paid', 4: 'completed', 5: 'completed', 6: 'cancelled', 7: 'refund', 8: 'refund' };
+
+    // 刻章/登报/执照订单统计
     const collect = (orders) => {
       if (!Array.isArray(orders)) return;
       orders.forEach(o => {
-        // 退款订单 (refunded) 计入 "退款/售后" 分类
-        if (o.status === 'refunded') {
-          counts[3]++;
-          return;
-        }
-        const idx = statusIdx[o.status];
-        if (idx !== undefined) counts[idx]++;
+        if (o.status === 'refunded') { counts.refund++; return; }
+        if (o.status === 'cancelled') { return; }
+        if (o.status === 'pending') { counts.pending++; return; }
+        if (o.status === 'paid' || o.status === 'shipped') { counts.paid++; return; }
+        if (o.status === 'completed') { counts.completed++; return; }
+        if (o.status === 'refund') { counts.refund++; return; }
       });
     };
     collect(wx.getStorageSync('seal_orders'));
     collect(wx.getStorageSync('newspaper_orders'));
     collect(wx.getStorageSync('license_orders'));
+
     this.setData({
-      'orderTypes[0].count': counts[0],
-      'orderTypes[1].count': counts[1],
-      'orderTypes[2].count': counts[2],
-      'orderTypes[3].count': counts[3]
+      'orderTypes[0].count': counts.pending,
+      'orderTypes[1].count': counts.paid,
+      'orderTypes[2].count': counts.completed,
+      'orderTypes[3].count': counts.refund
     });
-    // 补充代理记账订单统计（后端）—— 未登录不拉取，避免触发全局 401 跳转
+
     if (!auth.isLogin()) return;
 
-    // 同时拉代理记账订单 + 售后记录
+    // 补充代理记账订单 + 售后记录
     Promise.all([
       api.getBookkeepingOrderList({ pageSize: 200 }),
       api.getUserAfterSales({ pageSize: 50 })
     ]).then(([bkRes, afterRes]) => {
-      // 代理记账
-      const bkList = (bkRes && bkRes.list) || [];
-      const c = [0, 0, 0, 0];
-      bkList.forEach(o => {
+      let bkPaid = 0, bkCompleted = 0, bkRefund = 0;
+      ((bkRes && bkRes.list) || []).forEach(o => {
         const s = bkStatusMap[o.status] || 'pending';
-        if (s === 'refund') c[3]++;
-        else { const idx = statusIdx[s]; if (idx !== undefined) c[idx]++; }
+        if (s === 'paid') bkPaid++;
+        else if (s === 'completed') bkCompleted++;
+        else if (s === 'refund') bkRefund++;
       });
-      // 售后记录（status 7/8/9 都计入退款/售后）
-      const afterList = (afterRes && afterRes.rows) || [];
-      const afterCount = afterList.length;
+      const afterCount = ((afterRes && afterRes.rows) || []).length;
       this.setData({
-        'orderTypes[0].count': counts[0] + c[0],
-        'orderTypes[1].count': counts[1] + c[1],
-        'orderTypes[2].count': counts[2] + c[2],
-        'orderTypes[3].count': counts[3] + c[3] + afterCount
+        'orderTypes[0].count': counts.pending,
+        'orderTypes[1].count': counts.paid + bkPaid,
+        'orderTypes[2].count': counts.completed + bkCompleted,
+        'orderTypes[3].count': counts.refund + bkRefund + afterCount
       });
     }).catch(() => {});
   },
 
-  // 点击订单统计 → 跳转到订单列表或售后列表
+  // 点击订单统计 → 跳转到订单列表对应 Tab
   goToOrderList(e) {
     const type = e.currentTarget.dataset.type;
     if (type === 'refund') {
       wx.navigateTo({ url: '/pages/aftersale/list/index' });
       return;
     }
-    const statusMap = { pending: 1, processing: 2, completed: 3 };
-    const status = statusMap[type];
+    // statusMap 值直接对应对应订单列表 tabs 的 status 字符串
+    const statusMap = { pending: 'pending', processing: 'paid', completed: 'completed' };
+    const status = statusMap[type] || 'all';
     wx.navigateTo({ url: '/pages/order/list/index?status=' + status });
   },
 
