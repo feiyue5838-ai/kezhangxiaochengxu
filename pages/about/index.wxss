@@ -113,5 +113,9 @@ page { background: #F8F7FC; }
   font-size: 22rpx;
   color: #B0BBC8;
   margin-top: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
   line-height: 1.8;
 }
