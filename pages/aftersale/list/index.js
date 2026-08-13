@@ -22,7 +22,7 @@ Page({
   loadRecords() {
     this.setData({ loading: true });
     api.getUserAfterSales({ page: 1, pageSize: 50 }).then(res => {
-      const list = res.list || res.rows || [];
+      const list = res.rows || [];
       this.setData({ records: list, loading: false });
     }).catch(() => {
       this.setData({ loading: false });
