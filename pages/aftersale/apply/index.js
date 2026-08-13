@@ -83,7 +83,8 @@ Page({
       return;
     }
     wx.showLoading({ title: '提交中...' });
-    api.refundRequest(this.data.order.id, this.data.form.reason).then(() => {
+    const { category, reason, images } = this.data.form;
+    api.refundRequest(this.data.order.id, reason, category, images).then(() => {
       wx.hideLoading();
       wx.showToast({ title: '提交成功', icon: 'success' });
       setTimeout(() => wx.redirectTo({ url: '/pages/aftersale/list/index' }), 1500);

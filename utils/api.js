@@ -897,6 +897,12 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   /** User after-sales detail (GET /api/after-sales/user/:id) */
   getAfterSalesDetail: (id) => request({ url: '/api/after-sales/user/' + id }),
   /** Apply after-sales (POST /api/orders/:id/refund-request) */
-  refundRequest: (orderId, reason) => request({ url: '/api/orders/' + orderId + '/refund-request', method: 'POST', data: { reason } }),
+  refundRequest: (orderId, reason, category, images) =>
+    request({
+      url: '/api/orders/' + orderId + '/refund-request',
+      method: 'POST',
+      data: { reason: reason || '', category: category || '', images: images || [] },
+    }),
+
 
 };
