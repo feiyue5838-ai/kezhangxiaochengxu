@@ -27,6 +27,9 @@ Page({
     loading: true,
     showPrivacyPopup: false,
     banners: [],   // Banner 轮播数据（后台配置）
+    announcements: [],   // 平台公告（后台配置）
+    announceText: '',    // 公告跑马灯文本
+    showAnnounceModal: false,  // 公告详情弹窗
   },
 
   onLoad() {
@@ -43,6 +46,8 @@ Page({
     }
     // 加载 Banner
     this.loadBanners();
+    // 加载平台公告
+    this.loadAnnouncements();
   },
 
   loadBanners() {
@@ -62,6 +67,30 @@ Page({
       wx.navigateTo({ url: '/pages/webview/index?url=' + encodeURIComponent(link) });
     }
   },
+
+  // 平台公告：取后台启用且未过期的公告，拼成跑马灯文本
+  loadAnnouncements() {
+    api.getAnnouncements().then((res) => {
+      const list = (res && res.list) || [];
+      const now = Date.now();
+      const active = list.filter(a =>
+        a.status === 1 && (!a.expiredAt || new Date(a.expiredAt).getTime() > now)
+      );
+      const text = active.map(a => a.title).join('　·　');
+      this.setData({ announcements: active, announceText: text });
+    }).catch(() => {});
+  },
+
+  onAnnounceTap() {
+    if (this.data.announcements.length === 0) return;
+    this.setData({ showAnnounceModal: true });
+  },
+
+  onAnnounceClose() {
+    this.setData({ showAnnounceModal: false });
+  },
+
+  onAnnounceStop() {},
 
   onShow() {
     if (this._loadingOrders) return;

@@ -32,6 +32,139 @@ page {
   min-height: 100vh;
 }
 
+/* ========== 平台公告栏 ========== */
+.announce-bar {
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  padding: 0 24rpx;
+  background: #FFF7E6;
+  border-bottom: 1rpx solid #FFE7BA;
+}
+
+.announce-icon {
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.announce-viewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  height: 72rpx;
+}
+
+.announce-track {
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  white-space: nowrap;
+  animation: announceMarquee 18s linear infinite;
+}
+
+.announce-text {
+  font-size: 26rpx;
+  color: #B26A00;
+  padding-right: 80rpx;
+  flex-shrink: 0;
+}
+
+@keyframes announceMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.announce-more {
+  font-size: 32rpx;
+  color: #B26A00;
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+
+/* 公告详情弹窗 */
+.announce-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.announce-modal {
+  width: 600rpx;
+  max-height: 70vh;
+  background: #fff;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.announce-modal-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.announce-modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.announce-modal-close {
+  font-size: 36rpx;
+  color: var(--text-secondary);
+  padding: 0 8rpx;
+}
+
+.announce-modal-body {
+  max-height: 56vh;
+  padding: 8rpx 32rpx 24rpx;
+}
+
+.announce-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.announce-item:last-child {
+  border-bottom: none;
+}
+
+.announce-item-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.announce-item-content {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.announce-item-time {
+  font-size: 22rpx;
+  color: var(--text-hint);
+  margin-top: 12rpx;
+  display: block;
+}
+
 /* ========== 瀵艰埅鏍?========== */
 
 .nav-content {

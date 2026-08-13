@@ -4,6 +4,18 @@
   <!-- 导航栏 -->
   <nav-bar title="蓉城企服" showBack="{{false}}" />
 
+  <!-- 平台公告栏（后台配置，跑马灯滚动；点击查看详情） -->
+  <view class="announce-bar" wx:if="{{announcements.length > 0}}" bindtap="onAnnounceTap">
+    <image class="announce-icon" src="/assets/icons/icon-megaphone.svg" mode="aspectFit" />
+    <view class="announce-viewport">
+      <view class="announce-track">
+        <text class="announce-text">{{announceText}}</text>
+        <text class="announce-text">{{announceText}}</text>
+      </view>
+    </view>
+    <text class="announce-more">›</text>
+  </view>
+
   <!-- 滚动内容 -->
   <scroll-view scroll-y class="scroll">
 
@@ -105,4 +117,21 @@
     <view style="height:160rpx;"></view>
     <view class='safe-bottom'></view>
   </scroll-view>
+
+  <!-- 公告详情弹窗 -->
+  <view class="announce-mask" wx:if="{{showAnnounceModal}}" bindtap="onAnnounceClose">
+    <view class="announce-modal" catchtap="onAnnounceStop">
+      <view class="announce-modal-hd">
+        <text class="announce-modal-title">平台公告</text>
+        <text class="announce-modal-close" bindtap="onAnnounceClose">✕</text>
+      </view>
+      <scroll-view scroll-y class="announce-modal-body">
+        <view class="announce-item" wx:for="{{announcements}}" wx:key="id">
+          <text class="announce-item-title">{{item.title}}</text>
+          <text class="announce-item-content">{{item.content}}</text>
+          <text class="announce-item-time" wx:if="{{item.publishedAt}}">{{item.publishedAt}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
 </view>
