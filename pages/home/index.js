@@ -76,7 +76,7 @@ Page({
       const active = list.filter(a =>
         a.status === 1 && (!a.expiredAt || new Date(a.expiredAt).getTime() > now)
       );
-      const text = active.map(a => a.title).join('　·　');
+      const text = active.map(a => a.title + '：' + a.content).join('　·　');
       this.setData({ announcements: active, announceText: text });
     }).catch(() => {});
   },
