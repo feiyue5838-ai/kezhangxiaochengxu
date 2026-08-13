@@ -37,11 +37,11 @@
       <text class="section-label">退款信息</text>
       <view class="info-row">
         <text class="info-key">退款类型</text>
-        <text class="info-val tag">{{categoryText[record.category] || categoryText[record.remark?.afterSales?.category] || '其他'}}</text>
+        <text class="info-val tag">{{categoryText[record.category] || '其他'}}</text>
       </view>
       <view class="info-row">
         <text class="info-key">问题描述</text>
-        <text class="info-val reason">{{record.reason || record.remark?.afterSales?.reason || '未填写'}}</text>
+        <text class="info-val reason">{{record.reason || '未填写'}}</text>
       </view>
       <view class="info-row" wx:if="{{record.phone}}">
         <text class="info-key">联系电话</text>
