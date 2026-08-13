@@ -885,5 +885,7 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   getIntros: (type) => request({ url: '/api/content/intros' + (type ? ('?type=' + encodeURIComponent(type)) : '') }),
   /** 平台关于信息（GET /api/content/about） */
   getAbout: () => request({ url: '/api/content/about' }),
+  /** 协议内容：type = terms | privacy（GET /api/content/agreement/:type） */
+  getAgreement: (type) => request({ url: '/api/content/agreement/' + encodeURIComponent(type) }),
 
 };
