@@ -38,8 +38,8 @@ page {
   align-items: center;
   height: 72rpx;
   padding: 0 24rpx;
-  background: #FFF1F0;
-  border-bottom: 1rpx solid #FFCCC7;
+  background: #FFF7E6;
+  border-bottom: 1rpx solid #FFE7BA;
 }
 
 .announce-icon {
