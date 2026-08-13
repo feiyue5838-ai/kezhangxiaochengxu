@@ -61,13 +61,13 @@
           <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onConfirmReceive">确认收货</view>
         </block>
-        <!-- 待评价：去评价 + 申请售后 -->
+        <!-- 待评价/已完成（评价前后都可用）：申请售后 + 去评价 + 删除 -->
         <block wx:elif="{{item.status === 'completed'}}">
           <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onRateOrder">去评价</view>
           <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
-        <!-- 退款/售后/已取消：删除 -->
+        <!-- 已取消/退款/已退款：删除 -->
         <block wx:elif="{{item.status === 'cancelled' || item.status === 'refund' || item.status === 'refunded'}}">
           <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
