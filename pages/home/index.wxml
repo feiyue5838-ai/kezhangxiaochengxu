@@ -6,7 +6,7 @@
 
   <!-- 平台公告栏（后台配置，跑马灯滚动；点击查看详情） -->
   <view class="announce-bar" wx:if="{{announcements.length > 0}}" bindtap="onAnnounceTap">
-    <image class="announce-icon" src="/assets/icons/icon-megaphone.svg" mode="aspectFit" />
+    <image class="announce-icon" src="/assets/icons/icon-megaphone.png" mode="aspectFit" />
     <view class="announce-viewport">
       <view class="announce-track">
         <text class="announce-text">{{announceText}}</text>
