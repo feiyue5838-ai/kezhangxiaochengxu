@@ -7,10 +7,10 @@
     <!-- Logo区 -->
     <view class="logo-section">
       <view class="logo-icon">
-        <image src="/images/icon-cert.png" mode="aspectFit" />
+        <image src="{{logoUrl || '/images/icon-cert.png'}}" mode="aspectFit" />
       </view>
       <text class="app-name">{{appName}}</text>
-      <text class="app-version">v1.0.0 正式版</text>
+      <text class="app-version">{{version || 'v1.0.0 正式版'}}</text>
     </view>
 
     <!-- 介绍卡片 -->

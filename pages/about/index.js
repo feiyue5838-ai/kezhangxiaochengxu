@@ -3,6 +3,8 @@ const api = require('../../utils/api.js');
 Page({
   data: {
     appName: '蓉城企服',
+    logoUrl: '',
+    version: 'v1.0.0 正式版',
     phone: '400-888-6666',
     wechat: '',
     serviceTime: '',
@@ -25,6 +27,8 @@ Page({
           : null;
         this.setData({
           appName: about.appName || this.data.appName,
+          logoUrl: about.logoUrl ? api.resolveImage(about.logoUrl) : '',
+          version: about.version || this.data.version,
           phone: about.phone || this.data.phone,
           wechat: about.wechat || '',
           serviceTime: about.serviceTime || '',
