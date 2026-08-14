@@ -26,50 +26,52 @@
     <view
       class="order-card"
       wx:for="{{list}}"
+      wx:for-item="order"
+      wx:for-index="orderIdx"
       wx:key="id"
     >
       <!-- 订单头 -->
       <view class="order-header">
-        <text class="order-type">{{item.type || '登报服务'}}</text>
-        <text class="order-status {{item.statusClass}}">{{item.statusText}}</text>
+        <text class="order-type">{{order.type || '登报服务'}}</text>
+        <text class="order-status {{order.statusClass}}">{{order.statusText}}</text>
       </view>
 
       <!-- 订单内容（点击跳转详情） -->
-      <view class="order-body" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="goToDetail">
-        <view class="order-desc">{{item.desc}}</view>
+      <view class="order-body" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="goToDetail">
+        <view class="order-desc">{{order.desc}}</view>
         <view class="order-meta">
-          <text class="order-date">{{item.date}}</text>
-          <text class="order-price">¥{{item.price}}</text>
+          <text class="order-date">{{order.date}}</text>
+          <text class="order-price">¥{{order.price}}</text>
         </view>
       </view>
 
       <!-- 快捷操作按钮 -->
       <view class="order-actions">
         <!-- 待付款：取消 + 立即支付 -->
-        <block wx:if="{{item.status === 'pending'}}">
-          <view class="action-btn cancel" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onCancelOrder">取消订单</view>
-          <navigator class="action-btn primary" url="/pages/seal/order-detail/index?id={{item.id}}" wx:if="{{item.module === 'seal'}}">立即支付</navigator>
-          <navigator class="action-btn primary" url="/pages/newspaper/order-detail/index?id={{item.id}}" wx:elif="{{item.module === 'newspaper'}}">立即支付</navigator>
-          <navigator class="action-btn primary" url="/pages/bookkeeping/order-detail/index?id={{item.id}}" wx:elif="{{item.module === 'bookkeeping'}}">立即支付</navigator>
+        <block wx:if="{{order.status === 'pending'}}">
+          <view class="action-btn cancel" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onCancelOrder">取消订单</view>
+          <navigator class="action-btn primary" url="/pages/seal/order-detail/index?id={{order.id}}" wx:if="{{order.module === 'seal'}}">立即支付</navigator>
+          <navigator class="action-btn primary" url="/pages/newspaper/order-detail/index?id={{order.id}}" wx:elif="{{order.module === 'newspaper'}}">立即支付</navigator>
+          <navigator class="action-btn primary" url="/pages/bookkeeping/order-detail/index?id={{order.id}}" wx:elif="{{order.module === 'bookkeeping'}}">立即支付</navigator>
         </block>
         <!-- 待发货：查看物流 -->
-        <block wx:elif="{{item.status === 'paid'}}">
-          <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onViewLogistics">查看物流</view>
+        <block wx:elif="{{order.status === 'paid'}}">
+          <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onViewLogistics">查看物流</view>
         </block>
         <!-- 待收货：申请售后 + 确认收货 -->
-        <block wx:elif="{{item.status === 'shipped'}}">
-          <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
-          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onConfirmReceive">确认收货</view>
+        <block wx:elif="{{order.status === 'shipped'}}">
+          <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onApplyAftersale">申请售后</view>
+          <view class="action-btn primary" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onConfirmReceive">确认收货</view>
         </block>
         <!-- 待评价/已完成：申请售后 + 去评价 + 删除 -->
-        <block wx:elif="{{item.status === 'completed'}}">
-          <view class="action-btn" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onApplyAftersale">申请售后</view>
-          <view class="action-btn primary" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onRateOrder">去评价</view>
-          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
+        <block wx:elif="{{order.status === 'completed'}}">
+          <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onApplyAftersale">申请售后</view>
+          <view class="action-btn primary" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onRateOrder">去评价</view>
+          <view class="action-btn delete" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
         <!-- 已取消/退款/已退款：删除 -->
-        <block wx:elif="{{item.status === 'cancelled' || item.status === 'refund' || item.status === 'refunded'}}">
-          <view class="action-btn delete" data-id="{{item.id}}" data-module="{{item.module}}" bindtap="onDeleteOrder">删除</view>
+        <block wx:elif="{{order.status === 'cancelled' || order.status === 'refund' || order.status === 'refunded'}}">
+          <view class="action-btn delete" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
       </view>
     </view>
