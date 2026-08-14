@@ -131,6 +131,7 @@ Page({
           that.setData({ submitting: false });
           wx.showToast({ title: '支付处理失败', icon: 'none' });
         });
+        return;
       }
       // B-03: 增加 free 分支
       if (type === 'free') {
