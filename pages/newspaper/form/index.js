@@ -566,7 +566,11 @@ Page({
       const pay = data || {};
       if (pay.type === 'wechat' && pay.payment) {
         wx.requestPayment({
-          ...pay.payment,
+          timeStamp: pay.payment.timeStamp,
+          nonceStr: pay.payment.nonceStr,
+          package: pay.payment.package,
+          signType: pay.payment.signType || 'RSA',
+          paySign: pay.payment.paySign,
           success() { that._finishPaid(orderId); },
           fail(err) {
             if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
