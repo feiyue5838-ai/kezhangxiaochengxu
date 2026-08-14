@@ -68,14 +68,19 @@ Page({
     }
   },
 
-  // 平台公告：取后台启用且未过期的公告，拼成跑马灯文本
+  // 平台公告：后台启用(status=1)且未过期的才显示；禁用或已过期则隐藏
   loadAnnouncements() {
     api.getAnnouncements().then((res) => {
       const list = (res && res.list) || [];
       const now = Date.now();
-      const active = list.filter(a =>
-        a.status === 1 && (!a.expiredAt || new Date(a.expiredAt).getTime() > now)
-      );
+      const active = list.filter((a) => {
+        if (a.status !== 1) return false; // 禁用 → 隐藏
+        if (a.expiredAt) {
+          const t = new Date(a.expiredAt).getTime();
+          if (!Number.isNaN(t) && t <= now) return false; // 已过期 → 隐藏
+        }
+        return true; // 启用且未过期 → 显示
+      });
       const text = active.map(a => a.title + '：' + a.content).join('　·　');
       this.setData({ announcements: active, announceText: text });
     }).catch(() => {});
