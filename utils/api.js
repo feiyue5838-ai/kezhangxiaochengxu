@@ -242,8 +242,8 @@ module.exports = {
     });
   },
 
+  // TODO [未实现-门店登录] 门店商家账号密码登录从未实现；pages/auth/ 无独立登录页，当前走微信一键登录+outlet-binding绑定
   // 门店登录 ?POST /api/auth/store-login
-
   storeLogin: (data) => request({ url: '/api/auth/store-login', method: 'POST', data: data }),
 
 
@@ -262,8 +262,8 @@ getRealnameStatus: () => request({ url: '/api/user/realname-verify' }),
 
 getUserInfo: () => request({ url: '/api/user/profile' }),
 
+  // TODO [未实现-资料编辑] 用户资料编辑页从未实现；pages/profile/ 仅展示Storage数据，无PUT提交表单
   // 更新用户信息 ?PUT /api/user/profile
-
   updateUserInfo: (data) => request({ url: '/api/user/profile', method: 'PUT', data: data }),
 
 
@@ -839,12 +839,14 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   /** 已审核通过的评价列表 */
   reviewList: (params) => request({ url: '/api/reviews/list', data: params }),
 
+  // TODO [未实现-我的评价] "我提交的评价"管理页从未实现；pages/seal/reviews/ 仅有公开已审核列表，无个人评价页
   /** 我的评价列表（需登录） */
   myReviews: (params) => request({ url: '/api/reviews/my', data: params }),
 
   // ==================== 问答（小程序端） ====================
   /** 公开问答列表 */
   qaList: (params) => request({ url: '/api/questions/list', data: params }),
+  // TODO [未实现-问答详情] 问答详情页从未实现；pages/seal/qa/ 仅列表页，无详情页路由
   /** 问答详情 */
   qaDetail: (id) => request({ url: '/api/questions/' + id }),
   /** 提交问题（需登录） */
