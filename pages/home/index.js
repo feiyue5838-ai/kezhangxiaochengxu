@@ -129,11 +129,6 @@ Page({
       allOrders.push(...newsOrders.map(o => ({ ...o, _type: '登报' })));
     } catch (e) {}
 
-    try {
-      const licOrders = wx.getStorageSync('license_orders') || [];
-      allOrders.push(...licOrders.map(o => ({ ...o, _type: '调档' })));
-    } catch (e) {}
-
     allOrders.sort((a, b) => (b.createTime || b.createAt || 0) - (a.createTime || a.createAt || 0));
     const recent = allOrders.slice(0, 5).map(o => ({
       id: o.id,
@@ -163,8 +158,6 @@ Page({
       wx.navigateTo({ url: `/pages/newspaper/order-detail/index?id=${id}` });
     } else if (type === '刻章') {
       wx.navigateTo({ url: `/pages/seal/order-detail/index?id=${id}` });
-    } else if (type === '调档') {
-      wx.showToast({ title: '调档订单详情开发中', icon: 'none' });
     }
   },
 

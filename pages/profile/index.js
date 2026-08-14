@@ -41,7 +41,7 @@ Page({
   refreshOrderCounts() {
     const counts = { pending: 0, paid: 0, completed: 0, refund: 0 };
 
-    // 刻章/登报/执照订单（Storage 可能存数字或字符串，统一归一化）
+    // 刻章/登报订单（Storage 可能存数字或字符串，统一归一化）
     const collect = (orders) => {
       if (!Array.isArray(orders)) return;
       orders.forEach(o => {
@@ -62,7 +62,6 @@ Page({
     };
     collect(wx.getStorageSync('seal_orders'));
     collect(wx.getStorageSync('newspaper_orders'));
-    collect(wx.getStorageSync('license_orders'));
 
     this.setData({
       'orderTypes[0].count': counts.pending,

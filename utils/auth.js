@@ -65,7 +65,6 @@ function logout() {
   // — 订单历史缓存 —
   wx.removeStorageSync('seal_orders');        // 刻章订单列表
   wx.removeStorageSync('newspaper_orders');  // 登报订单列表
-  wx.removeStorageSync('license_orders');    // 许可证订单列表
   wx.removeStorageSync('currentOrderId');    // 当前订单 ID
   wx.removeStorageSync('seal_orders_detail');// 订单详情页缓存
 
