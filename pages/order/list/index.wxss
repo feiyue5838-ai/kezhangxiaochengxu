@@ -16,13 +16,6 @@
   width: 100%;
   background: #fff;
   border-bottom: 1rpx solid #f0f0f0;
-  /* debug */
-  border: 2rpx solid red;
-}
-
-.tab-item {
-  /* debug */
-  border: 1rpx solid blue;
 }
 
 .tab-item {

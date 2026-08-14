@@ -47,8 +47,7 @@
 
       <!-- 快捷操作按钮 -->
       <view class="order-actions">
-        <!-- 调试：显示实际状态 -->
-        <text style="font-size: 20rpx; color: #999; display: block; margin-bottom: 10rpx;">status: [{{order.status}}] type: [{{order.module}}]</text>
+        <!-- 快捷操作按钮 -->
         <!-- 待付款：取消 + 立即支付 -->
         <block wx:if="{{order.status === 'pending'}}">
           <view class="action-btn cancel" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onCancelOrder">取消订单</view>
@@ -86,7 +85,7 @@
   </view>
 
   <!-- 加载中 -->
-  <view class="loading-wrap" wx:else>
+  <view class="loading-wrap" wx:if="{{!needLogin && loading}}">
     <text class="loading-text">加载中...</text>
   </view>
 </view>
