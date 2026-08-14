@@ -59,18 +59,18 @@
           <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onViewLogistics">查看物流</view>
         </block>
         <!-- 待收货：申请售后 + 确认收货 -->
-        <block wx:if="{{order.status === 'shipped'}}'>
+        <block wx:if="{{order.status === 'shipped'}}">
           <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onConfirmReceive">确认收货</view>
         </block>
         <!-- 待评价/已完成：申请售后 + 去评价 + 删除 -->
-        <block wx:if="{{order.status === 'completed'}}'>
+        <block wx:if="{{order.status === 'completed'}}">
           <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onRateOrder">去评价</view>
           <view class="action-btn delete" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
         <!-- 已取消/退款/已退款：删除 -->
-        <block wx:if="{{order.status === 'cancelled' || order.status === 'refund' || order.status === 'refunded'}}'>
+        <block wx:if="{{order.status === 'cancelled' || order.status === 'refund' || order.status === 'refunded'}}">
           <view class="action-btn delete" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
       </view>
