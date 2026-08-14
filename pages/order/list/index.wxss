@@ -8,11 +8,10 @@
 /* Tab栏 - 6个Tab均分宽度 */
 .tab-bar {
   display: flex;
-  background: #fff;
+  width: 100%;
+  background: #ffcccc;
   border-bottom: 1rpx solid #f0f0f0;
-  position: sticky;
-  top: 0;
-  z-index: 99;
+  min-height: 60rpx;
 }
 
 .tab-item {
@@ -27,9 +26,8 @@
 }
 
 .tab-text {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: inline-block;
+  line-height: 1.4;
 }
 
 .tab-item.active {
