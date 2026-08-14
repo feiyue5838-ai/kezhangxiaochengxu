@@ -77,7 +77,7 @@ Page({
       { name: '待发货', status: 'paid' },
       { name: '待收货', status: 'shipped' },
       { name: '待评价', status: 'completed' },
-      { name: '退款/售后', status: 'refund' },
+      { name: '售后', status: 'refund' },
     ],
     currentTab: 0,
     list: [],
