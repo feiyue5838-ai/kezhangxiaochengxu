@@ -324,6 +324,11 @@ function getRequiredMaterials(o) {
     return { required: required, licenseLabel: '', licenseRequired: false, extraDocs: [] };
   }
 
+  // 电子印章：后端不收任何材料（order.service.ts 拒绝所有材料），前端同步返回空要求
+  if (isElectronic) {
+    return { required: [], licenseLabel: '', licenseRequired: false, extraDocs: [] };
+  }
+
   const def = getSubjectType(subjectType);
   const required = ['license', 'idCardFront', 'idCardBack'];
   if (isElectronic || inRegion(region, legalPhotoCities)) required.push('legalPhoto');
