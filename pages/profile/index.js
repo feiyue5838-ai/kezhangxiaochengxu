@@ -34,21 +34,30 @@ Page({
     this.refreshOrderCounts();
   },
 
-  // 从 Storage 统计各状态订单数（与订单列表 tabs 对齐：进行中=待发货+待收货）
+  // 从 Storage 统计各状态订单数（数字/字符串统一处理）
+  // 统一状态映射（API 返回数字，与订单列表 tabs 对齐）
+  // tabs: all/pending/paid/shipped/completed/refund
+  // numeric: 1=pending 2-3=paid 4=shipped 5=completed 6=cancelled 7-9=refund
   refreshOrderCounts() {
     const counts = { pending: 0, paid: 0, completed: 0, refund: 0 };
-    const bkStatusMap = { 1: 'pending', 2: 'paid', 3: 'paid', 4: 'completed', 5: 'completed', 6: 'cancelled', 7: 'refund', 8: 'refund' };
 
-    // 刻章/登报/执照订单统计
+    // 刻章/登报/执照订单（Storage 可能存数字或字符串，统一归一化）
     const collect = (orders) => {
       if (!Array.isArray(orders)) return;
       orders.forEach(o => {
-        if (o.status === 'refunded') { counts.refund++; return; }
-        if (o.status === 'cancelled') { return; }
-        if (o.status === 'pending') { counts.pending++; return; }
-        if (o.status === 'paid' || o.status === 'shipped') { counts.paid++; return; }
-        if (o.status === 'completed') { counts.completed++; return; }
-        if (o.status === 'refund') { counts.refund++; return; }
+        const s = Number(o.status);
+        if (s === 6) return; // cancelled 不计入
+        if (s === 1) { counts.pending++; return; }
+        if (s === 2 || s === 3) { counts.paid++; return; }
+        if (s === 4) { counts.paid++; return; }         // 进行中：待发货+待收货
+        if (s === 5) { counts.completed++; return; }
+        if (s === 7 || s === 8 || s === 9) { counts.refund++; return; }
+        // 兜底：字符串形式
+        const str = String(o.status);
+        if (str === 'pending') { counts.pending++; return; }
+        if (str === 'paid' || str === 'shipped') { counts.paid++; return; }
+        if (str === 'completed') { counts.completed++; return; }
+        if (str === 'refund' || str === 'refunded') { counts.refund++; return; }
       });
     };
     collect(wx.getStorageSync('seal_orders'));
@@ -64,17 +73,18 @@ Page({
 
     if (!auth.isLogin()) return;
 
-    // 补充代理记账订单 + 售后记录
+    // 补充代理记账订单（API 返回数字 status）+ 售后记录
     Promise.all([
       api.getBookkeepingOrderList({ pageSize: 200 }),
       api.getUserAfterSales({ pageSize: 50 })
     ]).then(([bkRes, afterRes]) => {
       let bkPaid = 0, bkCompleted = 0, bkRefund = 0;
       ((bkRes && bkRes.list) || []).forEach(o => {
-        const s = bkStatusMap[o.status] || 'pending';
-        if (s === 'paid') bkPaid++;
-        else if (s === 'completed') bkCompleted++;
-        else if (s === 'refund') bkRefund++;
+        const s = Number(o.status);
+        if (s === 1) { counts.pending++; return; }
+        if (s === 2 || s === 3 || s === 4) { bkPaid++; return; } // 进行中
+        if (s === 5) { bkCompleted++; return; }
+        if (s === 7 || s === 8 || s === 9) { bkRefund++; return; }
       });
       const afterCount = ((afterRes && afterRes.rows) || []).length;
       this.setData({
@@ -93,8 +103,8 @@ Page({
       wx.navigateTo({ url: '/pages/aftersale/list/index' });
       return;
     }
-    // statusMap 值直接对应对应订单列表 tabs 的 status 字符串
-    const statusMap = { pending: 'pending', processing: 'paid', completed: 'completed' };
+    // orderTypes id 对应 tabs status：pending→待付款 paid→待发货 completed→已完成
+    const statusMap = { pending: 'pending', paid: 'paid', completed: 'completed' };
     const status = statusMap[type] || 'all';
     wx.navigateTo({ url: '/pages/order/list/index?status=' + status });
   },
@@ -118,7 +128,7 @@ Page({
     const id = e.currentTarget.dataset.id;
     const map = {
       2: { title: '发票管理', url: '/pages/invoice/edit/index' },
-      3: { title: '地址管理', url: '/pages/address/edit/index' },
+      3: { title: '地址管理', url: '/pages/address/index' },
       4: { title: '实名认证', url: '/pages/realname/index' },
       5: { title: '消息通知', url: '/pages/notification/index' },
     6: { title: '帮助中心', url: '/pages/help/index' }
@@ -143,7 +153,7 @@ Page({
     this.setData({ userInfo });
   },
 
-  // 确认登录(头像+昵称都有了,点完成)
+  // 确认登录（头像+昵称都有了，点完成）
   onConfirmLogin() {
     const { avatarUrl, nickName } = this.data.userInfo;
     if (!avatarUrl || !nickName) {
@@ -156,6 +166,10 @@ Page({
     };
     wx.setStorageSync('userInfo', userInfo);
     this.setData({ userInfo });
+    // 同步到后端（若接口存在则更新，否则静默忽略）
+    if (auth.isLogin() && api.updateProfile) {
+      api.updateProfile({ nickName, avatar: avatarUrl }).catch(() => {});
+    }
     wx.showToast({ title: '登录成功', icon: 'success' });
   },
 
