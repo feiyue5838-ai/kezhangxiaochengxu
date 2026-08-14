@@ -107,13 +107,6 @@ Page({
       additional: []
     },
 
-    // 地区材料要求
-    materialRules: {
-      license: { title: '营业执照', required: true, regionNote: '' },
-      idCard: { title: '法人身份证', required: true, note: '正反面照片' },
-      photo: { title: '法人照片', required: true, regionNote: '' }
-    },
-
     // 个人印章模式
     isPersonal: false,
 
@@ -197,11 +190,6 @@ Page({
 
     const licenseRegion = this.data.licenseRegion || '';
 
-    this.setData({
-      'materialRules.license.regionNote': this.getLicenseNote(licenseRegion),
-      'materialRules.photo.regionNote': this.getPhotoNote(licenseRegion)
-    });
-
     // 异步拉取后台材料规则（法人照片/手持身份证按地区白名单），与 material-upload 保持一致
     this._loadMaterialRules(licenseRegion);
   },
@@ -266,20 +254,6 @@ Page({
     this.checkSubmitStatus();
   },
 
-  // 获取营业执照要求说明
-  getLicenseNote(region) {
-    if (!region) return '请上传营业执照原件照片';
-    // 可在此按区域定制说明，例：
-    // if (region.includes('北京')) return '北京市要求提供营业执照原件扫描件';
-    return '请上传营业执照原件照片，需清晰可辨';
-  },
-
-  // 获取照片要求说明
-  getPhotoNote(region) {
-    if (!region) return '请上传法人本人照片';
-    // if (region.includes('广东')) return '广东省不强制要求法人照片';
-    return '请上传法人本人照片（正面免冠）';
-  },
 
   // 检查是否可以提交
   checkSubmitStatus() {
