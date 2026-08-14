@@ -318,7 +318,9 @@ function getRequiredMaterials(o) {
   const handheldIdCities = o.handheldIdCities || [];
 
   if (subjectType === 'personal') {
-    const required = ['idCardFront', 'idCardBack'];
+    // 个人印章：后端拒绝上传 idCardFront/idCardBack/license/legalPhoto（order.service.ts L137-142）
+    // 前端同步返回空要求；仅执业资格证书或个人签名章需额外材料
+    const required = [];
     if (hasProfessional) required.push('professionalCert');
     if (hasSignature) required.push('signature');
     return { required: required, licenseLabel: '', licenseRequired: false, extraDocs: [] };
