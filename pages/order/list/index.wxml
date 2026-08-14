@@ -78,7 +78,7 @@
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-wrap" wx:if="{{!loading && list.length === 0}}">
+  <view class="empty-wrap" wx:if="{{!needLogin && !loading && list.length === 0}}">
     <text class="empty-text">暂无订单</text>
     <navigator url="/pages/home/index" open-type="switchTab" class="empty-btn">去下单</navigator>
   </view>
