@@ -47,7 +47,6 @@
 
       <!-- 快捷操作按钮 -->
       <view class="order-actions">
-        <!-- 快捷操作按钮 -->
         <!-- 待付款：取消 + 立即支付 -->
         <block wx:if="{{order.status === 'pending'}}">
           <view class="action-btn cancel" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onCancelOrder">取消订单</view>
