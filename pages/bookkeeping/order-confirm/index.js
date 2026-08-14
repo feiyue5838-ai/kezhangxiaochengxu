@@ -74,7 +74,7 @@ Page({
   async _fetchPrice() {
     try {
       const res = await api.getBookkeepingPrice({
-        taxpayerType: this.data.taxpayerType,
+        taxpayer_type: this.data.taxpayerType,
         cycle: this.data.cycle,
         invoice: this.data.invoice,
         social: this.data.social,
@@ -102,13 +102,14 @@ Page({
     try {
       // B-02: 价格由后端计算，不传前端价格
       const order = await api.createBookkeepingOrder({
-        taxpayerType: this.data.taxpayerType,
+        taxpayer_type: this.data.taxpayerType,
         cycle: this.data.cycle,
         invoice: this.data.invoice,
         social: this.data.social,
         fund: this.data.fund,
         phone: this.data.phone,
-        // price: this.data.price, // B-02: 不传价格
+        // B-02: 后端按 taxpayer_type+cycle+各项附加服务端算价并严格校验，前端必须回传该价
+        price: this.data.price,
       });
 
       const orderId = order.id || order.orderId;
