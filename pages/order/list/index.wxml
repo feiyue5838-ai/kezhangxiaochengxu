@@ -22,7 +22,7 @@
   </view>
 
   <!-- 订单列表 -->
-  <view class="order-list" wx:elif="{{list.length > 0}}">
+  <view class="order-list" wx:if="{{list.length > 0}}">
     <view
       class="order-card"
       wx:for="{{list}}"
@@ -51,26 +51,26 @@
         <block wx:if="{{order.status === 'pending'}}">
           <view class="action-btn cancel" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onCancelOrder">取消订单</view>
           <navigator class="action-btn primary" url="/pages/seal/order-detail/index?id={{order.id}}" wx:if="{{order.module === 'seal'}}">立即支付</navigator>
-          <navigator class="action-btn primary" url="/pages/newspaper/order-detail/index?id={{order.id}}" wx:elif="{{order.module === 'newspaper'}}">立即支付</navigator>
-          <navigator class="action-btn primary" url="/pages/bookkeeping/order-detail/index?id={{order.id}}" wx:elif="{{order.module === 'bookkeeping'}}">立即支付</navigator>
+          <navigator class="action-btn primary" url="/pages/newspaper/order-detail/index?id={{order.id}}" wx:if="{{order.module === 'newspaper'}}">立即支付</navigator>
+          <navigator class="action-btn primary" url="/pages/bookkeeping/order-detail/index?id={{order.id}}" wx:if="{{order.module === 'bookkeeping'}}">立即支付</navigator>
         </block>
         <!-- 待发货：查看物流 -->
-        <block wx:elif="{{order.status === 'paid'}}">
+        <block wx:if="{{order.status === 'paid'}}">
           <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onViewLogistics">查看物流</view>
         </block>
         <!-- 待收货：申请售后 + 确认收货 -->
-        <block wx:elif="{{order.status === 'shipped'}}">
+        <block wx:if="{{order.status === 'shipped'}}'>
           <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onConfirmReceive">确认收货</view>
         </block>
         <!-- 待评价/已完成：申请售后 + 去评价 + 删除 -->
-        <block wx:elif="{{order.status === 'completed'}}">
+        <block wx:if="{{order.status === 'completed'}}'>
           <view class="action-btn" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onApplyAftersale">申请售后</view>
           <view class="action-btn primary" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onRateOrder">去评价</view>
           <view class="action-btn delete" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
         <!-- 已取消/退款/已退款：删除 -->
-        <block wx:elif="{{order.status === 'cancelled' || order.status === 'refund' || order.status === 'refunded'}}">
+        <block wx:if="{{order.status === 'cancelled' || order.status === 'refund' || order.status === 'refunded'}}'>
           <view class="action-btn delete" data-id="{{order.id}}" data-module="{{order.module}}" bindtap="onDeleteOrder">删除</view>
         </block>
       </view>
@@ -78,7 +78,7 @@
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-wrap" wx:elif="{{!loading}}">
+  <view class="empty-wrap" wx:if="{{!loading && list.length === 0}}">
     <text class="empty-text">暂无订单</text>
     <navigator url="/pages/home/index" open-type="switchTab" class="empty-btn">去下单</navigator>
   </view>
