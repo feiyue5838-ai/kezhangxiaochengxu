@@ -13,12 +13,16 @@
   position: sticky;
   top: 0;
   z-index: 99;
+  height: 88rpx;
+  overflow: hidden;
 }
 
 .tab-item {
   flex: 1;
   min-width: 0;
-  padding: 24rpx 8rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0 8rpx;
   font-size: 24rpx;
   color: #666;
   position: relative;
