@@ -5,7 +5,7 @@
   background: #F8F7FC;
 }
 
-/* Tab栏 */
+/* Tab栏 - 6个Tab均分宽度 */
 .tab-bar {
   display: flex;
   background: #fff;
@@ -13,17 +13,17 @@
   position: sticky;
   top: 0;
   z-index: 99;
-  overflow-x: auto;
 }
 
 .tab-item {
-  flex-shrink: 0;
-  min-width: 140rpx;
-  padding: 24rpx 32rpx;
-  font-size: 28rpx;
+  flex: 1;
+  min-width: 0;
+  padding: 24rpx 16rpx;
+  font-size: 26rpx;
   color: #666;
   position: relative;
   white-space: nowrap;
+  text-align: center;
 }
 
 .tab-item.active {
