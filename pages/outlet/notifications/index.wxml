@@ -5,7 +5,7 @@
   </view>
 
   <!-- 通知列表 -->
-  <view wx:elif="{{notifications.length > 0}}" class="notification-list">
+  <view wx:if="{{notifications.length > 0}}" class="notification-list">
     <view 
       wx:for="{{notifications}}" 
       wx:key="id" 

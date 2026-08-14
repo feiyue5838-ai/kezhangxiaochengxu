@@ -10,7 +10,7 @@
   </view>
 
   <!-- 图片列表 -->
-  <view wx:elif="{{imageList.length > 0}}" class="intro-images">
+  <view wx:if="{{imageList.length > 0}}" class="intro-images">
     <image
       wx:for="{{imageList}}"
       wx:key="index"

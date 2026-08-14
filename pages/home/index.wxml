@@ -90,7 +90,7 @@
         </view>
       </block>
 
-      <block wx:elif="{{orders.length > 0}}">
+      <block wx:if="{{orders.length > 0}}">
         <view class="order" wx:for="{{orders}}" wx:key="id" hover-class="order-tap"
           bindtap="onOrderTap" data-type="{{item.type}}" data-id="{{item.id}}">
           <view class="order-dot {{item.statusKey === 'completed' ? 'done' : ''}}"></view>
@@ -102,7 +102,7 @@
         </view>
       </block>
 
-      <view class="empty" wx:elif="!loading">
+      <view class="empty" wx:if="{{!loading && orders.length === 0}}">
         <text class="empty-text">暂无订单</text>
       </view>
     </view>

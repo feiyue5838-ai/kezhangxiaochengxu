@@ -7,7 +7,7 @@
   </view>
 
   <!-- 无物流信息 -->
-  <view class="empty-wrap" wx:elif="{{!expressNo}}">
+  <view class="empty-wrap" wx:if="{{!expressNo}}">
     <image class="empty-icon" src="/assets/icons/empty-logistics.png" mode="aspectFit" />
     <text class="empty-text">暂无物流信息</text>
     <text class="empty-sub">商家正在处理中，请稍后再来</text>

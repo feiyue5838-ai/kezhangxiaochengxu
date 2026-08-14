@@ -11,7 +11,7 @@
     <text>加载中...</text>
   </view>
 
-  <view wx:elif="{{empty}}" class="empty">
+  <view wx:if="{{empty}}" class="empty">
     <text>暂无订单</text>
   </view>
 

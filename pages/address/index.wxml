@@ -24,7 +24,7 @@
     </view>
   </view>
 
-  <view class="empty" wx:elif="{{!loading}}">
+  <view class="empty" wx:if="{{!loading}}">
     <text class="empty-text">还没有收货地址</text>
     <text class="empty-sub">点击下方按钮新增地址</text>
   </view>

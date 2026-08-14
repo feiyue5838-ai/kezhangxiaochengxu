@@ -7,7 +7,7 @@
   </view>
 
   <!-- 订单不存在 -->
-  <view class="empty-wrap" wx:elif="{{!order}}">
+  <view class="empty-wrap" wx:if="{{!order}}">
     <text class="empty-text">订单不存在或已被删除</text>
     <button class="back-btn" bindtap="goBack">返回</button>
   </view>
@@ -131,7 +131,7 @@
       <button class="cancel-btn" bindtap="cancelOrder">取消订单</button>
       <button class="pay-btn" bindtap="payOrder">立即支付</button>
     </view>
-    <view class="bottom-bar" wx:elif="{{order.status === 2}}">
+    <view class="bottom-bar" wx:if="{{order.status === 2}}">
       <button class="cancel-btn" bindtap="cancelOrder">申请退款</button>
     </view>
     <view class="bottom-tip" wx:else>

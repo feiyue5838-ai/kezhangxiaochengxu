@@ -5,7 +5,7 @@
   </view>
 
   <!-- 订单内容 -->
-  <view wx:elif="{{order}}" class="content">
+  <view wx:if="{{order}}" class="content">
 
     <!-- 状态进度条 -->
     <view class="steps">
