@@ -69,7 +69,10 @@ Page({
   },
 
   // 平台公告：后台启用(status=1)且未过期的才显示；禁用或已过期则隐藏
+  // onShow 每次切回首页都会重载，加防重入避免并发请求
   loadAnnouncements() {
+    if (this._loadingAnnouncements) return;
+    this._loadingAnnouncements = true;
     api.getAnnouncements().then((res) => {
       const list = (res && res.list) || [];
       const now = Date.now();
@@ -83,7 +86,7 @@ Page({
       });
       const text = active.map(a => a.title + '：' + a.content).join('　·　');
       this.setData({ announcements: active, announceText: text });
-    }).catch(() => {});
+    }).catch(() => {}).finally(() => { this._loadingAnnouncements = false; });
   },
 
   onAnnounceTap() {
@@ -98,6 +101,7 @@ Page({
   onAnnounceStop() {},
 
   onShow() {
+    this.loadAnnouncements(); // 每次切回首页刷新公告（含首次进入）
     if (this._loadingOrders) return;
     this._ensureTabBar();
     this.loadOrders();
