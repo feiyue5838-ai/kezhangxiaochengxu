@@ -102,6 +102,10 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 4 });
     }
+    // 检查测试模式
+    if (wx.getStorageSync('__test_mode__')) {
+      this._testMode = true;
+    }
     this.loadOrders();
   },
 
