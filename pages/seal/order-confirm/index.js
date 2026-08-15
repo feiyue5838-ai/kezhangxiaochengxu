@@ -345,9 +345,6 @@ Page({
     });
   },
 
-  // 查看材料真实性承诺书
-
-
   // 跳转材料上传页
   onMaterialTap() {
     const selectedData = wx.getStorageSync('selectedSealsData') || {};
