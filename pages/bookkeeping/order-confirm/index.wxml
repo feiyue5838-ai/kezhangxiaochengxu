@@ -62,6 +62,9 @@
       <view class="notice-item">1. 付款成功后，客服将在24小时内与您联系</view>
       <view class="notice-item">2. 请保持电话畅通，以便我们为您提供服务</view>
       <view class="notice-item">3. 如需发票，请在付款后联系客服开具</view>
+      <view class="notice-item link-item" bindtap="onViewCommitment">
+        <text class="link-text">《材料真实性承诺书》</text>
+      </view>
     </view>
   </view>
 

@@ -199,3 +199,14 @@
   font-weight: 600;
   color: #fff;
 }
+
+/* 材料真实性承诺书链接 */
+.link-item {
+  color: #5B6AF0;
+  padding-top: 8rpx;
+}
+.link-text {
+  color: #5B6AF0;
+  text-decoration: underline;
+  font-size: 24rpx;
+}

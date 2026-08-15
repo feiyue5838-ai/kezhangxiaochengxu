@@ -892,6 +892,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   getAbout: () => request({ url: '/api/content/about' }),
   /** 协议内容：type = terms | privacy（GET /api/content/agreement/:type） */
   getAgreement: (type) => request({ url: '/api/content/agreement/' + encodeURIComponent(type) }),
+  /** 材料真实性承诺书（GET /api/content/material-commitment） */
+  getMaterialCommitment: () => request({ url: '/api/content/material-commitment' }),
+
   // ==================== After-Sales ====================
   /** User after-sales list (GET /api/after-sales/user) */
   getUserAfterSales: (params) => request({ url: '/api/after-sales/user', data: params }),

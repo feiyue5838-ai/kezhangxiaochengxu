@@ -158,7 +158,8 @@
       "root": "pages/agreement/",
       "pages": [
         "privacy/index",
-        "terms/index"
+        "terms/index",
+        "commitment/index"
       ]
     },
     {

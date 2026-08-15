@@ -1,6 +1,6 @@
 /* pages/seal/order-confirm/index.wxss */
 
-/* ========== CSS变量定义 ========== */
+/* ========== CSS鍙橀噺瀹氫箟 ========== */
 page {
   --primary-color: #5B6FE8;
   --primary-dark: #4A5CD1;
@@ -15,13 +15,13 @@ page {
   --disabled-bg: #D5DDE8;
 }
 
-/* ========== 页面基础样式 ========== */
+/* ========== 椤甸潰鍩虹鏍峰紡 ========== */
 .page {
   background: #F8F7FC;
   min-height: 100vh;
 }
 
-/* ========== 导航栏 ========== */
+/* ========== 瀵艰埅鏍?========== */
 
 .nav-back {
   position: absolute;
@@ -58,7 +58,7 @@ page {
   padding: 0;
 }
 
-/* ========== 表单区块 ========== */
+/* ========== 琛ㄥ崟鍖哄潡 ========== */
 .form-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -183,7 +183,7 @@ page {
   box-sizing: border-box;
 }
 
-/* ========== 信息区块标题 ========== */
+/* ========== 淇℃伅鍖哄潡鏍囬 ========== */
 .section-title {
   display: flex;
   align-items: center;
@@ -198,7 +198,7 @@ page {
   font-size: 28rpx;
 }
 
-/* ========== 材料上传区域 ========== */
+/* ========== 鏉愭枡涓婁紶鍖哄煙 ========== */
 .material-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -324,7 +324,7 @@ page {
   color: var(--text-disabled);
 }
 
-/* ========== 温馨提示 ========== */
+/* ========== 娓╅Θ鎻愮ず ========== */
 .material-tips {
   background: #F8F7FC;
   border-radius: 20rpx;
@@ -332,7 +332,7 @@ page {
   margin-top: 20rpx;
 }
 
-/* ========== 注意事项 ========== */
+/* ========== 娉ㄦ剰浜嬮」 ========== */
 .tips-warning {
   display: flex;
   align-items: center;
@@ -391,7 +391,7 @@ page {
   margin: 12rpx 0;
 }
 
-/* ========== 合规说明 ========== */
+/* ========== 鍚堣璇存槑 ========== */
 .compliance-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -406,8 +406,12 @@ page {
   color: var(--text-secondary);
   line-height: 2;
 }
+.compliance-item .link {
+  color: #5B6AF0;
+  text-decoration: underline;
+}
 
-/* ========== 订单信息 ========== */
+/* ========== 璁㈠崟淇℃伅 ========== */
 .info-section {
   background: var(--bg-white);
   margin-top: 20rpx;
@@ -448,7 +452,7 @@ page {
   height: 40rpx;
 }
 
-/* ========== 底部付款栏 ========== */
+/* ========== 搴曢儴浠樻鏍?========== */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -511,7 +515,7 @@ page {
   height: 24rpx;
 }
 
-/* ========== 上传按钮加号样式 ========== */
+/* ========== 涓婁紶鎸夐挳鍔犲彿鏍峰紡 ========== */
 .upload-icon {
   font-size: 64rpx;
   color: var(--text-hint);
