@@ -59,8 +59,4 @@
     <text class="agreement-hint">登录即表示同意</text>
   </view>
 
-  <!-- 材料真实性声明 -->
-  <view class="material-declaration">
-    <text>提交材料即表示承诺材料真实有效</text>
-  </view>
 </view>
