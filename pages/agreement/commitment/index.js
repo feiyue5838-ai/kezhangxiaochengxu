@@ -17,8 +17,9 @@ Page({
     wx.showLoading({ title: '加载中...' })
     api.getMaterialCommitment().then(res => {
       wx.hideLoading()
-      if (res.code === 0 && res.data) {
-        this.setData({ html: this.formatRich(res.data.content || '') })
+      const content = res && res.content ? res.content : ''
+      if (content) {
+        this.setData({ html: this.formatRich(content) })
       } else {
         this.setData({ html: '<view class="empty">暂无内容</view>' })
       }
