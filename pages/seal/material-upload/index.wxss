@@ -393,3 +393,26 @@ button.submit-btn::after {
   box-shadow: 0 4rpx 12rpx rgba(91, 111, 232, 0.25);
   transform: scale(0.98);
 }
+
+/* 合规说明区（与 order-confirm 保持一致） */
+.compliance-section {
+  padding: 24rpx 32rpx 32rpx;
+  margin: 0 24rpx 24rpx;
+  background: #F5F6FA;
+  border-radius: 16rpx;
+}
+
+.compliance-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10rpx;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.7;
+  padding: 4rpx 0;
+}
+
+.compliance-item .link {
+  color: #5B6FE8;
+  text-decoration: underline;
+}

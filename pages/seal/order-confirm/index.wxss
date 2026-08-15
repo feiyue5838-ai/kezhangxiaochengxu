@@ -406,11 +406,6 @@ page {
   color: var(--text-secondary);
   line-height: 2;
 }
-.compliance-item .link {
-  color: #5B6AF0;
-  text-decoration: underline;
-}
-
 /* ========== 璁㈠崟淇℃伅 ========== */
 .info-section {
   background: var(--bg-white);

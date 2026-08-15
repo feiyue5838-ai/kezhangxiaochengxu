@@ -352,5 +352,10 @@ Page({
   // 返回上一页
   goBack() {
     wx.navigateBack({ delta: 1 });
+  },
+
+  // 查看材料真实性承诺书
+  onViewCommitment() {
+    wx.navigateTo({ url: '/pages/agreement/commitment/index' });
   }
 });

@@ -193,6 +193,22 @@
   </view>
 
   <view class="bottom-placeholder"></view>
+
+  <!-- 合规说明 + 承诺书 -->
+  <view class="compliance-section">
+    <view class="compliance-item">
+      <text>✅</text>
+      <text>定制产品不支持退换，敬请确认</text>
+    </view>
+    <view class="compliance-item">
+      <text>✅</text>
+      <text>平台代办公安备案，合法合规</text>
+    </view>
+    <view class="compliance-item" bindtap="onViewCommitment">
+      <text>✅</text>
+      <text class="link">《材料真实性承诺书》</text>
+    </view>
+  </view>
   </view>
 </view>
 
