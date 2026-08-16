@@ -1,0 +1,62 @@
+<!-- pages/seal/reviews/my/index.wxml — 我提交的评价 -->
+<view class="page">
+  <nav-bar title="我的评价" bind:back="goBack" />
+
+  <!-- 状态 Tabs -->
+  <view class="my-tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="my-tab {{activeTab === item.key ? 'active' : ''}}"
+      bindtap="onTabTap"
+      data-key="{{item.key}}"
+    >{{item.name}}</view>
+  </view>
+
+  <!-- 未登录提示 -->
+  <view class="login-tip" wx:if="{{showLoginTip}}">
+    <text class="login-tip-text">登录后可查看您提交的评价</text>
+    <view class="login-tip-btn" bindtap="goLogin">去登录</view>
+  </view>
+
+  <!-- 评价列表 -->
+  <view class="my-list" wx:if="{{!loading && !showLoginTip}}">
+    <view class="my-item" wx:for="{{list}}" wx:key="id">
+      <view class="my-item-top">
+        <view class="my-item-badges">
+          <text class="badge {{item.statusCls}}">{{item.statusText}}</text>
+          <text class="my-item-order" wx:if="{{item.orderNo}}">订单 {{item.orderNo}}</text>
+        </view>
+        <text class="my-item-date">{{item.date}}</text>
+      </view>
+
+      <view class="my-item-stars">
+        <text class="star-label">服务态度</text>
+        <text class="star" wx:for="{{5}}" wx:for-index="i" wx:key="*this">{{i < item.serviceScore ? '⭐' : '☆'}}</text>
+      </view>
+      <view class="my-item-stars">
+        <text class="star-label">刻章质量</text>
+        <text class="star" wx:for="{{5}}" wx:for-index="i" wx:key="*this">{{i < item.qualityScore ? '⭐' : '☆'}}</text>
+      </view>
+
+      <text class="my-item-text">{{item.text || item.content}}</text>
+
+      <!-- 驳回原因 -->
+      <view class="reject-box" wx:if="{{item.status === 'rejected' && item.rejectReason}}">
+        <text class="reject-label">驳回原因：</text>
+        <text class="reject-text">{{item.rejectReason}}</text>
+      </view>
+    </view>
+
+    <!-- 空态 -->
+    <view class="empty" wx:if="{{list.length === 0}}">
+      <text class="empty-text">暂无{{activeTab === 'all' ? '' : '该状态'}}评价</text>
+      <view class="empty-btn" bindtap="goWriteReview" wx:if="{{activeTab === 'all'}}">去写评价</view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text class="loading-text">加载中…</text>
+  </view>
+</view>

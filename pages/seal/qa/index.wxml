@@ -16,13 +16,6 @@
         <text class="qa-reply-count">{{item.replies.length}} 条回复</text>
         <text class="qa-arrow">›</text>
       </view>
-      <!-- 展开回复 -->
-      <view class="qa-replies" wx:if="{{item.expanded}}">
-        <view class="reply-item" wx:for="{{item.replies}}" wx:for-item="reply" wx:key="idx">
-          <text class="reply-author">{{reply.author}}：</text>
-          <text class="reply-text">{{reply.text}}</text>
-        </view>
-      </view>
     </view>
   </view>
 

@@ -1,0 +1,103 @@
+/* pages/profile/edit/index.wxss — 用户资料编辑 */
+.page {
+  min-height: 100vh;
+  background: #f5f6fa;
+}
+
+.edit-card {
+  margin: 24rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.edit-row {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f5;
+}
+
+.edit-row--last {
+  border-bottom: none;
+}
+
+.edit-label {
+  width: 140rpx;
+  font-size: 30rpx;
+  color: #1f2329;
+}
+
+.edit-value {
+  flex: 1;
+  font-size: 30rpx;
+  color: #9097a1;
+}
+
+.edit-input {
+  flex: 1;
+  font-size: 30rpx;
+  color: #1f2329;
+}
+
+.edit-arrow {
+  margin-left: 12rpx;
+  color: #c0c6cf;
+  font-size: 32rpx;
+}
+
+/* 头像按钮重置 */
+.avatar-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  line-height: 1;
+  font-size: inherit;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 50%;
+  background: #f0f1f5;
+}
+
+.avatar--default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  font-size: 52rpx;
+}
+
+.edit-tip {
+  padding: 0 40rpx;
+  font-size: 24rpx;
+  color: #9097a1;
+}
+
+.save-btn {
+  margin: 48rpx 24rpx;
+  background: #5B6FE8;
+  color: #fff;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
+  padding: 24rpx 0;
+}
+
+.save-btn.disabled {
+  opacity: 0.6;
+}

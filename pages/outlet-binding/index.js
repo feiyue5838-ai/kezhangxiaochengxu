@@ -145,6 +145,11 @@ Page({
   // 触发微信订阅消息授权（一次性订阅，best-effort），授权后持久化开启
   _requestWxSubscribe() {
     const TEMPLATE_ID = config.WECHAT_SUBSCRIBE_TEMPLATE_ID; // 真实 ID 在 utils/config.js 中配置
+    if (!TEMPLATE_ID) {
+      // 模板 ID 未配置时不调起授权弹窗，避免 wx.requestSubscribeMessage 直接报错
+      wx.showToast({ title: '通知模板暂未配置', icon: 'none' });
+      return;
+    }
     wx.requestSubscribeMessage({
       tmplIds: [TEMPLATE_ID],
       success: () => this._saveSubscribe(true),

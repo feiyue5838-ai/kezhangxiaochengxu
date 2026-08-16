@@ -5,6 +5,7 @@ const auth = require('../../utils/auth.js');
 Page({
   data: {
     userInfo: { nickName: '', phone: '' },
+    outletName: '',
     orderTypes: [
       { id: 'pending',    name: '待支付',   iconSvg: '/assets/icons/icon-b64-13.svg', bgColor: '#FFF7E6', color: '#FAAD14', count: 0 },
       { id: 'processing', name: '进行中',   iconSvg: '/assets/icons/icon-b64-14.svg', bgColor: '#F0EBFF', color: '#7B5CFA', count: 0 },
@@ -30,6 +31,11 @@ Page({
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 4 });
+    }
+    // 已登录网点账号时，门店工作台入口显示网点名
+    const outletInfo = wx.getStorageSync('outletInfo');
+    if (outletInfo && outletInfo.name) {
+      this.setData({ outletName: outletInfo.name });
     }
     this.refreshOrderCounts();
   },
@@ -118,6 +124,16 @@ Page({
     wx.navigateTo({ url: '/pages/aftersale/list/index' });
   },
 
+  // 门店工作台（网点商家：账号密码登录/绑定微信/订阅通知，见 pages/outlet-binding）
+  goToOutletWorkbench() {
+    wx.navigateTo({ url: '/pages/outlet-binding/index' });
+  },
+
+  // 编辑资料（头像/昵称，PUT /api/user/profile）
+  goToEditProfile() {
+    wx.navigateTo({ url: '/pages/profile/edit/index' });
+  },
+
   // 关于我们
   goToAbout() {
     wx.navigateTo({ url: '/pages/about/index' });
@@ -165,9 +181,9 @@ Page({
     };
     wx.setStorageSync('userInfo', userInfo);
     this.setData({ userInfo });
-    // 同步到后端（若接口存在则更新，否则静默忽略）
-    if (auth.isLogin() && api.updateProfile) {
-      api.updateProfile({ nickName, avatar: avatarUrl }).catch(() => {});
+    // 同步到后端（updateUserInfo 已在 api.js 定义：PUT /api/user/profile）
+    if (auth.isLogin()) {
+      api.updateUserInfo({ nickName, avatar: avatarUrl }).catch(() => {});
     }
     wx.showToast({ title: '登录成功', icon: 'success' });
   },

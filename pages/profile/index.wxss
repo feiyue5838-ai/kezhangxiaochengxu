@@ -315,3 +315,26 @@ page {
   height: env(safe-area-inset-bottom);
   width: 100%;
 }
+
+/* 编辑资料入口（header 右上角） */
+.header {
+  position: relative;
+}
+
+.edit-entry {
+  position: absolute;
+  right: 32rpx;
+  top: 48rpx;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 10rpx 24rpx;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 28rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+.edit-entry-arrow {
+  font-size: 26rpx;
+}

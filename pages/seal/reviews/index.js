@@ -59,5 +59,10 @@ Page({
     } else {
       wx.showToast({ title: '请选择订单', icon: 'none' });
     }
+  },
+
+  // 我提交的评价（审核状态管理）
+  goMyReviews() {
+    wx.navigateTo({ url: '/pages/seal/reviews/my/index' });
   }
 });

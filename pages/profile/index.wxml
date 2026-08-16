@@ -30,6 +30,10 @@
       </button>
       <text class="phone" wx:if="{{userInfo.phone}}">{{userInfo.phone}}</text>
     </view>
+    <view class="edit-entry" bindtap="goToEditProfile">
+      <text>编辑资料</text>
+      <text class="edit-entry-arrow">›</text>
+    </view>
   </view>
 
   <!-- 订单统计（3个状态） -->
@@ -72,6 +76,14 @@
 
   <!-- 菜单列表 -->
   <view class="menu-list">
+    <view class="menu-item" bindtap="goToOutletWorkbench">
+      <view class="menu-icon-wrap">
+        <image class="menu-icon-img" src="/assets/icons/icon-b64-20.svg" mode="aspectFit" />
+      </view>
+      <text class="menu-name">门店工作台</text>
+      <text class="menu-desc" wx:if="{{outletName}}">{{outletName}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
     <view class="menu-item" bindtap="goToAftersale">
       <view class="menu-icon-wrap">
         <image class="menu-icon-img" src="/assets/icons/icon-b64-16.svg" mode="aspectFit" />

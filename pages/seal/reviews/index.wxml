@@ -4,6 +4,7 @@
 
   <view class="review-header">
     <text class="review-total">共 {{reviewList.length}} 条评价</text>
+    <view class="my-review-entry" bindtap="goMyReviews">我的评价 ›</view>
   </view>
 
   <view class="review-list">

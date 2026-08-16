@@ -1,0 +1,45 @@
+<!-- pages/profile/edit/index.wxml — 用户资料编辑 -->
+<view class="page">
+  <nav-bar title="编辑资料" bind:back="goBack" />
+
+  <view class="edit-card">
+    <!-- 头像 -->
+    <view class="edit-row">
+      <text class="edit-label">头像</text>
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <view wx:if="{{!userInfo.avatarUrl}}" class="avatar avatar--default">
+          <text class="avatar-icon">👤</text>
+        </view>
+        <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+        <text class="edit-arrow">›</text>
+      </button>
+    </view>
+
+    <!-- 昵称 -->
+    <view class="edit-row">
+      <text class="edit-label">昵称</text>
+      <input
+        class="edit-input"
+        type="nickname"
+        placeholder="请输入昵称"
+        value="{{userInfo.nickName}}"
+        bindinput="onNicknameInput"
+      />
+    </view>
+
+    <!-- 手机号（登录即绑定，不可编辑） -->
+    <view class="edit-row edit-row--last">
+      <text class="edit-label">手机号</text>
+      <text class="edit-value">{{userInfo.phone || '未绑定'}}</text>
+    </view>
+  </view>
+
+  <view class="edit-tip">
+    <text>昵称与头像仅用于展示，修改后立即生效</text>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-btn {{saving ? 'disabled' : ''}}" bindtap="onSave">
+    {{saving ? '保存中…' : '保存'}}
+  </view>
+</view>

@@ -242,9 +242,8 @@ module.exports = {
     });
   },
 
-  // TODO [未实现-门店登录] 门店商家账号密码登录从未实现；pages/auth/ 无独立登录页，当前走微信一键登录+outlet-binding绑定
-  // 门店登录 ?POST /api/auth/store-login
-  storeLogin: (data) => request({ url: '/api/auth/store-login', method: 'POST', data: data }),
+  // [已实现] 门店商家账号密码登录：完整流程在 pages/outlet-binding（登录+绑定微信+订阅通知），
+  // 入口在 pages/profile 菜单「门店工作台」。请求实现见下方 outletLogin（原重复定义 storeLogin 已删除）。
 
 
   // ==================== 用户相关 ====================
@@ -262,7 +261,7 @@ getRealnameStatus: () => request({ url: '/api/user/realname-verify' }),
 
 getUserInfo: () => request({ url: '/api/user/profile' }),
 
-  // TODO [未实现-资料编辑] 用户资料编辑页从未实现；pages/profile/ 仅展示Storage数据，无PUT提交表单
+  // [已实现] 用户资料编辑页：pages/profile/edit（头像上传 + PUT 表单）；入口在 pages/profile 头部「编辑资料」
   // 更新用户信息 ?PUT /api/user/profile
   updateUserInfo: (data) => request({ url: '/api/user/profile', method: 'PUT', data: data }),
 
@@ -839,14 +838,14 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   /** 已审核通过的评价列表 */
   reviewList: (params) => request({ url: '/api/reviews/list', data: params }),
 
-  // TODO [未实现-我的评价] "我提交的评价"管理页从未实现；pages/seal/reviews/ 仅有公开已审核列表，无个人评价页
+  // [已实现] "我提交的评价"管理页：pages/seal/reviews/my（待审核/已通过/已驳回 Tabs）；入口在评价列表页「我的评价」
   /** 我的评价列表（需登录） */
   myReviews: (params) => request({ url: '/api/reviews/my', data: params }),
 
   // ==================== 问答（小程序端） ====================
   /** 公开问答列表 */
   qaList: (params) => request({ url: '/api/questions/list', data: params }),
-  // TODO [未实现-问答详情] 问答详情页从未实现；pages/seal/qa/ 仅列表页，无详情页路由
+  // [已实现] 问答详情页：pages/seal/qa/detail（列表点击跳转，EventChannel 快照 + 详情接口刷新）
   /** 问答详情 */
   qaDetail: (id) => request({ url: '/api/questions/' + id }),
   /** 提交问题（需登录） */

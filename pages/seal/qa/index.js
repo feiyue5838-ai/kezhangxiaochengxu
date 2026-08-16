@@ -47,15 +47,21 @@ Page({
     }
   },
 
-  // 展开/收起问答详情
+  // 点击问答 → 跳转详情页（携带快照数据先行渲染，详情页再拉取最新）
   onItemTap(e) {
     const id = e.currentTarget.dataset.id;
-    const list = this.data.qaList;
-    const idx = list.findIndex(q => q.id === id);
-    if (idx !== -1) {
-      const key = 'qaList[' + idx + '].expanded';
-      this.setData({ [key]: !list[idx].expanded });
-    }
+    const item = this.data.qaList.find(q => q.id === id);
+    if (!item) return;
+    wx.navigateTo({
+      url: `/pages/seal/qa/detail/index?id=${id}`,
+      success: (res) => {
+        res.eventChannel.emit('qaSnapshot', {
+          question: item.question,
+          createdAt: item.createdAt,
+          replies: item.replies,
+        });
+      }
+    });
   },
 
   // 显示提问弹窗

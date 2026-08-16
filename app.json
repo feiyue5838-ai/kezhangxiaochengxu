@@ -4,7 +4,8 @@
     "pages/seal-tab/index",
     "pages/newspaper-tab/index",
     "pages/bookkeeping-tab/index",
-    "pages/profile/index"
+    "pages/profile/index",
+    "pages/profile/edit/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -64,8 +65,10 @@
         "order-confirm/index",
         "material-upload/index",
         "reviews/index",
+        "reviews/my/index",
         "review-submit/index",
         "qa/index",
+        "qa/detail/index",
         "order-detail/index"
       ]
     },

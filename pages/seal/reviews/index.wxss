@@ -117,3 +117,17 @@
   width: 28rpx;
   height: 28rpx;
 }
+/* 我的评价入口（header 右侧） */
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.my-review-entry {
+  font-size: 24rpx;
+  color: #5B6FE8;
+  padding: 8rpx 20rpx;
+  background: rgba(91, 111, 232, 0.08);
+  border-radius: 24rpx;
+}

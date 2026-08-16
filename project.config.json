@@ -99,6 +99,30 @@
       {
         "value": "verify_pages.js",
         "type": "file"
+      },
+      {
+        "value": "fix_order_list.js",
+        "type": "file"
+      },
+      {
+        "value": "health-check.js",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "eslint.config.js",
+        "type": "file"
+      },
+      {
+        "value": ".stylelintrc.js",
+        "type": "file"
+      },
+      {
+        "value": ".gitignore",
+        "type": "file"
       }
     ],
     "include": []

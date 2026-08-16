@@ -1,0 +1,53 @@
+<!-- pages/seal/qa/detail/index.wxml — 问答详情 -->
+<view class="page">
+  <nav-bar title="问答详情" bind:back="goBack" />
+
+  <!-- 加载中 -->
+  <view class="state" wx:if="{{loading}}">
+    <text class="state-text">加载中…</text>
+  </view>
+
+  <!-- 加载失败 -->
+  <view class="state" wx:elif="{{loadFailed}}">
+    <text class="state-text">内容加载失败</text>
+    <view class="state-btn" bindtap="onRetry">重新加载</view>
+  </view>
+
+  <block wx:elif="{{question}}">
+    <!-- 问题区 -->
+    <view class="q-card">
+      <view class="q-row">
+        <text class="q-badge">Q</text>
+        <text class="q-title">{{question.title}}</text>
+      </view>
+      <view class="q-meta">
+        <text class="q-status {{question.isAnswered ? 'answered' : ''}}">{{question.statusText}}</text>
+        <text class="q-date">{{question.date}}</text>
+      </view>
+    </view>
+
+    <!-- 回复区 -->
+    <view class="a-section">
+      <view class="a-header">共 {{question.replies.length}} 条回复</view>
+
+      <view class="a-item" wx:for="{{question.replies}}" wx:key="index">
+        <view class="a-item-top">
+          <text class="a-author">{{item.author}}</text>
+          <text class="a-date">{{item.createdAt}}</text>
+        </view>
+        <text class="a-text">{{item.text}}</text>
+      </view>
+
+      <!-- 无回复 -->
+      <view class="a-empty" wx:if="{{question.replies.length === 0}}">
+        <text class="a-empty-text">问题已提交，客服正在加急处理，请耐心等待</text>
+      </view>
+    </view>
+
+    <!-- 底部追问 -->
+    <view class="bottom-bar">
+      <view class="ask-again-btn" bindtap="onAskAgain">继续提问</view>
+    </view>
+    <view class="bottom-placeholder"></view>
+  </block>
+</view>
