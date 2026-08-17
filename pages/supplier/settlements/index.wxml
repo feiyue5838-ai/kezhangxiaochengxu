@@ -1,0 +1,26 @@
+<view class="page">
+  <view class="header">
+    <view class="header-title">我的结算</view>
+    <view class="header-sub">共 {{total}} 笔</view>
+  </view>
+
+  <view class="list" wx:if="{{list.length > 0}}">
+    <view class="card" wx:for="{{list}}" wx:key="id">
+      <view class="card-top">
+        <text class="no">{{item.settlementNo}}</text>
+        <text class="status status-{{item.status}}">{{item.statusText}}</text>
+      </view>
+      <view class="card-body">
+        <view class="period">{{item.periodStart}} ~ {{item.periodEnd}}</view>
+        <view class="amount">{{item.amountText || '¥0.00'}}</view>
+        <view class="orders">订单数：{{item.orderCount || 0}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{!loading}}" class="empty">
+    <view class="empty-icon">💰</view>
+    <view class="empty-text">暂无结算单</view>
+  </view>
+  <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+</view>

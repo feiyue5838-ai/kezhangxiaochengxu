@@ -191,6 +191,14 @@
       "pages": [
         "index"
       ]
+    },
+    {
+      "root": "pages/supplier/",
+      "pages": [
+        "index/index",
+        "order-detail/index",
+        "settlements/index"
+      ]
     }
   ]
 }

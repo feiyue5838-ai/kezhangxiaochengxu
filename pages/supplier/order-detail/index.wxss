@@ -1,0 +1,97 @@
+/* pages/supplier/order-detail/index.wxss */
+.page { min-height: 100vh; background: #f5f6fa; }
+
+.status-header {
+  padding: 48rpx 32rpx;
+  text-align: center;
+}
+.status-assigned { background: linear-gradient(135deg, #ff8c00, #ff6600); color: #fff; }
+.status-accepted { background: linear-gradient(135deg, #3a7afe, #2f6bff); color: #fff; }
+.status-processing { background: linear-gradient(135deg, #8a3aff, #6a1bff); color: #fff; }
+.status-completed { background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; }
+.status-cancelled { background: #999; color: #fff; }
+.status-text { font-size: 40rpx; font-weight: 700; }
+.order-no { font-size: 24rpx; opacity: 0.85; margin-top: 8rpx; }
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  margin: 20rpx;
+  padding: 28rpx;
+}
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f8f8f8;
+}
+.row:last-child { border-bottom: none; }
+.label { font-size: 28rpx; color: #888; flex-shrink: 0; }
+.value { font-size: 28rpx; color: #1a1a1a; text-align: right; flex: 1; margin-left: 24rpx; }
+
+.actions {
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx 32rpx;
+  margin-top: 20rpx;
+}
+.btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+}
+.btn-primary { background: linear-gradient(135deg, #3a7afe, #2f6bff); color: #fff; }
+.btn-reject { background: #fff; color: #ff4d4f; border: 2rpx solid #ff4d4f; }
+.btn-ghost { background: #f5f6fa; color: #666; }
+
+.mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx 32rpx;
+  width: 600rpx;
+  max-width: 90vw;
+}
+.dialog-title { font-size: 34rpx; font-weight: 700; color: #1a1a1a; text-align: center; margin-bottom: 28rpx; }
+.dialog-input {
+  width: 100%;
+  border: 1rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+}
+.dialog-btns {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 28rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 120rpx 0;
+}
+.empty-text { font-size: 28rpx; color: #999; }
+.loading-tip { text-align: center; padding: 80rpx; font-size: 28rpx; color: #999; }

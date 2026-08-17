@@ -258,6 +258,63 @@ const v2Request = (options) => {
 };
 
 
+// V2.0 供应商独立请求（用网点 token，解两层包装）
+const v2SupplierRequest = (options) => {
+  return new Promise((resolve, reject) => {
+    const outletToken = wx.getStorageSync('outletToken');
+    wx.request({
+      url: API_BASE + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      timeout: options.timeout || 15000,
+      header: {
+        'Content-Type': 'application/json',
+        ...(outletToken ? { Authorization: 'Bearer ' + outletToken } : {}),
+        ...options.header
+      },
+      success: (res) => {
+        if (res.statusCode === 200 || res.statusCode === 201) {
+          const outer = res.data || {};
+          if (outer.code !== undefined && outer.code !== 0) {
+            wx.showToast({ title: outer.message || '请求失败', icon: 'none', duration: 2000 });
+            reject(new Error(outer.message || '请求失败'));
+            return;
+          }
+          let inner = outer.data;
+          if (inner && typeof inner === 'object' && inner.code !== undefined) {
+            if (inner.code !== 0) {
+              wx.showToast({ title: inner.message || '请求失败', icon: 'none', duration: 2000 });
+              reject(new Error(inner.message || '请求失败'));
+              return;
+            }
+            resolve(inner.data !== undefined ? inner.data : inner);
+          } else {
+            resolve(inner !== undefined ? inner : outer);
+          }
+        } else if (res.statusCode === 401) {
+          wx.removeStorageSync('outletToken');
+          wx.removeStorageSync('outletInfo');
+          wx.showToast({ title: '网点登录已过期，请重新登录', icon: 'none' });
+          reject(new Error('网点登录已过期，请重新登录'));
+        } else if (res.statusCode === 403) {
+          wx.showToast({ title: '没有权限访问', icon: 'none', duration: 2000 });
+          reject(new Error('没有权限访问'));
+        } else {
+          const msg = (res.data && (res.data.message || res.data.error)) || `请求失败(${res.statusCode})`;
+          wx.showToast({ title: msg, icon: 'none', duration: 2000 });
+          reject(new Error(msg));
+        }
+      },
+      fail: (err) => {
+        console.error('V2_SUPPLIER_API_FAIL:', JSON.stringify({ url: options.url, method: options.method, err: err && err.errMsg }));
+        wx.showToast({ title: '网络请求失败', icon: 'none', duration: 2000 });
+        reject(err);
+      }
+    });
+  });
+};
+
+
 // 网点独立请求函数（使用网点 token，与用户 token 分离）
 const outletRequest = (options) => {
   return new Promise((resolve, reject) => {
@@ -366,6 +423,33 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
 
   // 申请退款 POST /api/v2/user/orders/:orderNo/refund
   v2ApplyRefund: (orderNo, data) => v2Request({ url: `/api/v2/user/orders/${orderNo}/refund`, method: 'POST', data: data || {} }),
+
+  // ==================== V2.0 供应商端 ====================
+
+  // 供应商订单列表 GET /api/v2/supplier/orders?status=&page=&pageSize=
+  // status: pending(待接单)/accepted(已接单)/processing(制作中)/completed(已完成)/cancelled(已取消)
+  v2SupplierGetOrders: (params) => v2SupplierRequest({ url: '/api/v2/supplier/orders', data: params || {} }),
+
+  // 供应商接单 POST /api/v2/supplier/orders/:fulfillmentId/accept
+  v2SupplierAccept: (fulfillmentId) => v2SupplierRequest({ url: `/api/v2/supplier/orders/${fulfillmentId}/accept`, method: 'POST' }),
+
+  // 供应商拒单 POST /api/v2/supplier/orders/:fulfillmentId/reject
+  v2SupplierReject: (fulfillmentId, data) => v2SupplierRequest({ url: `/api/v2/supplier/orders/${fulfillmentId}/reject`, method: 'POST', data: data || {} }),
+
+  // 供应商开始制作 POST /api/v2/supplier/orders/:fulfillmentId/start
+  v2SupplierStart: (fulfillmentId) => v2SupplierRequest({ url: `/api/v2/supplier/orders/${fulfillmentId}/start`, method: 'POST' }),
+
+  // 供应商发货 POST /api/v2/supplier/orders/:fulfillmentId/deliver
+  v2SupplierDeliver: (fulfillmentId, data) => v2SupplierRequest({ url: `/api/v2/supplier/orders/${fulfillmentId}/deliver`, method: 'POST', data: data || {} }),
+
+  // 供应商完成 POST /api/v2/supplier/orders/:fulfillmentId/complete
+  v2SupplierComplete: (fulfillmentId) => v2SupplierRequest({ url: `/api/v2/supplier/orders/${fulfillmentId}/complete`, method: 'POST' }),
+
+  // 供应商结算列表 GET /api/v2/supplier/settlements
+  v2SupplierSettlements: (params) => v2SupplierRequest({ url: '/api/v2/supplier/settlements', data: params || {} }),
+
+  // 供应商结算详情 GET /api/v2/supplier/settlements/:id
+  v2SupplierSettlementDetail: (id) => v2SupplierRequest({ url: `/api/v2/supplier/settlements/${id}` }),
 
 
   // ==================== 印章服务 ====================

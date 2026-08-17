@@ -129,6 +129,11 @@ Page({
     wx.navigateTo({ url: '/pages/outlet-binding/index' });
   },
 
+  // 供应商工作台（V2.0 履约供应商：接单/制作/发货/结算）
+  goToSupplierWorkbench() {
+    wx.navigateTo({ url: '/pages/supplier/index/index' });
+  },
+
   // 编辑资料（头像/昵称，PUT /api/user/profile）
   goToEditProfile() {
     wx.navigateTo({ url: '/pages/profile/edit/index' });

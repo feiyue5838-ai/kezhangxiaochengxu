@@ -1,0 +1,94 @@
+<view class="page" wx:if="{{order}}">
+  <!-- 状态头 -->
+  <view class="status-header status-{{order.status}}">
+    <view class="status-text">{{statusText}}</view>
+    <view class="order-no">{{order.orderNo}}</view>
+  </view>
+
+  <!-- 订单信息 -->
+  <view class="card">
+    <view class="card-title">订单信息</view>
+    <view class="row">
+      <text class="label">业务类型</text>
+      <text class="value">{{order.module === 'seal' ? '刻章' : order.module === 'newspaper' ? '登报' : order.module === 'bookkeeping' ? '记账' : order.module}}</text>
+    </view>
+    <view class="row">
+      <text class="label">供应商</text>
+      <text class="value">{{order.supplierName}}</text>
+    </view>
+    <view class="row" wx:if="{{order.assignedAt}}">
+      <text class="label">派单时间</text>
+      <text class="value">{{order.assignedAt}}</text>
+    </view>
+    <view class="row" wx:if="{{order.acceptedAt}}">
+      <text class="label">接单时间</text>
+      <text class="value">{{order.acceptedAt}}</text>
+    </view>
+    <view class="row" wx:if="{{order.startedAt}}">
+      <text class="label">开始制作</text>
+      <text class="value">{{order.startedAt}}</text>
+    </view>
+    <view class="row" wx:if="{{order.completedAt}}">
+      <text class="label">完成时间</text>
+      <text class="value">{{order.completedAt}}</text>
+    </view>
+    <view class="row" wx:if="{{order.cancelReason}}">
+      <text class="label">取消原因</text>
+      <text class="value">{{order.cancelReason}}</text>
+    </view>
+    <view class="row" wx:if="{{order.expressCompany}}">
+      <text class="label">快递</text>
+      <text class="value">{{order.expressCompany}} {{order.expressNo}}</text>
+    </view>
+    <view class="row" wx:if="{{order.remark}}">
+      <text class="label">备注</text>
+      <text class="value">{{order.remark}}</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <block wx:if="{{order.status === 'assigned'}}">
+      <button class="btn btn-reject" bindtap="onRejectTap">拒单</button>
+      <button class="btn btn-primary" bindtap="onAccept" loading="{{actionLoading}}">接单</button>
+    </block>
+    <button wx:if="{{order.status === 'accepted'}}" class="btn btn-primary" bindtap="onStart" loading="{{actionLoading}}">开始制作</button>
+    <button wx:if="{{order.status === 'processing'}}" class="btn btn-primary" bindtap="onDeliverTap">发货</button>
+  </view>
+
+  <!-- 拒单弹窗 -->
+  <view class="mask" wx:if="{{showReject}}" bindtap="onRejectCancel">
+    <view class="dialog" catchtap="">
+      <view class="dialog-title">拒单</view>
+      <textarea
+        class="dialog-input"
+        placeholder="请填写拒单原因"
+        value="{{rejectReason}}"
+        bindinput="onRejectInput"
+        maxlength="200"
+      ></textarea>
+      <view class="dialog-btns">
+        <button class="btn btn-ghost" bindtap="onRejectCancel">取消</button>
+        <button class="btn btn-primary" bindtap="onRejectConfirm" loading="{{actionLoading}}">确认拒单</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 发货弹窗 -->
+  <view class="mask" wx:if="{{showDeliver}}" bindtap="onDeliverCancel">
+    <view class="dialog" catchtap="">
+      <view class="dialog-title">发货</view>
+      <input class="dialog-input" placeholder="快递公司（如：顺丰）" value="{{courier}}" bindinput="onCourierInput" />
+      <input class="dialog-input" placeholder="快递单号" value="{{trackingNo}}" bindinput="onTrackingInput" />
+      <view class="dialog-btns">
+        <button class="btn btn-ghost" bindtap="onDeliverCancel">取消</button>
+        <button class="btn btn-primary" bindtap="onDeliverConfirm" loading="{{actionLoading}}">确认发货</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view wx:elif="{{!loading}}" class="empty">
+  <view class="empty-text">订单不存在或已删除</view>
+</view>
+<view wx:else class="loading-tip">加载中...</view>

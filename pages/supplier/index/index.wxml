@@ -1,0 +1,57 @@
+<view class="page">
+  <!-- 未登录提示 -->
+  <view wx:if="{{!outletInfo}}" class="login-tip">
+    <view class="tip-title">供应商工作台</view>
+    <view class="tip-desc">请先登录网点账号后查看订单</view>
+    <button class="tip-btn" bindtap="goLogin">去登录</button>
+  </view>
+
+  <block wx:else>
+    <!-- 顶部信息 -->
+    <view class="header">
+      <view class="header-name">{{outletInfo.name || '供应商工作台'}}</view>
+      <view class="header-sub" bindtap="goSettlements">查看结算 →</view>
+    </view>
+
+    <!-- Tab 切换 -->
+    <view class="tabs">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        class="tab {{activeTab === item.key ? 'tab-active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onTabTap"
+      >{{item.label}}</view>
+    </view>
+
+    <!-- 订单列表 -->
+    <view class="order-list" wx:if="{{list.length > 0}}">
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="order-card"
+        data-id="{{item.id}}"
+        bindtap="goDetail"
+      >
+        <view class="order-top">
+          <text class="order-no">{{item.orderNo}}</text>
+          <text class="order-status status-{{item.status}}">{{item.statusText}}</text>
+        </view>
+        <view class="order-meta">
+          <text class="module-tag">{{item.module === 'seal' ? '刻章' : item.module === 'newspaper' ? '登报' : item.module === 'bookkeeping' ? '记账' : item.module}}</text>
+          <text class="order-time">{{item.assignedAt || item.acceptedAt || ''}}</text>
+        </view>
+        <view wx:if="{{item.expressCompany}}" class="order-express">
+          快递：{{item.expressCompany}} {{item.expressNo}}
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{!loading}}" class="empty">
+      <view class="empty-icon">📋</view>
+      <view class="empty-text">暂无{{tabs[activeIndex].label}}订单</view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+  </block>
+</view>
