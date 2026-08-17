@@ -188,6 +188,76 @@ const request = (options) => {
 };
 
 
+// V2.0 请求函数：V2.0 接口响应为双层包装 {code,message,data:{code,message,data:实际数据}}
+// （controller 级 @UseInterceptors(ResponseInterceptor) + 全局拦截器各包一层）
+// 本函数自动解两层，调用方直接拿实际数据；错误处理与 request 一致
+const v2Request = (options) => {
+  return new Promise((resolve, reject) => {
+    const token = wx.getStorageSync('token');
+    wx.request({
+      url: API_BASE + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      timeout: options.timeout || 15000,
+      header: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.header
+      },
+      success: (res) => {
+        if (res.statusCode === 200 || res.statusCode === 201) {
+          const outer = res.data || {};
+          // 外层 code：0 成功；非 0 直接报错
+          if (outer.code !== undefined && outer.code !== 0) {
+            const errorMsg = outer.message || '请求失败';
+            wx.showToast({ title: errorMsg, icon: 'none', duration: 2000 });
+            reject(new Error(errorMsg));
+            return;
+          }
+          // 解外层 data（可能是内层包装 {code,message,data}，也可能已是实际数据）
+          let inner = outer.data;
+          if (inner && typeof inner === 'object' && inner.code !== undefined) {
+            if (inner.code !== 0) {
+              const errorMsg = inner.message || '请求失败';
+              wx.showToast({ title: errorMsg, icon: 'none', duration: 2000 });
+              reject(new Error(errorMsg));
+              return;
+            }
+            resolve(inner.data !== undefined ? inner.data : inner);
+          } else {
+            resolve(inner !== undefined ? inner : outer);
+          }
+        } else if (res.statusCode === 401) {
+          wx.removeStorageSync('token');
+          wx.removeStorageSync('userInfo');
+          wx.showToast({ title: '登录已过期，请重新登录', icon: 'none' });
+          const pages = getCurrentPages();
+          const cur = pages[pages.length - 1];
+          if (!cur || cur.route !== 'pages/auth/index') {
+            wx.navigateTo({ url: '/pages/auth/index' });
+          }
+          reject(new Error('未授权，请重新登录'));
+        } else if (res.statusCode === 403) {
+          wx.showToast({ title: '没有权限访问', icon: 'none', duration: 2000 });
+          reject(new Error('没有权限访问'));
+        } else if (res.statusCode === 500) {
+          wx.showToast({ title: '服务器内部错误', icon: 'none', duration: 2000 });
+          reject(new Error('服务器内部错误'));
+        } else {
+          wx.showToast({ title: `请求失败(${res.statusCode})`, icon: 'none', duration: 2000 });
+          reject(new Error(`请求失败(${res.statusCode})`));
+        }
+      },
+      fail: (err) => {
+        console.error('V2_API_FAIL:', JSON.stringify({ url: options.url, method: options.method, err: err && err.errMsg }));
+        wx.showToast({ title: '网络请求失败', icon: 'none', duration: 2000 });
+        reject(err);
+      }
+    });
+  });
+};
+
+
 // 网点独立请求函数（使用网点 token，与用户 token 分离）
 const outletRequest = (options) => {
   return new Promise((resolve, reject) => {
@@ -264,6 +334,38 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   // [已实现] 用户资料编辑页：pages/profile/edit（头像上传 + PUT 表单）；入口在 pages/profile 头部「编辑资料」
   // 更新用户信息 ?PUT /api/user/profile
   updateUserInfo: (data) => request({ url: '/api/user/profile', method: 'PUT', data: data }),
+
+
+  // ==================== V2.0 订单接口（/api/v2/user） ====================
+  // 响应为双层包装，统一走 v2Request（自动解两层）
+
+  // 我的订单列表 GET /api/v2/user/orders?tab=&module=&page=&pageSize=
+  // tab: pending_payment/paid/processing/completed/after_sale
+  v2GetOrders: (params) => v2Request({ url: '/api/v2/user/orders', data: params || {} }),
+
+  // 订单详情 GET /api/v2/user/orders/:orderNo
+  v2GetOrderDetail: (orderNo) => v2Request({ url: `/api/v2/user/orders/${orderNo}` }),
+
+  // 创建刻章订单 POST /api/v2/user/orders/seal
+  v2CreateSealOrder: (data) => v2Request({ url: '/api/v2/user/orders/seal', method: 'POST', data }),
+
+  // 创建登报订单 POST /api/v2/user/orders/newspaper
+  v2CreateNewspaperOrder: (data) => v2Request({ url: '/api/v2/user/orders/newspaper', method: 'POST', data }),
+
+  // 创建记账订单 POST /api/v2/user/orders/bookkeeping
+  v2CreateBookkeepingOrder: (data) => v2Request({ url: '/api/v2/user/orders/bookkeeping', method: 'POST', data }),
+
+  // 获取支付参数 POST /api/v2/user/orders/:orderNo/pay
+  v2GetPayParams: (orderNo, data) => v2Request({ url: `/api/v2/user/orders/${orderNo}/pay`, method: 'POST', data: data || {} }),
+
+  // 取消订单 POST /api/v2/user/orders/:orderNo/cancel
+  v2CancelOrder: (orderNo) => v2Request({ url: `/api/v2/user/orders/${orderNo}/cancel`, method: 'POST' }),
+
+  // 确认收货 POST /api/v2/user/orders/:orderNo/confirm
+  v2ConfirmReceive: (orderNo) => v2Request({ url: `/api/v2/user/orders/${orderNo}/confirm`, method: 'POST' }),
+
+  // 申请退款 POST /api/v2/user/orders/:orderNo/refund
+  v2ApplyRefund: (orderNo, data) => v2Request({ url: `/api/v2/user/orders/${orderNo}/refund`, method: 'POST', data: data || {} }),
 
 
   // ==================== 印章服务 ====================

@@ -1,6 +1,7 @@
 const common = require('../../../utils/common.js');
 const api = require('../../../utils/api.js');
 const auth = require('../../../utils/auth.js');
+const { orderStatusV2 } = require('../../../utils/order-status-v2.js');
 
 // 刻章订单数字 status -> 字符串 status（用于 Tab 过滤，与 localStorage 格式对齐）
 const sealStatusMap = {
@@ -125,6 +126,48 @@ Page({
     }
     this.setData({ loading: true, needLogin: false });
 
+    // ===== V2.0 优先：统一订单列表（五维状态） =====
+    try {
+      const v2res = await api.v2GetOrders({ pageSize: 200 });
+      const v2List = (v2res && (v2res.list || v2res.rows)) || [];
+      if (v2List.length > 0 || (v2res && v2res.total !== undefined)) {
+        const v2Orders = v2List.map(o => {
+          const st = orderStatusV2(o);
+          const itemDesc = (o.orderItemsV2 && o.orderItemsV2.length)
+            ? o.orderItemsV2.map(i => i.itemName || '').filter(Boolean).join(' / ')
+            : (o.customerRemark || (o.module === 'seal' ? '刻章服务' : o.module === 'newspaper' ? '登报服务' : '代理记账'));
+          return {
+            id: o.orderNo,            // V2.0 用 orderNo 作为唯一标识
+            orderNo: o.orderNo,
+            module: o.module || 'seal',
+            type: o.module === 'seal' ? '在线刻章' : o.module === 'newspaper' ? '登报服务' : '代理记账',
+            desc: itemDesc,
+            date: (o.createdAt || '').split('T')[0],
+            createTime: (o.createdAt || '').replace('T', ' ').substring(0, 16),
+            status: st.key,
+            statusText: st.label,
+            statusClass: st.key,
+            color: st.color,
+            step: st.step,
+            price: Number(o.totalAmount) || 0,
+            payAmount: Number(o.payAmount) || 0,
+            expressNo: o.expressNo || '',
+            expressCompany: o.expressCompany || '',
+            url: '/pages/order/detail/index?orderNo=' + o.orderNo,
+          };
+        });
+        v2Orders.sort((a, b) => (b.createTime || '').localeCompare(a.createTime || ''));
+        this.setData({ allList: v2Orders });
+        this.filterList();
+        this.setData({ loading: false });
+        this._loadingOrders = false;
+        return;
+      }
+    } catch (e) {
+      console.warn('[order-list] V2.0 接口失败，降级 V1:', e && e.message);
+    }
+
+    // ===== V1 兜底（原有逻辑） =====
     // 测试模式：自动添加测试订单
     const testMode = this._testMode || wx.getStorageSync('__test_mode__');
     const newspaperOrders = testMode ? [
@@ -208,17 +251,32 @@ Page({
   filterList() {
     const { allList, currentTab, tabs } = this.data;
     const status = tabs[currentTab].status;
+    // V1 旧状态 key → 兼容 V2.0 新 key
+    const v2KeyMap = {
+      pending: ['pending_payment'],
+      paid: ['pending_assign', 'assigned', 'accepted', 'processing'],
+      shipped: ['delivering', 'signed'],
+      completed: ['completed'],
+      refund: ['refunding', 'partial_refund', 'refunded', 'refund_rejected', 'cancelled'],
+    };
     if (status === 'all') {
       this.setData({ list: allList });
     } else if (status === 'refund') {
-      this.setData({ list: allList.filter(o => ['refund', 'refunded', 'cancelled'].includes(o.status)) });
+      this.setData({ list: allList.filter(o => ['refund', 'refunded', 'cancelled'].includes(o.status) || (v2KeyMap.refund || []).includes(o.status)) });
     } else {
-      this.setData({ list: allList.filter(o => o.status === status) });
+      const v2Keys = v2KeyMap[status] || [];
+      this.setData({ list: allList.filter(o => o.status === status || v2Keys.includes(o.status)) });
     }
   },
 
   goToDetail(e) {
-    const { id, module } = e.currentTarget.dataset;
+    const { id, module, orderno } = e.currentTarget.dataset;
+    // V2.0 订单（orderNo）→ 统一订单详情页
+    if (orderno || (id && String(id).startsWith('SE') === false && String(id).length > 16)) {
+      // orderNo 形如 SE/RB/BK + 时间戳，长度 > 16 且非 UUID（UUID 含 -）
+      wx.navigateTo({ url: '/pages/order/detail/index?orderNo=' + (orderno || id) });
+      return;
+    }
     const urls = {
       seal: '/pages/seal/order-detail/index',
       newspaper: '/pages/newspaper/order-detail/index',

@@ -1,0 +1,141 @@
+<view class="page">
+  <nav-bar title="订单详情" bind:back="goBack" />
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 订单不存在 -->
+  <view class="empty-wrap" wx:elif="{{!display}}">
+    <text class="empty-text">订单不存在或已被删除</text>
+    <button class="back-btn" bindtap="goBack">返回</button>
+  </view>
+
+  <block wx:else>
+    <!-- 状态卡片 -->
+    <view class="status-card" style="background:{{display.statusColor}};">
+      <text class="status-text">{{display.statusText}}</text>
+      <text class="status-sub">{{display.moduleText}} · {{display.orderNo}}</text>
+    </view>
+
+    <!-- 履约进度条 -->
+    <view class="progress-card" wx:if="{{currentStep >= 0}}">
+      <view class="progress-title">履约进度</view>
+      <view class="progress-row">
+        <view class="progress-step {{index <= currentStep ? 'done' : ''}}" wx:for="{{steps}}" wx:key="*this">
+          <view class="progress-dot">
+            <text wx:if="{{index <= currentStep}}">✓</text>
+          </view>
+          <text class="progress-label">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 业务信息 -->
+    <view class="info-card">
+      <view class="info-title">订单信息</view>
+      <view class="info-row">
+        <text class="info-label">业务类型</text>
+        <text class="info-value">{{display.moduleText}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">服务内容</text>
+        <text class="info-value">{{display.desc}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">下单时间</text>
+        <text class="info-value">{{display.createTime}}</text>
+      </view>
+      <view class="info-row" wx:if="{{display.paidTime}}">
+        <text class="info-label">支付时间</text>
+        <text class="info-value">{{display.paidTime}}</text>
+      </view>
+      <view class="info-row" wx:if="{{display.completedTime}}">
+        <text class="info-label">完成时间</text>
+        <text class="info-value">{{display.completedTime}}</text>
+      </view>
+      <view class="info-row" wx:if="{{display.remark}}">
+        <text class="info-label">备注</text>
+        <text class="info-value">{{display.remark}}</text>
+      </view>
+      <view class="info-row price-row">
+        <text class="info-label">订单金额</text>
+        <text class="info-value price">¥{{display.totalAmount}}</text>
+      </view>
+      <view class="info-row" wx:if="{{display.paidAmount > 0}}">
+        <text class="info-label">实付金额</text>
+        <text class="info-value">¥{{display.paidAmount}}</text>
+      </view>
+    </view>
+
+    <!-- 刻章明细 -->
+    <view class="info-card" wx:if="{{details && details.companyName}}">
+      <view class="info-title">刻章信息</view>
+      <view class="info-row">
+        <text class="info-label">企业名称</text>
+        <text class="info-value">{{details.companyName}}</text>
+      </view>
+      <view class="info-row" wx:if="{{details.legalPerson}}">
+        <text class="info-label">法人</text>
+        <text class="info-value">{{details.legalPerson}}</text>
+      </view>
+      <view class="info-row" wx:if="{{details.sealCount}}">
+        <text class="info-label">印章数量</text>
+        <text class="info-value">{{details.sealCount}} 枚</text>
+      </view>
+    </view>
+
+    <!-- 登报明细 -->
+    <view class="info-card" wx:if="{{details && details.content}}">
+      <view class="info-title">登报信息</view>
+      <view class="info-row" wx:if="{{details.newspaperName}}">
+        <text class="info-label">报纸</text>
+        <text class="info-value">{{details.newspaperName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">声明内容</text>
+        <text class="info-value">{{details.content}}</text>
+      </view>
+    </view>
+
+    <!-- 邮寄信息 -->
+    <view class="info-card" wx:if="{{address}}">
+      <view class="info-title">收货信息</view>
+      <view class="info-row">
+        <text class="info-label">收件人</text>
+        <text class="info-value">{{address.receiverName || address.name}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">手机号</text>
+        <text class="info-value">{{address.receiverPhone || address.phone}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">地址</text>
+        <text class="info-value">{{address.province}}{{address.city}}{{address.district}}{{address.address || address.detail}}</text>
+      </view>
+    </view>
+
+    <!-- 履约时间线 -->
+    <view class="info-card" wx:if="{{events.length > 0}}">
+      <view class="info-title">履约记录</view>
+      <view class="timeline">
+        <view class="timeline-item" wx:for="{{events}}" wx:key="eventType">
+          <view class="timeline-dot"></view>
+          <view class="timeline-body">
+            <text class="timeline-name">{{item.eventName || item.eventType}}</text>
+            <text class="timeline-time">{{item.createdAt}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部操作 -->
+    <view class="action-bar" wx:if="{{display.canPay || display.canCancel || display.canConfirm || display.canRefund}}">
+      <button class="action-btn" wx:if="{{display.canCancel}}" bindtap="onCancel" plain>取消订单</button>
+      <button class="action-btn" wx:if="{{display.canRefund}}" bindtap="onApplyRefund" plain>申请退款</button>
+      <button class="action-btn primary" wx:if="{{display.canConfirm}}" bindtap="onConfirmReceive">确认收货</button>
+      <button class="action-btn primary" wx:if="{{display.canPay}}" bindtap="onPay">去支付</button>
+    </view>
+  </block>
+</view>
