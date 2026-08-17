@@ -8,7 +8,9 @@ Page({
     showAsk: false,
     newQuestion: '',
     isPersonal: false,
-    submitting: false
+    submitting: false,
+    keyboardHeight: 0,
+    textareaFocus: false,
   },
 
   goBack() {
@@ -66,12 +68,17 @@ Page({
 
   // 显示提问弹窗
   showAskPopup() {
-    this.setData({ showAsk: true });
+    this.setData({ showAsk: true, textareaFocus: true });
   },
 
   // 隐藏提问弹窗
   hideAskPopup() {
-    this.setData({ showAsk: false, newQuestion: '' });
+    this.setData({
+      showAsk: false,
+      newQuestion: '',
+      textareaFocus: false,
+      keyboardHeight: 0,
+    });
   },
 
   // 阻止事件冒泡
@@ -80,6 +87,19 @@ Page({
   // 输入问题
   onQuestionInput(e) {
     this.setData({ newQuestion: e.detail.value });
+  },
+
+  // 键盘弹出时上移输入框，避免被键盘遮挡。
+  onTextareaFocus(e) {
+    this.setData({ keyboardHeight: (e.detail && e.detail.height) || 0 });
+  },
+
+  onKeyboardHeightChange(e) {
+    this.setData({ keyboardHeight: (e.detail && e.detail.height) || 0 });
+  },
+
+  onTextareaBlur() {
+    this.setData({ keyboardHeight: 0 });
   },
 
   // 提交问题

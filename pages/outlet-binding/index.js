@@ -147,6 +147,8 @@ Page({
     const TEMPLATE_ID = config.WECHAT_SUBSCRIBE_TEMPLATE_ID; // 真实 ID 在 utils/config.js 中配置
     if (!TEMPLATE_ID) {
       // 模板 ID 未配置时不调起授权弹窗，避免 wx.requestSubscribeMessage 直接报错
+      // 同时回退开关，避免界面错误显示为已开启通知。
+      this.setData({ subscribeEnabled: false, subscribing: false });
       wx.showToast({ title: '通知模板暂未配置', icon: 'none' });
       return;
     }

@@ -301,6 +301,9 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
 
   // 刻章订单详情 ?GET /api/orders/:id
 
+  // 通用订单详情（物流等跨业务页面使用）
+  getOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
+
   getSealOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
 
   // 取消刻章订单 / 申请退款 ?POST /api/orders/:id/cancel

@@ -41,6 +41,7 @@
         cursor-spacing="100"
         adjust-position="{{false}}"
         bindfocus="onTextareaFocus"
+        bindkeyboardheightchange="onKeyboardHeightChange"
         bindblur="onTextareaBlur"
       />
       <view class="ask-popup-actions">
