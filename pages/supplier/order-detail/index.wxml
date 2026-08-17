@@ -46,6 +46,14 @@
     </view>
   </view>
 
+  <!-- 已上传回执展示 -->
+  <view class="card" wx:if="{{receipts.length > 0}}">
+    <view class="card-title">回执照片（{{receipts.length}}）</view>
+    <view class="receipt-list">
+      <image wx:for="{{receipts}}" wx:key="index" class="receipt-img" src="{{item}}" mode="aspectFill" bindtap="onPreviewReceipt" data-index="{{index}}"></image>
+    </view>
+  </view>
+
   <!-- 操作按钮 -->
   <view class="actions">
     <block wx:if="{{order.status === 'assigned'}}">
@@ -53,7 +61,11 @@
       <button class="btn btn-primary" bindtap="onAccept" loading="{{actionLoading}}">接单</button>
     </block>
     <button wx:if="{{order.status === 'accepted'}}" class="btn btn-primary" bindtap="onStart" loading="{{actionLoading}}">开始制作</button>
-    <button wx:if="{{order.status === 'processing'}}" class="btn btn-primary" bindtap="onDeliverTap">发货</button>
+    <block wx:if="{{order.status === 'processing'}}">
+      <button class="btn btn-ghost" bindtap="onUploadReceipt">上传回执</button>
+      <button class="btn btn-primary" bindtap="onDeliverTap">发货</button>
+    </block>
+    <button wx:if="{{order.status === 'completed'}}" class="btn btn-ghost" bindtap="onUploadReceipt">补充回执</button>
   </view>
 
   <!-- 拒单弹窗 -->
@@ -83,6 +95,21 @@
       <view class="dialog-btns">
         <button class="btn btn-ghost" bindtap="onDeliverCancel">取消</button>
         <button class="btn btn-primary" bindtap="onDeliverConfirm" loading="{{actionLoading}}">确认发货</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 回执上传弹窗 -->
+  <view class="mask" wx:if="{{showReceipt}}" bindtap="onReceiptCancel">
+    <view class="dialog" catchtap="">
+      <view class="dialog-title">上传回执</view>
+      <view class="dialog-tip">支持 jpg / png / gif / webp / pdf，单张 ≤10MB</view>
+      <view class="receipt-upload-area" bindtap="onUploadReceipt">
+        <text class="receipt-upload-plus">＋</text>
+        <text class="receipt-upload-text">选择图片</text>
+      </view>
+      <view class="dialog-btns">
+        <button class="btn btn-ghost" bindtap="onReceiptCancel">取消</button>
       </view>
     </view>
   </view>

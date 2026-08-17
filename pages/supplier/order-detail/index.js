@@ -1,5 +1,6 @@
-// pages/supplier/order-detail/index.js — 供应商订单详情（接单/拒单/制作/发货）
+// pages/supplier/order-detail/index.js — 供应商订单详情（接单/拒单/制作/发货/回执）
 const api = require('../../../utils/api.js');
+const API_BASE = api.API_BASE;
 
 const STATUS_TEXT = {
   assigned: '待接单',
@@ -21,6 +22,9 @@ Page({
     courier: '',
     trackingNo: '',
     showDeliver: false,
+    showReceipt: false,
+    receipts: [],
+    uploading: false,
   },
 
   onLoad(options) {
@@ -54,9 +58,11 @@ Page({
     );
     Promise.all(fetchAll).then(() => {
       if (found) {
+        const receipts = (found.productionPhotos || []).concat(found.filingPhotos || [], found.qualityCheckPhotos || []);
         this.setData({
           order: found,
           statusText: STATUS_TEXT[found.status] || found.status,
+          receipts,
           loading: false,
         });
       } else {
@@ -66,7 +72,8 @@ Page({
             const list = (res && res.list) || [];
             const hit = list.find(o => o.id === id);
             if (hit) {
-              this.setData({ order: hit, statusText: STATUS_TEXT[hit.status] || hit.status, loading: false });
+              const receipts = (hit.productionPhotos || []).concat(hit.filingPhotos || [], hit.qualityCheckPhotos || []);
+              this.setData({ order: hit, statusText: STATUS_TEXT[hit.status] || hit.status, receipts, loading: false });
             } else {
               this.setData({ loading: false });
               wx.showToast({ title: '订单不存在', icon: 'none' });
@@ -164,5 +171,74 @@ Page({
         this.setData({ actionLoading: false });
         console.error('发货失败', err);
       });
+  },
+
+  // ============ 回执照片 ============
+
+  // 打开回执上传弹窗
+  onUploadReceiptTap() {
+    this.setData({ showReceipt: true });
+  },
+  onReceiptCancel() {
+    this.setData({ showReceipt: false });
+  },
+
+  // 选择并上传回执照片
+  onUploadReceipt() {
+    if (this.data.uploading) return;
+    wx.chooseMedia({
+      count: 9,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const files = res.tempFiles || [];
+        if (!files.length) return;
+        this.setData({ showReceipt: false });
+        this._uploadReceipts(files.map(f => f.tempFilePath));
+      },
+    });
+  },
+
+  _uploadReceipts(paths) {
+    const id = this.data.id;
+    this.setData({ uploading: true });
+    let ok = 0;
+    const total = paths.length;
+    let failIdx = 0;
+    const next = (idx) => {
+      if (idx >= total) {
+        this.setData({ uploading: false });
+        if (ok > 0) {
+          wx.showToast({ title: `已上传 ${ok} 张`, icon: 'success' });
+          this.loadDetail();
+        } else {
+          wx.showToast({ title: '上传失败', icon: 'none' });
+        }
+        return;
+      }
+      api.v2SupplierUploadReceipt(id, paths[idx], 'production')
+        .then(() => {
+          ok += 1;
+          next(idx + 1);
+        })
+        .catch(() => {
+          failIdx += 1;
+          next(idx + 1);
+        });
+    };
+    next(0);
+  },
+
+  // 预览回执大图
+  onPreviewReceipt(e) {
+    const current = e.currentTarget.dataset.url;
+    const urls = this.data.receipts.map(r => this._absUrl(r));
+    wx.previewImage({ current: this._absUrl(current), urls });
+  },
+
+  _absUrl(url) {
+    if (!url) return '';
+    if (/^https?:\/\//.test(url)) return url;
+    return API_BASE + url;
   },
 });

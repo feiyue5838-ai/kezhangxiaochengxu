@@ -451,6 +451,59 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   // 供应商结算详情 GET /api/v2/supplier/settlements/:id
   v2SupplierSettlementDetail: (id) => v2SupplierRequest({ url: `/api/v2/supplier/settlements/${id}` }),
 
+  // 供应商上传回执照片 POST /api/v2/supplier/fulfillments/:id/receipts (multipart, file + type)
+  v2SupplierUploadReceipt: (fulfillmentId, filePath, type) => {
+    const outletToken = wx.getStorageSync('outletToken');
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: API_BASE + `/api/v2/supplier/fulfillments/${fulfillmentId}/receipts`,
+        filePath: filePath,
+        name: 'file',
+        formData: { type: type || 'production' },
+        header: outletToken ? { Authorization: 'Bearer ' + outletToken } : {},
+        success: (res) => {
+          if (res.statusCode === 200 || res.statusCode === 201) {
+            try {
+              const outer = JSON.parse(res.data);
+              if (outer.code !== undefined && outer.code !== 0) {
+                wx.showToast({ title: outer.message || '上传失败', icon: 'none' });
+                reject(new Error(outer.message || '上传失败'));
+                return;
+              }
+              let inner = outer.data;
+              if (inner && typeof inner === 'object' && inner.code !== undefined) {
+                if (inner.code !== 0) {
+                  wx.showToast({ title: inner.message || '上传失败', icon: 'none' });
+                  reject(new Error(inner.message || '上传失败'));
+                  return;
+                }
+                resolve(inner.data !== undefined ? inner.data : inner);
+              } else {
+                resolve(inner !== undefined ? inner : outer);
+              }
+            } catch (e) {
+              resolve(res.data);
+            }
+          } else if (res.statusCode === 401) {
+            wx.removeStorageSync('outletToken');
+            wx.removeStorageSync('outletInfo');
+            wx.showToast({ title: '网点登录已过期，请重新登录', icon: 'none' });
+            reject(new Error('网点登录已过期'));
+          } else {
+            const msg = `上传失败(${res.statusCode})`;
+            wx.showToast({ title: msg, icon: 'none' });
+            reject(new Error(msg));
+          }
+        },
+        fail: (err) => {
+          console.error('UPLOAD_RECEIPT_FAIL:', err);
+          wx.showToast({ title: '网络错误', icon: 'none' });
+          reject(err);
+        },
+      });
+    });
+  },
+
 
   // ==================== 印章服务 ====================
 
