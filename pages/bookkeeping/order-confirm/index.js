@@ -100,27 +100,50 @@ Page({
     this.setData({ submitting: true });
 
     try {
-      // B-02: 价格由后端计算，不传前端价格
-      const order = await api.createBookkeepingOrder({
-        taxpayer_type: this.data.taxpayerType,
-        cycle: this.data.cycle,
-        invoice: this.data.invoice,
-        social: this.data.social,
-        fund: this.data.fund,
-        phone: this.data.phone,
-        // B-02: 后端按 taxpayer_type+cycle+各项附加服务端算价并严格校验，前端必须回传该价
-        price: this.data.price,
-      });
+      // ===== V2.0 优先：创建记账订单（返回 orderNo）=====
+      const v2dto = {
+        packageId: '',
+        packageName: this.data.serviceName,
+        taxpayerType: this.data.taxpayerType === 'small' ? 'small_scale' : 'general',
+        servicePeriod: this.data.cycle,
+        startDate: '',
+        endDate: '',
+        companyName: '',
+        businessLicenseNo: '',
+        taxAuthority: '',
+        accountingScope: '',
+        currentPeriod: 1,
+        totalAmount: Number(this.data.price) || 0,
+        remark: '',
+      };
+      let orderNo;
+      try {
+        const v2res = await api.v2CreateBookkeepingOrder(v2dto);
+        orderNo = v2res && v2res.orderNo;
+        if (!orderNo) throw new Error('V2.0 创建订单无 orderNo');
+      } catch (e) {
+        // V2.0 失败降级 V1
+        const order = await api.createBookkeepingOrder({
+          taxpayer_type: this.data.taxpayerType,
+          cycle: this.data.cycle,
+          invoice: this.data.invoice,
+          social: this.data.social,
+          fund: this.data.fund,
+          phone: this.data.phone,
+          price: this.data.price,
+        });
+        const orderId = order.id || order.orderId;
+        this.setData({ orderId });
+        return this._wxPayFallback(orderId);
+      }
 
-      const orderId = order.id || order.orderId;
-      this.setData({ orderId });
+      this.setData({ orderNo });
 
-      // 2. 获取支付参数
-      const openid = wx.getStorageSync('openid') || '';
-      const payRes = await api.getBookkeepingPayParams(orderId, openid);
+      // 2. 获取支付参数（V2.0）
+      const payRes = await api.v2GetPayParams(orderNo);
 
       // 3. 发起微信支付
-      await this._wxPay(payRes);
+      await this._wxPayV2(payRes, orderNo);
 
     } catch (e) {
       console.error('提交订单失败:', e);
@@ -130,48 +153,24 @@ Page({
     }
   },
 
-  _wxPay(payRes) {
+  // V2.0 支付
+  _wxPayV2(payRes, orderNo) {
     return new Promise((resolve, reject) => {
-      // payRes 结构：{ type, payment: { timeStamp, nonceStr, package, signType, paySign } }
-      const type = (payRes && payRes.type) || '';
-      const payment = (payRes && payRes.payment) ? payRes.payment : null;
+      const type = (payRes && payRes.devMode) ? 'dev' : (payRes && payRes.params && payRes.params.package ? 'wechat' : '');
+      const payment = (payRes && payRes.params) ? payRes.params : null;
 
       if (type === 'dev') {
-        // 开发模式：服务端模拟微信回调
-        const orderId = this.data.orderId;
-        api.devConfirmPay(orderId).then(() => {
-          // B-07: 支付成功后不解锁 submitting
-          wx.showToast({ title: '支付成功', icon: 'success' });
-          setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId }); }, 1500);
-          resolve();
-        }).catch((e) => {
-          console.error('devConfirmPay error:', e);
-          this.setData({ submitting: false });
-          wx.showToast({ title: '支付处理失败', icon: 'none' });
-          reject(new Error('devConfirmPay failed'));
-        });
-        return;
-      }
-
-      // B-03: 增加 free 分支
-      if (type === 'free') {
-        const orderId = this.data.orderId;
-        // B-07: 支付成功后不解锁 submitting
         wx.showToast({ title: '支付成功', icon: 'success' });
-        setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId }); }, 1500);
+        setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderNo }); }, 1500);
         resolve();
         return;
       }
-
       if (type !== 'wechat' || !payment) {
-        console.error('[Bookkeeping] 支付参数异常：type=' + type + ', payment=' + JSON.stringify(payment));
-        this.setData({ submitting: false });
+        console.error('[Bookkeeping V2] 支付参数异常', payRes);
         wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
         reject(new Error('invalid pay params'));
         return;
       }
-
-      // 正式微信支付
       wx.requestPayment({
         timeStamp: payment.timeStamp,
         nonceStr: payment.nonceStr,
@@ -179,12 +178,8 @@ Page({
         signType: payment.signType || 'RSA',
         paySign: payment.paySign,
         success: () => {
-          // B-07: 支付成功后不解锁 submitting
           wx.showToast({ title: '支付成功', icon: 'success' });
-          const orderId = this.data.orderId;
-          setTimeout(() => {
-            wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId });
-          }, 1500);
+          setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderNo }); }, 1500);
           resolve();
         },
         fail: (err) => {
@@ -198,8 +193,40 @@ Page({
         }
       });
     });
-  }
-,
+  },
 
-  
+  // V1 支付（降级路径）
+  _wxPayFallback(orderId) {
+    return new Promise((resolve, reject) => {
+      const openid = wx.getStorageSync('openid') || '';
+      api.getBookkeepingPayParams(orderId, openid).then(payRes => {
+        const type = (payRes && payRes.type) || '';
+        const payment = (payRes && payRes.payment) ? payRes.payment : null;
+        if (type === 'dev') {
+          api.devConfirmPay(orderId).then(() => {
+            wx.showToast({ title: '支付成功', icon: 'success' });
+            setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId }); }, 1500);
+            resolve();
+          }).catch((e) => { console.error('devConfirmPay error:', e); wx.showToast({ title: '支付处理失败', icon: 'none' }); reject(new Error('devConfirmPay failed')); });
+          return;
+        }
+        if (type === 'free') {
+          wx.showToast({ title: '支付成功', icon: 'success' });
+          setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId }); }, 1500);
+          resolve();
+          return;
+        }
+        if (type !== 'wechat' || !payment) {
+          wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
+          reject(new Error('invalid pay params'));
+          return;
+        }
+        wx.requestPayment({
+          timeStamp: payment.timeStamp, nonceStr: payment.nonceStr, package: payment.package, signType: payment.signType || 'RSA', paySign: payment.paySign,
+          success: () => { wx.showToast({ title: '支付成功', icon: 'success' }); setTimeout(() => { wx.redirectTo({ url: '/pages/bookkeeping/order-detail/index?id=' + orderId }); }, 1500); resolve(); },
+          fail: (err) => { this.setData({ submitting: false }); if (err.errMsg === 'requestPayment:fail cancel') { wx.showToast({ title: '已取消支付', icon: 'none' }); } else { wx.showToast({ title: '支付失败', icon: 'none' }); } reject(new Error(err.errMsg)); }
+        });
+      }).catch(e => { console.error('getBookkeepingPayParams error:', e); wx.showToast({ title: '获取支付参数失败', icon: 'none' }); reject(e); });
+    });
+  },
 });

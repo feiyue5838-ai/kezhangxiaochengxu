@@ -545,17 +545,105 @@ Page({
           that._payOrder(that._createdOrderId);
           return;
         }
-        api.createNewspaperOrder(dto).then((order) => {
-          wx.hideLoading();
-          // N-03: 缓存已创建的订单ID
-          that._createdOrderId = order.id;
-          that._payOrder(order.id);
-        }).catch(() => {
-          wx.hideLoading();
-          that.setData({ isSubmitting: false });
-        });
+        // ===== V2.0 优先：创建登报订单（返回 orderNo）=====
+        const v2dto = {
+          newspaperId: String(that.data.selectedPaper || ''),
+          newspaperName: paper.name,
+          newspaperCode: paper.code || '',
+          templateId: that.data.templateId || '',
+          templateType: that.data.templateType || '',
+          content: that.data.content,
+          contentCharCount: that.data.charCount || that.data.content.length,
+          copies: that.data.copyCount || 1,
+          publicationDate: '',
+          publicationEdition: that.data.selectedSectionName || '',
+          totalAmount: that.data.totalPrice || 0,
+          remark: that.data.remark || '',
+          addressSnapshot: {
+            receiver_name: address.receiverName || address.name || '',
+            receiver_phone: address.receiverPhone || address.phone || '',
+            province: address.province || '',
+            city: address.city || '',
+            district: address.district || '',
+            address: address.address || address.detail || '',
+          },
+        };
+        api.v2CreateNewspaperOrder(v2dto)
+          .then((v2res) => {
+            wx.hideLoading();
+            const orderNo = v2res && v2res.orderNo;
+            if (orderNo) {
+              that._createdOrderNo = orderNo;
+              that._payV2Order(orderNo);
+            } else {
+              throw new Error('V2.0 创建订单无 orderNo');
+            }
+          })
+          .catch(() => {
+            // V2.0 失败降级到 V1 旧接口
+            api.createNewspaperOrder(dto).then((order) => {
+              wx.hideLoading();
+              // N-03: 缓存已创建的订单ID
+              that._createdOrderId = order.id;
+              that._payOrder(order.id);
+            }).catch(() => {
+              wx.hideLoading();
+              that.setData({ isSubmitting: false });
+            });
+          });
       }
     });
+  },
+
+  // V2.0 发起支付（对齐刻章 V2.0 流程）
+  _payV2Order(orderNo) {
+    const that = this;
+    api.v2GetPayParams(orderNo)
+      .then((data) => {
+        const pay = data || {};
+        if (pay.devMode) {
+          // 开发模式：直接视为支付成功（与刻章一致）
+          that._finishPaidV2(orderNo);
+        } else if (pay.params && pay.params.package) {
+          wx.requestPayment({
+            timeStamp: pay.params.timeStamp,
+            nonceStr: pay.params.nonceStr,
+            package: pay.params.package,
+            signType: pay.params.signType || 'RSA',
+            paySign: pay.params.paySign,
+            success() { that._finishPaidV2(orderNo); },
+            fail(err) {
+              if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+                wx.showToast({ title: '已取消支付', icon: 'none' });
+              } else {
+                wx.showToast({ title: '支付失败', icon: 'none' });
+              }
+              that.setData({ isSubmitting: false });
+            }
+          });
+        } else {
+          console.error('[Newspaper V2] 支付参数异常', pay);
+          wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+          that.setData({ isSubmitting: false });
+        }
+      })
+      .catch(() => {
+        that.setData({ isSubmitting: false });
+        wx.showToast({ title: '获取支付参数失败', icon: 'none' });
+      });
+  },
+
+  _finishPaidV2(orderNo) {
+    // 清除缓存（与 V1 一致）
+    this._createdOrderNo = null;
+    wx.removeStorageSync('selectedAddress');
+    wx.removeStorageSync('newspaperTemplate');
+    wx.removeStorageSync('formPageNavData');
+    this.setData({ isSubmitting: false });
+    wx.showToast({ title: '下单成功', icon: 'success' });
+    setTimeout(() => {
+      wx.redirectTo({ url: PAGE_ORDER });
+    }, 1200);
   },
 
   // 发起支付（对齐刻章下单流程）
