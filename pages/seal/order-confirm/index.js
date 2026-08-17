@@ -622,6 +622,47 @@ Page({
       return;
     }
 
+    // M3: V2.0 优先创建订单（统一 orders 表），失败降级到 V1
+    const v2Data = {
+      totalAmount: Number(selectedData.totalPrice || this.data.totalPrice || 0),
+      companyName: this.data.companyName || '未填写',
+      legalPerson: '',
+      licenseNo: '',
+      licenseRegion: this.data.licenseRegion,
+      sealCount: items.length || 1,
+      sealTypes: items.map(i => i.name).filter(Boolean),
+      filingRequired: false,
+      productionRequirement: this.data.sealReason || '',
+      deliveryRequirement: (this.data.address && this.data.address.detail) ? `${this.data.address.province || ''}${this.data.address.city || ''}${this.data.address.district || ''} ${this.data.address.detail}` : '',
+      remark: this.data.remark || '',
+    };
+
+    api.v2CreateSealOrder(v2Data).then((res) => {
+      wx.hideLoading();
+      const orderNo = res && (res.orderNo || res.order_no);
+      if (!orderNo) {
+        wx.showToast({ title: '订单创建失败', icon: 'none' });
+        this.setData({ isSubmitting: false });
+        return;
+      }
+      this._createdOrderId = orderNo;
+      // V2.0 支付参数
+      api.v2GetPayParams(orderNo, {}).then((payRes) => {
+        this._handleV2PayResponse(orderNo, payRes, selectedData, items);
+      }).catch((payErr) => {
+        console.error('v2 getPayParams error:', payErr);
+        wx.showToast({ title: '获取支付参数失败', icon: 'none' });
+        this.setData({ isSubmitting: false });
+      });
+    }).catch((err) => {
+      // V2.0 失败（网络/接口异常）→ 降级 V1 旧接口
+      console.warn('v2CreateSealOrder failed, fallback to V1:', err && err.message || err);
+      this._submitV1Order(orderData, selectedData, items);
+    });
+  },
+
+  // M3: V1 旧接口下单（V2.0 不可用时降级）
+  _submitV1Order(orderData, selectedData, items) {
     api.createSealOrder(orderData).then((res) => {
       wx.hideLoading();
       // 后端返回新建订单（此时状态必为『待支付』，绝不会由前端预置已付）
@@ -671,6 +712,41 @@ Page({
     });
   },
 
+  // M3: V2.0 支付响应处理（兼容 V2 回调：{paymentNo, params, devMode}）
+  _handleV2PayResponse(orderNo, payRes, selectedData, items) {
+    const params = payRes && payRes.params;
+    const sealNames = items.map(i => i.name).filter(Boolean).join('、');
+
+    // 真实支付参数（配置齐全）
+    if (params && params.paySign && params.timeStamp) {
+      wx.requestPayment({
+        timeStamp: params.timeStamp,
+        nonceStr: params.nonceStr,
+        package: params.package,
+        signType: params.signType || 'RSA',
+        paySign: params.paySign,
+        success: () => this._pollPaid(orderNo, selectedData.totalPrice, sealNames),
+        fail: (err) => {
+          if (String(err.errMsg || '').indexOf('cancel') > -1) {
+            wx.showToast({ title: '已取消支付', icon: 'none' });
+          } else {
+            wx.showToast({ title: '支付失败，请重试', icon: 'none' });
+          }
+          this.setData({ isSubmitting: false });
+        }
+      });
+      return;
+    }
+
+    // 开发模式（配置缺失，devMode:true）：轮询确认支付（后端 V2 回调走通）
+    console.warn('[Seal] V2.0 支付参数为开发模式占位:', payRes);
+    wx.showToast({ title: '开发模式支付参数', icon: 'none', duration: 2000 });
+    // 开发环境无法真实调起微信支付，跳转订单列表让用户自行查看
+    this._createdOrderId = null;
+    this._clearOrderCache();
+    setTimeout(() => { wx.switchTab({ url: '/pages/order/list/index' }); }, 1500);
+  },
+
   // 支付成功收尾：清缓存 + 提示 + 跳转（dev/free 场景服务端已同步完成支付+分配）
   _finishPaid(orderId, totalPrice, sealNames) {
     // S-09: 清除缓存的订单ID
@@ -685,8 +761,14 @@ Page({
   _pollPaid(orderId, totalPrice, sealNames) {
     let tries = 0;
     const poll = () => {
-      api.getSealOrderDetail(orderId).then((detail) => {
-        if (detail && detail.status >= 2) return this._finishPaid(orderId, totalPrice, sealNames);
+      // M3: V2.0 订单优先用 V2 接口轮询（SE/NP/BK 前缀），否则回退 V1
+      const isV2Order = /^(SE|NP|BK|SE\d)/.test(String(orderId));
+      const detailPromise = isV2Order
+        ? api.v2GetOrderDetail(orderId).then(d => d && d.order ? d.order : null).catch(() => null)
+        : api.getSealOrderDetail(orderId).then((detail) => detail);
+      detailPromise.then((detail) => {
+        const paid = detail && (detail.paymentStatus === 'paid' || detail.payment_status === 'paid' || detail.status >= 2);
+        if (paid) return this._finishPaid(orderId, totalPrice, sealNames);
         throw new Error('pending');
       }).catch(() => {
         if (tries++ < 4) {
