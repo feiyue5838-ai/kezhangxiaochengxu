@@ -450,6 +450,27 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
 
   // 供应商结算详情 GET /api/v2/supplier/settlements/:id
   v2SupplierSettlementDetail: (id) => v2SupplierRequest({ url: `/api/v2/supplier/settlements/${id}` }),
+  // 供应商绑定微信 openid PUT /api/v2/supplier/me/openid
+  v2SupplierBindOpenid: (openid) => v2SupplierRequest({ url: '/api/v2/supplier/me/openid', method: 'PUT', data: { openid } }),
+
+  // 供应商订阅消息开关 PUT /api/v2/supplier/me/subscribe
+  v2SupplierToggleSubscribe: (enabled) => v2SupplierRequest({ url: '/api/v2/supplier/me/subscribe', method: 'PUT', data: { enabled } }),
+
+  // 供应商订阅/绑定状态 GET /api/v2/supplier/me/subscribe-status
+  v2SupplierSubscribeStatus: () => v2SupplierRequest({ url: '/api/v2/supplier/me/subscribe-status' }),
+
+  // 供应商通知列表 GET /api/v2/supplier/me/notifications?page=&pageSize=&unreadOnly=
+  v2SupplierGetNotifications: (params) => v2SupplierRequest({ url: '/api/v2/supplier/me/notifications', data: params || {} }),
+
+  // 标记单条已读 PUT /api/v2/supplier/me/notifications/:id/read
+  v2SupplierMarkNotificationRead: (id) => v2SupplierRequest({ url: '/api/v2/supplier/me/notifications/' + id + '/read', method: 'PUT' }),
+
+  // 全部已读 PUT /api/v2/supplier/me/notifications/read-all
+  v2SupplierMarkAllNotificationsRead: () => v2SupplierRequest({ url: '/api/v2/supplier/me/notifications/read-all', method: 'PUT' }),
+
+  // 删除通知 DELETE /api/v2/supplier/me/notifications/:id
+  v2SupplierDeleteNotification: (id) => v2SupplierRequest({ url: '/api/v2/supplier/me/notifications/' + id, method: 'DELETE' }),
+
 
   // 供应商上传回执照片 POST /api/v2/supplier/fulfillments/:id/receipts (multipart, file + type)
   v2SupplierUploadReceipt: (fulfillmentId, filePath, type) => {

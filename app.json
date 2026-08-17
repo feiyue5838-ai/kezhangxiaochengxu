@@ -197,7 +197,8 @@
       "pages": [
         "index/index",
         "order-detail/index",
-        "settlements/index"
+        "settlements/index",
+        "notifications/index"
       ]
     }
   ]

@@ -27,18 +27,26 @@ Page({
     loading: false,
     finished: false,
     outletInfo: null,
+    unreadCount: 0,
+    // 订阅设置弹窗
+    showSubscribe: false,
+    subBound: false,
+    subEnabled: true,
   },
 
   onLoad() {
     const outletInfo = wx.getStorageSync('outletInfo');
     this.setData({ outletInfo: outletInfo || null });
     this.loadOrders(true);
+    this.loadUnread();
+    this.loadSubscribeStatus();
   },
 
   onShow() {
     // 从详情页返回时刷新
     if (this._loaded) {
       this.loadOrders(true);
+      this.loadUnread();
     }
     this._loaded = true;
   },
@@ -96,6 +104,78 @@ Page({
 
   goSettlements() {
     wx.navigateTo({ url: '/pages/supplier/settlements/index' });
+  },
+
+  // ============ 通知入口 ============
+
+  loadUnread() {
+    return api
+      .v2SupplierGetNotifications({ page: 1, pageSize: 1 })
+      .then(res => {
+        this.setData({ unreadCount: (res && res.unread) || 0 });
+      })
+      .catch(() => {});
+  },
+
+  goNotifications() {
+    wx.navigateTo({ url: '/pages/supplier/notifications/index' });
+  },
+
+  // ============ 订阅设置 ============
+
+  loadSubscribeStatus() {
+    return api
+      .v2SupplierSubscribeStatus()
+      .then(res => {
+        this.setData({
+          subBound: !!(res && res.bound),
+          subEnabled: res ? res.enabled !== false : true,
+        });
+      })
+      .catch(() => {});
+  },
+
+  onSubscribeTap() {
+    this.loadSubscribeStatus().then(() => {
+      this.setData({ showSubscribe: true });
+    });
+  },
+
+  onSubscribeCancel() {
+    this.setData({ showSubscribe: false });
+  },
+
+  noop() {},
+
+  onBindOpenid() {
+    wx.login({
+      success: res => {
+        if (!res.code) {
+          wx.showToast({ title: '获取微信凭证失败', icon: 'none' });
+          return;
+        }
+        api
+          .v2SupplierBindOpenid(res.code)
+          .then(() => {
+            this.setData({ subBound: true, showSubscribe: false });
+            wx.showToast({ title: '绑定成功', icon: 'success' });
+          })
+          .catch(err => {
+            wx.showToast({ title: (err && err.message) || '绑定失败', icon: 'none' });
+          });
+      },
+    });
+  },
+
+  onToggleSubscribe(e) {
+    const enabled = e.detail.value;
+    api
+      .v2SupplierToggleSubscribe(enabled)
+      .then(() => {
+        this.setData({ subEnabled: enabled });
+        wx.showToast({ title: enabled ? '已开启订阅' : '已关闭订阅', icon: 'none' });
+      })
+      .catch(() => wx.showToast({ title: '设置失败', icon: 'none' }));
   },
 
   goLogin() {

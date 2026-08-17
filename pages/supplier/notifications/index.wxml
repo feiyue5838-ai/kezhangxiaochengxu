@@ -1,0 +1,49 @@
+<view class="page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <view class="nav-title">通知中心</view>
+    <view class="nav-action" bindtap="onMarkAllRead">全部已读</view>
+  </view>
+
+  <!-- 未读筛选 -->
+  <view class="filter-bar">
+    <view class="filter-tabs">
+      <view class="filter-tab {{!unreadOnly ? 'filter-active' : ''}}" bindtap="onUnreadToggle">全部</view>
+      <view class="filter-tab {{unreadOnly ? 'filter-active' : ''}}" bindtap="onUnreadToggle">未读</view>
+    </view>
+  </view>
+
+  <!-- 通知列表 -->
+  <view class="notify-list" wx:if="{{list.length > 0}}">
+    <view
+      wx:for="{{list}}"
+      wx:key="id"
+      class="notify-item {{item.isRead ? '' : 'notify-unread'}}"
+      data-id="{{item.id}}"
+      bindtap="onItemTap"
+    >
+      <view class="notify-left">
+        <view class="notify-dot {{item.isRead ? 'dot-read' : ''}}"></view>
+      </view>
+      <view class="notify-body">
+        <view class="notify-top">
+          <text class="notify-title">{{item.title}}</text>
+          <text class="notify-type type-{{item.type}}">{{item.type === 'order' ? '订单' : item.type === 'payment' ? '支付' : item.type === 'promotion' ? '营销' : '系统'}}</text>
+        </view>
+        <view class="notify-content">{{item.content}}</view>
+        <view class="notify-bottom">
+          <text class="notify-time">{{item.createdAt}}</text>
+          <text class="notify-delete" data-id="{{item.id}}" catchtap="onDelete">删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{!loading}}" class="empty">
+    <view class="empty-icon">🔔</view>
+    <view class="empty-text">暂无通知</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+</view>

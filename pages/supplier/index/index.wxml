@@ -9,8 +9,17 @@
   <block wx:else>
     <!-- 顶部信息 -->
     <view class="header">
-      <view class="header-name">{{outletInfo.name || '供应商工作台'}}</view>
-      <view class="header-sub" bindtap="goSettlements">查看结算 →</view>
+      <view class="header-left">
+        <view class="header-name">{{outletInfo.name || '供应商工作台'}}</view>
+        <view class="header-sub" bindtap="goSettlements">查看结算 →</view>
+      </view>
+      <view class="header-right">
+        <view class="notify-entry" bindtap="goNotifications">
+          <text class="notify-icon">🔔</text>
+          <view wx:if="{{unreadCount > 0}}" class="notify-badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
+        </view>
+        <view class="subscribe-entry" bindtap="onSubscribeTap">订阅</view>
+      </view>
     </view>
 
     <!-- Tab 切换 -->
@@ -53,5 +62,28 @@
     </view>
 
     <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+
+    <!-- 订阅设置弹窗 -->
+    <view wx:if="{{showSubscribe}}" class="modal-mask" bindtap="onSubscribeCancel">
+      <view class="modal" catchtap="noop">
+        <view class="modal-title">订阅消息设置</view>
+        <view class="modal-body">
+          <view class="setting-row">
+            <view class="setting-label">微信绑定</view>
+            <view class="setting-value">{{subBound ? '已绑定' : '未绑定'}}</view>
+          </view>
+          <view wx:if="{{!subBound}}" class="setting-desc">绑定微信后，新订单/结算通知将通过订阅消息推送到您的微信</view>
+          <button wx:if="{{!subBound}}" class="modal-btn" bindtap="onBindOpenid">绑定微信</button>
+
+          <view class="setting-row">
+            <view class="setting-label">接收订阅消息</view>
+            <switch checked="{{subEnabled}}" bindchange="onToggleSubscribe" color="#3a7afe" />
+          </view>
+        </view>
+        <view class="modal-footer">
+          <button class="modal-close" bindtap="onSubscribeCancel">关闭</button>
+        </view>
+      </view>
+    </view>
   </block>
 </view>

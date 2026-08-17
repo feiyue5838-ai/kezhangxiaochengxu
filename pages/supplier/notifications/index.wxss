@@ -1,0 +1,109 @@
+/* pages/supplier/notifications/index.wxss */
+.page { min-height: 100vh; background: #f5f6fa; }
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 24rpx 32rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav-back { font-size: 44rpx; color: #333; padding: 0 16rpx; }
+.nav-title { font-size: 32rpx; font-weight: 600; color: #1a1a1a; }
+.nav-action { font-size: 26rpx; color: #3a7afe; }
+
+.filter-bar {
+  background: #fff;
+  padding: 0 32rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.filter-tabs { display: flex; gap: 40rpx; }
+.filter-tab {
+  font-size: 28rpx;
+  color: #666;
+  padding: 8rpx 4rpx;
+  position: relative;
+}
+.filter-active {
+  color: #3a7afe;
+  font-weight: 600;
+}
+.filter-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -4rpx;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 6rpx;
+  border-radius: 3rpx;
+  background: #3a7afe;
+}
+
+.notify-list { padding: 20rpx; }
+.notify-item {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+.notify-unread { background: #f0f6ff; }
+.notify-left { width: 40rpx; padding-top: 10rpx; }
+.notify-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #ff4d4f;
+}
+.dot-read { background: transparent; }
+.notify-body { flex: 1; min-width: 0; }
+.notify-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.notify-title { font-size: 30rpx; font-weight: 600; color: #1a1a1a; }
+.notify-type {
+  font-size: 20rpx;
+  color: #3a7afe;
+  background: #eaf1ff;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  flex-shrink: 0;
+}
+.type-order { color: #3a7afe; background: #eaf1ff; }
+.type-payment { color: #52c41a; background: #e8f9e8; }
+.type-promotion { color: #fa8c16; background: #fff3e6; }
+.type-system { color: #888; background: #f2f2f2; }
+.notify-content {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+  word-break: break-all;
+}
+.notify-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notify-time { font-size: 22rpx; color: #999; }
+.notify-delete { font-size: 24rpx; color: #999; padding: 8rpx 16rpx; }
+
+.empty {
+  text-align: center;
+  padding: 160rpx 0;
+}
+.empty-icon { font-size: 80rpx; }
+.empty-text { font-size: 28rpx; color: #999; margin-top: 20rpx; }
+.loading-tip {
+  text-align: center;
+  padding: 30rpx;
+  font-size: 26rpx;
+  color: #999;
+}
