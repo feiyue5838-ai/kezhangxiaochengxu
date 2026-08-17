@@ -10,8 +10,9 @@ Page({
   },
 
   onLoad(options) {
-    if (options.id) {
-      this.loadOrder(options.id);
+    const id = options.id || options.orderNo || '';
+    if (id) {
+      this.loadOrder(id);
     } else {
       this.setData({ loading: false });
       wx.showToast({ title: '订单ID缺失', icon: 'none' });
@@ -28,13 +29,58 @@ Page({
   },
 
   async loadOrder(id) {
+    // V2.0 优先：orderNo 格式（NP/SE/BK 前缀）直接查 V2.0，UUID 先尝试 V1 再降级
+    const isV2No = /^(NP|SE|BK)\d{10}/.test(String(id));
+    if (isV2No) {
+      try {
+        const o = await api.v2GetOrderDetail(id);
+        this.setData({ order: this._mapV2Order(o), loading: false, orderNo: id, isV2: true });
+        return;
+      } catch (e) {
+        // V2.0 查询失败降级 V1
+        console.warn('v2 detail failed, fallback V1:', e);
+      }
+    }
     try {
       const o = await api.getNewspaperOrderDetail(id);
-      this.setData({ order: this._mapOrder(o), loading: false });
+      this.setData({ order: this._mapOrder(o), loading: false, orderNo: o.orderNo || id, isV2: false });
       this.loadReceipts(id);
     } catch (e) {
       this.setData({ loading: false, order: null });
     }
+  },
+
+  // V2.0 详情映射（camelCase 字段）
+  _mapV2Order(o) {
+    if (!o || !o.order) return null;
+    const order = o.order;
+    const np = (o.newspaperDetails && o.newspaperDetails[0]) || {};
+    const statusClassMap = { pending_payment: 'pending', paid: 'processing', processing: 'processing', delivering: 'processing', completed: 'completed', cancelled: 'cancelled', closed: 'cancelled' };
+    const statusTextMap = { pending_payment: '待支付', paid: '已支付', processing: '处理中', delivering: '配送中', completed: '已完成', cancelled: '已取消', closed: '已关闭' };
+    const status = order.orderStatus || 'pending_payment';
+    return {
+      id: order.orderNo,
+      orderNo: order.orderNo,
+      status: status,
+      statusText: statusTextMap[status] || status,
+      statusClass: statusClassMap[status] || 'pending',
+      statusIconSvg: '/assets/icons/icon-order-doc.svg',
+      module: order.module,
+      paper: np.newspaperName || '登报订单',
+      newspaperName: np.newspaperName || '',
+      issueCount: np.issueCount || 0,
+      copyCount: np.copies || 1,
+      sectionName: np.publicationEdition || '',
+      images: [],
+      date: order.createdAt ? this._formatDate(order.createdAt) : '',
+      price: order.totalAmount,
+      desc: np.content || '',
+      content: np.content || '',
+      remark: order.customerRemark || '',
+      address: order.addressSnapshot || null,
+      invoice: null,
+      events: o.events || [],
+    };
   },
 
   _mapOrder(o) {
@@ -110,7 +156,53 @@ Page({
     }
     this.setData({ isSubmitting: true });
     const that = this;
-    const id = this.data.order.id;
+    const order = this.data.order || {};
+    const id = order.id;
+    const orderNo = this.data.orderNo || order.orderNo || id;
+    const isV2 = this.data.isV2;
+    if (!id) {
+      this.setData({ isSubmitting: false });
+      return;
+    }
+
+    // V2.0 支付
+    if (isV2 || /^(NP|SE|BK)\d{10}/.test(String(orderNo))) {
+      api.v2GetPayParams(orderNo).then((pay) => {
+        if (pay && pay.devMode) {
+          wx.showToast({ title: '开发模式支付参数', icon: 'none' });
+          this.setData({ isSubmitting: false });
+          return;
+        }
+        if (pay && pay.params && pay.params.package) {
+          wx.hideLoading();
+          wx.requestPayment({
+            timeStamp: pay.params.timeStamp,
+            nonceStr: pay.params.nonceStr,
+            package: pay.params.package,
+            signType: pay.params.signType || 'RSA',
+            paySign: pay.params.paySign,
+            success() { that._afterPayV2(orderNo); },
+            fail(err) {
+              that.setData({ isSubmitting: false });
+              if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+                wx.showToast({ title: '已取消支付', icon: 'none' });
+              } else {
+                wx.showToast({ title: '支付失败', icon: 'none' });
+              }
+            }
+          });
+        } else {
+          wx.showToast({ title: '支付参数异常，请重试', icon: 'none' });
+          this.setData({ isSubmitting: false });
+        }
+      }).catch(() => {
+        this.setData({ isSubmitting: false });
+        wx.showToast({ title: '获取支付参数失败', icon: 'none' });
+      });
+      return;
+    }
+
+    // V1 支付
     const openid = wx.getStorageSync('openid') || '';
     wx.showLoading({ title: '发起支付' });
     api.getNewspaperPayParams(id, openid).then((data) => {
@@ -151,12 +243,23 @@ Page({
     });
   },
 
+  _afterPayV2(orderNo) {
+    this.setData({ isSubmitting: false });
+    wx.showToast({ title: '支付成功', icon: 'success' });
+    this.loadOrder(orderNo);
+  },
+
   // 取消订单 / 申请退款
   cancelOrder() {
     const that = this;
-    const id = this.data.order.id;
-    // 已支付(2)/制作中(3)/已发货(4) 走申请退款；待支付(1) 走取消
-    const isPaid = [2, 3, 4].includes(this.data.order.status);
+    const order = this.data.order || {};
+    const id = order.id;
+    const orderNo = this.data.orderNo || order.orderNo || id;
+    const isV2 = this.data.isV2;
+    // 已支付(2)/制作中(3)/已发货(4) 走申请退款；待支付(1) 走取消（V2 按字符串状态）
+    const isPaid = isV2
+      ? ['paid', 'processing', 'delivering'].includes(order.status)
+      : [2, 3, 4].includes(order.status);
     wx.showModal({
       title: isPaid ? '申请退款' : '取消订单',
       content: isPaid ? '确认申请退款？款项将由平台审核处理。' : '确认取消该订单？',
@@ -165,13 +268,21 @@ Page({
         wx.showLoading({ title: '处理中' });
         try {
           if (isPaid) {
-            await api.refundRequestNewspaperOrder(id);
+            if (isV2) {
+              await api.v2ApplyRefund(orderNo, { reason: '用户主动申请退款' });
+            } else {
+              await api.refundRequestNewspaperOrder(id);
+            }
           } else {
-            await api.cancelNewspaperOrder(id);
+            if (isV2) {
+              await api.v2CancelOrder(orderNo);
+            } else {
+              await api.cancelNewspaperOrder(id);
+            }
           }
           wx.hideLoading();
           wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
-          that.loadOrder(id);
+          that.loadOrder(isV2 ? orderNo : id);
         } catch (e) {
           wx.hideLoading();
           wx.showToast({ title: '操作失败', icon: 'none' });

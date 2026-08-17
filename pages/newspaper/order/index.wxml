@@ -18,7 +18,7 @@
 
   <!-- 订单列表 -->
   <view class="order-list" wx:if="{{filteredOrders.length > 0}}">
-    <view class="order-item" wx:for="{{filteredOrders}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.id}}">
+    <view class="order-item" wx:for="{{filteredOrders}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.id}}" data-orderno="{{item.orderNo}}">
       <view class="order-info">
         <text class="order-title">{{item.title}}</text>
         <text class="order-desc">{{item.desc}}</text>
