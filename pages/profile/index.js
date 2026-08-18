@@ -146,6 +146,11 @@ Page({
 
   onFuncTap(e) {
     const id = e.currentTarget.dataset.id;
+    // 联系客服（id=7）
+    if (Number(id) === 7) {
+      this.callService();
+      return;
+    }
     const map = {
       2: { title: '发票管理', url: '/pages/invoice/edit/index' },
       3: { title: '地址管理', url: '/pages/address/index' },
@@ -188,7 +193,7 @@ Page({
     this.setData({ userInfo });
     // 同步到后端（updateUserInfo 已在 api.js 定义：PUT /api/user/profile）
     if (auth.isLogin()) {
-      api.updateUserInfo({ nickName, avatar: avatarUrl }).catch(() => {});
+      api.updateUserInfo({ nickname: nickName, avatar: avatarUrl }).catch(() => {});
     }
     wx.showToast({ title: '登录成功', icon: 'success' });
   },

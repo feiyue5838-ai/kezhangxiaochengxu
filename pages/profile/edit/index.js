@@ -48,7 +48,7 @@ Page({
 
     this.setData({ saving: true });
     try {
-      const payload = { nickName: nickName.trim() };
+      const payload = { nickname: nickName.trim() };
 
       // 判断头像是否为待上传的本地临时文件（非 http(s) 且非服务端路径）
       const isTempFile = avatarUrl && !/^https?:\/\//.test(avatarUrl) && avatarUrl.indexOf('/uploads/') === -1;

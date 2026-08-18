@@ -65,7 +65,7 @@
   <view class="func-section">
     <text class="func-section__title">常用功能</text>
     <view class="func-grid">
-      <view class="func-item" wx:for="{{functions}}" wx:key="id" bindtap="{{item.id === 7 ? 'onContactService' : 'onFuncTap'}}" data-id="{{item.id}}">
+      <view class="func-item" wx:for="{{functions}}" wx:key="id" bindtap="onFuncTap" data-id="{{item.id}}">
         <view class="func-icon-wrap" style="background:{{item.bgColor}}">
           <image class="func-icon-img" src="{{item.iconSvg}}" mode="aspectFit" />
         </view>

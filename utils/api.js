@@ -375,7 +375,7 @@ module.exports = {
 
   // ==================== 用户相关 ====================
 
-  // 获取用户信息 ?GET /api/user/profile
+  // 获取用户信息 ?GET /api/users/profile
 
   // 实名认证提交（后端核验，绝不在客户端伪造成功）> POST /api/user/realname-verify
   // 微信实名认证（方案 A）> POST /api/user/realname-verify/wechat
@@ -386,11 +386,11 @@ module.exports = {
   // 获取实名认证状态 > GET /api/user/realname-verify
   getRealnameStatus: () => request({ url: '/api/user/realname-verify' }),
 
-  getUserInfo: () => request({ url: '/api/user/profile' }),
+  getUserInfo: () => request({ url: '/api/users/profile' }),
 
   // [已实现] 用户资料编辑页：pages/profile/edit（头像上传 + PUT 表单）；入口在 pages/profile 头部「编辑资料」
-  // 更新用户信息 ?PUT /api/user/profile
-  updateUserInfo: (data) => request({ url: '/api/user/profile', method: 'PUT', data: data }),
+  // 更新用户信息 ?PUT /api/users/profile
+  updateUserInfo: (data) => request({ url: '/api/users/profile', method: 'PUT', data: data }),
 
 
   // ==================== V2.0 订单接口（/api/v2/user） ====================
