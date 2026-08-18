@@ -1,6 +1,32 @@
 const _common = require('../../utils/common.js');
 const api = require('../../utils/api.js');
 const auth = require('../../utils/auth.js');
+const userProfile = require('../../utils/user-profile.js');
+const { orderStatusV2 } = require('../../utils/order-status-v2.js');
+
+function toDisplayUserInfo(userInfo) {
+  const normalized = userProfile.normalizeUserInfo(userInfo);
+  const avatarUrl = normalized.avatarUrl;
+  return {
+    ...normalized,
+    avatarUrl: !avatarUrl || /^https?:\/\//.test(avatarUrl) || /^wxfile:\/\//.test(avatarUrl)
+      ? avatarUrl
+      : api.resolveImage(avatarUrl),
+  };
+}
+
+function getV2OrderCounts(orders) {
+  const counts = { pending: 0, processing: 0, completed: 0, refund: 0 };
+  (Array.isArray(orders) ? orders : []).forEach(order => {
+    const status = orderStatusV2(order).key;
+    if (status === 'pending_payment') counts.pending++;
+    else if (['pending_assign', 'assigned', 'accepted', 'processing', 'delivering', 'signed'].includes(status)) counts.processing++;
+    else if (status === 'completed') counts.completed++;
+    else if (['refunding', 'partial_refund', 'refunded', 'refund_rejected'].includes(status)) counts.refund++;
+  });
+  return counts;
+}
+
 
 Page({
   data: {
@@ -23,8 +49,7 @@ Page({
   },
 
   onLoad() {
-    const userInfo = wx.getStorageSync('userInfo');
-    if (userInfo) this.setData({ userInfo });
+    this.syncUserInfo(false);
     this.refreshOrderCounts();
   },
 
@@ -37,7 +62,21 @@ Page({
     if (outletInfo && outletInfo.name) {
       this.setData({ outletName: outletInfo.name });
     }
+    this.syncUserInfo();
     this.refreshOrderCounts();
+  },
+
+  // 本地缓存用于即时展示；已登录时再以服务端资料为准刷新。
+  syncUserInfo(refreshRemote = true) {
+    const stored = userProfile.normalizeUserInfo(wx.getStorageSync('userInfo'));
+    this.setData({ userInfo: toDisplayUserInfo(stored) });
+    if (!refreshRemote || !auth.isLogin()) return;
+
+    api.getUserInfo().then(remote => {
+      const userInfo = userProfile.mergeUserInfo(stored, remote);
+      wx.setStorageSync('userInfo', userInfo);
+      this.setData({ userInfo: toDisplayUserInfo(userInfo) });
+    }).catch(() => {});
   },
 
   // 从 Storage 统计各状态订单数（数字/字符串统一处理）
@@ -45,6 +84,29 @@ Page({
   // tabs: all/pending/paid/shipped/completed/refund
   // numeric: 1=pending 2-3=paid 4=shipped 5=completed 6=cancelled 7-9=refund
   refreshOrderCounts() {
+    if (auth.isLogin()) {
+      api.v2GetOrders({ pageSize: 200 }).then(res => {
+        const orders = (res && (res.list || res.rows)) || [];
+        const hasV2Response = !!res && (Array.isArray(res.list) || Array.isArray(res.rows) || res.total !== undefined);
+        if (hasV2Response) {
+          const counts = getV2OrderCounts(orders);
+          this.setData({
+            'orderTypes[0].count': counts.pending,
+            'orderTypes[1].count': counts.processing,
+            'orderTypes[2].count': counts.completed,
+            'orderTypes[3].count': counts.refund,
+          });
+          return;
+        }
+        this.refreshLegacyOrderCounts();
+      }).catch(() => this.refreshLegacyOrderCounts());
+      return;
+    }
+    this.refreshLegacyOrderCounts();
+  },
+
+  // 旧接口不可用时的兼容统计（数字/字符串状态统一处理）。
+  refreshLegacyOrderCounts() {
     const counts = { pending: 0, paid: 0, completed: 0, refund: 0 };
 
     // 刻章/登报订单（Storage 可能存数字或字符串，统一归一化）
@@ -109,7 +171,7 @@ Page({
       return;
     }
     // orderTypes id 对应 tabs status：pending→待付款 paid→待发货 completed→已完成
-    const statusMap = { pending: 'pending', paid: 'paid', completed: 'completed' };
+    const statusMap = { pending: 'pending', processing: 'paid', completed: 'completed' };
     const status = statusMap[type] || 'all';
     wx.navigateTo({ url: '/pages/order/list/index?status=' + status });
   },

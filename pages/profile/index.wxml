@@ -6,28 +6,11 @@
   <!-- 用户信息区 -->
   <view class="header">
     <view class="user-info">
-      <button class="avatar-btn" wx:if="{{!userInfo.avatarUrl}}" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-        <view class="avatar avatar--default">
-          <text class="avatar-icon">👤</text>
-        </view>
-      </button>
-      <button wx:if="{{userInfo.avatarUrl}}" class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-        <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
-      </button>
-      <view wx:if="{{!userInfo.nickName}}" class="nickname-input-wrap">
-        <input
-          class="nickname-input"
-          type="nickname"
-          placeholder="点击设置昵称"
-          placeholder-class="nickname-placeholder"
-          bindblur="onNicknameBlur"
-          bindconfirm="onNicknameBlur"
-        />
+      <view wx:if="{{!userInfo.avatarUrl}}" class="avatar avatar--default">
+        <text class="avatar-icon">👤</text>
       </view>
-      <text class="nickname" wx:else>{{userInfo.nickName}}</text>
-      <button wx:if="{{userInfo.avatarUrl && !userInfo.nickName}}" class="login-btn" bindtap="onConfirmLogin">
-        完成登录
-      </button>
+      <image wx:else class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <text class="nickname">{{userInfo.nickName || '未设置昵称'}}</text>
       <text class="phone" wx:if="{{userInfo.phone}}">{{userInfo.phone}}</text>
     </view>
     <view class="edit-entry" bindtap="goToEditProfile">

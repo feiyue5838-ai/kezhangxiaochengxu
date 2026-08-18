@@ -1,6 +1,7 @@
 const _common = require('../../utils/common.js');
 const auth = require('../../utils/auth.js');
 const api = require('../../utils/api.js');
+const userProfile = require('../../utils/user-profile.js');
 
 Page({
   data: {
@@ -55,7 +56,10 @@ Page({
       this.setData({ loading: false });
       if (res && res.token) {
         // 后端返回 { token, user }，统一映射为 _saveAndRedirect 期望的 { token, userInfo }
-        this._saveAndRedirect({ token: res.token, userInfo: res.user });
+        this._saveAndRedirect({
+          token: res.token,
+          userInfo: userProfile.normalizeUserInfo(res.user),
+        });
       } else {
         wx.showToast({ title: '登录失败', icon: 'none' });
       }
