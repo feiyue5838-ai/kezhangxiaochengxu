@@ -23,6 +23,13 @@ Page({
         outlet: outletInfo,
         subscribeEnabled: outletInfo.subscribeMsg === 1,
       });
+      // 拉取 V2.0 真实订阅状态，同步 openid 回 storage（解决 outletInfo 与 suppliers 表不一致）
+      api.v2SupplierSubscribeStatus().then(res => {
+        const real = res || {};
+        const updated = { ...outletInfo, outletOpenid: real.bound ? (real.openid || outletInfo.outletOpenid) : '', subscribeMsg: real.enabled ? 1 : 0 };
+        wx.setStorageSync('outletInfo', updated);
+        this.setData({ outlet: updated, subBound: !!real.bound, subscribeEnabled: real.enabled !== false });
+      }).catch(() => {});
       // 如果已经绑定了 openid，跳到步骤 3
       if (outletInfo.outletOpenid) {
         this.setData({ step: 3 });
@@ -58,6 +65,13 @@ Page({
           wx.setStorageSync('outletInfo', res.outlet);
           const step = res.outlet.outletOpenid ? 3 : 2;
           this.setData({ step, outlet: res.outlet, subscribeEnabled: res.outlet.subscribeMsg === 1 });
+          // 同步拉取 V2.0 真实绑定状态
+          api.v2SupplierSubscribeStatus().then(sr => {
+            const real = sr || {};
+            const updated = { ...res.outlet, outletOpenid: real.bound ? (real.openid || res.outlet.outletOpenid) : '', subscribeMsg: real.enabled ? 1 : 0 };
+            wx.setStorageSync('outletInfo', updated);
+            this.setData({ outlet: updated, subBound: !!real.bound, subscribeEnabled: real.enabled !== false });
+          }).catch(() => {});
         } else {
           wx.showToast({ title: '登录结果异常', icon: 'none' });
         }
@@ -96,7 +110,7 @@ Page({
   },
 
   _doBindOpenid(openid, isBind) {
-    api.outletBindOpenid(openid)
+    api.v2SupplierBindOpenid(openid)
       .then(() => {
         const outlet = { ...this.data.outlet, outletOpenid: openid };
         wx.setStorageSync('outletInfo', outlet);
@@ -178,7 +192,7 @@ Page({
   // 持久化订阅开关到后端（enabled 为真实开关值）
   _saveSubscribe(enabled) {
     this.setData({ subscribing: enabled });
-    api.outletToggleSubscribe(enabled)
+    api.v2SupplierToggleSubscribe(enabled)
       .then(() => {
         const outlet = { ...this.data.outlet, subscribeMsg: enabled ? 1 : 0 };
         wx.setStorageSync('outletInfo', outlet);
@@ -215,6 +229,6 @@ Page({
   },
 
   goToOrders() {
-    wx.navigateTo({ url: '/pages/outlet/orders/index/index' });
+    wx.navigateTo({ url: '/pages/supplier/index/index' });
   },
 });

@@ -124,9 +124,9 @@ Page({
     wx.navigateTo({ url: '/pages/aftersale/list/index' });
   },
 
-  // 门店工作台（网点商家：账号密码登录/绑定微信/订阅通知，见 pages/outlet-binding）
+  // 商家工作台（门店/供应商统一入口：V2.0 履约供应商，见 pages/supplier；未登录引导到 outlet-binding 登录）
   goToOutletWorkbench() {
-    wx.navigateTo({ url: '/pages/outlet-binding/index' });
+    wx.navigateTo({ url: '/pages/supplier/index/index' });
   },
 
   // 供应商工作台（V2.0 履约供应商：接单/制作/发货/结算）

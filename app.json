@@ -167,14 +167,6 @@
       ]
     },
     {
-      "root": "pages/outlet/",
-      "pages": [
-        "orders/index/index",
-        "order-detail/index/index",
-        "notifications/index"
-      ]
-    },
-    {
       "root": "pages/auth/",
       "pages": [
         "index"
