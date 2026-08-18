@@ -22,8 +22,8 @@
     <!-- Banner 轮播（后台配置，优先展示；单张时静态展示） -->
     <view class="banner-wrap" wx:if="{{banners.length > 0}}">
       <!-- 多张：轮播 -->
-      <swiper wx:if="{{banners.length > 1}}" class="banner-swiper" indicator-dots autoplay circular
-        indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" interval="10000">
+      <swiper wx:if="{{banners.length > 1}}" class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}"
+        indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" interval="{{10000}}">
         <swiper-item wx:for="{{banners}}" wx:key="id">
           <image class="banner-img" src="{{item.image}}" mode="aspectFit" bindtap="onBannerTap" data-link="{{item.link}}" />
         </swiper-item>

@@ -11,7 +11,14 @@
 // 开发版（模拟器 / 真机调试 / 预览）走局域网 IP，体验版 / 正式版走 HTTPS 域名
 // ⚠️ 发版前：把 API_BASE_PROD 替换为已备案的 HTTPS 域名，并在微信公众平台
 //    开发管理 → 服务器域名 中把 request / uploadFile / downloadFile 都加上该域名
-const API_BASE_DEV = 'http://192.168.31.218:3001'; // 真机预览/开发版走局域网IP（后端 PM2 监听 0.0.0.0:3001；2026-08-08 由临时端口 3002 改回 3001）
+const API_BASE_DEV_LAN = 'http://192.168.31.218:3001'; // 真机预览/开发版走局域网IP（后端 PM2 监听 0.0.0.0:3001；2026-08-08 由临时端口 3002 改回 3001）
+const API_BASE_DEV_LOCAL = 'http://127.0.0.1:3001';
+let API_BASE_DEV = API_BASE_DEV_LAN;
+try {
+  if (wx.getSystemInfoSync().platform === 'devtools') {
+    API_BASE_DEV = API_BASE_DEV_LOCAL;
+  }
+} catch (_e) {}
 // ============================================================================
 // ===== 正式版 API 域名（release 模式专用）=====
 // 当前为占位域名，发版前必须确认：

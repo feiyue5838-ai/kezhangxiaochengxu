@@ -44,8 +44,6 @@ Page({
         }
       });
     }
-    // 加载 Banner
-    this.loadBanners();
     // 加载平台公告
     this.loadAnnouncements();
   },
@@ -54,7 +52,9 @@ Page({
     api.getBanners().then((res) => {
       const list = Array.isArray(res) ? res : (res.list || []);
       this.setData({ banners: list.filter(b => b.status === 1 && b.image).map(b => ({ ...b, image: api.resolveImage(b.image) })) });
-    }).catch(() => {});
+    }).catch((err) => {
+      console.error('[home banner] load failed', err);
+    });
   },
 
   onBannerTap(e) {
@@ -74,7 +74,7 @@ Page({
     if (this._loadingAnnouncements) return;
     this._loadingAnnouncements = true;
     api.getAnnouncements().then((res) => {
-      const list = (res && res.list) || [];
+      const list = Array.isArray(res) ? res : ((res && res.list) || []);
       const now = Date.now();
       const active = list.filter((a) => {
         if (a.status !== 1) return false; // 禁用 → 隐藏
@@ -102,6 +102,7 @@ Page({
 
   onShow() {
     this.loadAnnouncements(); // 每次切回首页刷新公告（含首次进入）
+    this.loadBanners(); // 切回首页时刷新 Banner，避免后台改图后仍停留旧数据
     if (this._loadingOrders) return;
     this._ensureTabBar();
     this.loadOrders();
