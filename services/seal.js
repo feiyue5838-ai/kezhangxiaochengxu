@@ -12,7 +12,7 @@ class SealService {
   async getList(params = {}) {
     return await api.getSealList(params);
   }
-  
+
   /**
    * 获取刻章详情
    */
@@ -21,28 +21,28 @@ class SealService {
     const all = await api.getSealList();
     return all.find(s => s.id === id) || null;
   }
-  
+
   /**
    * 创建刻章订单
    */
   async createOrder(data) {
     return await api.createSealOrder(data);
   }
-  
+
   /**
    * 获取订单列表
    */
   async getOrderList(params = {}) {
     return await api.getSealOrderList(params);
   }
-  
+
   /**
    * 获取订单详情
    */
   async getOrderDetail(id) {
     return await api.getSealOrderDetail(id);
   }
-  
+
   /**
    * 取消订单
    */

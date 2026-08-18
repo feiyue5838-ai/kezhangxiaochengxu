@@ -12,8 +12,13 @@ const WEBVIEW_ALLOWED_HOSTS = [
 
 function isSafeWebUrl(raw) {
   if (typeof raw !== 'string' || !raw) return false;
+  // 不依赖全局 URL 构造器（部分低版本基础库/iOS JSCore 不支持），手动解析
   let u;
-  try { u = new URL(raw); } catch (e) { return false; }
+  try {
+    const m = /^([a-zA-Z][a-zA-Z0-9+.-]*):\/\/([^/?#]*)/.exec(raw);
+    if (!m) return false;
+    u = { protocol: m[1] + ':', host: m[2] };
+  } catch (e) { return false; }
   // 仅允许 https；禁止 http / javascript: / data: 等协议
   if (u.protocol !== 'https:') return false;
   // 主机精确匹配，杜绝 api.rongcheng.com.evil.com 之类子域绕过

@@ -44,7 +44,7 @@ Page({
   },
 
   async _loadFromApi() {
-    this.setData({ loading: true })
+    this.setData({ loading: true });
     try {
       const res = await api.getCourtTemplates();
       if (Array.isArray(res) && res.length > 0) {

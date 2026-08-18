@@ -164,13 +164,13 @@ function request(options = {}) {
  */
 function checkAuth(page, options = {}) {
   const { allowGuest = false } = options;
-  
+
   // 已登录（有 token）
   if (isLogin()) return true;
-  
+
   // 游客 + 允许游客进入
   if (allowGuest && isGuest()) return true;
-  
+
   // 未登录：跳转登录页
   setTimeout(() => {
     wx.navigateTo({ url: '/pages/auth/index' });

@@ -29,9 +29,9 @@ Page({
       wx.hideLoading();
       if (Array.isArray(res) && res.length > 0) {
         // 过滤掉不需要的场景
-        const filteredScenes = res.filter(item => 
-          item.name !== '刻章备案查询' && 
-          item.name !== '电子印章' && 
+        const filteredScenes = res.filter(item =>
+          item.name !== '刻章备案查询' &&
+          item.name !== '电子印章' &&
           item.name !== '个人印章'
         );
         this.setData({ scenes: filteredScenes, loading: false });

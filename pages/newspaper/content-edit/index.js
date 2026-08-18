@@ -48,7 +48,7 @@ Page({
     const content = e.detail.text || '';
     const charCount = content.length;
     this.setData({ content, charCount });
-    
+
     // 字数接近限制时提醒
     if (charCount > 1800 && charCount <= 2000) {
       wx.showToast({ title: '已输入' + charCount + '字，接近2000字限制', icon: 'none' });
@@ -75,7 +75,7 @@ Page({
     const doReplace = (rawText) => {
       if (!rawText) rawText = this.data.originalContent;
       const replaced = smartReplaceUtil.doSmartReplace(rawText, this.data.businessType);
-      this.editorCtx.setContents({ 
+      this.editorCtx.setContents({
         html: this._plainToHtml(replaced),
         success: () => {
           // 替换后滚动到顶部
@@ -185,7 +185,7 @@ Page({
       _timestamp: Date.now()
     });
     wx.navigateTo({
-      url: "/pages/newspaper/form/index"
+      url: '/pages/newspaper/form/index'
     });
   }
 });

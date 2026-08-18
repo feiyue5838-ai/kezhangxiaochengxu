@@ -1,5 +1,5 @@
 // pages/outlet/orders/index.js
-const api = require('../../../../utils/api')
+const api = require('../../../../utils/api');
 
 Page({
   data: {
@@ -10,52 +10,52 @@ Page({
   },
 
   onLoad() {
-    this.checkLoginAndFetch()
+    this.checkLoginAndFetch();
   },
 
   onShow() {
-    this.checkLoginAndFetch()
+    this.checkLoginAndFetch();
   },
 
   async checkLoginAndFetch() {
-    const outletToken = wx.getStorageSync('outletToken')
-    const outletInfo = wx.getStorageSync('outletInfo')
+    const outletToken = wx.getStorageSync('outletToken');
+    const outletInfo = wx.getStorageSync('outletInfo');
     if (!outletToken || !outletInfo) {
-      wx.redirectTo({ url: '/pages/outlet-binding/index' })
-      return
+      wx.redirectTo({ url: '/pages/outlet-binding/index' });
+      return;
     }
     await Promise.all([
       this.fetchOrders(),
       this.fetchUnreadCount()
-    ])
+    ]);
   },
 
   async fetchOrders() {
-    this.setData({ loading: true })
+    this.setData({ loading: true });
     try {
-      const res = await api.getStoreOrders({})
-      console.log('getStoreOrders', res)
-      let list = []
+      const res = await api.getStoreOrders({});
+      console.log('getStoreOrders', res);
+      let list = [];
       if (Array.isArray(res)) {
-        list = res
+        list = res;
       } else if (res && Array.isArray(res.list)) {
-        list = res.list
+        list = res.list;
       } else if (res && res.data && Array.isArray(res.data.list)) {
-        list = res.data.list
+        list = res.data.list;
       } else if (res && res.data && Array.isArray(res.data)) {
-        list = res.data
+        list = res.data;
       }
-      this.setData({ list, loading: false, empty: list.length === 0 })
+      this.setData({ list, loading: false, empty: list.length === 0 });
     } catch (e) {
-      console.error(e)
-      wx.showToast({ title: e.message || '加载失败', icon: 'none' })
-      this.setData({ loading: false, empty: true })
+      console.error(e);
+      wx.showToast({ title: e.message || '加载失败', icon: 'none' });
+      this.setData({ loading: false, empty: true });
     }
   },
 
   goToDetail(e) {
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: `/pages/outlet/order-detail/index/index?id=${id}` })
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: `/pages/outlet/order-detail/index/index?id=${id}` });
   },
 
   async fetchUnreadCount() {
@@ -76,6 +76,6 @@ Page({
   },
 
   onPullDownRefresh() {
-    this.fetchOrders().then(() => wx.stopPullDownRefresh())
+    this.fetchOrders().then(() => wx.stopPullDownRefresh());
   },
-})
+});

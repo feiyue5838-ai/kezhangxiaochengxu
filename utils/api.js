@@ -31,11 +31,11 @@ try {
   // 'develop' = 模拟器/真机调试；'trial' = 体验版/预览；'release' = 正式版
   // 预览版(trial)因为没备案HTTPS域名,临时走开发地址(API_BASE_DEV)
   // release 模式必须有真实域名，否则所有接口必败
-const _isRelease = (envVersion === 'release');
-if (_isRelease && !API_BASE_PROD) {
-  console.error('[API] ⚠️ API_BASE_PROD 为空！release 模式接口全部失效，请在 utils/api.js 中填入已备案 HTTPS 域名');
-}
-API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
+  const _isRelease = (envVersion === 'release');
+  if (_isRelease && !API_BASE_PROD) {
+    console.error('[API] ⚠️ API_BASE_PROD 为空！release 模式接口全部失效，请在 utils/api.js 中填入已备案 HTTPS 域名');
+  }
+  API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
 } catch (e) {
   API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
 }
@@ -378,15 +378,15 @@ module.exports = {
   // 获取用户信息 ?GET /api/user/profile
 
   // 实名认证提交（后端核验，绝不在客户端伪造成功）> POST /api/user/realname-verify
-// 微信实名认证（方案 A）> POST /api/user/realname-verify/wechat
-verifyByWechat: (data) => request({ url: '/api/user/realname-verify/wechat', method: 'POST', data }),
+  // 微信实名认证（方案 A）> POST /api/user/realname-verify/wechat
+  verifyByWechat: (data) => request({ url: '/api/user/realname-verify/wechat', method: 'POST', data }),
 
-submitRealname: (data) => request({ url: '/api/user/realname-verify', method: 'POST', data }),
+  submitRealname: (data) => request({ url: '/api/user/realname-verify', method: 'POST', data }),
 
-// 获取实名认证状态 > GET /api/user/realname-verify
-getRealnameStatus: () => request({ url: '/api/user/realname-verify' }),
+  // 获取实名认证状态 > GET /api/user/realname-verify
+  getRealnameStatus: () => request({ url: '/api/user/realname-verify' }),
 
-getUserInfo: () => request({ url: '/api/user/profile' }),
+  getUserInfo: () => request({ url: '/api/user/profile' }),
 
   // [已实现] 用户资料编辑页：pages/profile/edit（头像上传 + PUT 表单）；入口在 pages/profile 头部「编辑资料」
   // 更新用户信息 ?PUT /api/user/profile
@@ -1133,8 +1133,6 @@ getUserInfo: () => request({ url: '/api/user/profile' }),
   getBookkeepingPayParams: (orderId, openid) =>
     request({ url: '/api/bookkeeping/orders/' + orderId + '/pay-params', method: 'POST', data: { openid: openid || '' } }),
 
-  /** API 基础地址（用于拼接图片等静态资源） */
-  API_BASE: API_BASE,
   /** 把后端相对图片路径拼成完整 URL（/uploads/... -> API_BASE+/uploads/...） */
   resolveImage: resolveImage,
 

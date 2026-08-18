@@ -91,10 +91,10 @@ Page({
     // S-11: 职业章/签名章判定 - 改为数据驱动（从 items 中读取 categoryName 或标记）
     // 如果 context.selectedItems 有数据，使用后端返回的分类信息
     const selectedItems = context.selectedItems || [];
-    const hasProfessional = selectedItems.some(item => 
+    const hasProfessional = selectedItems.some(item =>
       item.requiresCert || /执业|资格|职业|建造师|工程师|会计师|律师|税务师/.test(item.categoryName || item.name || '')
     );
-    const hasSignature = selectedItems.some(item => 
+    const hasSignature = selectedItems.some(item =>
       /签名章/.test(item.name || '')
     ) || selectedSealIds.some(id => {
       // 兼容旧流程：尝试匹配后端返回的印章名称

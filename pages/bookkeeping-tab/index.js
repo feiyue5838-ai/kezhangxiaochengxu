@@ -111,10 +111,10 @@ Page({
       return;
     }
     this.setData({ price: '--', payDisabled: true });
-    
+
     // B-05: 请求序号，丢弃过期响应
     const seq = ++this._priceSeq;
-    
+
     try {
       const res = await api.getBookkeepingPrice({
         taxpayerType: this.data.taxpayerType,
@@ -125,7 +125,7 @@ Page({
       });
       // B-05: 丢弃过期响应
       if (seq !== this._priceSeq) return;
-      
+
       const price = Number(res.price || res.amount || 0);
       if (price > 0) {
         this.setData({ price: price.toFixed(2), payDisabled: false });
@@ -137,7 +137,7 @@ Page({
     } catch (e) {
       // B-05: 丢弃过期响应
       if (seq !== this._priceSeq) return;
-      
+
       console.error('获取价格失败:', e);
       // B-04: 价格获取失败时提示用户
       this.setData({ price: '--', payDisabled: true });

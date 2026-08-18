@@ -5,7 +5,7 @@ const api = require('../../../utils/api.js');
 
 // API 返回的模板按 templateType 分组
 // fallback：使用 company-docs.js 的 categories
-let categoriesFromApi = null
+let categoriesFromApi = null;
 
 Page({
   data: {
@@ -17,7 +17,7 @@ Page({
     categoryList: companyDocsConfig.categories.map((cat, index) => ({
       ...cat,
       color: ['#5B6FE8', '#6474E9', '#6D78EB', '#767DEC', '#7F81ED', '#8886EF',
-              '#918AF0', '#9A8FF1', '#A393F3', '#AC98F4', '#B59CF5', '#B49CF7'][index % 12],
+        '#918AF0', '#9A8FF1', '#A393F3', '#AC98F4', '#B59CF5', '#B49CF7'][index % 12],
     })),
     loading: false,
   },
@@ -35,7 +35,7 @@ Page({
   },
 
   async _loadFromApi() {
-    this.setData({ loading: true })
+    this.setData({ loading: true });
     try {
       const res = await api.getCompanyDocTemplates();
       if (Array.isArray(res) && res.length > 0) {

@@ -1,4 +1,4 @@
-const api = require('../../../utils/api.js')
+const api = require('../../../utils/api.js');
 
 Page({
   data: {
@@ -6,7 +6,7 @@ Page({
   },
 
   onLoad() {
-    this.loadContent()
+    this.loadContent();
   },
 
   onShow() {
@@ -14,31 +14,31 @@ Page({
   },
 
   loadContent() {
-    wx.showLoading({ title: '加载中...' })
+    wx.showLoading({ title: '加载中...' });
     api.getMaterialCommitment().then(res => {
-      wx.hideLoading()
-      const content = res && res.content ? res.content : ''
+      wx.hideLoading();
+      const content = res && res.content ? res.content : '';
       if (content) {
-        this.setData({ html: this.formatRich(content) })
+        this.setData({ html: this.formatRich(content) });
       } else {
-        this.setData({ html: '<view class="empty">暂无内容</view>' })
+        this.setData({ html: '<view class="empty">暂无内容</view>' });
       }
     }).catch(() => {
-      wx.hideLoading()
-      this.setData({ html: '<view class="empty">加载失败</view>' })
-    })
+      wx.hideLoading();
+      this.setData({ html: '<view class="empty">加载失败</view>' });
+    });
   },
 
   onBack() {
-    wx.navigateBack()
+    wx.navigateBack();
   },
 
   formatRich(html) {
-    if (!html) return ''
+    if (!html) return '';
     return html
       .replace(/<p>/g, '<p class="p">')
       .replace(/<li>/g, '<li class="li">')
       .replace(/<ul>/g, '<ul class="ul">')
-      .replace(/<ol>/g, '<ol class="ol">')
+      .replace(/<ol>/g, '<ol class="ol">');
   },
-})
+});

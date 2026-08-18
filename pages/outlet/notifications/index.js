@@ -32,10 +32,10 @@ Page({
         url: '/outlets/me/notifications',
         method: 'GET',
       });
-      
-      this.setData({ 
+
+      this.setData({
         notifications: res.list || res || [],
-        loading: false 
+        loading: false
       });
     } catch (err) {
       console.error('加载通知失败:', err);
@@ -46,10 +46,10 @@ Page({
 
   onNotificationTap(e) {
     const { id, order_id, order_no } = e.currentTarget.dataset;
-    
+
     // 标记已读
     this.markAsRead(id);
-    
+
     // 跳转到订单详情
     if (order_id || order_no) {
       wx.navigateTo({
@@ -64,7 +64,7 @@ Page({
         url: `/outlets/notifications/${notificationId}/read`,
         method: 'PUT',
       });
-      
+
       // 更新本地状态
       const notifications = this.data.notifications.map(n => {
         if (n.id === notificationId) {
@@ -80,7 +80,7 @@ Page({
 
   async deleteNotification(e) {
     const { id } = e.currentTarget.dataset;
-    
+
     wx.showModal({
       title: '确认删除',
       content: '确定删除这条通知吗？',
@@ -91,11 +91,11 @@ Page({
               url: `/outlets/notifications/${id}`,
               method: 'DELETE',
             });
-            
+
             // 从列表中移除
             const notifications = this.data.notifications.filter(n => n.id !== id);
             this.setData({ notifications });
-            
+
             wx.showToast({ title: '已删除', icon: 'success' });
           } catch (err) {
             wx.showToast({ title: '删除失败', icon: 'none' });
@@ -116,7 +116,7 @@ Page({
     const date = new Date(dateStr);
     const now = new Date();
     const diff = now - date;
-    
+
     // 1小时内
     if (diff < 3600000) {
       return Math.floor(diff / 60000) + '分钟前';

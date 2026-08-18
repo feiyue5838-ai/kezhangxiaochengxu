@@ -437,7 +437,7 @@ Page({
     }).then(res => {
       // N-04: 丢弃过期响应
       if (seq !== this._priceSeq) return;
-      
+
       if (res && res.totalPrice != null) {
         this.setData({
           publishFee: res.wordPrice != null ? res.wordPrice : res.totalPrice,
