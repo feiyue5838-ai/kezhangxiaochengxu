@@ -34,14 +34,14 @@ Page({
         const o = await api.v2GetOrderDetail(id);
         this.setData({ order: this._mapV2Order(o), loading: false, orderNo: id, isV2: true });
         return;
-      } catch (e) {
-        console.warn('v2 detail failed, fallback V1:', e);
+      } catch (_e) {
+        console.warn('v2 detail failed, fallback V1:', _e);
       }
     }
     try {
       const o = await api.getBookkeepingOrderDetail(id);
       this.setData({ order: this._mapOrder(o), loading: false, orderNo: o.orderNo || id, isV2: false });
-    } catch (e) {
+    } catch (_e) {
       this.setData({ loading: false, order: null });
     }
   },
@@ -111,7 +111,7 @@ Page({
 
   _parse(str, fallback) {
     if (!str) return fallback;
-    try { return JSON.parse(str); } catch (e) { return fallback; }
+    try { return JSON.parse(str); } catch (_e) { return fallback; }
   },
 
   _statusText(s) {
@@ -273,7 +273,7 @@ Page({
           wx.hideLoading();
           wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
           that.loadOrder(isV2 ? orderNo : id);
-        } catch (e) {
+        } catch (_e) {
           wx.hideLoading();
           wx.showToast({ title: '操作失败', icon: 'none' });
         }

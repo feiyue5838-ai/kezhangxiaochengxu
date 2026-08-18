@@ -41,8 +41,8 @@ Page({
         this.setData({ categoryList: cats, _apiReady: true });
         return;
       }
-    } catch (e) {
-      console.warn('[labor-dispute] API 加载失败，fallback 本地配置:', e.message);
+    } catch (_e) {
+      console.warn('[labor-dispute] API 加载失败，fallback 本地配置:', _e.message);
     }
     // Fallback: 使用本地 labor.js
     this.setData({

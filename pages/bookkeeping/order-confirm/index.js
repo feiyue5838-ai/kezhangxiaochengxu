@@ -1,6 +1,6 @@
 // pages/bookkeeping/order-confirm/index.js
 const api = require('../../../utils/api.js');
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 
 Page({
   data: {
@@ -87,9 +87,9 @@ Page({
         // B-04: 价格获取失败时提示用户
         wx.showToast({ title: '该组合暂不支持，请调整选项', icon: 'none' });
       }
-    } catch (e) {
+    } catch (_e) {
       // B-04: 价格获取失败时提示用户
-      console.error('获取价格失败:', e);
+      console.error('获取价格失败:', _e);
       wx.showToast({ title: '价格获取失败，请重试', icon: 'none' });
     }
   },
@@ -121,7 +121,7 @@ Page({
         const v2res = await api.v2CreateBookkeepingOrder(v2dto);
         orderNo = v2res && v2res.orderNo;
         if (!orderNo) throw new Error('V2.0 创建订单无 orderNo');
-      } catch (e) {
+      } catch (_e) {
         // V2.0 失败降级 V1
         const order = await api.createBookkeepingOrder({
           taxpayer_type: this.data.taxpayerType,
@@ -145,9 +145,9 @@ Page({
       // 3. 发起微信支付
       await this._wxPayV2(payRes, orderNo);
 
-    } catch (e) {
-      console.error('提交订单失败:', e);
-      wx.showToast({ title: e.message || '提交失败', icon: 'none' });
+    } catch (_e) {
+      console.error('提交订单失败:', _e);
+      wx.showToast({ title: _e.message || '提交失败', icon: 'none' });
     } finally {
       this.setData({ submitting: false });
     }

@@ -72,10 +72,10 @@ Page({
       });
       this.setData({ allList, loading: false });
       this.applyFilter();
-    } catch (e) {
-      console.error('加载我的评价失败:', e);
+    } catch (_e) {
+      console.error('加载我的评价失败:', _e);
       this.setData({ loading: false, allList: [] });
-      wx.showToast({ title: (e && e.message) || '加载失败', icon: 'none' });
+      wx.showToast({ title: (_e && _e.message) || '加载失败', icon: 'none' });
     }
   },
 

@@ -49,7 +49,7 @@ Page({
       if (order.addressSnapshot) {
         try {
           address = typeof order.addressSnapshot === 'string' ? JSON.parse(order.addressSnapshot) : order.addressSnapshot;
-        } catch (e) { /* 忽略 */ }
+        } catch (_e) { /* 忽略 */ }
       }
 
       // 业务明细摘要

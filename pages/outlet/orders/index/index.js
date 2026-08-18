@@ -34,7 +34,6 @@ Page({
     this.setData({ loading: true });
     try {
       const res = await api.getStoreOrders({});
-      console.log('getStoreOrders', res);
       let list = [];
       if (Array.isArray(res)) {
         list = res;
@@ -46,9 +45,9 @@ Page({
         list = res.data;
       }
       this.setData({ list, loading: false, empty: list.length === 0 });
-    } catch (e) {
-      console.error(e);
-      wx.showToast({ title: e.message || '加载失败', icon: 'none' });
+    } catch (_e) {
+      console.error(_e);
+      wx.showToast({ title: _e.message || '加载失败', icon: 'none' });
       this.setData({ loading: false, empty: true });
     }
   },
@@ -66,8 +65,8 @@ Page({
         data: { unreadOnly: true, pageSize: 1 },
       });
       this.setData({ unreadCount: res.pagination?.total || 0 });
-    } catch (e) {
-      console.error('获取未读数失败:', e);
+    } catch (_e) {
+      console.error('获取未读数失败:', _e);
     }
   },
 

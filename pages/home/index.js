@@ -1,6 +1,6 @@
 // pages/home/index.js
 const api = require('../../utils/api.js');
-const common = require('../../utils/common.js');
+const _common = require('../../utils/common.js');
 
 // 状态映射
 const STATUS_MAP = {
@@ -131,12 +131,12 @@ Page({
     try {
       const sealOrders = wx.getStorageSync('seal_orders') || [];
       allOrders.push(...sealOrders.map(o => ({ ...o, _type: '刻章' })));
-    } catch (e) {}
+    } catch (_e) {}
 
     try {
       const newsOrders = wx.getStorageSync('newspaper_orders') || [];
       allOrders.push(...newsOrders.map(o => ({ ...o, _type: '登报' })));
-    } catch (e) {}
+    } catch (_e) {}
 
     allOrders.sort((a, b) => (b.createTime || b.createAt || 0) - (a.createTime || a.createAt || 0));
     const recent = allOrders.slice(0, 5).map(o => ({

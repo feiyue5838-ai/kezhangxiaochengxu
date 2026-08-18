@@ -5,7 +5,7 @@ const api = require('../../../utils/api.js');
 
 // API 返回分组：{ id, name, color, hot, total, docs: [{ name, content }] }
 // fallback：announcement.js 本地 categories + generateContent
-let categoriesFromApi = null;
+let _categoriesFromApi = null;
 
 Page({
   data: {
@@ -37,7 +37,7 @@ Page({
     try {
       const res = await api.getAuctionTemplates();
       if (Array.isArray(res) && res.length > 0) {
-        categoriesFromApi = res;
+        _categoriesFromApi = res;
         const cats = res.map(g => ({
           id: g.id,
           name: g.name,
@@ -49,8 +49,8 @@ Page({
         this.setData({ categories: cats, loading: false, useApi: true });
         return;
       }
-    } catch (e) {
-      console.warn('[auction] API 调用失败，使用前端硬编码兜底', e);
+    } catch (_e) {
+      console.warn('[auction] API 调用失败，使用前端硬编码兜底', _e);
     }
     this.setData({ loading: false });
   },
@@ -59,7 +59,7 @@ Page({
 
   selectTemplate(e) {
     const { id } = e.currentTarget.dataset;
-    const idx = this.data.categories.findIndex(c => c.id == id || c.id === id);
+    const idx = this.data.categories.findIndex(c => c.id === id || c.id === id);
     const cat = this.data.categories[idx];
     this.setData({ selectedCategory: id, pickedIndex: idx, pickedItems: cat.items || [], showDocPicker: true, searchKey: '' });
   },

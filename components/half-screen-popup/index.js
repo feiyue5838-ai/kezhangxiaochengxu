@@ -1,6 +1,6 @@
 // components/half-screen-popup/index.js
 const api = require('../../utils/api.js');
-const common = require('../../utils/common.js');
+const _common = require('../../utils/common.js');
 
 // 4 分类 API 分类 ID（企业刻章作为 open() 默认值）
 const DEFAULT_CATEGORY_ID = 'afd862ed-208d-4a11-b3ff-ebee46f2ff37';
@@ -71,7 +71,7 @@ Component({
           menuButtonTop = menuButton.top;
           menuButtonHeight = menuButton.height;
         }
-      } catch (e) {
+      } catch (_e) {
         navContentHeight = 44;
       }
 

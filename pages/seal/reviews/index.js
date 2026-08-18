@@ -31,8 +31,8 @@ Page({
         reviewList: list,
         loading: false
       });
-    } catch (e) {
-      console.error('加载评价失败:', e);
+    } catch (_e) {
+      console.error('加载评价失败:', _e);
       this.setData({ loading: false });
       wx.showToast({ title: '加载失败', icon: 'none' });
     }
@@ -45,8 +45,8 @@ Page({
       const orders = Array.isArray(res) ? res : (res.items || res.list || []);
       // TODO: 过滤已评价的订单（需要后端返回 hasReviewed 字段）
       this.setData({ reviewableOrders: orders });
-    } catch (e) {
-      console.error('加载订单失败:', e);
+    } catch (_e) {
+      console.error('加载订单失败:', _e);
       this.setData({ reviewableOrders: [] });
     }
   },

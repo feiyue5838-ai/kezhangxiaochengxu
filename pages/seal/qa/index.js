@@ -41,8 +41,8 @@ Page({
         qaList: qaList,
         loading: false
       });
-    } catch (e) {
-      console.error('加载问答失败:', e);
+    } catch (_e) {
+      console.error('加载问答失败:', _e);
       this.setData({ loading: false });
       // 加载失败时显示空列表，不再使用模拟数据
       this.setData({ qaList: [] });
@@ -139,9 +139,9 @@ Page({
       });
 
       wx.showToast({ title: '提问成功', icon: 'success' });
-    } catch (e) {
-      console.error('提交问题失败:', e);
-      wx.showToast({ title: e.message || '提交失败', icon: 'none' });
+    } catch (_e) {
+      console.error('提交问题失败:', _e);
+      wx.showToast({ title: _e.message || '提交失败', icon: 'none' });
       this.setData({ submitting: false });
     }
   }

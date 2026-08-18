@@ -54,8 +54,8 @@ const categories = [
 function generateContent(params) {
   const { name = '' } = params;
   const companyName = params.companyName || 'XXXX有限公司';
-  const personName = params.personName || 'XXX';
-  const date = params.date || 'XXXX年XX月XX日';
+  const _personName = params.personName || 'XXX';
+  const _date = params.date || 'XXXX年XX月XX日';
 
   // ========== 1. 债权债务综合清算 ==========
   if (name === '债权债务清理公告') {

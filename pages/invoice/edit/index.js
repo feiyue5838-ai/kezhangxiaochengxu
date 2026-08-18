@@ -1,5 +1,5 @@
 // pages/invoice/edit/index.js
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 
 Page({
   data: {
@@ -39,7 +39,7 @@ Page({
           this.setData({ special: { title: info.title || '', taxNumber: info.taxNumber || '', address: info.address || '', phone: info.phone || '', bankName: info.bankName || '', bankAccount: info.bankAccount || '' } });
         }
       }
-    } catch (e) {}
+    } catch (_e) {}
   },
 
   goBack() {
@@ -135,7 +135,7 @@ Page({
       wx.showToast({ title: '保存成功', icon: 'success' });
       this.setData({ isSaving: false });
       setTimeout(() => this.goBack(), 1200);
-    } catch (e) {
+    } catch (_e) {
       this.setData({ isSaving: false });
       wx.showToast({ title: '保存失败', icon: 'none' });
     }

@@ -18,7 +18,7 @@ Page({
   },
 
   onLoad(opt) {
-    const { id, module } = opt;
+    const { id, _module } = opt;
     if (!id) {
       wx.showToast({ title: '参数错误', icon: 'none' });
       wx.navigateBack();
@@ -85,7 +85,7 @@ Page({
   },
 
   uploadImages(paths) {
-    const { images } = this.data;
+    const { _images } = this.data;
     // 上传完成后替换本地路径为线上URL
     const uploadOne = (idx) => {
       if (idx >= paths.length) return;

@@ -5,7 +5,7 @@ const api = require('../../../utils/api.js');
 
 // API 返回的模板按 templateType 分组
 // fallback：使用 company-docs.js 的 categories
-let categoriesFromApi = null;
+let _categoriesFromApi = null;
 
 Page({
   data: {
@@ -39,11 +39,11 @@ Page({
     try {
       const res = await api.getCompanyDocTemplates();
       if (Array.isArray(res) && res.length > 0) {
-        categoriesFromApi = res;
+        _categoriesFromApi = res;
         this.setData({ categoryList: res, loading: false });
       }
-    } catch (e) {
-      console.warn('[company-docs] API 调用失败，使用前端硬编码兜底', e);
+    } catch (_e) {
+      console.warn('[company-docs] API 调用失败，使用前端硬编码兜底', _e);
       this.setData({ loading: false });
     }
   },

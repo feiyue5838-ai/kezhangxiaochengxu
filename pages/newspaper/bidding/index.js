@@ -30,8 +30,8 @@ Page({
         this.setData({ categoryList: list, _fallback: false });
         return;
       }
-    } catch (e) {
-      console.warn('[bidding] API 加载失败，使用本地 fallback', e);
+    } catch (_e) {
+      console.warn('[bidding] API 加载失败，使用本地 fallback', _e);
     }
     // fallback：直接用本地 biddingConfig.categories
     this.setData({

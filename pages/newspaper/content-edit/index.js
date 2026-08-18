@@ -1,4 +1,4 @@
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const smartReplaceUtil = require('../../../utils/smart-replace.js');
 let _smartReplaceTimer = null;
 

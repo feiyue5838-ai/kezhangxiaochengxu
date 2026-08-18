@@ -45,8 +45,8 @@ Page({
         }));
         this.setData({ categoryList: mapped, loading: false });
       }
-    } catch (e) {
-      console.warn('[government] API 调用失败，使用前端硬编码兜底', e);
+    } catch (_e) {
+      console.warn('[government] API 调用失败，使用前端硬编码兜底', _e);
       this.setData({ loading: false });
     }
   },

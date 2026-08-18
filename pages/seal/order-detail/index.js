@@ -41,7 +41,7 @@ Page({
       // 解析邮寄地址（后端存储为 JSON 字符串）
       var address = null;
       if (order.addressJson) {
-        try { address = typeof order.addressJson === 'string' ? JSON.parse(order.addressJson) : order.addressJson; } catch(e) {}
+        try { address = typeof order.addressJson === 'string' ? JSON.parse(order.addressJson) : order.addressJson; } catch (_e) {}
       }
 
       // 印章名称：从 orderItems 拼接；无则用 companyName
@@ -88,7 +88,7 @@ Page({
       var orders = wx.getStorageSync('seal_orders') || [];
       var found = null;
       for (var i = 0; i < orders.length; i++) {
-        if (orders[i].id == id) { found = orders[i]; break; }
+        if (orders[i].id === id) { found = orders[i]; break; }
       }
       if (found) {
         // 设置状态图标
@@ -111,7 +111,7 @@ Page({
       } else {
         that._showNotFound();
       }
-    } catch (e) {
+    } catch (_e) {
       that._showNotFound();
     }
   },
@@ -254,7 +254,7 @@ Page({
           'order.statusClass': statusClass
         });
       }
-    } catch (e) {
+    } catch (_e) {
       // 更新失败静默处理
     }
   },

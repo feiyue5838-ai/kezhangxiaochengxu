@@ -1,5 +1,5 @@
 // pages/newspaper/idcard-page.js
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const api = require('../../../utils/api.js');
 
 // 硬编码兜底模板（离线或API失败时使用）
@@ -65,8 +65,8 @@ Page({
         // 返回空或异常，保持兜底
         this.setData({ loading: false });
       }
-    } catch (e) {
-      console.warn('身份证挂失模板API失败，使用兜底数据:', e);
+    } catch (_e) {
+      console.warn('身份证挂失模板API失败，使用兜底数据:', _e);
       this.setData({ loading: false });
     }
   },

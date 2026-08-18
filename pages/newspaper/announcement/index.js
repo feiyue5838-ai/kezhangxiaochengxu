@@ -1,12 +1,12 @@
 // pages/newspaper/announcement/index.js
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const announcementConfig = require('../../../utils/announcement.js');
 const api = require('../../../utils/api.js');
 
 // API 返回的模板按 templateType 分组
 // 结构：{ id, name, desc, color, hot, total, docs: [{ name, content, desc }] }
 // fallback：使用 announcement.js 的 CATEGORIES
-let categoriesFromApi = null;
+let _categoriesFromApi = null;
 
 Page({
   data: {
@@ -47,7 +47,7 @@ Page({
       const fetcher = this.data.pageId === 6 ? api.getNoticeTemplates : api.getAnnouncementTemplates;
       const res = await fetcher();
       if (Array.isArray(res) && res.length > 0) {
-        categoriesFromApi = res;
+        _categoriesFromApi = res;
         const cats = res.map(g => ({
           id: g.id,
           name: g.name,
@@ -59,8 +59,8 @@ Page({
         this.setData({ categories: cats, loading: false, useApi: true });
         return;
       }
-    } catch (e) {
-      console.warn('[announcement] API 调用失败，使用前端硬编码兜底', e);
+    } catch (_e) {
+      console.warn('[announcement] API 调用失败，使用前端硬编码兜底', _e);
     }
     this.setData({ loading: false });
   },

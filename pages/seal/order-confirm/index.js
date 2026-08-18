@@ -117,7 +117,7 @@ Page({
     isSubmitting: false  // 防止重复提交
   },
 
-  onLoad(options) {
+  onLoad(_options) {
     // 未登录先跳登录页（A-04: 游客不能下单）
     if (!wx.getStorageSync('token')) {
       wx.navigateTo({ url: '/pages/auth/index' });
@@ -127,7 +127,7 @@ Page({
     this.setData({ pageTitle: '确认订单' });
 
     // 生成或获取订单ID（用于数据隔离）
-    const orderId = this._getOrCreateOrderId();
+    const _orderId = this._getOrCreateOrderId();
 
     // 读取表单数据（从表单页 Storage 传递）
     const formData = wx.getStorageSync('sealOrderForm') || null;
@@ -299,10 +299,10 @@ Page({
     let handheldCities = FALLBACK;
     try {
       legalCities = common.configToArray(await api.getConfig('legalPhotoCities'), FALLBACK);
-    } catch (e) { /* 接口异常时沿用兜底白名单 */ }
+    } catch (_e) { /* 接口异常时沿用兜底白名单 */ }
     try {
       handheldCities = common.configToArray(await api.getConfig('handheldIdCities'), FALLBACK);
-    } catch (e) { /* 接口异常时沿用兜底白名单 */ }
+    } catch (_e) { /* 接口异常时沿用兜底白名单 */ }
 
     const rule = common.getRequiredMaterials({ subjectType: subjectType, isElectronic: isElectronic, hasProfessional: hasProfessional, hasSignature: hasSignature, region: region, legalPhotoCities: legalCities, handheldIdCities: handheldCities });
     this.setData({
@@ -549,8 +549,8 @@ Page({
     let submitMaterials;
     try {
       submitMaterials = await this._uploadMaterials();
-    } catch (e) {
-      console.error('材料上传失败', e);
+    } catch (_e) {
+      console.error('材料上传失败', _e);
       wx.hideLoading();
       wx.showToast({ title: '材料上传失败，请重试', icon: 'none' });
       this.setData({ isSubmitting: false });
@@ -748,7 +748,7 @@ Page({
   },
 
   // 支付成功收尾：清缓存 + 提示 + 跳转（dev/free 场景服务端已同步完成支付+分配）
-  _finishPaid(orderId, totalPrice, sealNames) {
+  _finishPaid(_orderId, _totalPrice, _sealNames) {
     // S-09: 清除缓存的订单ID
     this._createdOrderId = null;
     wx.showToast({ title: '支付成功', icon: 'success' });

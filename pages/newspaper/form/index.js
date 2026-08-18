@@ -56,7 +56,7 @@ Page({
       return;
     }
 
-    const { type } = options;
+    const { _type } = options;
 
     // 优先读取 idcard-page 跳转时存入的模板数据
     const templateData = wx.getStorageSync('newspaperTemplate') || {};
@@ -137,7 +137,7 @@ Page({
         this.setData({ selectedAddress: def });
         this.updateCanSubmit();
       }
-    } catch (e) {
+    } catch (_e) {
       // 静默失败，由用户手动选择地址
     }
   },
@@ -164,8 +164,8 @@ Page({
       if (this.data.selectedPaper) {
         this.calculatePrice();
       }
-    } catch (e) {
-      console.error('加载报纸失败', e);
+    } catch (_e) {
+      console.error('加载报纸失败', _e);
       this.setData({ isLoadingPapers: false });
       wx.showToast({ title: '加载报纸失败', icon: 'none' });
     }
@@ -438,9 +438,9 @@ Page({
       // N-04: 丢弃过期响应
       if (seq !== this._priceSeq) return;
 
-      if (res && res.totalPrice != null) {
+      if (res && res.totalPrice !== null) {
         this.setData({
-          publishFee: res.wordPrice != null ? res.wordPrice : res.totalPrice,
+          publishFee: res.wordPrice !== null ? res.wordPrice : res.totalPrice,
           sectionFee: res.sectionPrice || 0,
           totalPrice: res.totalPrice
         });
@@ -514,7 +514,7 @@ Page({
         if ((that.data.uploadList || []).length > 0) {
           try {
             images = await Promise.all(that.data.uploadList.map(p => api.uploadFile(p)));
-          } catch (e) {
+          } catch (_e) {
             wx.hideLoading();
             wx.showToast({ title: '证件上传失败，请重试', icon: 'none' });
             that.setData({ isSubmitting: false });
@@ -633,7 +633,7 @@ Page({
       });
   },
 
-  _finishPaidV2(orderNo) {
+  _finishPaidV2(_orderNo) {
     // 清除缓存（与 V1 一致）
     this._createdOrderNo = null;
     wx.removeStorageSync('selectedAddress');
@@ -688,7 +688,7 @@ Page({
     });
   },
 
-  _finishPaid(orderId) {
+  _finishPaid(_orderId) {
     // N-03/N-06/N-07: 清除缓存
     this._createdOrderId = null;
     wx.removeStorageSync('selectedAddress');

@@ -138,11 +138,11 @@ const categories = [
 function generateContent(params) {
   const { name = '' } = params;
   const companyName = params.companyName || 'XXXX有限公司';
-  const personName = params.personName || 'XXX';
+  const _personName = params.personName || 'XXX';
   const court = params.court || 'XX市XX区人民法院';
-  const caseNo = params.caseNo || '（XXXX）XX民初XXX号';
-  const amount = params.amount || 'XXXXX';
-  const date = params.date || 'XXXX年XX月XX日';
+  const _caseNo = params.caseNo || '（XXXX）XX民初XXX号';
+  const _amount = params.amount || 'XXXXX';
+  const _date = params.date || 'XXXX年XX月XX日';
 
   // 1. 债权债务与催收
   if (name === '债权转让公告') {

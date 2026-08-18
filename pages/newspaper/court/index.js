@@ -1,5 +1,5 @@
 // pages/newspaper/court/index.js
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const courtConfig = require('../../../utils/court.js');
 const api = require('../../../utils/api.js');
 
@@ -31,7 +31,7 @@ Page({
     try {
       const sys = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
       this._windowHeight = sys.windowHeight || 700;
-    } catch (e) {
+    } catch (_e) {
       this._windowHeight = 700;
     }
     this._loadFromApi();
@@ -50,7 +50,7 @@ Page({
       if (Array.isArray(res) && res.length > 0) {
         categoriesFromApi = res;
         // 将 API 数据结构映射为页面所需结构
-        const mapped = res.map((cat, idx) => ({
+        const mapped = res.map((cat, _idx) => ({
           id: cat.id,
           name: cat.name,
           desc: cat.name, // API 无 desc，用 name 替代
@@ -60,8 +60,8 @@ Page({
         }));
         this.setData({ categories: mapped, loading: false });
       }
-    } catch (e) {
-      console.warn('[court] API 调用失败，使用前端硬编码兜底', e);
+    } catch (_e) {
+      console.warn('[court] API 调用失败，使用前端硬编码兜底', _e);
       this.setData({ loading: false });
     }
   },

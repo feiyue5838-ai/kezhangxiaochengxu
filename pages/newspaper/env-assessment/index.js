@@ -28,8 +28,8 @@ Page({
       if (Array.isArray(data) && data.length > 0) {
         this.setData({ categoryList: data, _apiLoaded: true });
       }
-    } catch (e) {
-      console.warn('[环评公示] API 加载失败，使用本地兜底数据', e);
+    } catch (_e) {
+      console.warn('[环评公示] API 加载失败，使用本地兜底数据', _e);
     }
   },
 

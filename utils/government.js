@@ -44,8 +44,8 @@ function getTotalCount() {
  * 根据模板名称生成报纸内容
  */
 function generateContent(name) {
-  const companyName = 'XXXX单位';
-  const personName = 'XXX';
+  const _companyName = 'XXXX单位';
+  const _personName = 'XXX';
   const court = 'XX市XX区人民检察院';
 
   // 1. 检察司法类

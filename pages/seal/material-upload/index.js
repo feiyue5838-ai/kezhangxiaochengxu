@@ -46,7 +46,7 @@ Page({
     canSubmit: false,
   },
 
-  async onLoad(options) {
+  async onLoad(_options) {
     // 未登录时拦截，避免上传材料后撞 401 导致材料浪费
     const token = wx.getStorageSync('token');
     if (!token) {
@@ -121,10 +121,10 @@ Page({
     let handheldCities = REGION_FALLBACK;
     try {
       legalPhotoCities = common.configToArray(await api.getConfig('legalPhotoCities'), REGION_FALLBACK);
-    } catch (e) { /* 接口异常沿用兜底 */ }
+    } catch (_e) { /* 接口异常沿用兜底 */ }
     try {
       handheldCities = common.configToArray(await api.getConfig('handheldIdCities'), REGION_FALLBACK);
-    } catch (e) { /* 接口异常沿用兜底 */ }
+    } catch (_e) { /* 接口异常沿用兜底 */ }
 
     // 单一材料必填规则（S-13/S-14 数据源）：与个人/电子/主体类型/地区白名单/执业/签名统一判定
     const materialRule = common.getRequiredMaterials({

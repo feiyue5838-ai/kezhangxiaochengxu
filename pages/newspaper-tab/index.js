@@ -1,5 +1,5 @@
 // pages/newspaper-tab/index.js
-const common = require('../../utils/common.js');
+const _common = require('../../utils/common.js');
 const catConfig = require('../../utils/categories.js');
 
 Page({

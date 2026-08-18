@@ -42,7 +42,7 @@ Page({
         const mapped = list.map(s => ({
           ...s,
           statusText: STATUS_TEXT[s.status] || s.status || '',
-          amountText: s.payableAmount != null ? '¥' + Number(s.payableAmount).toFixed(2) : '',
+          amountText: s.payableAmount !== null ? '¥' + Number(s.payableAmount).toFixed(2) : '',
         }));
         this.setData({
           list: reset ? mapped : this.data.list.concat(mapped),

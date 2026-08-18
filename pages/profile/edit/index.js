@@ -68,9 +68,9 @@ Page({
       this.setData({ saving: false, userInfo });
       wx.showToast({ title: '保存成功', icon: 'success' });
       setTimeout(() => wx.navigateBack({ delta: 1 }), 800);
-    } catch (e) {
+    } catch (_e) {
       this.setData({ saving: false });
-      wx.showToast({ title: (e && e.message) || '保存失败，请重试', icon: 'none' });
+      wx.showToast({ title: (_e && _e.message) || '保存失败，请重试', icon: 'none' });
     }
   },
 

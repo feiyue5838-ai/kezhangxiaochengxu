@@ -1,4 +1,4 @@
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const api = require('../../../utils/api.js');
 const auth = require('../../../utils/auth.js');
 const { orderStatusV2 } = require('../../../utils/order-status-v2.js');
@@ -163,8 +163,8 @@ Page({
         this._loadingOrders = false;
         return;
       }
-    } catch (e) {
-      console.warn('[order-list] V2.0 接口失败，降级 V1:', e && e.message);
+    } catch (_e) {
+      console.warn('[order-list] V2.0 接口失败，降级 V1:', _e && _e.message);
     }
 
     // ===== V1 兜底（原有逻辑） =====
@@ -213,7 +213,7 @@ Page({
         ...localSealOrders.filter(o => !seen.has(o.id) && !String(o.id).startsWith('SEAL_')),
       ];
       all = [...normalize(newspaperOrders, 'newspaper'), ...normalize(merged, 'seal')];
-    } catch (e) {
+    } catch (_e) {
       apiFailed = true;
       all = [...normalize(newspaperOrders, 'newspaper'), ...normalize(localSealOrders, 'seal')];
     }
@@ -238,7 +238,7 @@ Page({
         };
       }) : [];
       all.push(...bkOrders);
-    } catch (e) { /* 忽略 */ }
+    } catch (_e) { /* 忽略 */ }
 
     all.sort((a, b) => (b.createTime || b.date || '').localeCompare(a.createTime || a.date || ''));
     this.setData({ allList: all });

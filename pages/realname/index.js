@@ -1,4 +1,4 @@
-const common = require('../../utils/common.js');
+const _common = require('../../utils/common.js');
 const api = require('../../utils/api.js');
 
 Page({
@@ -52,7 +52,7 @@ Page({
         // 后端未认证，检查本地缓存
         this._loadFromStorage();
       }
-    } catch (e) {
+    } catch (_e) {
       // 接口失败，从 Storage 读取
       this._loadFromStorage();
     }

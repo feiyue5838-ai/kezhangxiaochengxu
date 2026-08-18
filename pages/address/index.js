@@ -21,7 +21,7 @@ Page({
     try {
       const list = await api.getAddressList();
       this.setData({ addresses: list || [], loading: false });
-    } catch (e) {
+    } catch (_e) {
       this.setData({ loading: false });
       wx.showToast({ title: '加载地址失败', icon: 'none' });
     }

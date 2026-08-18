@@ -1,6 +1,6 @@
 // pages/order/logistics/index.js
 const api = require('../../../utils/api');
-const app = getApp();
+const _app = getApp();
 
 Page({
   data: {
@@ -47,7 +47,7 @@ Page({
   },
 
   // 生成假物流步骤（真实环境可对接快递100等API）
-  generateFakeSteps(company, no) {
+  generateFakeSteps(company, _no) {
     const now = new Date();
     const fmt = (d) => {
       const pad = n => String(n).padStart(2, '0');

@@ -42,7 +42,7 @@ module.exports = [
       'semi': ['error', 'always'],
       'quotes': ['error', 'single', { avoidEscape: true }],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'all', caughtErrorsIgnorePattern: '^_' }],
       'no-undef': 'error',
       'no-dupe-keys': 'error',
       'no-duplicate-case': 'error',

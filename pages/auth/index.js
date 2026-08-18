@@ -1,4 +1,4 @@
-const common = require('../../utils/common.js');
+const _common = require('../../utils/common.js');
 const auth = require('../../utils/auth.js');
 const api = require('../../utils/api.js');
 
@@ -50,7 +50,7 @@ Page({
   // 真实后端登录（已接入 api.js）
   // ⚠️ 必须用「不带登录守卫」的 api.wxLogin（raw request）。
   //    不能用 auth.request —— 它未登录时直接拦截、永不发请求，会导致登录死循环。
-  _doLogin(code, phoneDetail) {
+  _doLogin(code, _phoneDetail) {
     api.wxLogin(code).then((res) => {
       this.setData({ loading: false });
       if (res && res.token) {

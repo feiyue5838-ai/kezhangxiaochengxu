@@ -121,7 +121,7 @@ function saveOrder(orderData) {
     orders.unshift(order);
     wx.setStorageSync(STORAGE_KEY, orders);
     return order.id;
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 }
@@ -253,10 +253,10 @@ function getNavigationHeight() {
       } else {
         navContentHeight = 44;
       }
-    } catch (e2) {
+    } catch (_e2) {
       navContentHeight = 44;
     }
-  } catch (e) {
+  } catch (_e) {
     // 兜底：用固定值
     statusBarHeight = 20;
     navContentHeight = 44;
@@ -294,7 +294,7 @@ function configToArray(cfg, fallback) {
   let v = cfg;
   if (typeof cfg === 'object' && cfg !== null && typeof cfg.value !== 'undefined') v = cfg.value;
   if (typeof v === 'string') {
-    try { v = JSON.parse(v); } catch (e) { return fallback; }
+    try { v = JSON.parse(v); } catch (_e) { return fallback; }
   }
   if (!Array.isArray(v)) return fallback;
   return v;

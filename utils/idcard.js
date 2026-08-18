@@ -7,7 +7,7 @@ function toDocs(arr) {
 }
 
 // 企业证件页面的 12 色方案（统一配色）
-var COLORS_12 = [
+var _COLORS_12 = [
   '#5B6FE8', '#FA8C16', '#52C41A', '#9BA8FF',
   '#13C2C2', '#EB2F96', '#F5222D', '#FAAD14',
   '#7B8FF7', '#A0D911', '#5B6FE8', '#8C8C8C'

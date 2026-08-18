@@ -1,10 +1,10 @@
 // pages/seal/form/index.js
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const api = require('../../../utils/api.js');
 
 const regionData = require('../../../utils/region-data.js');
 const P = regionData.provincesShort;
-const D = regionData.districtsShort;
+const _D = regionData.districtsShort;
 // 三级联动用的查表：省简称 → 省全称；省全称 → 城市列表；城市全称 → 区县列表
 const PROVINCE_SHORT_TO_FULL = {};
 for (const shortName of P) {

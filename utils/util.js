@@ -107,7 +107,7 @@ const getStorage = (key, defaultValue = '') => {
   try {
     const value = wx.getStorageSync(key);
     return value || defaultValue;
-  } catch (e) {
+  } catch (_e) {
     return defaultValue;
   }
 };
@@ -120,7 +120,7 @@ const getStorage = (key, defaultValue = '') => {
 const setStorage = (key, value) => {
   try {
     wx.setStorageSync(key, value);
-  } catch (e) {
+  } catch (_e) {
     // 静默处理
   }
 };
@@ -136,7 +136,7 @@ const removeStorage = (key) => {
     } else {
       wx.clearStorageSync();
     }
-  } catch (e) {
+  } catch (_e) {
     // 静默处理
   }
 };

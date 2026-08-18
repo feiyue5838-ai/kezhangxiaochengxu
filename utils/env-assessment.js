@@ -84,7 +84,7 @@ function getTotalCount() {
  */
 function generateContent(name) {
   const companyName = 'XXXX公司';
-  const personName = 'XXX';
+  const _personName = 'XXX';
 
   // ==================== 1. 环境影响评价信息公示 ====================
   // -- 基础通用环评公示

@@ -33,7 +33,7 @@ Page({
         this._loadingOrders = false;
         this.filterOrders(this.data.currentTab);
         return;
-      } catch (e) {
+      } catch (_e) {
         // 降级 V1
       }
       const res = await api.getNewspaperOrderList({ page: 1, pageSize: 50 });
@@ -42,7 +42,7 @@ Page({
       this.setData({ orders, loading: false });
       this._loadingOrders = false;
       this.filterOrders(this.data.currentTab);
-    } catch (e) {
+    } catch (_e) {
       this.setData({ orders: [], filteredOrders: [], loading: false });
       this._loadingOrders = false;
       wx.showToast({ title: '网络异常，请稍后重试', icon: 'none', duration: 2000 });

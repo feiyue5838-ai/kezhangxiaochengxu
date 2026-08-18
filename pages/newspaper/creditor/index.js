@@ -1,5 +1,5 @@
 // pages/newspaper/creditor/index.js
-const common = require('../../../utils/common.js');
+const _common = require('../../../utils/common.js');
 const creditorConfig = require('../../../utils/creditor.js');
 const api = require('../../../utils/api.js');
 
@@ -29,7 +29,7 @@ Page({
     try {
       const sys = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
       this._windowHeight = sys.windowHeight || 700;
-    } catch (e) {
+    } catch (_e) {
       this._windowHeight = 700;
     }
     this._loadFromApi();
@@ -51,8 +51,8 @@ Page({
         }));
         this.setData({ categories: mapped, loading: false });
       }
-    } catch (e) {
-      console.warn('[creditor] API 调用失败，使用前端硬编码兜底', e);
+    } catch (_e) {
+      console.warn('[creditor] API 调用失败，使用前端硬编码兜底', _e);
       this.setData({ loading: false });
     }
   },

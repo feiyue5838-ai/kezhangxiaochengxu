@@ -46,7 +46,7 @@ class SealService {
   /**
    * 取消订单
    */
-  async cancelOrder(id) {
+  async cancelOrder(_id) {
     // 需要后端接口支持
     util.showToast('请联系客服取消订单');
   }

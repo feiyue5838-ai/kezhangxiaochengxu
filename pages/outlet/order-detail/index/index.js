@@ -37,9 +37,9 @@ Page({
         loading: false,
         currentStep: step >= 0 ? step : 0,
       });
-    } catch (e) {
-      console.error(e);
-      wx.showToast({ title: e.message || '加载失败', icon: 'none' });
+    } catch (_e) {
+      console.error(_e);
+      wx.showToast({ title: _e.message || '加载失败', icon: 'none' });
       this.setData({ loading: false });
     }
   },
@@ -94,9 +94,9 @@ Page({
       wx.showToast({ title: successMsg, icon: 'success' });
       this.loadDetail(); // 重新拉取最新状态
       this.loadReceipts();
-    } catch (e) {
-      console.error(e);
-      wx.showToast({ title: e.message || '操作失败', icon: 'none' });
+    } catch (_e) {
+      console.error(_e);
+      wx.showToast({ title: _e.message || '操作失败', icon: 'none' });
     } finally {
       this.setData({ actionLoading: false });
     }
@@ -111,8 +111,8 @@ Page({
       else if (res && Array.isArray(res.list)) receipts = res.list;
       else if (res && res.data && Array.isArray(res.data.list)) receipts = res.data.list;
       this.setData({ receipts });
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
+      console.error(_e);
     }
   },
 
@@ -134,9 +134,9 @@ Page({
       await api.uploadReceipt(filePath, { orderId: this.data.orderId, type: 'certificate' });
       wx.showToast({ title: '上传成功', icon: 'success' });
       this.loadReceipts();
-    } catch (e) {
-      console.error(e);
-      wx.showToast({ title: e.message || '上传失败', icon: 'none' });
+    } catch (_e) {
+      console.error(_e);
+      wx.showToast({ title: _e.message || '上传失败', icon: 'none' });
     } finally {
       this.setData({ uploading: false });
     }

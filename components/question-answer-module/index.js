@@ -24,7 +24,7 @@ Component({
       const module = isPersonal ? 'seal_personal' : 'seal_biz';
       this.setData({ loading: true });
       api.qaList({ module, page: 1, pageSize: 20 }).then(res => {
-        const list = (res.list || []).map((item, idx) => ({
+        const list = (res.list || []).map((item, _idx) => ({
           id: item.id,
           question: item.content,
           expanded: false,

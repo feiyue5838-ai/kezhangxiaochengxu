@@ -36,7 +36,7 @@ try {
     console.error('[API] ⚠️ API_BASE_PROD 为空！release 模式接口全部失效，请在 utils/api.js 中填入已备案 HTTPS 域名');
   }
   API_BASE = (envVersion === 'develop' || envVersion === 'trial') ? API_BASE_DEV : API_BASE_PROD;
-} catch (e) {
+} catch (_e) {
   API_BASE = API_BASE_DEV; // 兜底：环境信息获取失败时退回开发地址
 }
 
@@ -502,7 +502,7 @@ module.exports = {
               } else {
                 resolve(inner !== undefined ? inner : outer);
               }
-            } catch (e) {
+            } catch (_e) {
               resolve(res.data);
             }
           } else if (res.statusCode === 401) {
@@ -582,7 +582,7 @@ module.exports = {
   // 且订单支付完成只能由微信支付异步回调(notify)驱动，绝不信任任何客户端调用。
   devConfirmPay: (id) => {
     let env = 'develop';
-    try { env = wx.getAccountInfoSync().miniProgram.envVersion; } catch (e) {}
+    try { env = wx.getAccountInfoSync().miniProgram.envVersion; } catch (_e) {}
     if (env === 'release') {
       return Promise.reject(new Error('生产环境不支持模拟支付'));
     }
@@ -760,7 +760,7 @@ module.exports = {
               wx.showToast({ title: msg, icon: 'none', duration: 2000 });
               reject(new Error(msg));
             }
-          } catch (e) {
+          } catch (_e) {
             reject(new Error('响应解析失败'));
           }
         },
@@ -816,7 +816,7 @@ module.exports = {
 
           let data;
 
-          try { data = JSON.parse(res.data); } catch (e) { reject(new Error('上传返回解析失败')); return; }
+          try { data = JSON.parse(res.data); } catch (_e) { reject(new Error('上传返回解析失败')); return; }
 
           // 后端直返 { url }；兼?{ code:0, data:url } 包装
 

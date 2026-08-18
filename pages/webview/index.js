@@ -18,7 +18,7 @@ function isSafeWebUrl(raw) {
     const m = /^([a-zA-Z][a-zA-Z0-9+.-]*):\/\/([^/?#]*)/.exec(raw);
     if (!m) return false;
     u = { protocol: m[1] + ':', host: m[2] };
-  } catch (e) { return false; }
+  } catch (_e) { return false; }
   // 仅允许 https；禁止 http / javascript: / data: 等协议
   if (u.protocol !== 'https:') return false;
   // 主机精确匹配，杜绝 api.rongcheng.com.evil.com 之类子域绕过
@@ -37,11 +37,11 @@ Page({
     this.setData({ url: raw });
   },
 
-  onMessage(e) {
+  onMessage(_e) {
     // 接收 web-view 内网页通过 postMessage 发来的消息
   },
 
-  onError(e) {
+  onError(_e) {
     wx.showToast({ title: '页面加载失败', icon: 'none' });
   }
 });

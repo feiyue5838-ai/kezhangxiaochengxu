@@ -204,7 +204,7 @@ Page({
     this.setData({ uploading: true });
     let ok = 0;
     const total = paths.length;
-    let failIdx = 0;
+    let _failIdx = 0;
     const next = (idx) => {
       if (idx >= total) {
         this.setData({ uploading: false });
@@ -222,7 +222,7 @@ Page({
           next(idx + 1);
         })
         .catch(() => {
-          failIdx += 1;
+          _failIdx += 1;
           next(idx + 1);
         });
     };

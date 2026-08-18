@@ -69,7 +69,7 @@ Page({
       return;
     }
     // 扁平化当前分类下的问答，显示在 FAQ 列表区域
-    const catFaqs = (cat.faqs || []).map(function(faq, i) {
+    const catFaqs = (cat.faqs || []).map(function(faq, _i) {
       return {
         id: faq.id,
         categoryId: catId,

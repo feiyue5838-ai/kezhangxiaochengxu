@@ -3,7 +3,7 @@
  */
 
 const api = require('../utils/api.js');
-const util = require('../utils/util.js');
+const _util = require('../utils/util.js');
 
 class NewspaperService {
   /**

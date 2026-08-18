@@ -1,6 +1,6 @@
 // pages/bookkeeping-tab/index.js
 const api = require('../../utils/api.js');
-const common = require('../../utils/common.js');
+const _common = require('../../utils/common.js');
 
 Page({
   data: {
@@ -134,11 +134,11 @@ Page({
         this.setData({ price: '--', payDisabled: true });
         wx.showToast({ title: '该组合暂不支持，请调整选项', icon: 'none' });
       }
-    } catch (e) {
+    } catch (_e) {
       // B-05: 丢弃过期响应
       if (seq !== this._priceSeq) return;
 
-      console.error('获取价格失败:', e);
+      console.error('获取价格失败:', _e);
       // B-04: 价格获取失败时提示用户
       this.setData({ price: '--', payDisabled: true });
       wx.showToast({ title: '价格获取失败，请重试', icon: 'none' });

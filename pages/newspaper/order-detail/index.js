@@ -36,16 +36,16 @@ Page({
         const o = await api.v2GetOrderDetail(id);
         this.setData({ order: this._mapV2Order(o), loading: false, orderNo: id, isV2: true });
         return;
-      } catch (e) {
+      } catch (_e) {
         // V2.0 查询失败降级 V1
-        console.warn('v2 detail failed, fallback V1:', e);
+        console.warn('v2 detail failed, fallback V1:', _e);
       }
     }
     try {
       const o = await api.getNewspaperOrderDetail(id);
       this.setData({ order: this._mapOrder(o), loading: false, orderNo: o.orderNo || id, isV2: false });
       this.loadReceipts(id);
-    } catch (e) {
+    } catch (_e) {
       this.setData({ loading: false, order: null });
     }
   },
@@ -127,12 +127,12 @@ Page({
 
   _parse(str, fallback) {
     if (!str) return fallback;
-    try { return JSON.parse(str); } catch (e) { return fallback; }
+    try { return JSON.parse(str); } catch (_e) { return fallback; }
   },
 
   _parseArray(str) {
     if (!str) return [];
-    try { const a = JSON.parse(str); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+    try { const a = JSON.parse(str); return Array.isArray(a) ? a : []; } catch (_e) { return []; }
   },
 
   _statusText(s) {
@@ -283,7 +283,7 @@ Page({
           wx.hideLoading();
           wx.showToast({ title: isPaid ? '已申请退款' : '已取消', icon: 'success' });
           that.loadOrder(isV2 ? orderNo : id);
-        } catch (e) {
+        } catch (_e) {
           wx.hideLoading();
           wx.showToast({ title: '操作失败', icon: 'none' });
         }
@@ -306,8 +306,8 @@ Page({
       else if (res && Array.isArray(res.list)) receipts = res.list;
       else if (res && res.data && Array.isArray(res.data.list)) receipts = res.data.list;
       this.setData({ receipts });
-    } catch (e) {
-      console.error('loadReceipts error', e);
+    } catch (_e) {
+      console.error('loadReceipts error', _e);
     }
   },
 

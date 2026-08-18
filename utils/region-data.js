@@ -670,7 +670,7 @@ function getProvinceCode(province) {
 }
 
 /** 获取城市对应的行政区划代码（6位） */
-function getCityCode(city, province) {
+function getCityCode(city, _province) {
   if (!city) return '';
   // 精确匹配
   if (cityCodes[city]) return cityCodes[city];

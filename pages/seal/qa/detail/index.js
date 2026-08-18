@@ -35,8 +35,8 @@ Page({
       const res = await api.qaDetail(id);
       const raw = (res && res.data !== undefined && !res.question && !res.content) ? res.data : res;
       this.setData({ question: this._normalize(raw), loading: false, loadFailed: false });
-    } catch (e) {
-      console.error('加载问答详情失败:', e);
+    } catch (_e) {
+      console.error('加载问答详情失败:', _e);
       // 已有快照则静默失败，否则展示错误态
       this.setData({
         loading: false,

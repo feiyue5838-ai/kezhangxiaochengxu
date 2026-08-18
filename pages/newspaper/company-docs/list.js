@@ -19,7 +19,7 @@ Page({
     const categoryId = parseInt(options.categoryId);
     // 从 Storage 读取中文参数，避免 URL 编码问题
     const navData = wx.getStorageSync('companyDocsNavData') || {};
-    const categoryName = navData.categoryName || '';
+    const _categoryName = navData.categoryName || '';
     if (navData._timestamp) wx.removeStorageSync('companyDocsNavData');
     const category = companyDocsConfig.getCategoryById(categoryId);
 

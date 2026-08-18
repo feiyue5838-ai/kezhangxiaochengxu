@@ -26,8 +26,8 @@ Page({
     try {
       const order = await api.getSealOrderDetail(orderId);
       this.setData({ orderInfo: order });
-    } catch (e) {
-      console.error('加载订单失败:', e);
+    } catch (_e) {
+      console.error('加载订单失败:', _e);
     }
   },
 
@@ -89,9 +89,9 @@ Page({
       setTimeout(() => {
         wx.navigateBack();
       }, 1500);
-    } catch (e) {
-      console.error('提交评价失败:', e);
-      wx.showToast({ title: e.message || '提交失败', icon: 'none' });
+    } catch (_e) {
+      console.error('提交评价失败:', _e);
+      wx.showToast({ title: _e.message || '提交失败', icon: 'none' });
     } finally {
       this.setData({ submitting: false });
     }

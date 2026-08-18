@@ -37,8 +37,8 @@ Component({
         // 过滤启用的记录（type=all + 指定类型的已在后端过滤）
         const images = list.filter(item => item.status === 1 && item.image).map(item => normImg(item.image));
         this.setData({ imageList: images, loading: false });
-      } catch (e) {
-        console.error('加载业务介绍失败:', e);
+      } catch (_e) {
+        console.error('加载业务介绍失败:', _e);
         // 失败时回退到本地默认图片
         this.setData({
           imageList: this.properties.isPersonal

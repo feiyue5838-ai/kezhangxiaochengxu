@@ -57,7 +57,7 @@ App({
       const sysInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
       statusBarHeight = sysInfo.statusBarHeight || 20;
       navHeight = statusBarHeight + 64;  // 改成 64px 内容区
-    } catch (e) {
+    } catch (_e) {
       // 使用默认值
     }
     this.globalData.navigationHeight = { statusBarHeight, navHeight };

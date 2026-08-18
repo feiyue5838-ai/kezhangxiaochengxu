@@ -97,7 +97,7 @@ Page({
             this.setData({ notifications });
 
             wx.showToast({ title: '已删除', icon: 'success' });
-          } catch (err) {
+          } catch (_err) {
             wx.showToast({ title: '删除失败', icon: 'none' });
           }
         }
