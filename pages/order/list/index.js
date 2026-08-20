@@ -88,11 +88,6 @@ Page({
   },
 
   onLoad(opt) {
-    // 测试模式：URL 添加 ?test=1 启用
-    if (opt.test === '1') {
-      this._testMode = true;
-      wx.setStorageSync('__test_mode__', true);
-    }
     if (opt.status) {
       const idx = this.data.tabs.findIndex(t => t.status === opt.status);
       if (idx >= 0) this.setData({ currentTab: idx });
@@ -102,10 +97,6 @@ Page({
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 4 });
-    }
-    // 检查测试模式
-    if (wx.getStorageSync('__test_mode__')) {
-      this._testMode = true;
     }
     this.loadOrders();
   },
@@ -168,17 +159,8 @@ Page({
     }
 
     // ===== V1 兜底（原有逻辑） =====
-    // 测试模式：自动添加测试订单
-    const testMode = this._testMode || wx.getStorageSync('__test_mode__');
-    const newspaperOrders = testMode ? [
-      { id: 'TEST_NEWS_001', status: 2, type: '登报服务', desc: '营业执照遗失声明', date: '2026-08-14', price: 150 }
-    ] : (wx.getStorageSync('newspaper_orders') || []);
-    const localSealOrders = testMode ? [
-      { id: 'TEST_SEAL_001', status: 3, companyName: '公章 + 财务章', date: '2026-08-14', totalPrice: 299 },
-      { id: 'TEST_SEAL_002', status: 1, companyName: '合同专用章', date: '2026-08-13', totalPrice: 199 },
-      { id: 'TEST_SEAL_003', status: 5, companyName: '法人章', date: '2026-08-12', totalPrice: 99 },
-      { id: 'TEST_SEAL_004', status: 4, companyName: '发票专用章', date: '2026-08-11', totalPrice: 159 },
-    ] : (wx.getStorageSync('seal_orders') || []);
+    const newspaperOrders = wx.getStorageSync('newspaper_orders') || [];
+    const localSealOrders = wx.getStorageSync('seal_orders') || [];
     let all = [];
     let apiFailed = false;
 

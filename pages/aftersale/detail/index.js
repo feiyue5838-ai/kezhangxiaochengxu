@@ -4,9 +4,9 @@ Page({
   data: {
     record: {},
     loading: false,
-    // 7=待处理  8=退款中  9=已完成
-    statusText: { 7: '待处理', 8: '退款中', 9: '已完成' },
-    statusIcon: { 7: '⏳', 8: '🔄', 9: '✅' },
+    // 订单状态（与后端 OrderStatus 一致）：5=已完成(售后被拒) 7=售后中 8=退款中 9=已退款
+    statusText: { 5: '已完成', 7: '售后中', 8: '退款中', 9: '已退款' },
+    statusIcon: { 5: '✅', 7: '⏳', 8: '🔄', 9: '✅' },
     categoryText: {
       quality: '质量问题',
       missing: '漏刻/缺失',
@@ -34,8 +34,9 @@ Page({
 
   parseRecord(raw) {
     const status = Number(raw.status) || 7;
-    // currentStep: 0=已提交, 1=处理中, 2=完成/拒绝
-    const currentStep = status >= 9 ? 2 : (status >= 8 ? 1 : 0);
+    // currentStep: 0=已提交, 1=处理中, 2=完成（已退款/售后被拒后已完成）
+    const finished = status === 9 || status === 5;
+    const currentStep = finished ? 2 : (status >= 8 ? 1 : 0);
 
     // 解析 remark
     let reason = '', category = '', images = [];
@@ -52,8 +53,8 @@ Page({
 
     const timeline = [
       { time: now, title: '已提交', desc: '您的退款/售后申请已提交' },
-      { time: status >= 8 ? now : '', title: '处理中', desc: '客服正在核实处理中' },
-      { time: status >= 9 ? now : '', title: status === 9 ? '已完成' : '已拒绝', desc: '' },
+      { time: (!finished && status >= 7) ? now : '', title: '处理中', desc: '客服正在核实处理中' },
+      { time: finished ? now : '', title: status === 9 ? '已退款' : '已完成', desc: '' },
     ];
 
     return {

@@ -15,7 +15,9 @@ const API_BASE_DEV_LAN = 'http://192.168.31.218:3001'; // 真机预览/开发版
 const API_BASE_DEV_LOCAL = 'http://127.0.0.1:3001';
 let API_BASE_DEV = API_BASE_DEV_LAN;
 try {
-  if (wx.getSystemInfoSync().platform === 'devtools') {
+  // wx.getSystemInfoSync 自基础库 2.20.1 废弃，优先 wx.getDeviceInfo（低版本兜底）
+  const deviceInfo = wx.getDeviceInfo ? wx.getDeviceInfo() : wx.getSystemInfoSync();
+  if (deviceInfo.platform === 'devtools') {
     API_BASE_DEV = API_BASE_DEV_LOCAL;
   }
 } catch (_e) {}

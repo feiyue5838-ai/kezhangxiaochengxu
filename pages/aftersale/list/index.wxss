@@ -33,9 +33,9 @@
   padding: 4rpx 16rpx;
   border-radius: 20rpx;
 }
-.status-7 { color: #FA8C16; background: #FFF7E6; }   /* 待处理-橙 */
+.status-7 { color: #FA8C16; background: #FFF7E6; }   /* 售后中-橙 */
 .status-8 { color: #5B6FE8; background: #EEF1FF; }    /* 退款中-蓝 */
-.status-9 { color: #52C41A; background: #F6FFED; }   /* 已完成-绿 */
+.status-9 { color: #52C41A; background: #F6FFED; }   /* 已退款-绿 */
 
 /* 商品行 */
 .goods-row {

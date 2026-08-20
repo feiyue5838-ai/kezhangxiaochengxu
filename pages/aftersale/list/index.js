@@ -4,8 +4,8 @@ Page({
   data: {
     records: [],
     loading: false,
-    // 7=待处理  8=退款中  9=已完成
-    statusText: { 7: '待处理', 8: '退款中', 9: '已完成' },
+    // 订单状态（与后端 OrderStatus 一致）：5=已完成(售后被拒) 7=售后中 8=退款中 9=已退款
+    statusText: { 5: '已完成', 7: '售后中', 8: '退款中', 9: '已退款' },
     categoryText: {
       quality: '质量问题',
       missing: '漏刻/缺失',

@@ -10,7 +10,7 @@ const STATUS_TABS = [
 
 const STATUS_TEXT = {
   assigned: '待接单',
-  accepted: '已接单',
+  accepted: '已接单', // 供应商视角（自己已接单）；用户端 v2 工具同源状态显示为"制作中"，属双端视角差异，非数据冲突
   processing: '制作中',
   completed: '已完成',
   cancelled: '已取消',
