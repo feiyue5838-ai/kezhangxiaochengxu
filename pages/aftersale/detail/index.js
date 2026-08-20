@@ -73,14 +73,29 @@ Page({
   },
 
   cancelApply() {
+    const recordId = this.data.record && this.data.record.id;
+    if (!recordId) {
+      wx.showToast({ title: '缺少售后记录ID，无法撤销', icon: 'none' });
+      return;
+    }
     wx.showModal({
       title: '确认撤销',
       content: '确定要撤销此退款/售后申请吗？撤销后将无法恢复。',
       confirmColor: '#5B6FE8',
       success: (res) => {
         if (!res.confirm) return;
-        wx.showToast({ title: '已撤销', icon: 'success' });
-        setTimeout(() => wx.navigateBack(), 1200);
+        wx.showLoading({ title: '撤销中...' });
+        // 修复 S4：调用真实后端接口 POST /api/after-sales/user/:id/cancel
+        api.cancelAfterSales(recordId).then(() => {
+          wx.hideLoading();
+          wx.showToast({ title: '已撤销', icon: 'success' });
+          // 同步清理本地缓存，返回列表页（onShow 会自动刷新）
+          wx.removeStorageSync('aftersaleCurrent');
+          setTimeout(() => wx.navigateBack(), 1200);
+        }).catch(() => {
+          wx.hideLoading();
+          // request 封装已统一弹错误 toast，这里兜底处理
+        });
       }
     });
   },

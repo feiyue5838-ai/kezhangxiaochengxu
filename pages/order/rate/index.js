@@ -13,7 +13,8 @@ Page({
     tagOptions: TAG_OPTIONS,
     selectedTags: [],
     content: '',
-    images: [],
+    images: [],          // 提交用：已上传的线上相对路径（/uploads/...）
+    displayImages: [],   // 预览用：本地临时路径或完整线上 URL
     submitting: false,
   },
 
@@ -76,8 +77,11 @@ Page({
       sourceType: ['album', 'camera'],
       success: (res) => {
         const tempFiles = res.tempFilePaths;
-        // 先显示本地预览
-        this.setData({ images: [...this.data.images, ...tempFiles] });
+        // 本地路径可直接预览，先同步进两个数组
+        this.setData({
+          images: [...this.data.images, ...tempFiles],
+          displayImages: [...this.data.displayImages, ...tempFiles],
+        });
         // 异步上传到服务器
         this.uploadImages(tempFiles);
       },
@@ -85,22 +89,24 @@ Page({
   },
 
   uploadImages(paths) {
-    const { _images } = this.data;
-    // 上传完成后替换本地路径为线上URL
+    // 上传完成后把本地路径替换为线上相对路径（提交用），预览用完整 URL
     const uploadOne = (idx) => {
       if (idx >= paths.length) return;
-      api.uploadReviewImage(paths[idx]).then(res => {
-        const url = (res.data && res.data.url) || res.url || '';
+      api.uploadReviewImage(paths[idx]).then(url => {
         if (url) {
-          const newImages = [...this.data.images];
-          // 找到第一个本地路径替换
-          const localIdx = newImages.indexOf(paths[idx]);
-          if (localIdx >= 0) newImages[localIdx] = url;
-          this.setData({ images: newImages });
+          const images = [...this.data.images];
+          const displayImages = [...this.data.displayImages];
+          const localIdx = images.indexOf(paths[idx]);
+          if (localIdx >= 0) {
+            images[localIdx] = url;
+            displayImages[localIdx] = api.resolveImage(url);
+            this.setData({ images, displayImages });
+          }
         }
         uploadOne(idx + 1);
       }).catch(() => {
-        // 上传失败，保留本地路径（可能404，但不影响提交）
+        // 上传失败，保留本地路径（提交时会被过滤掉），提示用户
+        wx.showToast({ title: '图片上传失败，请重试', icon: 'none' });
         uploadOne(idx + 1);
       });
     };
@@ -110,8 +116,10 @@ Page({
   onRemoveImg(e) {
     const idx = e.currentTarget.dataset.idx;
     const images = [...this.data.images];
+    const displayImages = [...this.data.displayImages];
     images.splice(idx, 1);
-    this.setData({ images });
+    displayImages.splice(idx, 1);
+    this.setData({ images, displayImages });
   },
 
   onSubmit() {
@@ -124,7 +132,8 @@ Page({
       rating: star,
       tags: selectedTags,
       content: content.trim(),
-      images: images.filter(i => i.startsWith('http')),
+      // 只提交已成功上传的线上图片（相对路径 /uploads/...），过滤本地临时路径
+      images: images.filter(i => typeof i === 'string' && i.indexOf('/uploads') > -1),
     }).then(() => {
       wx.hideLoading();
       wx.showToast({ title: '评价成功', icon: 'success' });

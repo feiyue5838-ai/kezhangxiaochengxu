@@ -32,6 +32,7 @@ Page({
   data: {
     userInfo: { nickName: '', phone: '' },
     outletName: '',
+    isLoggedIn: false, // 是否已登录/游客（控制退出按钮显示）
     orderTypes: [
       { id: 'pending',    name: '待支付',   iconSvg: '/assets/icons/icon-b64-13.svg', bgColor: '#FFF7E6', color: '#FAAD14', count: 0 },
       { id: 'processing', name: '进行中',   iconSvg: '/assets/icons/icon-b64-14.svg', bgColor: '#F0EBFF', color: '#7B5CFA', count: 0 },
@@ -62,6 +63,8 @@ Page({
     if (outletInfo && outletInfo.name) {
       this.setData({ outletName: outletInfo.name });
     }
+    // 登录态（token 或游客）驱动退出按钮显示
+    this.setData({ isLoggedIn: auth.isLogin() || auth.isGuest() });
     this.syncUserInfo();
     this.refreshOrderCounts();
   },
@@ -204,6 +207,40 @@ Page({
   // 关于我们
   goToAbout() {
     wx.navigateTo({ url: '/pages/about/index' });
+  },
+
+  // 退出登录：清 token + 用户信息 + 网点绑定 + 含 PII 的业务缓存（auth.logout 已完整实现）
+  onLogout() {
+    wx.showModal({
+      title: '确认退出',
+      content: '退出后将清除本地登录信息（含门店/供应商绑定），确定退出吗？',
+      confirmText: '退出',
+      confirmColor: '#E64340',
+      success: (res) => {
+        if (!res.confirm) return;
+        auth.logout();
+        auth.refreshAuthState(getApp());
+        // 重置页面展示
+        this.setData({
+          userInfo: { nickName: '', phone: '' },
+          outletName: '',
+          isLoggedIn: false,
+          'orderTypes[0].count': 0,
+          'orderTypes[1].count': 0,
+          'orderTypes[2].count': 0,
+          'orderTypes[3].count': 0,
+        });
+        wx.showToast({ title: '已退出登录', icon: 'success' });
+        // 跳登录页，方便用户重新登录
+        setTimeout(() => {
+          const pages = getCurrentPages();
+          const cur = pages[pages.length - 1];
+          if (cur && cur.route !== 'pages/auth/index') {
+            wx.navigateTo({ url: '/pages/auth/index' });
+          }
+        }, 1200);
+      }
+    });
   },
 
   onFuncTap(e) {

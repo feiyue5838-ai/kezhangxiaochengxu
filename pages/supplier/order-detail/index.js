@@ -28,6 +28,11 @@ Page({
   },
 
   onLoad(options) {
+    // 登录守卫：无网点 token 时跳转绑定页
+    if (!wx.getStorageSync('outletToken')) {
+      wx.redirectTo({ url: '/pages/outlet-binding/index' });
+      return;
+    }
     this.setData({ id: options.id || '' });
     this.loadDetail();
   },

@@ -71,8 +71,8 @@
     </view>
 
     <!-- 提交 -->
-    <view class="submit-btn {{canSubmit ? '' : 'disabled'}}" bindtap="submitApply">
-      提交申请
+    <view class="submit-btn {{canSubmit && !submitting ? '' : 'disabled'}}" bindtap="submitApply">
+      {{submitting ? '提交中...' : '提交申请'}}
     </view>
 
     <text class="submit-note">提交后客服将在1-3个工作日内处理，请保持手机畅通</text>

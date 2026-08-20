@@ -310,6 +310,20 @@ page {
   color: #C0C8D4;
 }
 
+/* ========== 退出登录 ========== */
+.logout-btn {
+  margin: 40rpx 20rpx 0;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: #fff;
+  color: #E64340;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgb(123 92 250 / 0.06);
+}
+
 /* ========== 底部安全区 ========== */
 .safe-bottom {
   height: env(safe-area-inset-bottom);

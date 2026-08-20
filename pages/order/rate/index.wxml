@@ -55,7 +55,7 @@
   <view class="section">
     <view class="section-title">图片评价（选填，最多3张）</view>
     <view class="img-row">
-      <view class="img-item" wx:for="{{images}}" wx:key="index">
+      <view class="img-item" wx:for="{{displayImages}}" wx:key="index">
         <image src="{{item}}" mode="aspectFill" />
         <view class="img-remove" data-idx="{{index}}" bindtap="onRemoveImg">×</view>
       </view>

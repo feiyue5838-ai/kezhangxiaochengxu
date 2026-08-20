@@ -265,6 +265,16 @@ const v2Request = (options) => {
 };
 
 
+// 网点登录失效统一跳转网点绑定页（避免重复跳转/循环跳转）
+function redirectToOutletBinding() {
+  try {
+    const pages = getCurrentPages();
+    const cur = pages[pages.length - 1];
+    if (cur && cur.route === 'pages/outlet-binding/index') return;
+    wx.redirectTo({ url: '/pages/outlet-binding/index' });
+  } catch (_e) {}
+}
+
 // V2.0 供应商独立请求（用网点 token，解两层包装）
 const v2SupplierRequest = (options) => {
   return new Promise((resolve, reject) => {
@@ -302,6 +312,7 @@ const v2SupplierRequest = (options) => {
           wx.removeStorageSync('outletToken');
           wx.removeStorageSync('outletInfo');
           wx.showToast({ title: '网点登录已过期，请重新登录', icon: 'none' });
+          redirectToOutletBinding();
           reject(new Error('网点登录已过期，请重新登录'));
         } else if (res.statusCode === 403) {
           wx.showToast({ title: '没有权限访问', icon: 'none', duration: 2000 });
@@ -342,6 +353,8 @@ const outletRequest = (options) => {
         } else if (res.statusCode === 401) {
           wx.removeStorageSync('outletToken');
           wx.removeStorageSync('outletInfo');
+          wx.showToast({ title: '网点登录已过期，请重新登录', icon: 'none' });
+          redirectToOutletBinding();
           reject(new Error('网点登录已过期，请重新登录'));
         } else {
           const msg = (res.data && res.data.message) || '请求失败(' + res.statusCode + ')';
@@ -417,6 +430,31 @@ module.exports = {
 
   // 获取支付参数 POST /api/v2/user/orders/:orderNo/pay
   v2GetPayParams: (orderNo, data) => v2Request({ url: `/api/v2/user/orders/${orderNo}/pay`, method: 'POST', data: data || {} }),
+  // 开发模式模拟支付成功（仅 devMode 分支调用，生产配置微信支付后不会触发）
+  // 调用现有微信回调接口模拟；不传 total_fee 跳过金额校验（后端 feeFen 为 null 时不校验）
+  devMockPay: (paymentNo) => new Promise((resolve, reject) => {
+    wx.request({
+      url: API_BASE + '/api/v2/payments/wechat/notify',
+      method: 'POST',
+      data: {
+        out_trade_no: paymentNo,
+        transaction_id: 'MOCK' + Date.now(),
+        result_code: 'SUCCESS',
+        return_code: 'SUCCESS',
+      },
+      timeout: 15000,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          const text = typeof res.data === 'string' ? res.data : JSON.stringify(res.data);
+          if (text === 'SUCCESS') resolve(text);
+          else reject(new Error('模拟支付未成功'));
+        } else {
+          reject(new Error('模拟支付请求失败(' + res.statusCode + ')'));
+        }
+      },
+      fail: (err) => reject(err),
+    });
+  }),
 
   // 取消订单 POST /api/v2/user/orders/:orderNo/cancel
   v2CancelOrder: (orderNo) => v2Request({ url: `/api/v2/user/orders/${orderNo}/cancel`, method: 'POST' }),
@@ -512,6 +550,7 @@ module.exports = {
             wx.removeStorageSync('outletToken');
             wx.removeStorageSync('outletInfo');
             wx.showToast({ title: '网点登录已过期，请重新登录', icon: 'none' });
+            redirectToOutletBinding();
             reject(new Error('网点登录已过期'));
           } else {
             const msg = `上传失败(${res.statusCode})`;
@@ -1056,11 +1095,7 @@ module.exports = {
 
   },
 
-
-
-
   // ==================== 网点微信绑定 & 订阅消息 ====================
-
 
   // ==================== 评价（小程序端） ====================
   /** 已审核通过的评价列表 */
@@ -1125,6 +1160,8 @@ module.exports = {
   getUserAfterSales: (params) => request({ url: '/api/after-sales/user', data: params }),
   /** User after-sales detail (GET /api/after-sales/user/:id) */
   getAfterSalesDetail: (id) => request({ url: '/api/after-sales/user/' + id }),
+  /** User cancels after-sales (POST /api/after-sales/user/:id/cancel，仅待处理可撤销，恢复申请前状态) */
+  cancelAfterSales: (id) => request({ url: '/api/after-sales/user/' + id + '/cancel', method: 'POST' }),
   /** Apply after-sales (POST /api/orders/:id/refund-request) */
   refundRequest: (orderId, reason, category, images) =>
     request({
@@ -1154,13 +1191,12 @@ module.exports = {
 
   // ==================== 图片上传 ====================
 
-  /** 上传评价图片（返回 URL） */
-  uploadReviewImage: (filePath) =>
-    request({
-      url: '/api/upload',
-      method: 'POST',
-      filePath: filePath,
-      name: 'file',
-    }),
+  /** 上传评价图片（返回相对路径 /uploads/...）→ 复用通用用户侧上传（POST /api/upload/user-image）
+   *  修复 S1：旧实现用 request()（wx.request JSON 封装）传 filePath 必失败，且路由 /api/upload 不存在 */
+  uploadReviewImage: (filePath) => {
+    const fn = module.exports.uploadFile;
+    if (typeof fn !== 'function') return Promise.reject(new Error('uploadFile 未初始化'));
+    return fn(filePath);
+  },
 
 };

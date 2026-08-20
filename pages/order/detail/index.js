@@ -108,44 +108,57 @@ Page({
     wx.showLoading({ title: '获取支付参数...' });
     api.v2GetPayParams(this.data.orderNo, {}).then((res) => {
       wx.hideLoading();
-      this.setData({ isSubmitting: false });
-      if (!res || !res.params || res.params.devMode) {
-        // 开发模式：直接模拟支付成功（后端 dev 回调）
-        wx.showModal({
-          title: '支付',
-          content: '当前为开发模式（未配置微信支付），是否模拟支付成功？',
-          success: (m) => {
-            if (m.confirm) {
-              wx.showLoading({ title: '支付中...' });
-              api.v2Request ? null : null;
-              // 开发模式走后端 dev 确认接口或直接刷新
-              this.loadOrder(this.data.orderNo);
-              wx.hideLoading();
-              wx.showToast({ title: '已刷新', icon: 'success' });
+      const p = res && res.params;
+      // 真实微信支付
+      if (p && !p.devMode) {
+        wx.requestPayment({
+          timeStamp: p.timeStamp,
+          nonceStr: p.nonceStr,
+          package: p.package,
+          signType: p.signType || 'RSA',
+          paySign: p.paySign,
+          success: () => {
+            wx.showToast({ title: '支付成功', icon: 'success' });
+            setTimeout(() => this.loadOrder(this.data.orderNo), 800);
+          },
+          fail: (err) => {
+            if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
+              wx.showToast({ title: '已取消支付', icon: 'none' });
+            } else {
+              wx.showToast({ title: '支付失败：' + (err.errMsg || ''), icon: 'none' });
             }
           },
+          complete: () => this.setData({ isSubmitting: false }),
         });
         return;
       }
-      // 真实微信支付
-      const p = res.params;
-      wx.requestPayment({
-        timeStamp: p.timeStamp,
-        nonceStr: p.nonceStr,
-        package: p.package,
-        signType: p.signType || 'RSA',
-        paySign: p.paySign,
-        success: () => {
-          wx.showToast({ title: '支付成功', icon: 'success' });
-          setTimeout(() => this.loadOrder(this.data.orderNo), 800);
-        },
-        fail: (err) => {
-          if (err && err.errMsg && err.errMsg.indexOf('cancel') >= 0) {
-            wx.showToast({ title: '已取消支付', icon: 'none' });
-          } else {
-            wx.showToast({ title: '支付失败：' + (err.errMsg || ''), icon: 'none' });
+      // 开发模式（后端未配置微信支付，返回 devMode=true）：调用微信回调接口模拟支付成功
+      const paymentNo = (res && res.paymentNo) || '';
+      wx.showModal({
+        title: '支付',
+        content: paymentNo
+          ? '当前为开发模式（未配置微信支付），是否模拟支付成功？'
+          : '当前为开发模式（未配置微信支付），且未获取到支付单号，无法模拟支付。',
+        confirmColor: '#5B6FE8',
+        success: (m) => {
+          if (!m.confirm || !paymentNo) {
+            this.setData({ isSubmitting: false });
+            return;
           }
+          wx.showLoading({ title: '支付中...' });
+          api.devMockPay(paymentNo)
+            .then(() => {
+              wx.hideLoading();
+              wx.showToast({ title: '模拟支付成功', icon: 'success' });
+              this.loadOrder(this.data.orderNo);
+            })
+            .catch((err) => {
+              wx.hideLoading();
+              wx.showToast({ title: '模拟支付失败：' + ((err && err.message) || '请重试'), icon: 'none' });
+            })
+            .finally(() => this.setData({ isSubmitting: false }));
         },
+        fail: () => this.setData({ isSubmitting: false }),
       });
     }).catch(() => {
       wx.hideLoading();

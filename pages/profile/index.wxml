@@ -98,6 +98,9 @@
     </view>
   </view>
 
+  <!-- 退出登录（已登录/游客时显示） -->
+  <view class="logout-btn" wx:if="{{isLoggedIn}}" bindtap="onLogout">退出登录</view>
+
   <!-- 底部安全区 -->
   <view class="safe-bottom"></view>
 </view>

@@ -35,6 +35,12 @@ Page({
   },
 
   onLoad() {
+    // 登录守卫：无网点 token 时强制跳转绑定页，避免未登录直接进入
+    const outletToken = wx.getStorageSync('outletToken');
+    if (!outletToken) {
+      wx.redirectTo({ url: '/pages/outlet-binding/index' });
+      return;
+    }
     const outletInfo = wx.getStorageSync('outletInfo');
     this.setData({ outletInfo: outletInfo || null });
     this.loadOrders(true);

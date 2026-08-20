@@ -1,8 +1,10 @@
 const api = require('../../../utils/api.js');
+const auth = require('../../../utils/auth.js');
 
 Page({
   data: {
     order: null,
+    submitting: false,
     categories: [
       { value: 'quality',  name: '质量问题',   icon: '⚠️' },
       { value: 'missing',  name: '漏刻/缺失',  icon: '📋' },
@@ -20,6 +22,8 @@ Page({
   },
 
   onLoad(opt) {
+    // 登录守卫：售后申请必须登录（游客不可申请）
+    if (!auth.checkAuth(this)) return;
     const storageOrder = wx.getStorageSync('aftersale_order');
     if (storageOrder) {
       this.setData({ order: {
@@ -77,19 +81,23 @@ Page({
   },
 
   submitApply() {
+    if (this.data.submitting) return; // 防重复提交
     if (!this.data.canSubmit) return;
     if (!this.data.order?.id) {
       wx.showToast({ title: '请先选择订单', icon: 'none' });
       return;
     }
+    this.setData({ submitting: true });
     wx.showLoading({ title: '提交中...' });
     const { category, reason, images } = this.data.form;
     api.refundRequest(this.data.order.id, reason, category, images).then(() => {
       wx.hideLoading();
+      this.setData({ submitting: false });
       wx.showToast({ title: '提交成功', icon: 'success' });
       setTimeout(() => wx.redirectTo({ url: '/pages/aftersale/list/index' }), 1500);
     }).catch(err => {
       wx.hideLoading();
+      this.setData({ submitting: false });
       wx.showToast({ title: (err.message || '提交失败'), icon: 'none' });
     });
   },
