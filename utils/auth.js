@@ -75,7 +75,7 @@ function logout() {
   // — openid（微信登录身份）—
   wx.removeStorageSync('openid');             // 微信 openid（若本地存了）
 
-  // — outletToken/outletInfo/outletId 的网点账号独立登出请用 outletLogout() —
+  // — 网点账号独立登出：见 pages/outlet-binding/index.js 的 onLogout()（清理 outletToken/outletInfo）—
 
   // — 业务表单草稿缓存 —
   wx.removeStorageSync('selectedSealsData');   // 印章选择数据（含名称/数量）
@@ -90,13 +90,15 @@ function logout() {
 /**
  * 刷新全局登录态（登录/退出后调用）
  * 将 Storage 中的登录态同步到 app.globalData，使各页面可通过 getApp() 读到最新状态。
- * 同时将 userInfo / token / isLogin / isGuest 同步到 Storage 以便 auth.js 各函数使用。
+ * 仅同步 globalData，不写 Storage（Storage 的登录态写入由调用方负责）。
+ * 注意：isLogin 仅代表「有 token 的真实登录」，游客只置 isGuest，不算 isLogin。
  * [Storage 隔离修复] auth 模块不再依赖 getApp()，此函数仅用于同步 app.globalData（主包兼容层）。
  * @param {Object} appInstance 可选，传入 getApp() 结果；分包中无可用 app 实例时可不传
  */
 function refreshAuthState(appInstance) {
   // 始终从 Storage 读取最新值
-  const isLogin = !!wx.getStorageSync('token') || !!wx.getStorageSync('isGuest');
+  // isLogin 仅代表「有 token 的真实登录」；游客只置 isGuest，不算 isLogin（与 isLogin() 语义一致）
+  const isLogin = !!wx.getStorageSync('token');
   const isGuest = !!wx.getStorageSync('isGuest');
   const userInfo = wx.getStorageSync('userInfo') || null;
   const token = wx.getStorageSync('token') || '';

@@ -94,7 +94,7 @@ const request = (options) => {
 
         if (res.statusCode === 200 || res.statusCode === 201) {
 
-          // 兼容：无 code 字段时直接返?data（如后端直接返回对象）；?code 时验证为 0
+          // 兼容：无 code 字段时直接返回 data（如后端直接返回对象）；有 code 时验证为 0
 
           if (res.data.code === 0 || res.data.code === undefined) {
 
@@ -118,7 +118,7 @@ const request = (options) => {
 
           wx.showToast({ title: '登录已过期，请重新登录', icon: 'none' });
 
-          // 跳转登录页，避免用户被卡死（?auth.request 行为对齐?
+          // 跳转登录页，避免用户被卡死（与 auth.request 行为对齐）
 
           const pages = getCurrentPages();
 
@@ -374,13 +374,13 @@ const outletRequest = (options) => {
 
 module.exports = {
 
-  // 基础地址（本地调试用，生产环境需替换?HTTPS 公网域名?
+  // 基础地址（本地调试用，生产环境需替换为 HTTPS 公网域名）
 
   API_BASE,
 
   // ==================== 认证相关 ====================
 
-  // 微信登录 ?POST /api/auth/wx-login
+  // 微信登录 POST /api/auth/wx-login
   // [Storage 隔离修复] 登录成功后同步 openid 到 Storage，避免依赖 globalData.openid
   wxLogin: (code) => {
     return request({ url: '/api/auth/wx-login', method: 'POST', data: { code } }).then(res => {
@@ -393,7 +393,7 @@ module.exports = {
 
   // ==================== 用户相关 ====================
 
-  // 获取用户信息 ?GET /api/users/profile
+  // 获取用户信息 GET /api/users/profile
 
   // 实名认证提交（后端核验，绝不在客户端伪造成功）> POST /api/user/realname-verify
   // 微信实名认证（方案 A）> POST /api/user/realname-verify/wechat
@@ -407,7 +407,7 @@ module.exports = {
   getUserInfo: () => request({ url: '/api/users/profile' }),
 
   // [已实现] 用户资料编辑页：pages/profile/edit（头像上传 + PUT 表单）；入口在 pages/profile 头部「编辑资料」
-  // 更新用户信息 ?PUT /api/users/profile
+  // 更新用户信息 PUT /api/users/profile
   updateUserInfo: (data) => request({ url: '/api/users/profile', method: 'PUT', data: data }),
 
 
@@ -572,11 +572,11 @@ module.exports = {
 
   // ==================== 印章服务 ====================
 
-  // 印章列表 ?GET /api/seals
+  // 印章列表 GET /api/seals
 
   getSealList: (params) => request({ url: '/api/seals', data: params }),
 
-  // 印章业务场景（统一?categories 接口??GET /api/seals/categories
+  // 印章业务场景（统一 categories 接口（GET /api/seals/categories
 
   getSealScenes: () => request({ url: '/api/seals/scenes' }),
 
@@ -587,32 +587,32 @@ module.exports = {
     return request({ url, data: {} });
   },
 
-  // 创建刻章订单 ?POST /api/orders/seal
+  // 创建刻章订单 POST /api/orders/seal
 
   createSealOrder: (data) => request({ url: '/api/orders/seal', method: 'POST', data: data }),
 
-  // 刻章订单列表 ?GET /api/orders?module=seal
+  // 刻章订单列表 GET /api/orders?module=seal
 
   getSealOrderList: (params) => request({ url: '/api/orders', data: { module: 'seal', ...params } }),
 
-  // 刻章订单详情 ?GET /api/orders/:id
+  // 刻章订单详情 GET /api/orders/:id
 
   // 通用订单详情（物流等跨业务页面使用）
   getOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
 
   getSealOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
 
-  // 取消刻章订单 / 申请退款 ?POST /api/orders/:id/cancel
+  // 取消刻章订单 / 申请退款 POST /api/orders/:id/cancel
   cancelSealOrder: (id) => request({ url: `/api/orders/${id}/cancel`, method: 'POST' }),
 
-  // 用户申请退款（已支付订单进入售后审核） ?POST /api/orders/:id/refund-request
+  // 用户申请退款（已支付订单进入售后审核） POST /api/orders/:id/refund-request
   refundRequestSealOrder: (id, reason) => request({ url: `/api/orders/${id}/refund-request`, method: 'POST', data: { reason: reason || '' } }),
 
-  // 获取刻章订单微信支付参数 ?POST /api/orders/:id/pay
+  // 获取刻章订单微信支付参数 POST /api/orders/:id/pay
 
   getSealPayParams: (id, openid) => request({ url: `/api/orders/${id}/pay`, method: 'POST', data: { openid: openid || '' } }),
 
-  // 开发环境模拟微信支付回调（生产环境该接口返?403）→ POST /api/orders/:id/dev-paid
+  // 开发环境模拟微信支付回调（生产环境该接口返回 403）→ POST /api/orders/:id/dev-paid
 
   // 仅开发/体验版可用：客户端模拟“支付成功”。生产环境该接口必须禁用（后端返回 403），
   // 且订单支付完成只能由微信支付异步回调(notify)驱动，绝不信任任何客户端调用。
@@ -628,48 +628,48 @@ module.exports = {
 
   // ==================== 登报服务 ====================
 
-  // 报纸分类 ?GET /api/newspapers/categories
+  // 报纸分类 GET /api/newspapers/categories
 
   getNewspaperCategories: () => request({ url: '/api/newspapers/categories' }),
 
-  // 报纸列表 ?GET /api/newspapers
+  // 报纸列表 GET /api/newspapers
 
   getNewspaperList: (params) => request({ url: '/api/newspapers', data: params }),
 
-  // 报纸模板 ?GET /api/newspapers/templates?categoryId=xxx
+  // 报纸模板 GET /api/newspapers/templates?categoryId=xxx
 
   getNewspaperTemplate: (categoryId) => request({ url: '/api/newspapers/templates', data: { category_id: categoryId } }),
 
-  // 报纸版面列表 ?GET /api/newspapers/:id/sections
+  // 报纸版面列表 GET /api/newspapers/:id/sections
   getNewspaperSections: (newspaperId) => request({ url: '/api/newspapers/' + newspaperId + '/sections' }),
-  // 报纸价格 ?GET /api/newspapers/price
+  // 报纸价格 GET /api/newspapers/price
 
   getNewspaperPrice: (data) => request({ url: '/api/newspapers/price', data }),
 
-  // 创建登报订单 ?POST /api/orders/newspaper
+  // 创建登报订单 POST /api/orders/newspaper
 
   createNewspaperOrder: (data) => request({ url: '/api/orders/newspaper', method: 'POST', data: data }),
 
-  // 登报订单列表 ?GET /api/orders?module=newspaper
+  // 登报订单列表 GET /api/orders?module=newspaper
 
   getNewspaperOrderList: (params) => request({ url: '/api/orders', data: { ...params, module: 'newspaper' }, method: 'GET' }),
 
-  // 登报订单详情 ?GET /api/orders/:id
+  // 登报订单详情 GET /api/orders/:id
 
   getNewspaperOrderDetail: (id) => request({ url: `/api/orders/${id}` }),
 
-  // 登报订单微信支付参数 ?POST /api/orders/:id/pay
+  // 登报订单微信支付参数 POST /api/orders/:id/pay
 
   getNewspaperPayParams: (id, openid) => request({ url: `/api/orders/${id}/pay`, method: 'POST', data: { openid: openid || '' } }),
 
-  // 用户取消订单 / 申请退??POST /api/orders/:id/cancel
+  // 用户取消订单 / 申请退款 POST /api/orders/:id/cancel
 
   cancelNewspaperOrder: (id) => request({ url: `/api/orders/${id}/cancel`, method: 'POST' }),
 
-  // 用户申请退款（已支付订单进入售后审核） ?POST /api/orders/:id/refund-request
+  // 用户申请退款（已支付订单进入售后审核） POST /api/orders/:id/refund-request
   refundRequestNewspaperOrder: (id, reason) => request({ url: `/api/orders/${id}/refund-request`, method: 'POST', data: { reason: reason || '' } }),
 
-  // 个人证件分类+证件列表 ?GET /api/newspapers/personal-docs
+  // 个人证件分类+证件列表 GET /api/newspapers/personal-docs
 
   getPersonalDocs: () => request({ url: '/api/newspapers/personal-docs' }),
 
@@ -730,19 +730,19 @@ module.exports = {
 
   // ==================== 收货地址 ====================
 
-  // 地址列表 ?GET /api/users/addresses
+  // 地址列表 GET /api/users/addresses
 
   getAddressList: () => request({ url: '/api/users/addresses' }),
 
-  // 新增地址 ?POST /api/users/addresses
+  // 新增地址 POST /api/users/addresses
 
   addAddress: (data) => request({ url: '/api/users/addresses', method: 'POST', data: data }),
 
-  // 更新地址 ?PUT /api/users/addresses/:id
+  // 更新地址 PUT /api/users/addresses/:id
 
   updateAddress: (id, data) => request({ url: `/api/users/addresses/${id}`, method: 'PUT', data: data }),
 
-  // 删除地址 ?DELETE /api/users/addresses/:id
+  // 删除地址 DELETE /api/users/addresses/:id
 
   deleteAddress: (id) => request({ url: `/api/users/addresses/${id}`, method: 'DELETE' }),
 
@@ -854,7 +854,7 @@ module.exports = {
 
           try { data = JSON.parse(res.data); } catch (_e) { reject(new Error('上传返回解析失败')); return; }
 
-          // 后端直返 { url }；兼?{ code:0, data:url } 包装
+          // 后端直返 { url }；兼容 { code:0, data:url } 包装
 
           const url = (data && typeof data.url === 'string') ? data.url
 
@@ -915,9 +915,9 @@ module.exports = {
 
   // ==================== 系统配置 ====================
 
-  // 获取单个配置（公开接口，无需登录? GET /api/config?key=xxx
+  // 获取单个配置（公开接口，无需登录） GET /api/config?key=xxx
 
-  // 后端直接返回配置值（如数?字符串），request 封装会自?resolve 为值本?
+  // 后端直接返回配置值（如数字字符串），request 封装会自动 resolve 为值本身
 
   getConfig: (key) => request({ url: '/api/config', data: { key } }),
 
@@ -1129,7 +1129,7 @@ module.exports = {
   /** 取消代理记账订单 */
   cancelBookkeepingOrder: (id) => request({ url: '/api/orders/' + id + '/cancel', method: 'POST' }),
 
-  // 用户申请退款（已支付订单进入售后审核） ?POST /api/orders/:id/refund-request
+  // 用户申请退款（已支付订单进入售后审核） POST /api/orders/:id/refund-request
   refundRequestBookkeepingOrder: (id, reason) => request({ url: `/api/orders/${id}/refund-request`, method: 'POST', data: { reason: reason || '' } }),
   /** 获取代理记账订单支付参数（POST） */
   getBookkeepingPayParams: (orderId, openid) =>

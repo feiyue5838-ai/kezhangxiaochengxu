@@ -94,8 +94,8 @@ Page({
       wx.showToast({ title: '请先阅读并同意协议', icon: 'none' });
       return;
     }
+    // 游客模式：仅标记 isGuest，不写 isLogin（isLogin 只代表有 token 的真实登录）
     wx.setStorageSync('isGuest', true);
-    wx.setStorageSync('isLogin', true);
     auth.refreshAuthState();
     this._redirectBack();
   },
