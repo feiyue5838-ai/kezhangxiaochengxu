@@ -376,10 +376,6 @@ module.exports = {
     });
   },
 
-  // [已实现] 门店商家账号密码登录：完整流程在 pages/outlet-binding（登录+绑定微信+订阅通知），
-  // 入口在 pages/profile 菜单「门店工作台」。请求实现见下方 outletLogin（原重复定义 storeLogin 已删除）。
-
-
   // ==================== 用户相关 ====================
 
   // 获取用户信息 ?GET /api/users/profile
@@ -535,17 +531,9 @@ module.exports = {
 
   // ==================== 印章服务 ====================
 
-  // 印章分类 ?GET /api/seals/categories
-
-  getSealCategories: (region) => request({ url: '/api/seals/categories', data: region ? { region } : {} }),
-
   // 印章列表 ?GET /api/seals
 
   getSealList: (params) => request({ url: '/api/seals', data: params }),
-
-  // 印章套餐 ?GET /api/seals/packages
-
-  getSealPackages: (region) => request({ url: '/api/seals/packages', data: region ? { region } : {} }),
 
   // 印章业务场景（统一?categories 接口??GET /api/seals/categories
 
@@ -1068,37 +1056,7 @@ module.exports = {
 
   },
 
-  // 网点通知列表（轮询用）>GET /api/notifications/me
 
-  outletGetNotifications: () => {
-
-    const token = wx.getStorageSync('outletToken');
-
-    return new Promise((resolve, reject) => {
-
-      wx.request({
-
-        url: API_BASE + '/api/notifications/me',
-
-        method: 'GET',
-
-        header: { 'Authorization': 'Bearer ' + token },
-
-        success: (res) => {
-
-          if (res.statusCode === 200) resolve(res.data.data !== undefined ? res.data.data : res.data);
-
-          else reject(new Error((res.data && res.data.message) || '获取通知失败'));
-
-        },
-
-        fail: (err) => reject(err)
-
-      });
-
-    });
-
-  },
 
 
   // ==================== 网点微信绑定 & 订阅消息 ====================
