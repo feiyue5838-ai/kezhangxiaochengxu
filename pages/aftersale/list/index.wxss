@@ -20,11 +20,13 @@
   padding: 24rpx 24rpx 20rpx;
   border-bottom: 1rpx solid #F5F5F5;
 }
+
 .shop-name {
   font-size: 26rpx;
   font-weight: 600;
   color: #333;
 }
+
 .order-status {
   font-size: 24rpx;
   font-weight: 600;
@@ -42,6 +44,7 @@
   padding: 20rpx 24rpx;
   background: #FAFAFA;
 }
+
 .goods-img {
   width: 140rpx;
   height: 140rpx;
@@ -50,6 +53,7 @@
   flex-shrink: 0;
   margin-right: 20rpx;
 }
+
 .goods-info {
   flex: 1;
   display: flex;
@@ -57,6 +61,7 @@
   gap: 10rpx;
   overflow: hidden;
 }
+
 .goods-name {
   font-size: 28rpx;
   font-weight: 600;
@@ -65,6 +70,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .goods-sub {
   font-size: 22rpx;
   color: #999;
@@ -72,11 +78,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .goods-right {
   flex-shrink: 0;
   margin-left: 16rpx;
   text-align: right;
 }
+
 .goods-price {
   font-size: 30rpx;
   font-weight: 700;
@@ -92,12 +100,14 @@
   border-top: 1rpx solid #F5F5F5;
   background: #FFF;
 }
+
 .aftersale-tag {
   font-size: 24rpx;
   color: #5B6FE8;
   font-weight: 600;
   flex-shrink: 0;
 }
+
 .aftersale-reason {
   font-size: 24rpx;
   color: #666;
@@ -119,11 +129,13 @@
   gap: 16rpx;
 }
 .action-btns { display: flex; align-items: center; gap: 16rpx; }
+
 .btn-detail {
   font-size: 24rpx;
   color: #5B6FE8;
   padding: 6rpx 0;
 }
+
 .arrow {
   font-size: 32rpx;
   color: #CCC;

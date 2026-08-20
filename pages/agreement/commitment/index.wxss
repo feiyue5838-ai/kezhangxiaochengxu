@@ -5,23 +5,27 @@
 .agreement-rich {
   display: block;
 }
+
 .agreement-rich .p {
   font-size: 26rpx;
   color: #444;
   line-height: 1.9;
   margin-bottom: 16rpx;
 }
+
 .agreement-rich .ul,
 .agreement-rich .ol {
   padding-left: 40rpx;
   margin-bottom: 16rpx;
 }
+
 .agreement-rich .li {
   font-size: 26rpx;
   color: #444;
   line-height: 1.9;
   margin-bottom: 8rpx;
 }
+
 .agreement-rich .loading,
 .agreement-rich .empty {
   text-align: center;

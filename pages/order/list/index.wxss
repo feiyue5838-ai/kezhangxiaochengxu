@@ -88,13 +88,13 @@
   font-size: 26rpx;
   font-weight: 500;
 }
-.order-status.pending { color: #FF6600; }    /* 待付款：橙色 */
+.order-status.pending { color: #F60; }    /* 待付款：橙色 */
 .order-status.paid { color: #5B6FE8; }       /* 待发货：蓝色 */
 .order-status.shipped { color: #FA8C16; }   /* 待收货：橙黄色 */
 .order-status.completed { color: #FA8C16; }  /* 待评价：橙黄色 */
 .order-status.cancelled { color: #999; }     /* 已取消：灰色 */
-.order-status.refund { color: #FF6600; }      /* 退款/售后：橙色 */
-.order-status.refunded { color: #FF6600; }   /* 同上 */
+.order-status.refund { color: #F60; }      /* 退款/售后：橙色 */
+.order-status.refunded { color: #F60; }   /* 同上 */
 
 /* 订单内容 */
 .order-body {

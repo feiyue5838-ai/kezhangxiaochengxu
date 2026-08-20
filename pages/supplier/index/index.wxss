@@ -28,6 +28,7 @@
   background: #fff;
   border-bottom: 1rpx solid #eee;
 }
+
 .tab {
   flex: 1;
   text-align: center;
@@ -36,10 +37,12 @@
   color: #666;
   position: relative;
 }
+
 .tab-active {
   color: #3a7afe;
   font-weight: 600;
 }
+
 .tab-active::after {
   content: '';
   position: absolute;
@@ -53,12 +56,14 @@
 }
 
 .order-list { padding: 20rpx; }
+
 .order-card {
   background: #fff;
   border-radius: 16rpx;
   padding: 28rpx;
   margin-bottom: 20rpx;
 }
+
 .order-top {
   display: flex;
   justify-content: space-between;
@@ -80,6 +85,7 @@
   font-size: 26rpx;
   color: #888;
 }
+
 .module-tag {
   background: #f5f6fa;
   color: #555;
@@ -87,6 +93,7 @@
   border-radius: 8rpx;
   font-size: 24rpx;
 }
+
 .order-express {
   margin-top: 12rpx;
   font-size: 24rpx;
@@ -113,6 +120,7 @@
 .header-right { display: flex; align-items: center; gap: 24rpx; }
 .notify-entry { position: relative; padding: 8rpx; }
 .notify-icon { font-size: 40rpx; }
+
 .notify-badge {
   position: absolute;
   top: -4rpx;
@@ -127,6 +135,7 @@
   text-align: center;
   padding: 0 6rpx;
 }
+
 .subscribe-entry {
   font-size: 24rpx;
   color: #fff;
@@ -145,12 +154,14 @@
   align-items: center;
   justify-content: center;
 }
+
 .modal {
   width: 600rpx;
   background: #fff;
   border-radius: 20rpx;
   padding: 40rpx 36rpx 30rpx;
 }
+
 .modal-title {
   font-size: 34rpx;
   font-weight: 600;
@@ -159,6 +170,7 @@
   margin-bottom: 30rpx;
 }
 .modal-body { margin-bottom: 30rpx; }
+
 .setting-row {
   display: flex;
   justify-content: space-between;
@@ -169,6 +181,7 @@
 .setting-label { font-size: 30rpx; color: #333; }
 .setting-value { font-size: 28rpx; color: #3a7afe; }
 .setting-desc { font-size: 24rpx; color: #999; line-height: 1.5; margin: 16rpx 0; }
+
 .modal-btn {
   background: #3a7afe;
   color: #fff;
@@ -177,6 +190,7 @@
   margin-top: 20rpx;
 }
 .modal-footer { text-align: center; }
+
 .modal-close {
   background: #f2f3f5;
   color: #666;

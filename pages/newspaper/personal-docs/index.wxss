@@ -300,7 +300,6 @@ page { background: #F8F7FC; }
   width: calc(50% - 10rpx);
   max-width: calc(50% - 10rpx);
   min-width: 0;
-  box-sizing: border-box;
   background: #fff;
   border-radius: 20rpx;
   padding: 28rpx 24rpx;

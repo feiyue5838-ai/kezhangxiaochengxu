@@ -5,7 +5,7 @@
   padding: 48rpx 32rpx;
   text-align: center;
 }
-.status-assigned { background: linear-gradient(135deg, #ff8c00, #ff6600); color: #fff; }
+.status-assigned { background: linear-gradient(135deg, #ff8c00, #f60); color: #fff; }
 .status-accepted { background: linear-gradient(135deg, #3a7afe, #2f6bff); color: #fff; }
 .status-processing { background: linear-gradient(135deg, #8a3aff, #6a1bff); color: #fff; }
 .status-completed { background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; }
@@ -19,6 +19,7 @@
   margin: 20rpx;
   padding: 28rpx;
 }
+
 .card-title {
   font-size: 30rpx;
   font-weight: 600;
@@ -27,6 +28,7 @@
   padding-bottom: 16rpx;
   border-bottom: 1rpx solid #f0f0f0;
 }
+
 .row {
   display: flex;
   justify-content: space-between;
@@ -44,6 +46,7 @@
   padding: 20rpx 32rpx;
   margin-top: 20rpx;
 }
+
 .btn {
   flex: 1;
   height: 88rpx;
@@ -66,6 +69,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .dialog {
   background: #fff;
   border-radius: 20rpx;
@@ -74,6 +78,7 @@
   max-width: 90vw;
 }
 .dialog-title { font-size: 34rpx; font-weight: 700; color: #1a1a1a; text-align: center; margin-bottom: 28rpx; }
+
 .dialog-input {
   width: 100%;
   border: 1rpx solid #eee;
@@ -83,6 +88,7 @@
   margin-bottom: 16rpx;
   box-sizing: border-box;
 }
+
 .dialog-btns {
   display: flex;
   gap: 20rpx;
@@ -102,6 +108,7 @@
   flex-wrap: wrap;
   gap: 16rpx;
 }
+
 .receipt-img {
   width: 160rpx;
   height: 160rpx;
@@ -121,16 +128,19 @@
   margin: 20rpx 0;
   background: #fafafa;
 }
+
 .receipt-upload-plus {
   font-size: 80rpx;
   color: #ccc;
   line-height: 1;
 }
+
 .receipt-upload-text {
   font-size: 26rpx;
   color: #999;
   margin-top: 12rpx;
 }
+
 .dialog-tip {
   font-size: 26rpx;
   color: #999;

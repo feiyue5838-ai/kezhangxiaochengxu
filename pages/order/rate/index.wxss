@@ -16,11 +16,13 @@
   border-radius: 16rpx;
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,.05);
 }
+
 .order-type {
   font-size: 30rpx;
   color: #333;
   font-weight: 500;
 }
+
 .order-price {
   font-size: 32rpx;
   color: #5B6FE8;
@@ -35,6 +37,7 @@
   border-radius: 16rpx;
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,.05);
 }
+
 .section-title {
   font-size: 30rpx;
   font-weight: 600;
@@ -47,15 +50,18 @@
   display: flex;
   align-items: center;
 }
+
 .star {
   width: 64rpx;
   height: 64rpx;
   margin-right: 12rpx;
 }
+
 .star image {
   width: 100%;
   height: 100%;
 }
+
 .star-label {
   margin-left: 24rpx;
   font-size: 28rpx;
@@ -68,6 +74,7 @@
   flex-wrap: wrap;
   gap: 16rpx;
 }
+
 .tag {
   padding: 12rpx 28rpx;
   border: 1px solid #ddd;
@@ -76,6 +83,7 @@
   color: #666;
   background: #fafafa;
 }
+
 .tag.active {
   background: #EEF1FF;
   border-color: #5B6FE8;
@@ -95,6 +103,7 @@
   box-sizing: border-box;
   background: #fafafa;
 }
+
 .word-count {
   display: block;
   text-align: right;
@@ -109,6 +118,7 @@
   flex-wrap: wrap;
   gap: 16rpx;
 }
+
 .img-item {
   position: relative;
   width: 200rpx;
@@ -116,10 +126,12 @@
   border-radius: 12rpx;
   overflow: hidden;
 }
+
 .img-item image {
   width: 100%;
   height: 100%;
 }
+
 .img-remove {
   position: absolute;
   top: 0;
@@ -133,6 +145,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .img-add {
   width: 200rpx;
   height: 200rpx;
@@ -144,11 +157,13 @@
   justify-content: center;
   gap: 8rpx;
 }
+
 .img-add image {
   width: 60rpx;
   height: 60rpx;
   opacity: 0.5;
 }
+
 .img-add text {
   font-size: 24rpx;
   color: #999;
@@ -165,6 +180,7 @@
   background: #fff;
   box-shadow: 0 -2rpx 12rpx rgba(0,0,0,.06);
 }
+
 .submit-btn {
   text-align: center;
   padding: 24rpx;
@@ -174,6 +190,7 @@
   font-size: 32rpx;
   font-weight: 600;
 }
+
 .submit-btn.disabled {
   background: #ccc;
 }

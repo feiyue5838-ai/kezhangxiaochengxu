@@ -21,16 +21,19 @@
   border-bottom: 1rpx solid #f0f0f0;
 }
 .filter-tabs { display: flex; gap: 40rpx; }
+
 .filter-tab {
   font-size: 28rpx;
   color: #666;
   padding: 8rpx 4rpx;
   position: relative;
 }
+
 .filter-active {
   color: #3a7afe;
   font-weight: 600;
 }
+
 .filter-active::after {
   content: '';
   position: absolute;
@@ -44,6 +47,7 @@
 }
 
 .notify-list { padding: 20rpx; }
+
 .notify-item {
   display: flex;
   background: #fff;
@@ -53,6 +57,7 @@
 }
 .notify-unread { background: #f0f6ff; }
 .notify-left { width: 40rpx; padding-top: 10rpx; }
+
 .notify-dot {
   width: 14rpx;
   height: 14rpx;
@@ -61,6 +66,7 @@
 }
 .dot-read { background: transparent; }
 .notify-body { flex: 1; min-width: 0; }
+
 .notify-top {
   display: flex;
   justify-content: space-between;
@@ -68,6 +74,7 @@
   margin-bottom: 12rpx;
 }
 .notify-title { font-size: 30rpx; font-weight: 600; color: #1a1a1a; }
+
 .notify-type {
   font-size: 20rpx;
   color: #3a7afe;
@@ -80,6 +87,7 @@
 .type-payment { color: #52c41a; background: #e8f9e8; }
 .type-promotion { color: #fa8c16; background: #fff3e6; }
 .type-system { color: #888; background: #f2f2f2; }
+
 .notify-content {
   font-size: 26rpx;
   color: #555;
@@ -87,6 +95,7 @@
   margin-bottom: 16rpx;
   word-break: break-all;
 }
+
 .notify-bottom {
   display: flex;
   justify-content: space-between;
@@ -101,6 +110,7 @@
 }
 .empty-icon { font-size: 80rpx; }
 .empty-text { font-size: 28rpx; color: #999; margin-top: 20rpx; }
+
 .loading-tip {
   text-align: center;
   padding: 30rpx;
