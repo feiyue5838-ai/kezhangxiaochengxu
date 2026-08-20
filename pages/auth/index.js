@@ -6,7 +6,7 @@ const userProfile = require('../../utils/user-profile.js');
 Page({
   data: {
     loading: false,
-    agreed: true,  // 默认勾选（符合最小摩擦原则）
+    agreed: false, // 协议默认不勾选（合规要求：用户主动勾选同意），勾选后才可登录/试玩
     _redirected: false,
   },
 
@@ -90,6 +90,10 @@ Page({
 
   // ── 游客试玩 ────────────────────────────────────────
   onGuestEnter() {
+    if (!this.data.agreed) {
+      wx.showToast({ title: '请先阅读并同意协议', icon: 'none' });
+      return;
+    }
     wx.setStorageSync('isGuest', true);
     wx.setStorageSync('isLogin', true);
     auth.refreshAuthState();
